@@ -52,30 +52,30 @@ const io = new Server(server, {
 });
 
 
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      // Allow requests with no origin (like mobile apps, curl requests)
-      if (!origin) {
-        console.log("Request with no origin allowed");
-        return callback(null, true);
-      }
-
-      if (allowedOrigins.indexOf(origin) === -1 && !origin.endsWith(".ojest.pl")) {
-        const msg = `The CORS policy for this site does not allow access from the specified Origin: ${origin}`;
-        console.log(msg);
-        return callback(new Error(msg), false);
-      }
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps, curl requests)
+    if (!origin) {
       return callback(null, true);
-    },
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-    credentials: true,
-    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
-  })
-);
+    }
 
-// Explicitly enable preflight across all routes
-app.options("*", cors());
+    if (allowedOrigins.indexOf(origin) === -1 && !origin.endsWith(".ojest.pl")) {
+      const msg = `The CORS policy for this site does not allow access from the specified Origin: ${origin}`;
+      console.log(msg);
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+  credentials: true,
+  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
+  optionsSuccessStatus: 204,
+};
+
+// Handle preflight requests FIRST, before any other middleware
+app.options("*", cors(corsOptions));
+
+app.use(cors(corsOptions));
 
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
