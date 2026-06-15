@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "noEmit": true,
+    "incremental": true,
+    "module": "esnext",
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
+  },
+  "include": [
+    "next-env.d.ts",
+    ".next/types/**/*.ts",
+    "**/*.ts",
+    "**/*.tsx"
+, "components/website/browse-locations.jsx", "components/website/browse-categories.jsx", "components/website/browse-by-make.jsx", "components/website/blog-section.jsx", "components/website/car-image-swiper.jsx", "components/website/cars-near-me.jsx", "components/website/featured-categories.jsx", "components/website/filter-search.jsx", "components/dashboard/createsteps/StepFive.jsx", "components/website/Footer.jsx", "app/website/[profile]/page.jsx"  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

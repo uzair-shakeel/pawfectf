@@ -1,0 +1,471 @@
+{
+  "homepage": {
+    "findBuyOwn": "Znajdź, Kup i Posiadaj Swój Wymarzony Samochód",
+    "carsNearMe": {
+      "title": "Samochody na Sprzedaż w Pobliżu",
+      "viewAll": "Zobacz Wszystkie",
+      "loading": "Ładowanie samochodów...",
+      "noCars": "Nie znaleziono samochodów."
+    },
+    "browseCategories": {
+      "title": "Wybierz swoją ulubioną markę",
+      "seeMore": "Zobacz więcej",
+      "brands": [
+        {
+          "id": 1,
+          "name": "Toyota",
+          "logo": "/toyota.png",
+          "discount": "2K"
+        },
+        {
+          "id": 2,
+          "name": "BMW",
+          "logo": "/BMW.png"
+        },
+        {
+          "id": 3,
+          "name": "Chevrolet",
+          "logo": "/chevrolet.png"
+        },
+        {
+          "id": 4,
+          "name": "Honda",
+          "logo": "/honda.png"
+        },
+        {
+          "id": 5,
+          "name": "Ford",
+          "logo": "/ford.png"
+        },
+        {
+          "id": 6,
+          "name": "Audi",
+          "logo": "https://www.carlogos.org/car-logos/audi-logo-2016.png"
+        },
+        {
+          "id": 7,
+          "name": "Acura",
+          "logo": "/acura.png"
+        },
+        {
+          "id": 8,
+          "name": "Hyundai",
+          "logo": "/hyundai.png"
+        },
+        {
+          "id": 9,
+          "name": "Dodge",
+          "logo": "/dodge.png",
+          "discount": "1K"
+        },
+        {
+          "id": 10,
+          "name": "Mercedes-Benz",
+          "logo": "/Mercedes.png",
+          "discount": "5.5K"
+        },
+        {
+          "id": 11,
+          "name": "Kia",
+          "logo": "/kia.png"
+        },
+        {
+          "id": 12,
+          "name": "Lexus",
+          "logo": "/lexus.png"
+        }
+      ]
+    },
+    "featuredCategories": {
+      "title": "Polecane Kategorie",
+      "exploreMore": "Zobacz Więcej",
+      "categories": {
+        "luxuryCars": "SAMOCHODY LUKSUSOWE",
+        "luxuryCarsDesc": "Doświadcz najwyższego komfortu i stylu",
+        "sportsCars": "SAMOCHODY SPORTOWE",
+        "sportsCarsDesc": "Poczuj dreszcz emocji",
+        "classicCars": "SAMOCHODY KLASYCZNE",
+        "classicCarsDesc": "Ponadczasowa elegancja na kołach"
+      }
+    },
+    "browseLocations": {
+      "title": "Najlepiej oceniane samochody według typu",
+      "scrollLeft": "Przewiń w lewo",
+      "scrollRight": "Przewiń w prawo",
+      "types": {
+        "hatchback": "HATCHBACK",
+        "sedan": "SEDAN",
+        "kombi": "KOMBI",
+        "coupe": "COUPE",
+        "sports": "SPORTOWE",
+        "limousine": "LIMUZYNA",
+        "suv": "SUV",
+        "convertible": "KABRIOLET",
+        "pickup": "PICKUP",
+        "offroad": "TERENOWE",
+        "bus": "AUTOBUS",
+        "classic": "KLASYK",
+        "campers": "KAMPER"
+      }
+    },
+    "browseByMake": {
+      "title": "Przeglądaj według Marki",
+      "viewAll": "Zobacz Wszystkie",
+      "makes": {
+        "toyota": "Toyota",
+        "toyotaDesc": "Niezawodna japońska inżynieria z innowacyjną technologią",
+        "bmw": "BMW",
+        "bmwDesc": "Najlepsze maszyny do jazdy z luksusem i wydajnością",
+        "mercedes": "Mercedes",
+        "mercedesDesc": "Luksusowe pojazdy z najnowocześniejszą technologią i komfortem",
+        "audi": "Audi",
+        "audiDesc": "Wyrafinowany design z zaawansowaną technologią i wydajnością",
+        "porsche": "Porsche",
+        "porscheDesc": "Precyzyjne niemieckie samochody sportowe o niezrównanej wydajności",
+        "tesla": "Tesla",
+        "teslaDesc": "Rewolucyjne pojazdy elektryczne zmieniające branżę motoryzacyjną",
+        "ford": "Ford",
+        "fordDesc": "Amerykańskie pojazdy z dziedzictwem innowacji i wydajności",
+        "honda": "Honda",
+        "hondaDesc": "Niezawodne i wydajne pojazdy o doskonałej wartości odsprzedaży"
+      }
+    },
+    "blogSection": {
+      "title": "Najnowsze z naszego Bloga",
+      "viewAll": "Zobacz Wszystkie Posty",
+      "categories": {
+        "guides": "Poradniki"
+      },
+      "dates": {
+        "march5": "5 marca 2025",
+        "march3": "3 marca 2025",
+        "march1": "1 marca 2025",
+        "feb28": "28 lutego 2025"
+      },
+      "posts": {
+        "buyCarEasily": "Jak łatwo kupić samochód",
+        "bestCars2025": "Najlepsze samochody do kupienia w 2025",
+        "sellCarEasily": "Jak łatwo sprzedać samochód",
+        "financingOptions": "Opcje finansowania dla kupujących samochody"
+      }
+    }
+  },
+  "terms": {
+    "hero": {
+      "title": "Jasne Warunki. Płynna Jazda. Prowadź z Pewnością."
+    },
+    "sections": {
+      "introduction": {
+        "title": "1. Wprowadzenie",
+        "content": "Witamy w OjestSell. Niniejsze Warunki korzystania regulują korzystanie z naszej witryny i usług. Korzystając z OjestSell, zgadzasz się przestrzegać tych Warunków."
+      },
+      "definitions": {
+        "title": "2. Definicje",
+        "items": {
+          "ojestsell": "\"OjestSell\" odnosi się do naszej firmy, strony internetowej i usług.",
+          "user": "\"Użytkownik\" odnosi się do osób, które korzystają z naszych usług.",
+          "listing": "\"Ogłoszenie\" odnosi się do ogłoszeń samochodowych utworzonych na naszej platformie.",
+          "content": "\"Treść\" odnosi się do tekstu, zdjęć i innych materiałów przesłanych na naszą platformę."
+        }
+      },
+      "accountRegistration": {
+        "title": "3. Rejestracja Konta",
+        "content": "Aby korzystać z niektórych funkcji naszej usługi, może być wymagana rejestracja konta. Zgadzasz się podać dokładne informacje i zachować bezpieczeństwo danych logowania. Jesteś odpowiedzialny za całą aktywność na swoim koncie."
+      },
+      "listingRules": {
+        "title": "4. Zasady Ogłoszeń",
+        "intro": "Podczas tworzenia ogłoszeń na OjestSell musisz:",
+        "items": [
+          "Podać dokładne i prawdziwe informacje o pojeździe",
+          "Zamieszczać tylko zdjęcia sprzedawanego pojazdu",
+          "Ustalać realistyczne i uczciwe ceny",
+          "Odpowiadać na zapytania w odpowiednim czasie",
+          "Usuwać ogłoszenia niezwłocznie po sprzedaży"
+        ]
+      },
+      "prohibitedActivities": {
+        "title": "5. Zabronione Działania",
+        "intro": "Następujące działania są zabronione na naszej platformie:",
+        "items": [
+          "Publikowanie fałszywych ogłoszeń lub wprowadzanie w błąd co do pojazdów",
+          "Nękanie lub obraźliwe zachowanie wobec innych użytkowników",
+          "Próby obejścia naszej struktury opłat",
+          "Tworzenie wielu kont dla tej samej osoby",
+          "Używanie zautomatyzowanych systemów do zbierania danych",
+          "Publikowanie nielegalnych lub skradzionych pojazdów"
+        ]
+      },
+      "feesAndPayments": {
+        "title": "6. Opłaty i Płatności",
+        "content": "Podstawowe ogłoszenia są bezpłatne. Ogłoszenia premium i dodatkowe usługi mogą wiązać się z opłatami, które zostaną jasno zakomunikowane przed zakupem. Wszystkie płatności są przetwarzane bezpiecznie przez naszych partnerów płatniczych."
+      },
+      "intellectualProperty": {
+        "title": "7. Własność Intelektualna",
+        "content": "Treści przesłane przez użytkowników pozostają własnością odpowiednich użytkowników. Przesyłając treści, udzielasz OjestSell niewyłącznej licencji na używanie, wyświetlanie i rozpowszechnianie tych treści na naszej platformie."
+      },
+      "privacy": {
+        "title": "8. Prywatność",
+        "content": "Nasza Polityka Prywatności reguluje zbieranie i wykorzystywanie Twoich danych osobowych. Korzystając z OjestSell, wyrażasz zgodę na praktyki opisane w naszej Polityce Prywatności."
+      },
+      "limitationOfLiability": {
+        "title": "9. Ograniczenie Odpowiedzialności",
+        "content": "OjestSell jest dostarczany \"tak jak jest\" bez żadnych gwarancji. Nie ponosimy odpowiedzialności za dokładność ogłoszeń użytkowników, stan pojazdów ani transakcje między użytkownikami. Nie gwarantujemy, że nasza usługa będzie nieprzerwana lub wolna od błędów."
+      },
+      "disputeResolution": {
+        "title": "10. Rozwiązywanie Sporów",
+        "content": "Wszelkie spory wynikające z niniejszych Warunków będą rozwiązywane poprzez negocjacje w dobrej wierze. Jeśli negocjacje nie powiodą się, spory będą rozstrzygane w drodze arbitrażu zgodnie z obowiązującym prawem."
+      },
+      "termination": {
+        "title": "11. Zakończenie",
+        "content": "Zastrzegamy sobie prawo do zakończenia lub zawieszenia kont, które naruszają niniejsze Warunki lub z dowolnego innego powodu według naszego uznania. Użytkownicy mogą w każdej chwili zakończyć swoje konta."
+      },
+      "changes": {
+        "title": "12. Zmiany w Warunkach",
+        "content": "Możemy modyfikować niniejsze Warunki w dowolnym momencie. Dalsze korzystanie z OjestSell po zmianach oznacza akceptację zmodyfikowanych Warunków. Dołożymy wszelkich starań, aby powiadomić użytkowników o istotnych zmianach."
+      },
+      "contact": {
+        "title": "13. Informacje Kontaktowe",
+        "intro": "Jeśli masz pytania dotyczące niniejszych Warunków, skontaktuj się z nami pod adresem:",
+        "email": "Email: legal@ojestsell.com",
+        "address": "Adres: 123 Car Boulevard, Automotive City, AC 12345"
+      }
+    },
+    "lastUpdated": "Ostatnia Aktualizacja",
+    "haveQuestions": "Masz pytania? Skontaktuj się z nami"
+  },
+  "privacy": {
+    "hero": {
+      "title": "Twoje Dane, Twoja Jazda — Zawsze Bezpieczne, Zawsze Prywatne."
+    },
+    "sections": {
+      "introduction": {
+        "title": "1. Wprowadzenie",
+        "content": "W OjestSell zobowiązujemy się do ochrony Twojej prywatności. Ta Polityka Prywatności wyjaśnia, jak zbieramy, wykorzystujemy, ujawniamy i chronimy Twoje informacje podczas odwiedzania naszej strony internetowej lub korystania z naszych usług."
+      },
+      "informationWeCollect": {
+        "title": "2. Informacje, Które Zbieramy",
+        "intro": "Zbieramy kilka rodzajów informacji od i o użytkownikach naszej strony internetowej, w tym:",
+        "items": {
+          "personal": "Dane Osobowe: Imię i nazwisko, adres email, numer telefonu, adres pocztowy i informacje o płatnościach.",
+          "vehicle": "Informacje o Pojeździe: Marka, model, rok, stan i szczegóły pojazdów wystawionych na naszej platformie.",
+          "usage": "Informacje o Użytkowaniu: Jak korzystasz z naszej strony, jakie strony odwiedzasz i Twoje interakcje z ogłoszeniami.",
+          "device": "Informacje o Urządzeniu: Adres IP, typ przeglądarki, system operacyjny i inne informacje techniczne."
+        }
+      },
+      "howWeCollect": {
+        "title": "3. Jak Zbieramy Informacje",
+        "intro": "Zbieramy informacje poprzez:",
+        "items": [
+          "Bezpośrednie interakcje podczas tworzenia konta lub wystawiania pojazdu",
+          "Zautomatyzowane technologie, takie jak pliki cookie i podobne technologie śledzenia",
+          "Strony trzecie, takie jak procesory płatności i usługi weryfikacji tożsamości"
+        ]
+      },
+      "howWeUse": {
+        "title": "4. Jak Wykorzystujemy Twoje Informacje",
+        "intro": "Wykorzystujemy Twoje informacje do:",
+        "items": [
+          "Dostarczania, utrzymywania i ulepszania naszych usług",
+          "Przetwarzania transakcji i wysyłania komunikatów związanych z transakcjami",
+          "Tworzenia i utrzymywania Twojego konta",
+          "Łączenia kupujących ze sprzedającymi",
+          "Wysyłania informacji administracyjnych i komunikatów marketingowych",
+          "Ochrony naszej platformy przed oszustwami lub nielegalną działalnością",
+          "Przestrzegania zobowiązań prawnych"
+        ]
+      },
+      "cookies": {
+        "title": "5. Pliki Cookie i Technologie Śledzenia",
+        "content": "Używamy plików cookie i podobnych technologii śledzenia do zbierania informacji o Twojej aktywności przeglądania. Pliki cookie to małe pliki tekstowe przechowywane na Twoim urządzeniu, które pomagają nam zapewnić lepsze doświadczenie użytkownika.",
+        "intro": "Używamy różnych typów plików cookie:",
+        "types": {
+          "essential": "Niezbędne Pliki Cookie: Wymagane do prawidłowego funkcjonowania naszej strony.",
+          "analytical": "Analityczne Pliki Cookie: Pomagają nam zrozumieć, jak odwiedzający wchodzą w interakcję z naszą stroną.",
+          "functional": "Funkcjonalne Pliki Cookie: Pozwalają nam zapamiętać Twoje preferencje i ustawienia.",
+          "advertising": "Reklamowe Pliki Cookie: Używane do dostarczania odpowiednich reklam i śledzenia wydajności kampanii."
+        },
+        "control": "Możesz kontrolować ustawienia plików cookie przez preferencje przeglądarki. Jednak wyłączenie niektórych plików cookie może ograniczyć możliwość korzystania z niektórych funkcji naszej strony."
+      }
+    },
+    "viewTerms": "Zobacz Warunki Korzystania",
+    "contactUs": "Skontaktuj się z Nami"
+  },
+  "faq": {
+    "hero": {
+      "title": "Często Zadawane Pytania",
+      "subtitle": "Znajdź odpowiedzi na popularne pytania dotyczące korzystania z naszego serwisu samochodowego."
+    },
+    "questions": [
+      {
+        "question": "Jak wystawić samochód na sprzedaż?",
+        "answer": "Aby wystawić samochód na sprzedaż, najpierw utwórz konto lub zaloguj się. Następnie kliknij przycisk 'Zostań sprzedawcą' w pasku nawigacyjnym, uzupełnij profil sprzedawcy i postępuj zgodnie z procesem dodawania szczegółów samochodu, zdjęć i ustalania ceny."
+      },
+      {
+        "question": "Czy wystawienie ogłoszenia jest płatne?",
+        "answer": "Podstawowe ogłoszenia są bezpłatne. Oferujemy również opcje ogłoszeń premium z dodatkowymi funkcjami, takimi jak wyróżnione miejsce, dłuższy czas wyświetlania i więcej zdjęć, aby Twój samochód się wyróżniał. Możesz zobaczyć opcje cenowe podczas procesu wystawiania ogłoszenia."
+      },
+      {
+        "question": "Jak długo ogłoszenie pozostaje aktywne?",
+        "answer": "Standardowe ogłoszenia pozostają aktywne przez 30 dni. Ogłoszenia premium mogą pozostać aktywne do 60 dni. Zawsze możesz odnowić lub zaktualizować swoje ogłoszenie, jeśli samochód nie został sprzedany w tym czasie."
+      },
+      {
+        "question": "Jak skontaktować się ze sprzedającym?",
+        "answer": "Podczas przeglądania ogłoszenia zobaczysz opcje kontaktu, takie jak wysłanie bezpośredniej wiadomości przez naszą platformę, prośba o oddzwonienie lub w niektórych przypadkach wyświetlenie numeru telefonu sprzedającego, jeśli zdecydował się go udostępnić."
+      },
+      {
+        "question": "Czy istnieją jakieś polityki ochrony kupującego?",
+        "answer": "Tak, oferujemy ochronę kupującego poprzez nasz bezpieczny system wiadomości i transakcji. Zalecamy zawsze komunikowanie się przez naszą platformę i przestrzeganie naszych wytycznych bezpieczeństwa dotyczących oglądania i zakupu pojazdów."
+      },
+      {
+        "question": "Czy mogę sprzedawać samochody komercyjnie na tej platformie?",
+        "answer": "Tak, przyjmujemy zarówno sprzedawców prywatnych, jak i profesjonalnych dealerów. Sprzedawcy komercyjni mogą utworzyć konto dealera z dodatkowymi funkcjami zaprojektowanymi do zarządzania wieloma ogłoszeniami i prezentowania swojego salonu."
+      },
+      {
+        "question": "Jakie metody płatności są obsługiwane?",
+        "answer": "Nasza platforma ułatwia połączenia między kupującymi a sprzedającymi. Chociaż zalecamy bezpieczne metody płatności, rzeczywiste ustalenia dotyczące płatności są między kupującymi a sprzedającymi. Sugerujemy korzystanie z bezpiecznych metod, takich jak przelewy bankowe lub usługi escrow dla dużych transakcji."
+      },
+      {
+        "question": "Jak edytować lub usunąć moje ogłoszenie?",
+        "answer": "Możesz zarządzać wszystkimi aspektami swojego ogłoszenia z poziomu panelu kontrolnego. Po prostu zaloguj się, przejdź do 'Moje Samochody', wybierz ogłoszenie, które chcesz zmodyfikować i użyj dostępnych opcji edycji lub usuwania."
+      }
+    ],
+    "moreQuestions": {
+      "title": "Więcej pytań?",
+      "description": "Jeśli nie możesz znaleźć odpowiedzi na swoje pytanie, skontaktuj się z naszym zespołem wsparcia.",
+      "contactButton": "Skontaktuj się z Pomocą"
+    }
+  },
+  "contact": {
+    "hero": {
+      "title": "Gotowy na jazdę wymarzonym samochodem? Skontaktuj się z nami i ruszajmy w drogę!"
+    },
+    "main": {
+      "title": "Kontakt",
+      "subtitle": "Masz pytania lub potrzebujesz pomocy? Jesteśmy tu, aby pomóc!",
+      "info": {
+        "title": "Informacje Kontaktowe",
+        "address": {
+          "line1": "123 Car Boulevard",
+          "line2": "Automotive City, AC 12345",
+          "line3": "Stany Zjednoczone"
+        },
+        "phone": "+1 (555) 123-4567",
+        "email": "support@ojestsell.com",
+        "hours": {
+          "weekday": "Poniedziałek - Piątek: 9:00 - 18:00",
+          "saturday": "Sobota: 10:00 - 16:00",
+          "sunday": "Niedziela: Zamknięte"
+        }
+      },
+      "form": {
+        "title": "Wyślij Nam Wiadomość",
+        "fields": {
+          "name": "Imię i Nazwisko",
+          "email": "Adres Email",
+          "subject": "Temat",
+          "message": "Wiadomość"
+        },
+        "submit": "Wyślij Wiadomość",
+        "success": {
+          "title": "Wiadomość Wysłana!",
+          "message": "Dziękujemy za kontakt. Odpowiemy najszybciej jak to możliwe.",
+          "button": "Wyślij Kolejną Wiadomość"
+        },
+        "error": {
+          "title": "Błąd",
+          "default": "Wystąpił błąd podczas wysyłania formularza. Spróbuj ponownie."
+        }
+      }
+    }
+  },
+  "blog": {
+    "hero": {
+      "title": "Nasz Blog",
+      "subtitle": "Odkryj najnowsze spostrzeżenia, porady i trendy w świecie motoryzacji"
+    },
+    "readMore": "Czytaj więcej →",
+    "minuteRead": "min czytania"
+  },
+  "cars": {
+    "filters": {
+      "title": "Filtry",
+      "sort": {
+        "label": "Sortuj według",
+        "options": {
+          "bestMatch": "Najlepsze Dopasowanie",
+          "lowestPrice": "Najniższa Cena",
+          "highestPrice": "Najwyższa Cena",
+          "lowestMileage": "Najniższy Przebieg",
+          "highestMileage": "Najwyższy Przebieg",
+          "newestYear": "Najnowszy Rok",
+          "oldestYear": "Najstarszy Rok",
+          "newestListed": "Najnowsze Ogłoszenia",
+          "oldestListed": "Najstarsze Ogłoszenia"
+        }
+      },
+      "view": {
+        "list": "Widok Listy",
+        "grid": "Widok Siatki"
+      },
+      "mobileButton": "Pokaż Filtry",
+      "apply": "Zastosuj Filtry",
+      "clear": "Wyczyść Wszystko"
+    },
+    "noResults": {
+      "title": "Nie znaleziono samochodów",
+      "message": "Spróbuj dostosować filtry lub kryteria wyszukiwania"
+    },
+    "loading": "Ładowanie samochodów...",
+    "error": "Błąd podczas ładowania samochodów. Spróbuj ponownie."
+  },
+  "navbar": {
+    "links": {
+      "home": "Strona główna",
+      "blog": "Blog",
+      "faq": "FAQ",
+      "contact": "Kontakt"
+    },
+    "becomeSeller": "Zostań sprzedawcą",
+    "messages": "Wiadomości",
+    "dashboard": "Panel"
+  },
+  "footer": {
+    "about": {
+      "title": "O Ojest",
+      "links": {
+        "aboutUs": "O nas",
+        "careers": "Kariera",
+        "mobile": "Aplikacja mobilna",
+        "blog": "Blog",
+        "howWeWork": "Jak działamy"
+      }
+    },
+    "brands": {
+      "title": "Popularne marki",
+      "links": {
+        "toyota": "Toyota",
+        "honda": "Honda",
+        "bmw": "BMW",
+        "mercedes": "Mercedes",
+        "tesla": "Tesla"
+      }
+    },
+    "other": {
+      "title": "Inne",
+      "links": {
+        "contact": "Kontakt",
+        "faq": "Pomoc/FAQ",
+        "affiliates": "Partnerzy",
+        "privacy": "Polityka prywatności",
+        "terms": "Regulamin"
+      }
+    },
+    "newsletter": {
+      "title": "Newsletter",
+      "description": "Zapisz się do naszego newslettera i otrzymuj ekskluzywne oferty, których nie znajdziesz nigdzie indziej.",
+      "placeholder": "Wpisz swój email",
+      "button": "Zapisz się"
+    },
+    "copyright": "© 2025 Ojest. Wszelkie prawa zastrzeżone."
+  }
+}

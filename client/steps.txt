@@ -1,0 +1,77 @@
+* *Step 1 — Start*
+
+  * Upload photos (required)
+  * Enter VIN (recommended) or skip
+  * Select: New / Used / Nearly-new
+  * Select fuel type: Petrol / Diesel / LPG / Petrol+LPG / CNG / Electric / Hybrid / Plug-in Hybrid / Mild Hybrid / Hydrogen / Other
+
+* *Step 2 — VIN Decode Review (Confirm / Fix)*
+
+  * Show decoded summary (Make/Model/Year/Engine/Transmission/Drivetrain)
+  * Buttons: “Looks correct” / “Edit”
+  * Editable overrides: year, model/trim name, body label (SUV/wagon), fuel (only if conversion), transmission, drivetrain
+  * Save changes as seller_override (keep VIN data in vehicle_confirmed)
+
+* *Step 3 — Required Basics (must to publish)*
+
+  * Mileage (km) + source: Seller / Document / Odometer photo
+  * Asking price + currency
+  * Transmission (if not confirmed): Manual / Automatic / CVT/e-CVT
+  * Drivetrain (if not confirmed): FWD / RWD / AWD/4×4
+  * Registration status: Registered in PL / Import pending / Not registered
+  * Sale documents: VAT 23% / Margin / Sale agreement
+
+* *Step 4 — Condition (fast checklist)*
+
+  * Accident history: No / Yes / Unknown
+  * Service history: Full / Partial / Unknown
+  * Ownership: 1 / 2+ / Unknown
+  * Storage: Garage / Outside / Mixed
+  * Known issues (optional, max 5 bullets)
+  * Visible flaws (optional, max 5 bullets) + source: Seller / Visible in photos
+
+* *Step 5 — Standout Equipment (only differentiators)*
+
+  * Pick from curated toggles (limit by car class)
+  * Optional “Other standout feature” text (max 2)
+
+* *Step 6 — Mods & Extras (only if any)*
+
+  * Toggle: None / Add items
+  * Add up to 8 items total
+
+    * Type: Modification / Extra
+    * Short name (required) + details (optional)
+    * Source: Seller-reported / Documented / Visible in photos
+
+* *Step 7 — Fuel-specific (only when needed)*
+
+  * *LPG:* factory vs retrofit, install year (optional), docs/approval (yes/no)
+  * *EV/PHEV/Hybrid/MHEV:* battery kWh (optional), charging AC/DC (optional), range + standard (optional), battery warranty (optional)
+
+* *Step 8 — Warranty (new or available)*
+
+  * Factory warranty: years / km (optional)
+  * Remaining warranty (used; optional)
+  * Extended warranty available (yes/no + 1 short line)
+
+* *Step 9 — Seller Notes (short, controlled)*
+
+  * Transaction notes (VAT/financing/lien/import) (max 300 chars)
+  * About seller/dealership (max 300 chars) → saved as reusable seller profile snippet
+
+* *Step 10 — History (optional)*
+
+  * Not checked / Attach report / Enable “buy report” options (buyer/seller)
+
+* *Step 11 — AI Draft Preview*
+
+  * Generate listing using FINAL prompt
+  * Show source badges per line: Confirmed / Seller / Photos / Model reference
+  * User confirms or goes back to edit inputs
+
+* *Step 12 — Publish*
+
+  * Publish immediately (“Processing details…”)
+  * Backend runs: format listing → optional OCR/docs → optional CV later
+  * Auto-update listing + notify seller when ready

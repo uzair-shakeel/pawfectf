@@ -1,0 +1,472 @@
+{
+  "homepage": {
+    "findBuyOwn": "Find, Buy & Own Your Dream Car",
+    "carsNearMe": {
+      "title": "Cars For Sale Near Me",
+      "viewAll": "View All",
+      "loading": "Loading cars...",
+      "noCars": "No cars found."
+    },
+    "browseCategories": {
+      "title": "Shop your favorite brand",
+      "seeMore": "See more",
+      "brands": [
+        {
+          "id": 1,
+          "name": "Toyota",
+          "logo": "/toyota.png",
+          "discount": "2K"
+        },
+        {
+          "id": 2,
+          "name": "BMW",
+          "logo": "/BMW.png"
+        },
+        {
+          "id": 3,
+          "name": "Chevrolet",
+          "logo": "/chevrolet.png"
+        },
+        {
+          "id": 4,
+          "name": "Honda",
+          "logo": "/honda.png"
+        },
+        {
+          "id": 5,
+          "name": "Ford",
+          "logo": "/ford.png"
+        },
+        {
+          "id": 6,
+          "name": "Audi",
+          "logo": "https://www.carlogos.org/car-logos/audi-logo-2016.png"
+        },
+        {
+          "id": 7,
+          "name": "Acura",
+          "logo": "/acura.png"
+        },
+        {
+          "id": 8,
+          "name": "Hyundai",
+          "logo": "/hyundai.png"
+        },
+        {
+          "id": 9,
+          "name": "Dodge",
+          "logo": "/dodge.png",
+          "discount": "1K"
+        },
+        {
+          "id": 10,
+          "name": "Mercedes-Benz",
+          "logo": "/Mercedes.png",
+          "discount": "5.5K"
+        },
+        {
+          "id": 11,
+          "name": "Kia",
+          "logo": "/kia.png"
+        },
+        {
+          "id": 12,
+          "name": "Lexus",
+          "logo": "/lexus.png"
+        }
+      ]
+    },
+    "featuredCategories": {
+      "title": "Featured Categories",
+      "exploreMore": "Explore More",
+      "categories": {
+        "luxuryCars": "LUXURY CARS",
+        "luxuryCarsDesc": "Experience ultimate comfort and style",
+        "sportsCars": "SPORTS CARS",
+        "sportsCarsDesc": "Feel the thrill of performance",
+        "classicCars": "CLASSIC CARS",
+        "classicCarsDesc": "Timeless elegance on wheels"
+      }
+    },
+    "browseLocations": {
+      "title": "Top-rated cars by type",
+      "scrollLeft": "Scroll left",
+      "scrollRight": "Scroll right",
+      "types": {
+        "hatchback": "HATCHBACK",
+        "sedan": "SEDAN",
+        "kombi": "KOMBI",
+        "coupe": "COUPE",
+        "sports": "SPORTOWE",
+        "limousine": "LIMUZYNA",
+        "suv": "SUV",
+        "convertible": "KABRIOLET",
+        "pickup": "PICKUP",
+        "offroad": "TERENOWE",
+        "bus": "BUS",
+        "classic": "KLASYK",
+        "campers": "KAMPER"
+      }
+    },
+    
+    "browseByMake": {
+      "title": "Przeglądaj według Marki",
+      "viewAll": "Zobacz Wszystkie",
+      "makes": {
+        "toyota": "Toyota",
+        "toyotaDesc": "Niezawodna japońska inżynieria z innowacyjną technologią",
+        "bmw": "BMW",
+        "bmwDesc": "Najlepsze maszyny do jazdy z luksusem i wydajnością",
+        "mercedes": "Mercedes",
+        "mercedesDesc": "Luksusowe pojazdy z najnowocześniejszą technologią i komfortem",
+        "audi": "Audi",
+        "audiDesc": "Wyrafinowany design z zaawansowaną technologią i wydajnością",
+        "porsche": "Porsche",
+        "porscheDesc": "Precyzyjne niemieckie samochody sportowe o niezrównanej wydajności",
+        "tesla": "Tesla",
+        "teslaDesc": "Rewolucyjne pojazdy elektryczne zmieniające branżę motoryzacyjną",
+        "ford": "Ford",
+        "fordDesc": "Amerykańskie pojazdy z dziedzictwem innowacji i wydajności",
+        "honda": "Honda",
+        "hondaDesc": "Niezawodne i wydajne pojazdy o doskonałej wartości odsprzedaży"
+      }
+    },
+    "blogSection": {
+      "title": "Latest from our Blog",
+      "viewAll": "View All Posts",
+      "categories": {
+        "guides": "Guides"
+      },
+      "dates": {
+        "march5": "March 5, 2025",
+        "march3": "March 3, 2025",
+        "march1": "March 1, 2025",
+        "feb28": "February 28, 2025"
+      },
+      "posts": {
+        "buyCarEasily": "How to buy a car easily",
+        "bestCars2025": "Best cars to buy in 2025",
+        "sellCarEasily": "How to sell your car easily",
+        "financingOptions": "Financing options for car buyers"
+      }
+    }
+  },
+  "terms": {
+    "hero": {
+      "title": "Clear Terms. Smooth Rides. Drive with Confidence."
+    },
+    "sections": {
+      "introduction": {
+        "title": "1. Introduction",
+        "content": "Welcome to OjestSell. These Terms and Conditions govern your use of our website and services. By accessing or using OjestSell, you agree to be bound by these Terms."
+      },
+      "definitions": {
+        "title": "2. Definitions",
+        "items": {
+          "ojestsell": "\"OjestSell\" refers to our company, website, and services.",
+          "user": "\"User\" refers to individuals who access or use our services.",
+          "listing": "\"Listing\" refers to car advertisements created on our platform.",
+          "content": "\"Content\" refers to text, images, and other materials uploaded to our platform."
+        }
+      },
+      "accountRegistration": {
+        "title": "3. Account Registration",
+        "content": "To use certain features of our service, you may need to register for an account. You agree to provide accurate information and to keep your account credentials secure. You are responsible for all activity on your account."
+      },
+      "listingRules": {
+        "title": "4. Listing Rules",
+        "intro": "When creating listings on OjestSell, you must:",
+        "items": [
+          "Provide accurate and truthful information about the vehicle",
+          "Include only images of the actual vehicle being sold",
+          "Set realistic and fair prices",
+          "Respond to inquiries in a timely manner",
+          "Remove listings promptly after a sale is completed"
+        ]
+      },
+      "prohibitedActivities": {
+        "title": "5. Prohibited Activities",
+        "intro": "The following activities are prohibited on our platform:",
+        "items": [
+          "Posting fraudulent listings or misrepresenting vehicles",
+          "Harassment or abusive behavior toward other users",
+          "Attempting to circumvent our fee structure",
+          "Creating multiple accounts for the same person",
+          "Using automated systems to scrape or collect data",
+          "Posting illegal or stolen vehicles"
+        ]
+      },
+      "feesAndPayments": {
+        "title": "6. Fees and Payments",
+        "content": "Basic listings are free. Premium listings and additional services may incur fees, which will be clearly communicated before purchase. All payments are processed securely through our payment partners."
+      },
+      "intellectualProperty": {
+        "title": "7. Intellectual Property",
+        "content": "Content uploaded by users remains the property of the respective users. By uploading content, you grant OjestSell a non-exclusive license to use, display, and distribute that content on our platform."
+      },
+      "privacy": {
+        "title": "8. Privacy",
+        "content": "Our Privacy Policy governs the collection and use of your personal information. By using OjestSell, you consent to the practices described in our Privacy Policy."
+      },
+      "limitationOfLiability": {
+        "title": "9. Limitation of Liability",
+        "content": "OjestSell is provided \"as is\" without warranties of any kind. We are not responsible for the accuracy of user listings, the condition of vehicles, or transactions between users. We do not guarantee that our service will be uninterrupted or error-free."
+      },
+      "disputeResolution": {
+        "title": "10. Dispute Resolution",
+        "content": "Any disputes arising from these Terms shall be resolved through good-faith negotiations. If negotiations fail, disputes will be resolved through arbitration in accordance with applicable laws."
+      },
+      "termination": {
+        "title": "11. Termination",
+        "content": "We reserve the right to terminate or suspend accounts that violate these Terms or for any other reason at our sole discretion. Users may terminate their accounts at any time."
+      },
+      "changes": {
+        "title": "12. Changes to Terms",
+        "content": "We may modify these Terms at any time. Continued use of OjestSell after changes constitutes acceptance of the modified Terms. We will make reasonable efforts to notify users of significant changes."
+      },
+      "contact": {
+        "title": "13. Contact Information",
+        "intro": "If you have questions about these Terms, please contact us at:",
+        "email": "Email: legal@ojestsell.com",
+        "address": "Address: 123 Car Boulevard, Automotive City, AC 12345"
+      }
+    },
+    "lastUpdated": "Last Updated",
+    "haveQuestions": "Have questions? Contact us"
+  },
+  "privacy": {
+    "hero": {
+      "title": "Your Data, Your Drive — Always Secure, Always Private."
+    },
+    "sections": {
+      "introduction": {
+        "title": "1. Introduction",
+        "content": "At OjestSell, we are committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website or use our services."
+      },
+      "informationWeCollect": {
+        "title": "2. Information We Collect",
+        "intro": "We collect several types of information from and about users of our website, including:",
+        "items": {
+          "personal": "Personal Information: Name, email address, telephone number, postal address, and payment information.",
+          "vehicle": "Vehicle Information: Make, model, year, condition, and details of vehicles listed on our platform.",
+          "usage": "Usage Information: How you use our website, what pages you visit, and your interactions with listings.",
+          "device": "Device Information: IP address, browser type, operating system, and other technical information."
+        }
+      },
+      "howWeCollect": {
+        "title": "3. How We Collect Information",
+        "intro": "We collect information through:",
+        "items": [
+          "Direct interactions when you create an account or list a vehicle",
+          "Automated technologies such as cookies and similar tracking technologies",
+          "Third parties, such as payment processors and identity verification services"
+        ]
+      },
+      "howWeUse": {
+        "title": "4. How We Use Your Information",
+        "intro": "We use your information to:",
+        "items": [
+          "Provide, maintain, and improve our services",
+          "Process transactions and send transaction-related communications",
+          "Create and maintain your account",
+          "Connect buyers and sellers",
+          "Send administrative information and marketing communications",
+          "Protect our platform from fraudulent or illegal activity",
+          "Comply with legal obligations"
+        ]
+      },
+      "cookies": {
+        "title": "5. Cookies and Tracking Technologies",
+        "content": "We use cookies and similar tracking technologies to collect information about your browsing activities. Cookies are small text files stored on your device that help us provide a better user experience.",
+        "intro": "We use different types of cookies:",
+        "types": {
+          "essential": "Essential Cookies: Required for our website to function properly.",
+          "analytical": "Analytical Cookies: Help us understand how visitors interact with our website.",
+          "functional": "Functional Cookies: Allow us to remember your preferences and settings.",
+          "advertising": "Advertising Cookies: Used to deliver relevant advertisements and track ad campaign performance."
+        },
+        "control": "You can control cookie settings through your browser preferences. However, disabling certain cookies may limit your ability to use some features of our website."
+      }
+    },
+    "viewTerms": "View Terms & Conditions",
+    "contactUs": "Contact Us"
+  },
+  "faq": {
+    "hero": {
+      "title": "Frequently Asked Questions",
+      "subtitle": "Find answers to common questions about using our car marketplace."
+    },
+    "questions": [
+      {
+        "question": "How do I list my car for sale?",
+        "answer": "To list your car for sale, first create an account or log in. Then click on the 'Become a seller' button in the navbar, complete your seller profile, and follow the guided process to add your car details, photos, and set your price."
+      },
+      {
+        "question": "Is there a fee for listing a car?",
+        "answer": "Basic listings are free. We also offer premium listing options with additional features like highlighted placement, extended listing duration, and more photos to help your car stand out. You can view our pricing options during the listing process."
+      },
+      {
+        "question": "How long does a listing stay active?",
+        "answer": "Standard listings remain active for 30 days. Premium listings can remain active for up to 60 days. You can always renew or update your listing if your car hasn't sold within that timeframe."
+      },
+      {
+        "question": "How do I contact a seller?",
+        "answer": "When viewing a car listing, you'll see contact options such as sending a direct message through our platform, requesting a call back, or in some cases, viewing the seller's phone number if they've chosen to display it."
+      },
+      {
+        "question": "Are there any buyer protection policies?",
+        "answer": "Yes, we offer buyer protection through our secure messaging and transaction system. We recommend always communicating through our platform and following our safety guidelines for viewing and purchasing vehicles."
+      },
+      {
+        "question": "Can I sell cars commercially on this platform?",
+        "answer": "Yes, we welcome both private sellers and professional dealers. Commercial sellers can create a dealer account with additional features designed for managing multiple listings and showcasing your dealership."
+      },
+      {
+        "question": "What payment methods are supported?",
+        "answer": "Our platform facilitates connections between buyers and sellers. While we recommend secure payment methods, the actual payment arrangement is between buyers and sellers. We suggest using secure methods like bank transfers or escrow services for large transactions."
+      },
+      {
+        "question": "How do I edit or remove my listing?",
+        "answer": "You can manage all aspects of your listing from your dashboard. Simply log in, navigate to 'My Cars', select the listing you wish to modify, and use the edit or delete options available."
+      }
+    ],
+    "moreQuestions": {
+      "title": "More questions?",
+      "description": "If you cannot find the answer to your question, feel free to contact our support team.",
+      "contactButton": "Contact Support"
+    }
+  },
+  "contact": {
+    "hero": {
+      "title": "Ready to drive your dream car? Contact us and let's hit the road together!"
+    },
+    "main": {
+      "title": "Contact Us",
+      "subtitle": "Have questions or need assistance? We're here to help!",
+      "info": {
+        "title": "Contact Information",
+        "address": {
+          "line1": "123 Car Boulevard",
+          "line2": "Automotive City, AC 12345",
+          "line3": "United States"
+        },
+        "phone": "+1 (555) 123-4567",
+        "email": "support@ojestsell.com",
+        "hours": {
+          "weekday": "Monday - Friday: 9:00 AM - 6:00 PM",
+          "saturday": "Saturday: 10:00 AM - 4:00 PM",
+          "sunday": "Sunday: Closed"
+        }
+      },
+      "form": {
+        "title": "Send Us a Message",
+        "fields": {
+          "name": "Full Name",
+          "email": "Email Address",
+          "subject": "Subject",
+          "message": "Message"
+        },
+        "submit": "Send Message",
+        "success": {
+          "title": "Message Sent!",
+          "message": "Thank you for contacting us. We'll get back to you as soon as possible.",
+          "button": "Send Another Message"
+        },
+        "error": {
+          "title": "Error",
+          "default": "There was an error submitting your form. Please try again."
+        }
+      }
+    }
+  },
+  "blog": {
+    "hero": {
+      "title": "Our Blog",
+      "subtitle": "Discover the latest insights, tips, and trends in the automotive world"
+    },
+    "readMore": "Read more →",
+    "minuteRead": "min read"
+  },
+  "cars": {
+    "filters": {
+      "title": "Filters",
+      "sort": {
+        "label": "Sort by",
+        "options": {
+          "bestMatch": "Best Match",
+          "lowestPrice": "Lowest Price",
+          "highestPrice": "Highest Price",
+          "lowestMileage": "Lowest Mileage",
+          "highestMileage": "Highest Mileage",
+          "newestYear": "Newest Year",
+          "oldestYear": "Oldest Year",
+          "newestListed": "Newest Listed",
+          "oldestListed": "Oldest Listed"
+        }
+      },
+      "view": {
+        "list": "List View",
+        "grid": "Grid View"
+      },
+      "mobileButton": "Show Filters",
+      "apply": "Apply Filters",
+      "clear": "Clear All"
+    },
+    "noResults": {
+      "title": "No cars found",
+      "message": "Try adjusting your filters or search criteria"
+    },
+    "loading": "Loading cars...",
+    "error": "Error loading cars. Please try again."
+  },
+  "navbar": {
+    "links": {
+      "home": "Home",
+      "blog": "Blog",
+      "faq": "FAQ",
+      "contact": "Contact"
+    },
+    "becomeSeller": "Become a seller",
+    "messages": "Messages",
+    "dashboard": "Dashboard"
+  },
+  "footer": {
+    "about": {
+      "title": "About Ojest",
+      "links": {
+        "aboutUs": "About Us",
+        "careers": "Careers",
+        "mobile": "Mobile",
+        "blog": "Blog",
+        "howWeWork": "How we work"
+      }
+    },
+    "brands": {
+      "title": "Popular Car Brands",
+      "links": {
+        "toyota": "Toyota",
+        "honda": "Honda",
+        "bmw": "BMW",
+        "mercedes": "Mercedes",
+        "tesla": "Tesla"
+      }
+    },
+    "other": {
+      "title": "Other",
+      "links": {
+        "contact": "Contact Us",
+        "faq": "Help/FAQ",
+        "affiliates": "Affiliates",
+        "privacy": "Privacy Policy",
+        "terms": "Terms & Conditions"
+      }
+    },
+    "newsletter": {
+      "title": "Newsletter",
+      "description": "Subscribe to our newsletter and get exclusive deals you won't find anywhere else.",
+      "placeholder": "Enter your email",
+      "button": "Subscribe"
+    },
+    "copyright": "© 2025 Ojest. All rights reserved."
+  }
+}

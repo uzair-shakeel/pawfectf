@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- White background -->
+  <rect width="512" height="512" fill="#f0f0f0"/>
+  
+  <!-- Red stripes -->
+  <rect width="512" height="39.385" y="39.385" fill="#d80027"/>
+  <rect width="512" height="39.385" y="118.154" fill="#d80027"/>
+  <rect width="512" height="39.385" y="196.923" fill="#d80027"/>
+  <rect width="512" height="39.385" y="275.692" fill="#d80027"/>
+  <rect width="512" height="39.385" y="354.462" fill="#d80027"/>
+  <rect width="512" height="39.385" y="433.231" fill="#d80027"/>
+  
+  <!-- Blue rectangle -->
+  <rect width="275.692" height="275.692" fill="#2e52b2"/>
+  
+  <!-- Simplified stars (just a few larger ones for visibility) -->
+  <g fill="#f0f0f0">
+    <!-- Row 1 -->
+    <path d="M50,50 l15,0 l-12,10 l5,15 l-13,-9 l-13,9 l5,-15 l-12,-10 l15,0 l5,-15 z"/>
+    <path d="M137.5,50 l15,0 l-12,10 l5,15 l-13,-9 l-13,9 l5,-15 l-12,-10 l15,0 l5,-15 z"/>
+    <path d="M225,50 l15,0 l-12,10 l5,15 l-13,-9 l-13,9 l5,-15 l-12,-10 l15,0 l5,-15 z"/>
+    
+    <!-- Row 2 -->
+    <path d="M93.75,100 l15,0 l-12,10 l5,15 l-13,-9 l-13,9 l5,-15 l-12,-10 l15,0 l5,-15 z"/>
+    <path d="M181.25,100 l15,0 l-12,10 l5,15 l-13,-9 l-13,9 l5,-15 l-12,-10 l15,0 l5,-15 z"/>
+    
+    <!-- Row 3 -->
+    <path d="M50,150 l15,0 l-12,10 l5,15 l-13,-9 l-13,9 l5,-15 l-12,-10 l15,0 l5,-15 z"/>
+    <path d="M137.5,150 l15,0 l-12,10 l5,15 l-13,-9 l-13,9 l5,-15 l-12,-10 l15,0 l5,-15 z"/>
+    <path d="M225,150 l15,0 l-12,10 l5,15 l-13,-9 l-13,9 l5,-15 l-12,-10 l15,0 l5,-15 z"/>
+    
+    <!-- Row 4 -->
+    <path d="M93.75,200 l15,0 l-12,10 l5,15 l-13,-9 l-13,9 l5,-15 l-12,-10 l15,0 l5,-15 z"/>
+    <path d="M181.25,200 l15,0 l-12,10 l5,15 l-13,-9 l-13,9 l5,-15 l-12,-10 l15,0 l5,-15 z"/>
+  </g>
+</svg> 

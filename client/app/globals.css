@@ -1,0 +1,251 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import "swiper/css";
+@import "swiper/css/navigation";
+@import "swiper/css/pagination";
+
+@layer base {
+  :root {
+    --background: #ffffff;
+    --foreground: #111827;
+  }
+
+  .dark {
+    --background: #212121;
+    --foreground: #ffffff;
+  }
+
+  html {
+    @apply bg-[var(--background)] text-[var(--foreground)];
+  }
+
+  body {
+    @apply bg-[var(--background)] text-[var(--foreground)];
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  * {
+    @apply border-gray-200 dark:border-gray-700;
+  }
+}
+
+
+
+/* * {
+  background-color: white;
+} */
+
+/* Custom Scrollbar */
+.scrollbar-custom::-webkit-scrollbar {
+  height: 8px;
+  /* Scrollbar height */
+}
+
+.scrollbar-custom::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  /* Light gray track */
+  border-radius: 10px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb {
+  background: #888;
+  /* Dark gray scrollbar */
+  border-radius: 10px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb:hover {
+  background: #555;
+  /* Darker on hover */
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Enable smooth horizontal scrolling on touch devices */
+.scroll-x-touch {
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;
+}
+
+/* Loader animation */
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Make sure no loader components block interaction after loading */
+html:not(.loading-active) .loader-container,
+html:not(.loading-active) [class*="VideoLoader"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  z-index: -1 !important;
+}
+
+/* Make sure content is interactive after loading */
+html:not(.loading-active) body>*:not(.loader-container) {
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+/* Enhanced Card Styling Utilities */
+.line-clamp-1 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+/* Backdrop blur support */
+.backdrop-blur-sm {
+  backdrop-filter: blur(4px);
+}
+
+/* Enhanced hover effects */
+.group:hover .group-hover\:scale-110 {
+  transform: scale(1.1);
+}
+
+.group:hover .group-hover\:opacity-100 {
+  opacity: 1;
+}
+
+.group:hover .group-hover\:shadow-xl {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.group:hover .group-hover\:text-gray-800 {
+  color: #1f2937;
+}
+
+/* Gradient utilities */
+.bg-gradient-to-br {
+  background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
+}
+
+.bg-gradient-to-t {
+  background-image: linear-gradient(to top, var(--tw-gradient-stops));
+}
+
+.from-blue-500 {
+  --tw-gradient-from: #3b82f6;
+  --tw-gradient-stops: var(--tw-gradient-from),
+    var(--tw-gradient-to, rgba(59, 130, 246, 0));
+}
+
+.to-purple-600 {
+  --tw-gradient-to: #9333ea;
+}
+
+.from-black\/30 {
+  --tw-gradient-from: rgba(0, 0, 0, 0.3);
+  --tw-gradient-stops: var(--tw-gradient-from),
+    var(--tw-gradient-to, rgba(0, 0, 0, 0));
+}
+
+.via-transparent {
+  --tw-gradient-stops: var(--tw-gradient-from), transparent,
+    var(--tw-gradient-to, transparent);
+}
+
+.to-transparent {
+  --tw-gradient-to: transparent;
+}
+
+/* Enhanced shadow utilities */
+.hover\:shadow-gray-200\/60:hover {
+  box-shadow: 0 20px 25px -5px rgba(229, 231, 235, 0.6),
+    0 10px 10px -5px rgba(229, 231, 235, 0.6);
+}
+
+/* Dark mode specific styles */
+@layer components {
+
+  /* Dark mode scrollbar */
+  .dark .scrollbar-custom::-webkit-scrollbar-track {
+    background: #374151;
+  }
+
+  .dark .scrollbar-custom::-webkit-scrollbar-thumb {
+    background: #6b7280;
+  }
+
+  .dark .scrollbar-custom::-webkit-scrollbar-thumb:hover {
+    background: #9ca3af;
+  }
+
+  /* Dark mode card shadows */
+  .dark .hover\:shadow-gray-200\/60:hover {
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3),
+      0 10px 10px -5px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Dark mode transitions */
+  .theme-transition {
+    transition: background-color 0.3s ease, color 0.3s ease,
+      border-color 0.3s ease;
+  }
+
+  /* Dark mode text colors */
+  .dark .text-gray-800 {
+    @apply text-white;
+  }
+
+  .dark .text-gray-700 {
+    @apply text-[#e6e6e6];
+  }
+
+  .dark .text-gray-600 {
+    @apply text-[#c2c2c2];
+  }
+
+  /* Dark mode background colors */
+  .dark .bg-white {
+    @apply bg-[#202020];
+  }
+
+  .dark .bg-gray-50 {
+    @apply bg-[#181818];
+  }
+
+  .dark .bg-gray-100 {
+    @apply bg-[#212121];
+  }
+
+  /* Normalize any remaining dark surfaces to gray-800 */
+  /* .dark .bg-gray-900 {
+    @apply bg-gray-800;
+  } */
+
+  /* .dark .bg-black {
+    @apply bg-gray-800;
+  } */
+
+  /* Dark mode border colors */
+  .dark .border-gray-200 {
+    @apply border-[#232323];
+  }
+
+  .dark .border-gray-300 {
+    @apply border-[#303030];
+  }
+}

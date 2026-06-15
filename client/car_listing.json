@@ -1,0 +1,114 @@
+{
+  "meta": {
+    "description": "This JSON structure represents the updated schema for a car listing based on the 11-step AI Wizard flow. It captures all technical details, condition reports, and custom equipment.",
+    "version": "1.1"
+  },
+  "car_listing": {
+    "core_info": {
+      "vin": "WBS1234567890ABC",
+      "status": "pending_publish",
+      "is_featured": false,
+      "ai_description": "2023 BMW M4 Competition xDrive in Isle of Man Green. Immaculate condition, carbon bucket seats, and full service history.",
+      "created_at": "2024-03-15T10:00:00Z"
+    },
+    "specifications": {
+      "make": "BMW",
+      "model": "M4",
+      "year": 2023,
+      "trim": "Competition xDrive",
+      "body_type": "Coupe",
+      "color": "Isle of Man Green",
+      "engine": {
+        "type": "Petrol",
+        "power_hp": 510,
+        "transmission": "Automatic",
+        "drivetrain": "AWD"
+      },
+      "mileage": 12500,
+      "registration_status": "Registered in PL"
+    },
+    "financials": {
+      "price": 450000,
+      "currency": "PLN",
+      "sale_document": "VAT 23%"
+    },
+    "condition_report": {
+      "accident_history": "No Accidents",
+      "service_history": "Full History",
+      "ownership": "First Owner",
+      "storage": "Garage",
+      "known_issues": "None. Car has been recently serviced and is in perfect mechanical order.",
+      "visible_flaws": "Minor stone chip on the front hood, otherwise paint is flawless.",
+      "warranty": {
+        "provider": "Manufacturer",
+        "expiration_date": "2026-05-20",
+        "mileage_limit_km": 100000
+      }
+    },
+    "features_and_equipment": {
+      "selected_equipment": [
+        "ABS",
+        "Laser Lights",
+        "Heated Seats",
+        "Apple CarPlay",
+        "Harman Kardon Sound"
+      ],
+      "custom_equipment": {
+        "safety": [
+          "Advanced Track Mode ESP"
+        ],
+        "interior": [
+          "Alcantara Steering Wheel"
+        ],
+        "tech": [
+          "Subscription-based Dashcam"
+        ],
+        "exterior": [
+          "M Performance Parts"
+        ]
+      }
+    },
+    "modifications_and_extras": {
+      "modifications": [
+        "PPF Full Body",
+        "Ceramic Coating"
+      ],
+      "extras": [
+        "Winter Tires Set",
+        "Car Cover",
+        "Rubber Mats"
+      ],
+      "custom_options": {
+        "modifications": [
+          "Stage 1 ECU Remap"
+        ],
+        "extras": [
+          "Custom Key Fob Cover"
+        ]
+      }
+    },
+    "fuel_specifics": {
+      "battery_capacity_kwh": null,
+      "battery_health_percentage": null,
+      "lpg_installation": null
+    },
+    "external_data": {
+      "history_report_status": "Verified",
+      "history_report_url": "https://.../report.pdf"
+    },
+    "media": {
+      "photos": [
+        {
+          "id": "p1",
+          "url": "...",
+          "category": "exterior"
+        },
+        {
+          "id": "p2",
+          "url": "...",
+          "category": "interior"
+        }
+      ]
+    }
+  }
+}

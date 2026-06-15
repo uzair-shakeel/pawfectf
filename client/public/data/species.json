@@ -1,0 +1,68 @@
+[
+  {
+    "species": "Dog",
+    "breeds": [
+      "Labrador Retriever", "German Shepherd", "Golden Retriever", "Bulldog",
+      "Poodle", "Beagle", "Rottweiler", "Yorkshire Terrier", "Dachshund",
+      "Siberian Husky", "Boxer", "Border Collie", "Shih Tzu", "Chihuahua",
+      "Pomeranian", "Great Dane", "Doberman", "Cocker Spaniel", "Maltese",
+      "French Bulldog", "Pugs", "Saint Bernard", "Akita", "Greyhound",
+      "Weimaraner", "Mixed Breed", "Other"
+    ]
+  },
+  {
+    "species": "Cat",
+    "breeds": [
+      "Persian", "Maine Coon", "Siamese", "British Shorthair", "Ragdoll",
+      "Bengal", "Sphynx", "Scottish Fold", "Abyssinian", "Russian Blue",
+      "Norwegian Forest", "Birman", "Burmese", "Tonkinese", "Devon Rex",
+      "Cornish Rex", "Turkish Angora", "Himalayan", "Mixed Breed", "Other"
+    ]
+  },
+  {
+    "species": "Bird",
+    "breeds": [
+      "African Grey Parrot", "Budgerigar", "Cockatiel", "Lovebird", "Macaw",
+      "Amazon Parrot", "Canary", "Finch", "Conure", "Cockatoo",
+      "Dove", "Parakeet", "Lorikeet", "Other"
+    ]
+  },
+  {
+    "species": "Rabbit",
+    "breeds": [
+      "Holland Lop", "Mini Rex", "Lionhead", "Dutch", "Flemish Giant",
+      "Angora", "Rex", "Netherland Dwarf", "Mini Lop", "New Zealand",
+      "Mixed Breed", "Other"
+    ]
+  },
+  {
+    "species": "Hamster",
+    "breeds": [
+      "Syrian", "Dwarf Campbell", "Roborovski", "Chinese", "Winter White", "Other"
+    ]
+  },
+  {
+    "species": "Guinea Pig",
+    "breeds": [
+      "American", "Peruvian", "Abyssinian", "Silkie", "Teddy", "Texel", "Other"
+    ]
+  },
+  {
+    "species": "Reptile",
+    "breeds": [
+      "Bearded Dragon", "Leopard Gecko", "Ball Python", "Corn Snake",
+      "Blue-Tongued Skink", "Crested Gecko", "Chameleon", "Red-Eared Slider", "Other"
+    ]
+  },
+  {
+    "species": "Fish",
+    "breeds": [
+      "Goldfish", "Betta", "Guppy", "Angelfish", "Tetras", "Cichlid",
+      "Discus", "Molly", "Platy", "Swordtail", "Other"
+    ]
+  },
+  {
+    "species": "Other",
+    "breeds": ["Ferret", "Chinchilla", "Hedgehog", "Sugar Glider", "Axolotl", "Other"]
+  }
+]
