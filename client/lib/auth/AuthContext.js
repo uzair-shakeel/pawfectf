@@ -3,9 +3,8 @@ import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 
-// Prefer same-origin by default if env is not provided
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "/";
-axios.defaults.baseURL = API_BASE;
+// Strip trailing slash so https://host/ + /api/... never becomes //api/...
+const API_BASE = (process.env.NEXT_PUBLIC_API_BASE_URL || "").replace(/\/$/, "");
 
 const AuthContext = createContext();
 
