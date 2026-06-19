@@ -8,7 +8,7 @@
 ### ✅ WEBSITE PAGES (`app/website/`)
 
 | Current Path | Status | New Name / Purpose |
-|---|---|---| 
+|---|---|---|  
 | `website/page.jsx` | ✅ Keep (just redirects to `/`) | No change needed |
 | `website/cars/page.jsx` | 🔁 Rename + Rewrite Filters | `/website/pets` — Pet search/listing page |
 | `website/cars/[carId]/page.jsx` | 🔁 Rename + Edit | `/website/pets/[petId]` — Individual pet profile page |
