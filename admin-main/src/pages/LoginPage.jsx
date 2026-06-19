@@ -40,7 +40,7 @@ const LoginPage = () => {
           })
         );
         toast.success("Welcome to Pawfect Admin!");
-        navigate("/");
+        window.location.href = "/";
       } else {
         // Fallback to hardcoded credentials for demo
         if (email === "admin@pawfect.com" && password === "admin123") {
@@ -56,7 +56,7 @@ const LoginPage = () => {
             })
           );
           toast.success("Welcome to Pawfect Admin! (Demo Mode)");
-          navigate("/");
+          window.location.href = "/";
         } else {
           toast.error("Invalid credentials! Use admin@pawfect.com / admin123");
         }
@@ -77,7 +77,7 @@ const LoginPage = () => {
           })
         );
         toast.success("Welcome to Pawfect Admin! (Demo Mode)");
-        navigate("/");
+        window.location.href = "/";
       } else {
         toast.error("Failed to connect to server. Check your backend connection.");
       }
