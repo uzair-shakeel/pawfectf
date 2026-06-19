@@ -83,10 +83,12 @@ export default function PetDetailPage() {
       const res = await fetch(`${API_BASE}/api/chat/create`, {
         method: "POST",
         headers: { "Content-Type": "application/json", ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}) },
-        body: JSON.stringify({ carId: petId, ownerId: pet?.createdBy }),
+        body: JSON.stringify({ petId, ownerId: pet?.createdBy }),
       });
-      let chatId = null;
-      try { const d = await res.json(); const c = Array.isArray(d) ? d[0] : d?.chat || d; chatId = c?._id || null; } catch { }
+      const d = await res.json();
+      if (!res.ok) { alert(d?.message || "Failed to start chat."); return; }
+      const c = Array.isArray(d) ? d[0] : d?.chat || d;
+      const chatId = c?._id || null;
       router.push(chatId ? `/dashboard/messages?chatId=${encodeURIComponent(chatId)}` : "/dashboard/messages");
     } catch { alert("Failed to start chat."); }
   };
@@ -95,23 +97,27 @@ export default function PetDetailPage() {
     if (!user) { router.push("/sign-in"); return; }
     try {
       const authToken = token || localStorage.getItem("token");
+      // Step 1: create or retrieve the chat
       const res = await fetch(`${API_BASE}/api/chat/create`, {
         method: "POST",
         headers: { "Content-Type": "application/json", ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}) },
-        body: JSON.stringify({ carId: petId, ownerId: pet?.createdBy }),
+        body: JSON.stringify({ petId, ownerId: pet?.createdBy }),
       });
-      let chatId = null;
-      try { const d = await res.json(); const c = Array.isArray(d) ? d[0] : d?.chat || d; chatId = c?._id || null; } catch { }
-      
-      if (chatId && applicationText) {
-         await fetch(`${API_BASE}/api/message`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json", ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}) },
-            body: JSON.stringify({ chatId, text: applicationText }),
-         });
+      const d = await res.json();
+      if (!res.ok) { alert(d?.message || "Failed to start chat."); return; }
+      const c = Array.isArray(d) ? d[0] : d?.chat || d;
+      const chatId = c?._id || null;
+
+      // Step 2: send the application message via REST (socket not available here)
+      if (chatId && applicationText.trim()) {
+        await fetch(`${API_BASE}/api/chat/${chatId}/messages`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}) },
+          body: JSON.stringify({ content: applicationText, senderId: user?.id || user?._id }),
+        });
       }
       setIsModalOpen(false);
-      router.push(chatId ? `/dashboard/messages?chatId=${encodeURIComponent(chatId)}&applied=true` : "/dashboard/messages");
+      router.push(chatId ? `/dashboard/messages?chatId=${encodeURIComponent(chatId)}` : "/dashboard/messages");
     } catch { alert("Failed to submit application."); }
   };
 

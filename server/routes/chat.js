@@ -5,6 +5,7 @@ const {
   createChat,
   getUserChats,
   getChatMessages,
+  sendMessage,
 } = require("../controllers/chat");
 const {
   upload,
@@ -177,5 +178,6 @@ router.post("/:chatId/mark-seen", auth, async (req, res) => {
 router.post("/create", auth, createChat);
 router.get("/my-chats", auth, getUserChats);
 router.get("/:chatId/messages", auth, getChatMessages);
+router.post("/:chatId/messages", auth, sendMessage);
 
 module.exports = router;

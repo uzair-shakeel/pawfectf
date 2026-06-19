@@ -191,3 +191,47 @@ exports.getChatMessages = async (req, res) => {
     res.status(500).json({ message: "Server error", error: err.message });
   }
 };
+
+// Send a message to a chat via REST (used by pet detail page for initial application message)
+exports.sendMessage = async (req, res) => {
+  const { chatId } = req.params;
+  const { content, senderId: bodySenderId } = req.body;
+  const senderId = req.userId || bodySenderId;
+
+  try {
+    if (!senderId) {
+      return res.status(401).json({ message: "Authentication required" });
+    }
+
+    const chat = await Chat.findById(chatId);
+    if (!chat) {
+      return res.status(404).json({ message: "Chat not found" });
+    }
+    if (!chat.participants.includes(String(senderId))) {
+      return res.status(403).json({ message: "Access denied: Not a chat participant" });
+    }
+
+    const message = new Message({
+      chatId,
+      sender: senderId,
+      content: content || "",
+      attachments: [],
+    });
+    await message.save();
+
+    // Update chat last message
+    await Chat.findByIdAndUpdate(chatId, {
+      lastMessage: {
+        content: content || "",
+        sender: senderId,
+        timestamp: new Date(),
+      },
+    });
+
+    res.status(201).json(message);
+  } catch (err) {
+    console.error("Send Message Error:", err);
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+};
+
