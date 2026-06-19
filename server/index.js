@@ -39,6 +39,7 @@ const allowedOrigins = [
   "http://192.168.100.5:3000",
   "http://192.168.100.5:3001",
   "https://pawfectsite.vercel.app",
+  "https://pawfectf-p2su.vercel.app",
 ];
 
 const io = new Server(server, {
