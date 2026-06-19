@@ -9,7 +9,7 @@ import { getPublicUserInfo } from "../../../services/userService";
 import { getAllPets } from "../../../services/petService";
 import CarCard from "../../../components/website/CarCard";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "";
+const API_BASE = (process.env.NEXT_PUBLIC_API_BASE_URL || "").trim().replace(/\/$/, "");
 
 const formatImageUrl = (imagePath) => {
     if (!imagePath) return "/website/seller.jpg";
