@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Global Scrollbar */
+body {
+  @apply scrollbar scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-slate-900;
+  scroll-behavior: smooth; /* Smooth Scrolling */
+  @apply bg-slate-950 text-slate-200;
+}
+
+/* Webkit Scrollbar */
+::-webkit-scrollbar {
+  width: 10px; /* Width */
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.8); /* Dark Slate Track */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #334155; /* slate-700 Thumb */
+  border: 2px solid rgba(0, 0, 0, 0.5); /* Glass Border */
+  border-radius: 10px;
+  transition: all 0.3s ease-in-out; /* Smooth Hover Animation */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #475569; /* slate-600 hover effect */
+  border: 2px solid rgba(0, 0, 0, 0.8);
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Optional to Hide Scrollbar when not hovering */
+}
