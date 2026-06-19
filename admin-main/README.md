@@ -1,5 +1,4 @@
 # Ojest Admin Panel 
-
 A beautiful and comprehensive admin dashboard for the Ojest car marketplace platform, built with React, Tailwind CSS, Chart.js, and Clerk authentication.
 
 ![Ojest Admin Dashboard](public/screenshot-dashboard.png)
