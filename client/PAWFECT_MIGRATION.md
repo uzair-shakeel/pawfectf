@@ -1,5 +1,5 @@
 # 🐾 PAWFECT — Complete Frontend Migration Plan
-> From: Ojest Car Marketplace → To: Pawfect Pet Adoption Platform
+> From: Ojest Car Marketplace → To: Pawfect Pet Adoption Platform 
 
 ---
 
