@@ -74,11 +74,11 @@ export default function PetCard({ car: pet, viewMode = "grid" }) {
     pet?.gender,
   ].filter(Boolean).join(" · ");
 
-  const feeLabel = pet?.adoptionFee
+  const feeLabel = pet?.customLabel || (pet?.adoptionFee
     ? `Adoption Fee: ${Number(pet.adoptionFee).toLocaleString()} zł`
-    : "Free Adoption";
+    : "Free Adoption");
 
-  const handleCardClick = () => router.push(`/website/pets/${pet._id}`);
+  const handleCardClick = () => router.push(pet?.href || `/website/pets/${pet._id}`);
 
   if (viewMode === "grid") {
     return (

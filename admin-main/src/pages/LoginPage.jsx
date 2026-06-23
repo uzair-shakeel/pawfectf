@@ -16,7 +16,8 @@ const LoginPage = () => {
 
     try {
       // First, try to authenticate with the backend
-      const response = await fetch("http://localhost:5000/api/auth/signin", {
+      const API_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api";
+      const response = await fetch(`${API_URL}/auth/signin`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

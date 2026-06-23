@@ -19,7 +19,7 @@ export type RecentMessage = {
     name: string;
     image: string;
   };
-  car: {
+  pet: {
     id: string;
     title: string;
     image: string;

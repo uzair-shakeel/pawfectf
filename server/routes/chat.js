@@ -66,7 +66,7 @@ router.get("/recent-messages", auth, async (req, res) => {
       _id: { $in: chatIds },
       participants: userId // Ensure user is participant
     })
-      .populate("carId", "title images")
+      .populate("petId", "title images name")
       .lean();
 
     const chatMap = new Map();
@@ -117,11 +117,11 @@ router.get("/recent-messages", auth, async (req, res) => {
               : "Użytkownik",
             image: sender?.profilePicture || sender?.image || "",
           },
-          car: chat.carId
+          pet: chat.petId
             ? {
-                id: chat.carId._id,
-                title: chat.carId.title,
-                image: chat.carId.images?.[0] || "",
+                id: chat.petId._id,
+                title: chat.petId.name || chat.petId.title,
+                image: chat.petId.images?.[0] || "",
               }
             : null,
           unreadCount: unread,

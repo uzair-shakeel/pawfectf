@@ -7,7 +7,7 @@ import { MdEmail, MdVerified } from "react-icons/md";
 import { motion, AnimatePresence } from "framer-motion";
 import { getPublicUserInfo } from "../../../services/userService";
 import { getAllPets } from "../../../services/petService";
-import CarCard from "../../../components/website/CarCard";
+import PetCard from "../../../components/website/PetCard";
 
 const API_BASE = (process.env.NEXT_PUBLIC_API_BASE_URL || "").trim().replace(/\/$/, "");
 
@@ -38,7 +38,7 @@ const formatPhoneNumber = (phoneNumber) => {
 function ProfileContent({ sellerId }) {
     const router = useRouter();
     const [user, setUser] = useState(null);
-    const [cars, setCars] = useState([]);
+    const [pets, setPets] = useState([]);
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState("listings");
     const [error, setError] = useState(null);
@@ -50,13 +50,13 @@ function ProfileContent({ sellerId }) {
                 setLoading(true);
                 const userData = await getPublicUserInfo(sellerId);
                 setUser(userData);
-                const allCarsData = await getAllPets();
-                const allCarsArray = Array.isArray(allCarsData) ? allCarsData : allCarsData.cars || [];
-                const sellerCars = allCarsArray.filter((c) => {
-                    const carCreatorId = typeof c.createdBy === 'object' ? c.createdBy._id : c.createdBy;
-                    return String(carCreatorId) === String(sellerId);
+                const allPetsData = await getAllPets();
+                const allPetsArray = Array.isArray(allPetsData) ? allPetsData : allPetsData.pets || [];
+                const sellerPets = allPetsArray.filter((p) => {
+                    const creatorId = typeof p.createdBy === 'object' ? p.createdBy._id : p.createdBy;
+                    return String(creatorId) === String(sellerId);
                 });
-                setCars(sellerCars);
+                setPets(sellerPets);
             } catch (error) {
                 console.error("Error fetching profile data:", error);
                 setError("Failed to load profile data");
@@ -88,7 +88,7 @@ function ProfileContent({ sellerId }) {
     const socials = user?.socialMedia || {};
     const sellerType = user?.sellerType || "private";
     const joinDate = user?.createdAt ? new Date(user.createdAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) : null;
-    const uniqueBrands = [...new Set(cars.map(c => c.make))].filter(Boolean).sort();
+    const uniqueSpecies = [...new Set(pets.map(p => p.species))].filter(Boolean).sort();
 
     const containerVariants = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.08 } } };
     const itemVariants = { hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } };
@@ -111,21 +111,24 @@ function ProfileContent({ sellerId }) {
                             <div className="flex items-center gap-3 mb-2">
                                 <motion.h1 initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }} className="text-3xl md:text-4xl font-bold">{displayName}</motion.h1>
                                 {sellerType === "company" && <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.4, type: "spring" }}><MdVerified className="text-2xl text-blue-200" /></motion.div>}
+                                {socials?.facebook && <a href={socials.facebook.startsWith('http') ? socials.facebook : `https://${socials.facebook}`} target="_blank" rel="noopener noreferrer" className="text-blue-100 hover:text-white transition"><FaFacebook size={20} /></a>}
+                                {socials?.instagram && <a href={socials.instagram.startsWith('http') ? socials.instagram : `https://${socials.instagram}`} target="_blank" rel="noopener noreferrer" className="text-pink-200 hover:text-white transition"><FaInstagram size={20} /></a>}
+                                {socials?.website && <a href={socials.website.startsWith('http') ? socials.website : `https://${socials.website}`} target="_blank" rel="noopener noreferrer" className="text-gray-200 hover:text-white transition"><FaGlobe size={20} /></a>}
                             </div>
 
                             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }} className="flex flex-wrap items-center gap-4 text-sm text-blue-100 mb-3">
-                                <span className="flex items-center gap-1.5 bg-white/20 px-3 py-1 rounded-full backdrop-blur-sm"><FaCar />{cars.length} {cars.length === 1 ? 'Listing' : 'Listings'}</span>
+                                <span className="flex items-center gap-1.5 bg-white/20 px-3 py-1 rounded-full backdrop-blur-sm"><FaCar />{pets.length} {pets.length === 1 ? 'Pet' : 'Pets'}</span>
                                 {joinDate && <span className="flex items-center gap-1.5 bg-white/20 px-3 py-1 rounded-full backdrop-blur-sm"><FaCalendar />Joined {joinDate}</span>}
-                                <span className="flex items-center gap-1.5 bg-white/20 px-3 py-1 rounded-full backdrop-blur-sm">{sellerType === "company" ? "🏢 Dealer" : "👤 Private Seller"}</span>
+                                <span className="flex items-center gap-1.5 bg-white/20 px-3 py-1 rounded-full backdrop-blur-sm">{sellerType === "company" ? "🏢 Shelter" : "👤 Private Seller"}</span>
                             </motion.div>
 
                             {bio && <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }} className="text-blue-50 text-base leading-relaxed max-w-2xl">{bio}</motion.p>}
 
-                            {uniqueBrands.length > 0 && (
+                            {uniqueSpecies.length > 0 && (
                                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} className="flex flex-wrap gap-2 mt-4">
-                                    {uniqueBrands.map((brand) => (
-                                        <span key={brand} className="bg-white/10 hover:bg-white/20 transition-colors px-3 py-1 rounded-full text-xs font-medium text-blue-50 border border-white/10">
-                                            {brand}
+                                    {uniqueSpecies.map((species) => (
+                                        <span key={species} className="bg-white/10 hover:bg-white/20 transition-colors px-3 py-1 rounded-full text-xs font-medium text-blue-50 border border-white/10">
+                                            {species}
                                         </span>
                                     ))}
                                 </motion.div>
@@ -148,18 +151,18 @@ function ProfileContent({ sellerId }) {
                 <AnimatePresence mode="wait">
                     {activeTab === "listings" && (
                         <motion.div key="listings" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} transition={{ duration: 0.3 }}>
-                            {cars.length > 0 ? (
+                            {pets.length > 0 ? (
                                 <motion.div variants={containerVariants} initial="hidden" animate="visible" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                    {cars.map((car) => (
-                                        <motion.div key={car._id} variants={itemVariants}>
-                                            <CarCard car={car} viewMode="grid" />
+                                    {pets.map((pet) => (
+                                        <motion.div key={pet._id} variants={itemVariants}>
+                                            <PetCard car={pet} viewMode="grid" />
                                         </motion.div>
                                     ))}
                                 </motion.div>
                             ) : (
                                 <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="bg-white dark:bg-dark-main rounded-xl p-12 text-center shadow-lg">
                                     <FaCar className="mx-auto text-6xl text-gray-300 dark:text-gray-600 mb-4" />
-                                    <p className="text-gray-500 dark:text-gray-400 text-lg">No cars listed yet.</p>
+                                    <p className="text-gray-500 dark:text-gray-400 text-lg">No pets listed yet.</p>
                                 </motion.div>
                             )}
                         </motion.div>

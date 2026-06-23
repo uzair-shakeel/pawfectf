@@ -1,8 +1,9 @@
 import axios from "axios";
 
 // Set the base URL for your Pawfect API
+// VITE_API_BASE_URL should be like: http://localhost:5000/api  OR  https://pawfectf.vercel.app/api
 const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api";
+  (import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api").replace(/\/$/, "");
 
 // Create axios instance
 const api = axios.create({
@@ -71,6 +72,13 @@ export const adoptionRequestApi = {
     api.patch(`/adoption-requests/admin/${requestId}/status`, { status }),
   deleteAdoptionRequest: (requestId) =>
     api.delete(`/adoption-requests/admin/${requestId}`),
+};
+
+// Lost & Found API endpoints
+export const lostFoundApi = {
+  getAllLostFound: (params) => api.get("/lost-found/admin/all", { params }),
+  updateLostFoundStatus: (id, status) => api.patch(`/lost-found/admin/${id}/status`, { status }),
+  deleteLostFound: (id) => api.delete(`/lost-found/admin/${id}`),
 };
 
 // Dashboard API endpoint

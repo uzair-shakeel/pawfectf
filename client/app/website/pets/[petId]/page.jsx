@@ -7,6 +7,8 @@ import { getPublicUserInfo } from "../../../../services/userService";
 import { useAuth } from "../../../../lib/auth/AuthContext";
 import { optimizeCloudinaryUrl } from "../../../../lib/imageUtils";
 import { ShieldCheck, MapPin, Heart, MessageCircle, Phone, ChevronLeft, ChevronRight } from "lucide-react";
+import { FaGlobe, FaFacebook, FaInstagram } from "react-icons/fa";
+import Link from "next/link";
 import io from "socket.io-client";
 
 const API_BASE = (process.env.NEXT_PUBLIC_API_BASE_URL || "").trim().replace(/\/$/, "");
@@ -290,15 +292,27 @@ export default function PetDetailPage() {
                 )}
               </div>
 
-              {/* Owner info */}
-              <div className="flex items-center gap-3 pt-3 border-t border-gray-100 dark:border-dark-divider">
-                <div className="w-10 h-10 rounded-full bg-gray-200 dark:bg-dark-raised overflow-hidden relative flex-shrink-0">
-                  {owner?.image ? <Image src={owner.image} alt={ownerName} fill className="object-cover" sizes="40px" /> : <div className="w-full h-full flex items-center justify-center text-gray-400 text-lg font-bold">{ownerName[0]}</div>}
-                </div>
-                <div>
-                  <p className="text-sm font-bold text-gray-900 dark:text-gray-100">{ownerName}</p>
-                  <p className="text-xs text-gray-400">{owner?.sellerType === "company" ? "Shelter" : "Private Owner"}</p>
-                </div>
+              {/* Owner Info & Socials */}
+              <div className="border border-gray-100 dark:border-dark-divider rounded-xl p-4 flex flex-col gap-3">
+                <Link href={`/website/profile?id=${pet.createdBy}`} className="flex items-center gap-3 group cursor-pointer">
+                  <div className="w-12 h-12 rounded-full bg-gray-200 dark:bg-dark-raised overflow-hidden relative flex-shrink-0 group-hover:ring-2 group-hover:ring-blue-500 transition-all">
+                    {owner?.image ? <Image src={owner.image} alt={ownerName} fill className="object-cover" sizes="48px" /> : <div className="w-full h-full flex items-center justify-center text-gray-400 text-lg font-bold">{ownerName[0]}</div>}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-bold text-gray-900 dark:text-gray-100 group-hover:text-blue-600 transition-colors truncate">{ownerName}</p>
+                    <p className="text-xs text-gray-400">{owner?.sellerType === "company" ? "Shelter" : "Private Owner"}</p>
+                  </div>
+                  <span className="text-xs text-blue-500 font-semibold opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0">View Profile →</span>
+                </Link>
+
+                {/* Social media links */}
+                {owner?.socialMedia && (owner.socialMedia.facebook || owner.socialMedia.instagram || owner.socialMedia.website) && (
+                  <div className="flex gap-2 pt-3 border-t border-gray-50 dark:border-dark-raised">
+                    {owner.socialMedia.website && <a href={owner.socialMedia.website.startsWith('http') ? owner.socialMedia.website : `https://${owner.socialMedia.website}`} target="_blank" rel="noopener noreferrer" title="Website" className="p-2 rounded-full bg-gray-100 dark:bg-dark-raised text-gray-600 hover:text-blue-500 hover:bg-gray-200 dark:hover:bg-gray-800 transition"><FaGlobe className="w-4 h-4" /></a>}
+                    {owner.socialMedia.facebook && <a href={owner.socialMedia.facebook.startsWith('http') ? owner.socialMedia.facebook : `https://${owner.socialMedia.facebook}`} target="_blank" rel="noopener noreferrer" title="Facebook" className="p-2 rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-600 hover:bg-blue-100 dark:hover:bg-blue-900/40 transition"><FaFacebook className="w-4 h-4" /></a>}
+                    {owner.socialMedia.instagram && <a href={owner.socialMedia.instagram.startsWith('http') ? owner.socialMedia.instagram : `https://${owner.socialMedia.instagram}`} target="_blank" rel="noopener noreferrer" title="Instagram" className="p-2 rounded-full bg-pink-50 dark:bg-pink-900/20 text-pink-600 hover:bg-pink-100 dark:hover:bg-pink-900/40 transition"><FaInstagram className="w-4 h-4" /></a>}
+                  </div>
+                )}
               </div>
             </div>
           </div>

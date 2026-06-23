@@ -292,6 +292,32 @@ const adoptionRequestSchema = new mongoose.Schema({
   expiryDate: { type: Date, default: () => new Date(+new Date() + 30 * 24 * 60 * 60 * 1000) }
 }, { timestamps: true });
 
+// Lost & Found Schema
+const lostFoundSchema = new mongoose.Schema({
+  reporterId: { type: String, required: true, ref: "User" },
+  type: { type: String, enum: ["Lost", "Found"], required: true },
+  title: { type: String, required: true, trim: true },
+  description: { type: String, required: true, trim: true },
+  species: { type: String, required: true, trim: true },
+  breed: { type: String, trim: true },
+  gender: { type: String, enum: ["Male", "Female", "Unknown"], default: "Unknown" },
+  color: { type: String, trim: true },
+  images: { type: [String], default: [] },
+  location: {
+    type: { type: String, default: "Point" },
+    coordinates: { type: [Number], required: true }
+  },
+  dateLostOrFound: { type: Date, required: true },
+  status: {
+    type: String,
+    enum: ["Active", "Resolved", "Archived"],
+    default: "Active"
+  },
+  contactPhone: { type: String, trim: true },
+  contactEmail: { type: String, trim: true },
+}, { timestamps: true });
+lostFoundSchema.index({ "location.coordinates": "2dsphere" });
+
 // Create models only if they haven't been compiled yet
 const User = mongoose.models.User || mongoose.model("User", userSchema);
 // For development: force re-compilation of models to pick up schema changes
@@ -300,6 +326,7 @@ if (process.env.NODE_ENV === "development" || !process.env.NODE_ENV) {
   delete mongoose.models.Chat;
   delete mongoose.models.Pet;
   delete mongoose.models.AdoptionRequest;
+  delete mongoose.models.LostFound;
 }
 
 const Message = mongoose.models.Message || mongoose.model("Message", messageSchema);
@@ -308,6 +335,7 @@ const Pet = mongoose.models.Pet || mongoose.model("Pet", petSchema);
 const AdoptionRequest =
   mongoose.models.AdoptionRequest ||
   mongoose.model("AdoptionRequest", adoptionRequestSchema);
+const LostFound = mongoose.models.LostFound || mongoose.model("LostFound", lostFoundSchema);
 
 module.exports = {
   User,
@@ -315,4 +343,5 @@ module.exports = {
   Chat,
   Pet,
   AdoptionRequest,
+  LostFound,
 };

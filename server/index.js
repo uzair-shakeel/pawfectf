@@ -115,6 +115,7 @@ app.use("/api/adoption-requests", adoptionRequestRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/image-detection", imageDetectionRoutes);
 app.use("/api/generate-listing", listingGenerationRoutes);
+app.use("/api/lost-found", require("./routes/lostFound"));
 app.use("/api", webhookRoutes);
 
 // Pass io to pet controller

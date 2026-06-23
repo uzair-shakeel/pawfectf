@@ -116,6 +116,11 @@ export default function UserAccountDropdown() {
                                 onClick={() => navigateTo("/dashboard/profile")}
                             />
                             <DropdownItem
+                                icon={<FiSearch />}
+                                label="Lost & Found"
+                                onClick={() => navigateTo("/website/lost-found")}
+                            />
+                            <DropdownItem
                                 icon={<FiPhone />}
                                 label="Contact Us"
                                 onClick={() => navigateTo("/website/contact")}

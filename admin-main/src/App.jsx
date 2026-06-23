@@ -11,6 +11,7 @@ import Dashboard from "./pages/Dashboard";
 import Users from "./pages/Users";
 import Pets from "./pages/Pets";
 import AdoptionRequests from "./pages/AdoptionRequests";
+import LostFound from "./pages/LostFound";
 import SettingsPage from "./pages/SettingsPage";
 
 function App() {
@@ -68,6 +69,7 @@ function App() {
             <Route path="/users" element={<Users />} />
             <Route path="/pets" element={<Pets />} />
             <Route path="/adoption-requests" element={<AdoptionRequests />} />
+            <Route path="/lost-found" element={<LostFound />} />
             <Route path="/settings" element={<SettingsPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>

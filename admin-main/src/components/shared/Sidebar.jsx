@@ -7,6 +7,7 @@ import {
   FiFileText,
   FiSettings,
   FiLogOut,
+  FiSearch,
 } from "react-icons/fi";
 import { MdPets } from "react-icons/md";
 
@@ -28,6 +29,7 @@ const Sidebar = () => {
     { name: "Users", path: "/users", icon: FiUsers },
     { name: "Pets", path: "/pets", icon: MdPets },
     { name: "Adoption Requests", path: "/adoption-requests", icon: FiShoppingCart },
+    { name: "Lost & Found", path: "/lost-found", icon: FiSearch },
   ];
 
   const isActive = (path) => location.pathname === path;

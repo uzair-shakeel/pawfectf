@@ -171,20 +171,20 @@ export default function FilterNavbar({ onApplyFilters }) {
                   <div className="relative flex-1">
                     <input type="number" name="feeTo" value={filters.feeTo} onChange={handleInputChange} placeholder="Fee to (zł)" className={sel} min="0" />
                   </div>
-                  <div className="relative flex-1">
-                    <input type="text" name="location" value={filters.location} onChange={handleInputChange} placeholder="Location" className={sel} />
-                  </div>
                 </div>
               )}
 
-              {/* Reset + Expand buttons */}
+              {/* Row 4: Location, Reset + Expand buttons */}
               <div className="hidden md:flex items-center justify-center w-full gap-1">
+                <div className="relative flex-[2]">
+                  <input type="text" name="location" value={filters.location} onChange={handleInputChange} placeholder="Search by location..." className={sel} />
+                </div>
                 <button onClick={handleReset} className={`${sel} flex-1 justify-center text-gray-600 hover:text-gray-900`}>
                   Reset
                 </button>
                 <button
                   onClick={() => setIsDesktopExpanded(!isDesktopExpanded)}
-                  className="flex items-center gap-1 lg:gap-2 px-2 py-1.5 pr-6 text-sm lg:px-4 lg:py-3 lg:pr-10 lg:text-base font-medium border border-blue-500 rounded-md lg:rounded-lg focus:outline-none whitespace-nowrap shadow-sm flex-1 justify-center text-white bg-blue-500"
+                  className="flex items-center justify-center gap-1 lg:gap-2 px-2 py-1.5 text-sm lg:px-4 lg:py-3 lg:text-base font-medium border border-blue-500 rounded-md lg:rounded-lg focus:outline-none whitespace-nowrap shadow-sm flex-[2] text-white bg-blue-500"
                 >
                   {isDesktopExpanded ? "Less Filters" : "More Filters"}
                   <MdKeyboardArrowDown className={`w-5 h-5 transition-transform ${isDesktopExpanded ? "rotate-180" : ""}`} />

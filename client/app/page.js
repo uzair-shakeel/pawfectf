@@ -15,6 +15,7 @@ function HomeContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [recentPets, setRecentPets] = useState([]);
+  const [recentLost, setRecentLost] = useState([]);
 
   useEffect(() => {
     const clerkJwt = searchParams.get("__clerk_db_jwt");
@@ -25,6 +26,9 @@ function HomeContent() {
 
     import("../services/petService").then(({ getAllPets }) => {
       getAllPets().then(pets => setRecentPets(pets.slice(0, 4))).catch(() => {});
+    });
+    import("../services/lostFoundService").then(({ getAllLostFound }) => {
+      getAllLostFound().then(entries => setRecentLost(entries.slice(0, 4))).catch(() => {});
     });
   }, [searchParams, router]);
 
@@ -72,6 +76,12 @@ function HomeContent() {
               className="flex-1 bg-white/10 hover:bg-white/20 transition-colors py-4 rounded-xl md:rounded-2xl font-bold flex flex-col items-center justify-center gap-2"
             >
               <span className="text-3xl">🐱</span> Cats
+            </button>
+            <button 
+              onClick={() => router.push("/website/lost-found")}
+              className="flex-1 bg-white/10 hover:bg-white/20 transition-colors py-4 rounded-xl md:rounded-2xl font-bold flex flex-col items-center justify-center gap-2 text-white"
+            >
+              <span className="text-3xl">🔍</span> Lost & Found
             </button>
             <button 
               onClick={() => router.push("/website/pets")}
@@ -205,6 +215,51 @@ function HomeContent() {
                 </div>
               </Link>
             ))}
+          </div>
+        </section>
+
+        {/* Lost & Found Section */}
+        <section className="bg-blue-50 dark:bg-dark-card rounded-[2.5rem] p-8 md:p-16 border border-blue-100 dark:border-dark-divider my-16 text-center shadow-lg relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full -mr-32 -mt-32"></div>
+          <div className="absolute bottom-0 left-0 w-48 h-48 bg-blue-500/10 rounded-full -ml-24 -mb-24"></div>
+          <div className="relative z-10 max-w-5xl mx-auto">
+            <h2 className="text-3xl md:text-5xl font-black mb-6 text-gray-900 dark:text-white">Lost a Pet? Found a Pet?</h2>
+            <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 mb-10 font-medium">
+              We are a community. Help reunite pets with their loving families or report a lost pet to get everyone looking.
+            </p>
+            
+            {recentLost.length > 0 && (
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-10 text-left">
+                {recentLost.map((entry, i) => (
+                  <Link key={i} href={`/website/lost-found/${entry._id}`} className="group bg-white dark:bg-dark-raised rounded-2xl overflow-hidden border border-gray-100 dark:border-dark-divider hover:shadow-xl transition-all block">
+                    <div className="relative h-40">
+                      <Image src={(entry.images && entry.images[0]) || "/images/hamer1.png"} alt={entry.title || "Pet"} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                      <div className="absolute top-3 left-3">
+                          <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider text-white shadow-md ${entry.type === 'Lost' ? 'bg-red-500' : 'bg-green-500'}`}>
+                              {entry.type}
+                          </span>
+                      </div>
+                    </div>
+                    <div className="p-4">
+                      <h3 className="font-bold text-gray-900 dark:text-white line-clamp-1">{entry.title}</h3>
+                      <div className="flex items-center gap-1 mt-2 text-xs text-gray-500">
+                        <MapPin className="w-3 h-3 text-blue-500" />
+                        <span className="truncate">{entry.location?.city || "Unknown"}</span>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            )}
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link href="/website/lost-found" className="bg-blue-600 text-white hover:bg-blue-700 font-bold py-4 px-8 rounded-xl transition-transform hover:scale-105 active:scale-95 shadow-xl shadow-blue-600/25">
+                View All Lost & Found
+              </Link>
+              <Link href="/dashboard/lost-found/new" className="bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 dark:bg-dark-raised dark:border-dark-divider dark:text-gray-300 font-bold py-4 px-8 rounded-xl transition-transform hover:scale-105 active:scale-95">
+                Report a Pet
+              </Link>
+            </div>
           </div>
         </section>
 
