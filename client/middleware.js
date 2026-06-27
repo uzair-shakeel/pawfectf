@@ -1,23 +1,20 @@
 import { NextResponse } from "next/server";
 
 export default function middleware(request) {
-  // During build or in production, do nothing
-  if (process.env.NODE_ENV === "production") {
-    return NextResponse.next();
+  const response = NextResponse.next();
+  
+  // Add caching headers for static assets
+  if (request.nextUrl.pathname.startsWith('/_next/static/') || 
+      request.nextUrl.pathname.startsWith('/images/') ||
+      request.nextUrl.pathname.match(/\.(jpg|jpeg|png|gif|svg|webp|ico)$/)) {
+    response.headers.set('Cache-Control', 'public, max-age=31536000, immutable');
   }
-
-  // Check if the user is trying to access the sign-up page
-  if (request.nextUrl.pathname === "/sign-up") {
-    // Check if seller type is selected
-    const sellerType = request.cookies.get("sellerType")?.value;
-  }
-
-  // For dashboard routes, you could add Clerk functionality here
-  // But for now, just pass through all requests
-  return NextResponse.next();
+  
+  return response;
 }
 
 export const config = {
-  // Match routes that should be protected
-  matcher: ["/dashboard/:path*", "/sign-up"],
+  matcher: [
+    '/((?!api|_next/static|_next/image|favicon.ico).*)',
+  ],
 };

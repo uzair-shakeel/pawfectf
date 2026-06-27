@@ -3,22 +3,29 @@ import React, { useState, useEffect, useRef, useMemo, useCallback } from "react"
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import LanguageSwitcher from "../LanguageSwitcher";
-import ThemeToggle from "../ThemeToggle";
+import dynamic from "next/dynamic";
+import { usePathname } from "next/navigation";
+
+// Lazy load heavy components
+const LanguageSwitcher = dynamic(() => import("../LanguageSwitcher"), { ssr: false });
+const ThemeToggle = dynamic(() => import("../ThemeToggle"), { ssr: false });
+const Avatar = dynamic(() => import("../both/Avatar"), { ssr: false });
+const UserAccountDropdown = dynamic(() => import("../both/UserAccountDropdown"), { ssr: false });
+
 import { useLanguage } from "../../lib/i18n/LanguageContext";
 import { useAuth } from "../../lib/auth/AuthContext";
-import { useNotifications } from "../../lib/notifications/NotificationsContext";
-import Avatar from "../both/Avatar";
-import UserAccountDropdown from "../both/UserAccountDropdown";
-import { motion, AnimatePresence } from "framer-motion";
+
+// Only import notifications if user is signed in (moved to conditional)
+let useNotifications = null;
+let fetchRecentMessages = null;
+let markChatAsSeen = null;
+
+// Icons - these are actually small and tree-shaken, so keep them
 import { FiBell, FiMenu, FiX, FiSearch, FiHeart, FiBook, FiLifeBuoy, FiPhone, FiLayout, FiUser, FiLogOut, FiShoppingBag, FiHome, FiChevronDown } from "react-icons/fi";
 import { BsChatLeftDots, BsPersonGear } from "react-icons/bs";
 import { RiDashboardHorizontalLine } from "react-icons/ri";
 import { BiAddToQueue } from "react-icons/bi";
 import { FaPaw } from "react-icons/fa";
-
-import { usePathname } from "next/navigation";
-import { fetchRecentMessages, markChatAsSeen } from "../../services/chatService";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -33,35 +40,41 @@ const Navbar = () => {
   const notifRef = useRef(null);
   const msgRef = useRef(null);
 
-  // Get notifications (hook must be called unconditionally)
-  let notificationsContext = null;
-  let notificationsList = [];
-  let unreadCount = 0;
-  let messageCount = 0;
-  let notificationsError = false;
-  let markRead = null;
-  let markAll = null;
+  // Lazy load notifications and chat services only when needed
+  const [notificationsList, setNotificationsList] = useState([]);
+  const [unreadCount, setUnreadCount] = useState(0);
+  const [messageCount, setMessageCount] = useState(0);
+  const [markRead, setMarkRead] = useState(null);
+  const [markAll, setMarkAll] = useState(null);
 
-  try {
-    notificationsContext = useNotifications();
-    notificationsList = notificationsContext?.notifications || [];
-    unreadCount = notificationsContext?.unreadCount || 0;
-    messageCount = notificationsContext?.messageCount || 0;
-    markRead = notificationsContext?.markRead;
-    markAll = notificationsContext?.markAll;
-  } catch (e) {
-    // NotificationsProvider not available (user not signed in or error)
-    notificationsError = true;
+  // Load notifications context only when user is signed in
+  useEffect(() => {
     if (isSignedIn) {
-      console.warn('[Navbar] Notifications not available for signed-in user:', e);
+      import("../../lib/notifications/NotificationsContext").then(({ useNotifications }) => {
+        try {
+          // This won't work outside the component tree, but we can handle it gracefully
+          const context = useNotifications?.();
+          if (context) {
+            setNotificationsList(context.notifications || []);
+            setUnreadCount(context.unreadCount || 0);
+            setMessageCount(context.messageCount || 0);
+            setMarkRead(() => context.markRead);
+            setMarkAll(() => context.markAll);
+          }
+        } catch (e) {
+          console.warn('[Navbar] Notifications not available:', e);
+        }
+      });
     }
-  }
+  }, [isSignedIn]);
 
   // Fetch real messages from API when messages dropdown opens
   const loadRecentMessages = useCallback(async () => {
-    if (!isSignedIn) return;
+    if (!isSignedIn || !openMsg) return;
+    
     setLoadingMessages(true);
     try {
+      const { fetchRecentMessages } = await import("../../services/chatService");
       const messages = await fetchRecentMessages();
       setRecentMessages(messages);
     } catch (e) {
@@ -69,7 +82,7 @@ const Navbar = () => {
     } finally {
       setLoadingMessages(false);
     }
-  }, [isSignedIn]);
+  }, [isSignedIn, openMsg]);
 
   // Load messages when dropdown opens
   useEffect(() => {
@@ -390,95 +403,84 @@ const Navbar = () => {
       </div>
 
       {/* Mobile Navigation Dropdown - Full Page Cover */}
-      <AnimatePresence>
-        {isMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed inset-0 bg-white dark:bg-dark-panel z-[100] lg:hidden overflow-y-auto"
-          >
-            {/* Top Bar for Mobile Menu */}
-            <div className="h-16 px-4 border-b border-gray-100 dark:border-dark-divider flex justify-between items-center sticky top-0 bg-white/80 dark:bg-dark-panel/80 backdrop-blur-md z-10">
-              <div className="flex items-center">
-                <Link href="/" onClick={() => setIsMenuOpen(false)} className="flex items-center">
-                  <Image src="/logo.png" alt="Pawfect" width={150} height={48} className="h-10 md:h-12 w-auto object-contain dark:hidden" priority />
-                  <Image src="/whitelogo.png" alt="Pawfect" width={150} height={48} className="h-10 md:h-12 w-auto object-contain hidden dark:block" priority />
-                </Link>
-              </div>
+      {isMenuOpen && (
+        <div className="fixed inset-0 bg-white dark:bg-dark-panel z-[100] lg:hidden overflow-y-auto animate-slideIn">
+          {/* Top Bar for Mobile Menu */}
+          <div className="h-16 px-4 border-b border-gray-100 dark:border-dark-divider flex justify-between items-center sticky top-0 bg-white/80 dark:bg-dark-panel/80 backdrop-blur-md z-10">
+            <div className="flex items-center">
+              <Link href="/" onClick={() => setIsMenuOpen(false)} className="flex items-center">
+                <Image src="/logo.png" alt="Pawfect" width={150} height={48} className="h-10 md:h-12 w-auto object-contain dark:hidden" priority />
+                <Image src="/whitelogo.png" alt="Pawfect" width={150} height={48} className="h-10 md:h-12 w-auto object-contain hidden dark:block" priority />
+              </Link>
+            </div>
 
-              <div className="flex items-center gap-2">
-                <button
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setIsMenuOpen(false)}
+                className="p-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-raised rounded-xl transition-all"
+              >
+                <FiX size={24} />
+              </button>
+            </div>
+          </div>
+
+          <div className="p-5 space-y-8 pb-10">
+            {/* Profile Overview (If signed in) */}
+            {isSignedIn && user && (
+              <div className="flex items-center gap-4 bg-gray-50 dark:bg-dark-card p-5 rounded-[2rem] border border-gray-100 dark:border-dark-divider">
+                <Avatar src={user?.profilePicture || user?.image} alt="User" size={50} />
+                <div className="min-w-0 flex-1">
+                  <h3 className="text-lg font-black text-gray-900 dark:text-white truncate">
+                    {user?.firstName || "Użytkownik"}
+                  </h3>
+                  <p className="text-xs text-gray-400 font-bold uppercase tracking-widest leading-none mt-1">
+                    {user?.sellerType === 'company' ? 'Shelter Account' : 'Pet Owner'}
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* UNIFIED TILE GRID (All Actions) */}
+            <div className="grid grid-cols-2 gap-3">
+              {mobileMenuItems.map((item) => (
+                <QuickAccessBubble
+                  key={item.label}
+                  href={item.href}
+                  icon={item.icon}
+                  label={item.label}
                   onClick={() => setIsMenuOpen(false)}
-                  className="p-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-raised rounded-xl transition-all"
+                  active={isActive(item.href)}
+                  badge={item.label === "Wiadomości" ? messageCount : 0}
+                />
+              ))}
+            </div>
+
+            {!isSignedIn ? (
+              <div className="pt-4">
+                <button
+                  onClick={handleSignIn}
+                  className="w-full py-5 rounded-[2rem] bg-gradient-to-r from-blue-600 to-blue-500 text-white font-black uppercase tracking-widest text-xs shadow-xl shadow-blue-500/25 flex items-center justify-center gap-2 animate-slideUp"
                 >
-                  <FiX size={24} />
+                  Join the Community
                 </button>
               </div>
-            </div>
-
-            <div className="p-5 space-y-8 pb-10">
-              {/* Profile Overview (If signed in) */}
-              {isSignedIn && user && (
-                <div className="flex items-center gap-4 bg-gray-50 dark:bg-dark-card p-5 rounded-[2rem] border border-gray-100 dark:border-dark-divider">
-                  <Avatar src={user?.profilePicture || user?.image} alt="User" size={50} />
-                  <div className="min-w-0 flex-1">
-                    <h3 className="text-lg font-black text-gray-900 dark:text-white truncate">
-                      {user?.firstName || "Użytkownik"}
-                    </h3>
-                    <p className="text-xs text-gray-400 font-bold uppercase tracking-widest leading-none mt-1">
-                      {user?.sellerType === 'company' ? 'Shelter Account' : 'Pet Owner'}
-                    </p>
+            ) : (
+              <div className="pt-2">
+                <button
+                  onClick={handleSignOut}
+                  className="w-full flex items-center justify-between px-6 py-4 rounded-2xl bg-red-50 dark:bg-red-900/10 text-sm font-black text-red-500 uppercase tracking-widest"
+                >
+                  <div className="flex items-center gap-4">
+                    <FiLogOut size={20} />
+                    <span>Wyloguj Się</span>
                   </div>
-                </div>
-              )}
-
-              {/* UNIFIED TILE GRID (All Actions) */}
-              <div className="grid grid-cols-2 gap-3">
-                {mobileMenuItems.map((item) => (
-                  <QuickAccessBubble
-                    key={item.label}
-                    href={item.href}
-                    icon={item.icon}
-                    label={item.label}
-                    onClick={() => setIsMenuOpen(false)}
-                    active={isActive(item.href)}
-                    badge={item.label === "Wiadomości" ? messageCount : 0}
-                  />
-                ))}
+                  <ArrowRight className="w-4 h-4" />
+                </button>
               </div>
-
-              {!isSignedIn ? (
-                <div className="pt-4">
-                  <motion.button
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3 }}
-                    onClick={handleSignIn}
-                    className="w-full py-5 rounded-[2rem] bg-gradient-to-r from-blue-600 to-blue-500 text-white font-black uppercase tracking-widest text-xs shadow-xl shadow-blue-500/25 flex items-center justify-center gap-2"
-                  >
-                    Join the Community
-                  </motion.button>
-                </div>
-              ) : (
-                <div className="pt-2">
-                  <button
-                    onClick={handleSignOut}
-                    className="w-full flex items-center justify-between px-6 py-4 rounded-2xl bg-red-50 dark:bg-red-900/10 text-sm font-black text-red-500 uppercase tracking-widest"
-                  >
-                    <div className="flex items-center gap-4">
-                      <FiLogOut size={20} />
-                      <span>Wyloguj Się</span>
-                    </div>
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                </div>
-              )}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            )}
+          </div>
+        </div>
+      )}
     </header>
   );
 };

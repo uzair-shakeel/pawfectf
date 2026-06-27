@@ -131,9 +131,18 @@ export function NotificationsProvider({ children }: { children: React.ReactNode 
     return () => window.removeEventListener("ojest:notify", handler as EventListener);
   }, [add]);
 
-  // Optional: Socket listeners for backend events
+  // Optional: Socket listeners for backend events - ONLY CONNECT WHEN USER IS AUTHENTICATED
   useEffect(() => {
+    // Skip socket connection on non-dashboard pages for performance
     if (!user || typeof window === 'undefined') return;
+    
+    // Only connect socket on dashboard pages
+    const pathname = window.location.pathname;
+    if (!pathname.startsWith('/dashboard')) {
+      console.log('[Notifications] Skipping socket on non-dashboard page');
+      return;
+    }
+    
     const token = getToken();
     console.log('[Notifications] Connecting to socket:', SOCKET_BASE, 'with path:', SOCKET_PATH);
     const socket = io(SOCKET_BASE, {
@@ -243,9 +252,16 @@ export function NotificationsProvider({ children }: { children: React.ReactNode 
     };
   }, [user, add]);
 
-  // Fallback: poll user's cars and detect new cars or status changes
+  // Fallback: poll user's cars and detect new cars or status changes - ONLY ON DASHBOARD
   useEffect(() => {
-    if (!userId) return;
+    // Only poll on dashboard pages
+    if (!userId || typeof window === 'undefined') return;
+    const pathname = window.location.pathname;
+    if (!pathname.startsWith('/dashboard')) {
+      console.log('[Notifications] Skipping polling on non-dashboard page');
+      return;
+    }
+    
     let cancelled = false;
     let isFirstRun = true;
 
@@ -303,9 +319,9 @@ export function NotificationsProvider({ children }: { children: React.ReactNode 
       }
     };
 
-    // initial and interval
+    // initial and interval - increased to 60 seconds to reduce load
     poll();
-    const t = setInterval(poll, 30000); // Check every 30 seconds
+    const t = setInterval(poll, 60000); // Check every 60 seconds (was 30)
     return () => {
       cancelled = true;
       clearInterval(t);

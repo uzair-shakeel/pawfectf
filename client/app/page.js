@@ -24,12 +24,19 @@ function HomeContent() {
       return;
     }
 
-    import("../services/petService").then(({ getAllPets }) => {
-      getAllPets().then(pets => setRecentPets(pets.slice(0, 4))).catch(() => {});
-    });
-    import("../services/lostFoundService").then(({ getAllLostFound }) => {
-      getAllLostFound().then(entries => setRecentLost(entries.slice(0, 4))).catch(() => {});
-    });
+    // Lazy load services only when needed, with slight delay for better UX
+    const timer = setTimeout(() => {
+      Promise.all([
+        import("../services/petService").then(({ getAllPets }) => 
+          getAllPets().then(pets => setRecentPets(pets.slice(0, 4))).catch(() => {})
+        ),
+        import("../services/lostFoundService").then(({ getAllLostFound }) => 
+          getAllLostFound().then(entries => setRecentLost(entries.slice(0, 4))).catch(() => {})
+        )
+      ]);
+    }, 100);
+    
+    return () => clearTimeout(timer);
   }, [searchParams, router]);
 
   return (
@@ -43,15 +50,10 @@ function HomeContent() {
             src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&q=80&w=2000"
             alt="Adopt a pet"
             fill
-            className="object-cover hidden md:block brightness-[0.6] group-hover:scale-105 transition-transform duration-700"
+            className="object-cover brightness-[0.6] group-hover:scale-105 transition-transform duration-700"
             priority
-          />
-          <Image
-            src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&q=80&w=1000"
-            alt="Adopt a pet"
-            fill
-            className="object-cover md:hidden brightness-[0.6] group-hover:scale-105 transition-transform duration-700"
-            priority
+            sizes="100vw"
+            quality={75}
           />
           <div className="absolute inset-0 bg-blue-900/20 mix-blend-multiply" />
         </div>
@@ -117,7 +119,15 @@ function HomeContent() {
               {recentPets.map((pet, i) => (
                 <Link key={i} href={`/website/pets/${pet._id || pet.id}`} className="group bg-white dark:bg-dark-card rounded-2xl overflow-hidden border border-gray-100 dark:border-dark-divider hover:shadow-xl transition-all block">
                   <div className="relative h-48">
-                    <Image src={(pet.images && pet.images[0]) || "/images/hamer1.png"} alt={pet.name || "Pet"} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <Image 
+                      src={(pet.images && pet.images[0]) || "/images/hamer1.png"} 
+                      alt={pet.name || "Pet"} 
+                      fill 
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      loading="lazy"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                      quality={60}
+                    />
                   </div>
                   <div className="p-4">
                     <h3 className="font-bold text-lg">{pet.name || pet.species || "Pet"}</h3>
@@ -208,7 +218,15 @@ function HomeContent() {
               { name: "Senior Pets", q: "ageGroup=Senior", img: "https://images.unsplash.com/photo-1505628346881-b72b27e84530?auto=format&fit=crop&q=80&w=600" },
             ].map((cat, i) => (
               <Link key={i} href={`/website/pets?${cat.q}`} className="group relative h-48 md:h-64 rounded-2xl overflow-hidden">
-                <Image src={cat.img} alt={cat.name} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
+                <Image 
+                  src={cat.img} 
+                  alt={cat.name} 
+                  fill 
+                  className="object-cover group-hover:scale-110 transition-transform duration-500"
+                  loading="lazy"
+                  sizes="(max-width: 768px) 50vw, 25vw"
+                  quality={60}
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                 <div className="absolute bottom-4 left-4 right-4">
                   <h3 className="text-white font-bold text-lg md:text-xl">{cat.name}</h3>
@@ -233,7 +251,15 @@ function HomeContent() {
                 {recentLost.map((entry, i) => (
                   <Link key={i} href={`/website/lost-found/${entry._id}`} className="group bg-white dark:bg-dark-raised rounded-2xl overflow-hidden border border-gray-100 dark:border-dark-divider hover:shadow-xl transition-all block">
                     <div className="relative h-40">
-                      <Image src={(entry.images && entry.images[0]) || "/images/hamer1.png"} alt={entry.title || "Pet"} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                      <Image 
+                        src={(entry.images && entry.images[0]) || "/images/hamer1.png"} 
+                        alt={entry.title || "Pet"} 
+                        fill 
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                        loading="lazy"
+                        sizes="(max-width: 768px) 100vw, 25vw"
+                        quality={60}
+                      />
                       <div className="absolute top-3 left-3">
                           <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider text-white shadow-md ${entry.type === 'Lost' ? 'bg-red-500' : 'bg-green-500'}`}>
                               {entry.type}

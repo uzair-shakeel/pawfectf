@@ -5,7 +5,7 @@ import RecentCars from "../../../components/dashboard/RecentCars";
 import RecentChats from "../../../components/dashboard/RecentChats";
 import NotificationsWidget from "../../../components/dashboard/NotificationsWidget";
 import QuickActions from "../../../components/dashboard/QuickActions";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { useAuth } from "../../../lib/auth/AuthContext";
@@ -20,42 +20,46 @@ const page = () => {
   const [recentCars, setRecentCars] = useState([]);
   const [chatsCountByDay, setChatsCountByDay] = useState([]);
   const [recentChats, setRecentChats] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
-    const loadCharts = async () => {
-      try {
-        const token = await getToken();
-        console.log("token milrha hai kia?", token);
-        const headers = token ? { Authorization: `Bearer ${token}` } : {};
+    // Use startTransition to make this non-blocking
+    startTransition(() => {
+      loadCharts();
+    });
+  }, [userId]);
 
-        // Fetch user's cars
-        const carsRes = await fetch(`${API_BASE}/api/cars/my-cars/all`, {
-          headers,
-        });
-        const cars = carsRes.ok ? await carsRes.json() : [];
+  const loadCharts = async () => {
+    try {
+      const token = await getToken();
+      const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
+      // Fetch both in parallel for speed
+      const [carsRes, chatsRes] = await Promise.all([
+        fetch(`${API_BASE}/api/cars/my-cars/all`, { headers }).catch(() => ({ ok: false })),
+        fetch(`${API_BASE}/api/chat/my-chats`, { headers }).catch(() => ({ ok: false }))
+      ]);
+
+      // Process cars
+      if (carsRes.ok) {
+        const cars = await carsRes.json();
         setRecentCars(Array.isArray(cars) ? cars.slice(-7) : []);
+      }
 
-        // Fetch chats and group by day
-        const chatsRes = await fetch(`${API_BASE}/api/chat/my-chats`, {
-          headers,
-        });
-        const chatsJson = chatsRes.ok ? await chatsRes.json() : [];
-        const chats = Array.isArray(chatsJson)
-          ? chatsJson
-          : chatsJson?.chats || [];
+      // Process chats
+      if (chatsRes.ok) {
+        const chatsJson = await chatsRes.json();
+        const chats = Array.isArray(chatsJson) ? chatsJson : chatsJson?.chats || [];
         setRecentChats(chats);
+        
         const groups = {};
         chats.forEach((c) => {
-          const d = new Date(
-            c.updatedAt || c.lastMessage?.timestamp || Date.now()
-          );
-          const key = new Date(
-            d.getFullYear(),
-            d.getMonth(),
-            d.getDate()
-          ).toISOString();
+          const d = new Date(c.updatedAt || c.lastMessage?.timestamp || Date.now());
+          const key = new Date(d.getFullYear(), d.getMonth(), d.getDate()).toISOString();
           groups[key] = (groups[key] || 0) + 1;
         });
+        
         const sorted = Object.keys(groups)
           .sort()
           .slice(-7)
@@ -64,12 +68,14 @@ const page = () => {
             count: groups[k],
           }));
         setChatsCountByDay(sorted);
-      } catch (e) {
-        setError("Failed to load dashboard charts");
       }
-    };
-    loadCharts();
-  }, [userId, getToken]);
+    } catch (e) {
+      console.error("Dashboard load error:", e);
+      setError("Failed to load dashboard data");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="space-y-6 p-4 dark:bg-dark-main">
@@ -86,21 +92,30 @@ const page = () => {
       {error && <p className="text-red-500">{error}</p>}
 
       <DashboardStats user={user} />
-      <DashboardCharts
-        recentCars={recentCars}
-        chatsCountByDay={chatsCountByDay}
-      />
+      
+      {loading ? (
+        <div className="flex items-center justify-center py-12">
+          <div className="w-8 h-8 border-4 border-blue-600/20 border-t-blue-600 rounded-full animate-spin" />
+        </div>
+      ) : (
+        <>
+          <DashboardCharts
+            recentCars={recentCars}
+            chatsCountByDay={chatsCountByDay}
+          />
 
-      <div className="grid lg:grid-cols-3 gap-4">
-        <div className="lg:col-span-2 space-y-4">
-          <RecentCars cars={recentCars} />
-        </div>
-        <div className="space-y-4">
-          <RecentChats chats={recentChats} />
-          <NotificationsWidget />
-          <QuickActions />
-        </div>
-      </div>
+          <div className="grid lg:grid-cols-3 gap-4">
+            <div className="lg:col-span-2 space-y-4">
+              <RecentCars cars={recentCars} />
+            </div>
+            <div className="space-y-4">
+              <RecentChats chats={recentChats} />
+              <NotificationsWidget />
+              <QuickActions />
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };

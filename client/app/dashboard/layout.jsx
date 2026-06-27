@@ -9,34 +9,16 @@ export default function DashboardLayout({ children }) {
   const { user } = useAuth();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
-    // Trigger initial mount to avoid SSR mismatch
     setMounted(true);
-    // Handle window resize
     const handleResize = () => {
-      if (window.innerWidth < 768) {
-        setIsSidebarOpen(false);
-      } else {
-        setIsSidebarOpen(true);
-      }
+      setIsSidebarOpen(window.innerWidth >= 768);
     };
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
-  // Auto-refresh user status every 30 seconds if user is pending
-  useEffect(() => {
-    if (user && user.approvalStatus === "pending") {
-      const interval = setInterval(() => {
-        setRefreshKey((prev) => prev + 1);
-      }, 30000); // 30 seconds
-
-      return () => clearInterval(interval);
-    }
-  }, [user?.approvalStatus]);
 
   if (!mounted) return null;
 

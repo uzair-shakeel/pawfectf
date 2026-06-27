@@ -4,8 +4,6 @@ import { useAuth } from "../../../lib/auth/AuthContext";
 import { useRouter } from "next/navigation";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import CustomMap from "../../../components/dashboard/GoogleMapComponent";
-import { motion } from "framer-motion";
 import { getUserById, updateUser } from "../../../services/userService";
 import Avatar from "../../../components/both/Avatar";
 import { toast } from "react-hot-toast";
@@ -35,6 +33,15 @@ const ProfileComponent = () => {
   const [cpConfirm, setCpConfirm] = useState("");
   const [cpLoading, setCpLoading] = useState(false);
   const [isCpOpen, setIsCpOpen] = useState(false);
+
+  // Lazy load map component
+  const [MapComponent, setMapComponent] = useState(null);
+  
+  useEffect(() => {
+    import("../../../components/dashboard/SimpleMapPlaceholder").then((mod) => {
+      setMapComponent(() => mod.default);
+    });
+  }, []);
 
   const handleChangePassword = async (e) => {
     e.preventDefault();
@@ -169,7 +176,7 @@ const ProfileComponent = () => {
 
   return (
     <div className="p-4 max-w-7xl mx-auto dark:bg-dark-card">
-      <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="flex items-center justify-between mb-8">
+      <div className="flex items-center justify-between mb-8 animate-fadeIn">
         <div>
           <h1 className="text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight">Your Profile</h1>
           <p className="text-gray-500 mt-2 font-medium">Manage your personal details and account settings.</p>
@@ -177,10 +184,10 @@ const ProfileComponent = () => {
         <button type="button" onClick={() => setIsCpOpen(true)} className="bg-white dark:bg-dark-main text-gray-700 dark:text-gray-200 font-bold border border-gray-200 dark:border-dark-divider px-6 py-3 rounded-xl hover:bg-gray-50 dark:hover:bg-dark-raised transition-all shadow-sm">
           Change Password
         </button>
-      </motion.div>
+      </div>
 
       <form onSubmit={handleSubmit} className="grid grid-cols-1 xl:grid-cols-3 gap-8">
-        <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.4 }} className="xl:col-span-2 space-y-8">
+        <div className="xl:col-span-2 space-y-8 animate-slideIn">
           <div className="bg-white dark:bg-dark-main p-4 sm:p-8 rounded-3xl border border-gray-100 dark:border-dark-divider shadow-sm relative overflow-hidden group">
             <h2 className="text-lg font-bold text-gray-900 dark:text-white uppercase tracking-widest mb-6">Profile Photo</h2>
             <div className="flex items-center gap-8">
@@ -219,12 +226,16 @@ const ProfileComponent = () => {
           <div className="bg-white dark:bg-dark-main p-4 sm:p-8 rounded-3xl border border-gray-100 dark:border-dark-divider shadow-sm">
             <h2 className="text-lg font-bold text-gray-900 dark:text-white uppercase tracking-widest mb-6">Location</h2>
             <div className="rounded-2xl overflow-hidden border-2 border-gray-100 dark:border-dark-divider">
-              <CustomMap location={formData.location} setLocation={(loc) => setFormData({ ...formData, location: loc })} />
+              {MapComponent ? (
+                <MapComponent location={formData.location} setLocation={(loc) => setFormData({ ...formData, location: loc })} />
+              ) : (
+                <div className="w-full h-96 bg-gray-100 dark:bg-dark-raised rounded-xl animate-pulse" />
+              )}
             </div>
           </div>
-        </motion.div>
+        </div>
 
-        <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.4, delay: 0.1 }} className="xl:col-span-1 space-y-8">
+        <div className="xl:col-span-1 space-y-8 animate-slideIn">
           <div className="bg-white dark:bg-dark-main p-4 sm:p-8 rounded-3xl border border-gray-100 dark:border-dark-divider shadow-sm">
             <h2 className="text-lg font-bold text-gray-900 dark:text-white uppercase tracking-widest mb-6">Contact & Business</h2>
             <div className="space-y-6">
@@ -240,10 +251,10 @@ const ProfileComponent = () => {
                 </div>
               </div>
               {formData.sellerType === 'company' && (
-                <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }}>
+                <div className="animate-slideUp">
                   <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Shelter Name</label>
                   <input type="text" name="companyName" value={formData.companyName} onChange={handleInputChange} className="w-full border-2 border-gray-100 dark:border-dark-divider p-4 rounded-xl focus:border-blue-500 transition-all font-semibold bg-gray-50/50 dark:bg-dark-raised text-gray-900 dark:text-white" />
-                </motion.div>
+                </div>
               )}
               <div>
                 <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Phone Numbers</label>
@@ -279,7 +290,7 @@ const ProfileComponent = () => {
               ))}
             </div>
           </div>
-        </motion.div>
+        </div>
 
         <div className="col-span-1 xl:col-span-3 flex justify-center sm:justify-end py-4">
           <button type="submit" className="bg-blue-600 text-white font-bold px-12 py-5 rounded-xl hover:bg-blue-700 transition-all shadow-xl hover:-translate-y-1 text-lg flex items-center gap-2">

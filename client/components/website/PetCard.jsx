@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { useGoogleMaps } from "../../lib/GoogleMapsContext";
 import { getPublicUserInfo } from "../../services/userService";
 import { optimizeCloudinaryUrl } from "../../lib/imageUtils";
 import { MapPin, Heart, User, ShieldCheck } from "lucide-react";
@@ -22,7 +21,6 @@ const formatAge = (ageMonths) => {
 
 export default function PetCard({ car: pet, viewMode = "grid" }) {
   const router = useRouter();
-  const { getGeocodingData } = useGoogleMaps();
   const [locationDetails, setLocationDetails] = useState({ city: "", state: "" });
   const [owner, setOwner] = useState(null);
 
@@ -43,10 +41,11 @@ export default function PetCard({ car: pet, viewMode = "grid" }) {
   };
 
   useEffect(() => {
-    if (!pet?.location?.coordinates) return;
-    const [lng, lat] = pet.location.coordinates;
-    getGeocodingData(lat, lng).then(setLocationDetails);
-  }, [pet, getGeocodingData]);
+    // Just use the city from pet.location if available
+    if (pet?.location?.city) {
+      setLocationDetails({ city: pet.location.city, state: pet.location.state || "" });
+    }
+  }, [pet]);
 
   useEffect(() => {
     let mounted = true;

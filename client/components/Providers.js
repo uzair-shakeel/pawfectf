@@ -5,16 +5,37 @@ import { AuthProvider } from "../lib/auth/AuthContext";
 import { ThemeProvider } from "../lib/theme/ThemeContext";
 import { Toaster } from "react-hot-toast";
 import { NotificationsProvider } from "../lib/notifications/NotificationsContext";
+import dynamic from "next/dynamic";
+import { SWRConfig } from "swr";
+import { fetcher } from "../lib/fetcher";
+
+// Lazy load CookieConsent since it's not critical for initial render
+const CookieConsent = dynamic(() => import("../components/website/CookieConsent"), {
+  ssr: false,
+  loading: () => null
+});
 
 export default function Providers({ children }) {
   return (
-    <ThemeProvider>
-      <LanguageProvider>
-        <AuthProvider>
-          <NotificationsProvider>
-            {children}
+    <SWRConfig
+      value={{
+        fetcher,
+        revalidateOnFocus: false,
+        revalidateOnReconnect: false,
+        dedupingInterval: 60000, // Cache for 60 seconds
+        errorRetryCount: 2,
+        errorRetryInterval: 1000,
+      }}
+    >
+      <ThemeProvider>
+        <LanguageProvider>
+          <AuthProvider>
+            <NotificationsProvider>
+              {children}
+              
+              <CookieConsent />
 
-            <Toaster
+              <Toaster
               position="top-center"
               containerClassName="pointer-events-none fixed inset-0 z-[9999]"
               toastOptions={{
@@ -49,5 +70,6 @@ export default function Providers({ children }) {
         </AuthProvider>
       </LanguageProvider>
     </ThemeProvider>
+    </SWRConfig>
   );
 }

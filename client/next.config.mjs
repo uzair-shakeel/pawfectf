@@ -19,10 +19,14 @@ if (!API_URL || !API_BASE_URL) {
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  reactStrictMode: false, // Disable to prevent double renders
   
   experimental: {
-    optimizePackageImports: ["lucide-react", "react-icons", "framer-motion", "chart.js", "react-chartjs-2"],
+    optimizePackageImports: ["lucide-react", "react-icons", "framer-motion", "chart.js", "react-chartjs-2", "swiper", "@radix-ui/react-accordion", "@radix-ui/react-select"],
+  },
+  
+  compiler: {
+    removeConsole: process.env.NODE_ENV === "production" ? { exclude: ["error", "warn"] } : false,
   },
 
   env: {
@@ -37,7 +41,10 @@ const nextConfig = {
       "img.clerk.com",
       "localhost",
     ],
-    unoptimized: true,
+    formats: ['image/webp', 'image/avif'],
+    minimumCacheTTL: 60,
+    deviceSizes: [640, 750, 828, 1080, 1200],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
 
   async rewrites() {

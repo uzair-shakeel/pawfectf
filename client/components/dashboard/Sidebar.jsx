@@ -283,6 +283,7 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
               >
                 <Link
                   href={item.href}
+                  prefetch={true}
                   onClick={() => {
                     if (window.innerWidth < 768) toggleSidebar();
                   }}
@@ -335,6 +336,7 @@ function MobileTile({ item, onClick, active, badge }) {
   return (
     <Link
       href={item.href}
+      prefetch={true}
       onClick={onClick}
       className={`
         group flex flex-col items-center justify-center h-28 rounded-[2rem] text-[10px] font-black uppercase tracking-[0.2em] transition-all text-center px-4 gap-3 relative
@@ -363,6 +365,7 @@ function MobileListLink({ item, onClick, active }) {
   return (
     <Link
       href={item.href}
+      prefetch={true}
       onClick={onClick}
       className={`
         group w-full flex items-center justify-between px-6 py-4 rounded-[1.5rem] text-[11px] font-black uppercase tracking-widest transition-all

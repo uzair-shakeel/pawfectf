@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { useGoogleMaps } from "../../lib/GoogleMapsContext";
 import { getPublicUserInfo } from "../../services/userService";
 import { optimizeCloudinaryUrl } from "../../lib/imageUtils";
 import {
@@ -21,7 +20,6 @@ const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "/api";
 
 export default function CarCard({ car, viewMode = 'grid' }) {
   const router = useRouter();
-  const { getGeocodingData } = useGoogleMaps();
   const [locationDetails, setLocationDetails] = useState({
     city: "",
     state: "",
@@ -81,18 +79,11 @@ export default function CarCard({ car, viewMode = 'grid' }) {
   };
 
   useEffect(() => {
-    const fetchLocationDetails = async () => {
-      if (!car.location?.coordinates) return;
-
-      const [longitude, latitude] = car.location.coordinates;
-      const details = await getGeocodingData(latitude, longitude);
-      setLocationDetails(details);
-    };
-
-    if (car.location?.coordinates) {
-      fetchLocationDetails();
+    // Just use the city from car.location if available
+    if (car?.location?.city) {
+      setLocationDetails({ city: car.location.city, state: car.location.state || "" });
     }
-  }, [car, getGeocodingData]);
+  }, [car]);
 
   useEffect(() => {
     let mounted = true;
