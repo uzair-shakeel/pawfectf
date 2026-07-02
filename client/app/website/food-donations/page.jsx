@@ -4,6 +4,8 @@ import Link from "next/link";
 import { FaSearch, FaHeart } from "react-icons/fa";
 import PetCard from "../../../components/website/PetCard";
 import { getAllPets } from "../../../services/petService";
+import FoodDonationHero from "../../../components/website/FoodDonationHero";
+import FoodDonationStats from "../../../components/website/FoodDonationStats";
 
 export default function FoodDonationsPage() {
     const [pets, setPets] = useState([]);
@@ -15,10 +17,11 @@ export default function FoodDonationsPage() {
         const fetchPets = async () => {
             try {
                 const data = await getAllPets();
-                const approved = Array.isArray(data)
-                    ? data.filter((p) => p.status === "Approved")
+                // Filter to show ONLY pets marked for food donations
+                const foodDonationPets = Array.isArray(data)
+                    ? data.filter((p) => p.status === "Approved" && p.type === 'food_donation')
                     : [];
-                setPets(approved);
+                setPets(foodDonationPets);
             } catch (error) {
                 console.error("Failed to load pets", error);
             } finally {
@@ -41,85 +44,70 @@ export default function FoodDonationsPage() {
     });
 
     return (
-        <div className="min-h-screen bg-white dark:bg-dark-main py-12 px-4 sm:px-6">
-            <div className="max-w-7xl mx-auto">
-                {/* Header */}
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
-                    <div>
-                        <h1 className="text-4xl font-black text-gray-900 dark:text-white">Food Donations</h1>
-                        <p className="text-gray-500 dark:text-gray-400 mt-2 text-lg">
-                            Support pets in need with food donations.
-                        </p>
-                    </div>
-                    <Link
-                        href="/dashboard/food-pets/add"
-                        className="px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors font-bold flex items-center gap-2 shadow-lg shadow-blue-200 dark:shadow-blue-900/40"
-                    >
-                        <FaHeart />
-                        List Pet for Food Support
-                    </Link>
-                </div>
-
-                {/* Filters */}
-                <div className="flex flex-col md:flex-row gap-3 mb-10">
-                    <div className="relative flex-1 md:max-w-xs">
-                        <select
-                            value={speciesFilter}
-                            onChange={(e) => setSpeciesFilter(e.target.value)}
-                            className="w-full bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-divider rounded-xl p-3 px-4 text-sm font-semibold text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-blue-500 outline-none appearance-none shadow-sm cursor-pointer"
-                        >
-                            {uniqueSpecies.map((s) => (
-                                <option key={s} value={s}>
-                                    {s === "All" ? "All Species" : s}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className="relative flex-1 md:max-w-xs">
-                        <FaSearch className="absolute left-3.5 top-3.5 text-gray-400" />
-                        <input
-                            type="text"
-                            placeholder="Search city..."
-                            value={locationFilter}
-                            onChange={(e) => setLocationFilter(e.target.value)}
-                            className="w-full bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-divider rounded-xl py-3 pl-10 pr-4 text-sm font-semibold text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-blue-500 outline-none shadow-sm"
-                        />
-                    </div>
-                </div>
-
-                {/* Content */}
-                {loading ? (
-                    <div className="flex justify-center py-20">
-                        <div className="w-12 h-12 border-4 border-blue-600/20 border-t-blue-600 rounded-full animate-spin"></div>
-                    </div>
-                ) : filtered.length === 0 ? (
-                    <div className="text-center py-20 bg-gray-50 dark:bg-dark-card rounded-3xl border border-gray-100 dark:border-dark-divider">
-                        <div className="w-20 h-20 bg-blue-50 dark:bg-blue-900/20 rounded-full flex items-center justify-center mx-auto mb-4 text-blue-500 text-3xl">
-                            <FaHeart />
+        <>
+            <div className="py-12 px-4 sm:px-6 bg-white dark:bg-dark-main">
+                <div className="max-w-7xl mx-auto">
+                    {/* Filters */}
+                    <div className="flex flex-col md:flex-row gap-3 mb-10">
+                        <div className="relative flex-1 md:max-w-xs">
+                            <select
+                                value={speciesFilter}
+                                onChange={(e) => setSpeciesFilter(e.target.value)}
+                                className="w-full bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-divider rounded-xl p-3 px-4 text-sm font-semibold text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-blue-500 outline-none appearance-none shadow-sm cursor-pointer"
+                            >
+                                {uniqueSpecies.map((s) => (
+                                    <option key={s} value={s}>
+                                        {s === "All" ? "All Species" : s}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
-                        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-                            No pets need food support yet
-                        </h3>
-                        <p className="text-gray-500 dark:text-gray-400">
-                            Check back later or help spread the word.
-                        </p>
-                    </div>
-                ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                        {filtered.map((pet) => (
-                            <PetCard
-                                key={pet._id}
-                                car={{
-                                    ...pet,
-                                    customLabel: "Needs Food Support",
-                                    href: `/food-donations/donate/${pet._id}`
-                                }}
-                                viewMode="grid"
+                        <div className="relative flex-1 md:max-w-xs">
+                            <FaSearch className="absolute left-3.5 top-3.5 text-gray-400" />
+                            <input
+                                type="text"
+                                placeholder="Search city..."
+                                value={locationFilter}
+                                onChange={(e) => setLocationFilter(e.target.value)}
+                                className="w-full bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-divider rounded-xl py-3 pl-10 pr-4 text-sm font-semibold text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-blue-500 outline-none shadow-sm"
                             />
-                        ))}
+                        </div>
                     </div>
-                )}
+
+                    {/* Content */}
+                    {loading ? (
+                        <div className="flex justify-center py-20">
+                            <div className="w-12 h-12 border-4 border-blue-600/20 border-t-blue-600 rounded-full animate-spin"></div>
+                        </div>
+                    ) : filtered.length === 0 ? (
+                        <div className="text-center py-20 bg-gray-50 dark:bg-dark-card rounded-3xl border border-gray-100 dark:border-dark-divider">
+                            <div className="w-20 h-20 bg-blue-50 dark:bg-blue-900/20 rounded-full flex items-center justify-center mx-auto mb-4 text-blue-500 text-3xl">
+                                <FaHeart />
+                            </div>
+                            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                                No pets need food support yet
+                            </h3>
+                            <p className="text-gray-500 dark:text-gray-400">
+                                Check back later or help spread the word.
+                            </p>
+                        </div>
+                    ) : (
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                            {filtered.map((pet) => (
+                                <PetCard
+                                    key={pet._id}
+                                    car={{
+                                        ...pet,
+                                        customLabel: "Needs Food Support",
+                                        href: `/website/food-donations/donate/${pet._id}`
+                                    }}
+                                    viewMode="grid"
+                                />
+                            ))}
+                        </div>
+                    )}
+                </div>
             </div>
-        </div>
+        </>
     );
 }

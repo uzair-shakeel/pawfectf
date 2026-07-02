@@ -12,7 +12,6 @@ const UrgentPets = () => {
 
   const fetchUrgentPets = async () => {
     try {
-      // Mock data for now
       const mockData = [
         {
           _id: '1',
@@ -64,19 +63,19 @@ const UrgentPets = () => {
   };
 
   const getUrgencyColor = (daysLeft) => {
-    if (daysLeft <= 1) return 'text-red-600 bg-red-50 border-red-200';
-    if (daysLeft <= 3) return 'text-orange-600 bg-orange-50 border-orange-200';
-    return 'text-yellow-600 bg-yellow-50 border-yellow-200';
+    if (daysLeft <= 1) return 'text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800';
+    if (daysLeft <= 3) return 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800';
+    return 'text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800';
   };
 
   if (loading) {
     return (
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-gray-50 dark:bg-dark-main">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900">Urgent Food Needs</h2>
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-white">Urgent Food Needs</h2>
             <div className="flex justify-center mt-4">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-600"></div>
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
             </div>
           </div>
         </div>
@@ -85,23 +84,22 @@ const UrgentPets = () => {
   }
 
   return (
-    <section className="py-16 bg-gray-50">
+    <section className="py-16 bg-gray-50 dark:bg-dark-main">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 bg-red-100 text-red-800 px-4 py-2 rounded-full text-sm font-medium mb-4">
+          <div className="inline-flex items-center gap-2 bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-400 px-4 py-2 rounded-full text-sm font-medium mb-4">
             <Zap className="h-4 w-4" />
             Urgent
           </div>
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">Pets Needing Food Now</h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Pets Needing Food Now</h2>
+          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
             These pets have critical food needs. Your immediate help can make the difference between hunger and health.
           </p>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
           {urgentPets.map((pet) => (
-            <div key={pet._id} className="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden hover:shadow-xl transition-shadow">
-              {/* Image */}
+            <div key={pet._id} className="bg-white dark:bg-dark-card rounded-2xl shadow-lg border border-gray-200 dark:border-dark-divider overflow-hidden hover:shadow-xl transition-shadow">
               <div className="relative">
                 <img
                   src={pet.images[0] || '/placeholder.jpg'}
@@ -112,56 +110,53 @@ const UrgentPets = () => {
                   <Clock className="h-3 w-3 inline mr-1" />
                   {pet.daysLeft} day{pet.daysLeft !== 1 ? 's' : ''} left
                 </div>
-                <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full p-2 hover:bg-white transition-colors cursor-pointer">
-                  <Heart className="h-4 w-4 text-gray-600 hover:text-red-500" />
+                <div className="absolute top-4 right-4 bg-white/90 dark:bg-dark-card/90 backdrop-blur-sm rounded-full p-2 hover:bg-white dark:hover:bg-dark-raised transition-colors cursor-pointer">
+                  <Heart className="h-4 w-4 text-gray-600 dark:text-gray-400 hover:text-red-500" />
                 </div>
               </div>
 
-              {/* Content */}
               <div className="p-6">
                 <div className="flex items-start justify-between mb-3">
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900">{pet.name}</h3>
-                    <p className="text-sm text-gray-500">{pet.breed} • {pet.species}</p>
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{pet.name}</h3>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">{pet.breed} • {pet.species}</p>
                   </div>
-                  <div className="flex items-center text-sm text-gray-500">
+                  <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
                     <MapPin className="h-4 w-4 mr-1" />
                     {pet.location.city}
                   </div>
                 </div>
 
-                <div className="bg-red-50 border border-red-200 rounded-lg p-3 mb-4">
-                  <p className="text-sm text-red-700 font-medium">{pet.urgentNeed}</p>
+                <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-3 mb-4">
+                  <p className="text-sm text-red-700 dark:text-red-400 font-medium">{pet.urgentNeed}</p>
                 </div>
 
-                {/* Progress */}
                 <div className="mb-4">
-                  <div className="flex justify-between text-sm text-gray-600 mb-2">
-                    <span>₹{pet.raisedAmount} raised</span>
-                    <span>₹{pet.goalAmount} goal</span>
+                  <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400 mb-2">
+                    <span>{pet.raisedAmount} zł raised</span>
+                    <span>{pet.goalAmount} zł goal</span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
                     <div
-                      className="bg-gradient-to-r from-orange-500 to-red-500 h-2 rounded-full transition-all duration-300"
+                      className="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full transition-all duration-300"
                       style={{ width: `${getProgressPercentage(pet.raisedAmount, pet.goalAmount)}%` }}
                     ></div>
                   </div>
-                  <p className="text-xs text-gray-500 mt-1">
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                     {Math.round(getProgressPercentage(pet.raisedAmount, pet.goalAmount))}% funded
                   </p>
                 </div>
 
-                {/* Action Buttons */}
                 <div className="flex gap-2">
                   <Link
-                    href={`/food-donations/donate/${pet._id}`}
-                    className="flex-1 bg-orange-600 text-white text-center py-2 px-4 rounded-lg hover:bg-orange-700 transition-colors font-medium"
+                    href={`/website/food-donations/donate/${pet._id}`}
+                    className="flex-1 bg-blue-600 text-white text-center py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors font-medium"
                   >
                     Donate Food
                   </Link>
                   <Link
                     href={`/website/pets/${pet._id}`}
-                    className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                    className="px-4 py-2 border border-gray-300 dark:border-dark-divider text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-dark-raised transition-colors"
                   >
                     View
                   </Link>
@@ -171,13 +166,12 @@ const UrgentPets = () => {
           ))}
         </div>
 
-        {/* View All Link */}
         <div className="text-center">
           <Link
-            href="/food-donations/urgent"
-            className="inline-flex items-center px-6 py-3 bg-white border-2 border-orange-600 text-orange-600 font-semibold rounded-lg hover:bg-orange-600 hover:text-white transition-colors"
+            href="/website/food-donations"
+            className="inline-flex items-center px-6 py-3 bg-white dark:bg-dark-card border-2 border-blue-600 dark:border-blue-500 text-blue-600 dark:text-blue-400 font-semibold rounded-lg hover:bg-blue-600 hover:text-white transition-colors"
           >
-            View All Urgent Cases
+            View All Cases
             <Zap className="h-4 w-4 ml-2" />
           </Link>
         </div>

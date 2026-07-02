@@ -33,7 +33,9 @@ export default function FoodPetsPage() {
         try {
             setLoading(true);
             const data = await getPetsByUserId(userId, getToken);
-            setPets(data);
+            // Filter only pets with type 'food_donation'
+            const foodDonationPets = data.filter(pet => pet.type === 'food_donation');
+            setPets(foodDonationPets);
         } catch (error) {
             console.error("Error loading pets:", error);
             toast.error("Failed to load pets");

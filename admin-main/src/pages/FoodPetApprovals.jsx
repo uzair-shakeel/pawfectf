@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Eye, Check, X, Clock, AlertTriangle, MapPin, User, Phone, Mail } from 'lucide-react';
 import { toast } from 'react-hot-toast';
+import { petApi } from '../services/api';
 
 const FoodPetApprovals = () => {
   const [pets, setPets] = useState([]);
@@ -16,89 +17,57 @@ const FoodPetApprovals = () => {
 
   const fetchPendingPets = async () => {
     try {
-      // Mock data for now
-      const mockPets = [
-        {
-          id: 1,
-          name: 'Luna',
-          species: 'Dog',
-          breed: 'Golden Retriever',
-          age: '2 years',
-          gender: 'Female',
-          size: 'Large',
-          description: 'Luna is a gentle and loving golden retriever who was rescued from the streets. She needs consistent nutrition to recover her strength and find her forever home.',
-          images: ['/placeholder.jpg'],
-          status: 'pending_approval',
-          urgency: 'high',
-          foodNeed: {
-            reason: 'Recovery food needed after surgery',
-            specialDiet: 'Prescription recovery diet',
-            estimatedCost: 800,
-            duration: '3_months'
-          },
-          shelter: {
-            name: 'Happy Paws Shelter',
-            address: '123 Pet Street, Warsaw, Poland',
-            contactPhone: '+48 123 456 789',
-            contactEmail: 'contact@happypaws.org',
-            licenseNumber: 'SHL-2024-001'
-          },
-          location: {
-            city: 'Warsaw',
-            address: '123 Pet Street, Warsaw',
-            coordinates: [21.01178, 52.22977]
-          },
-          submittedBy: {
-            id: 'user123',
-            name: 'Anna Kowalski',
-            email: 'anna@shelter.org',
-            phone: '+48 987 654 321'
-          },
-          createdAt: new Date('2024-01-15'),
-          submissionNotes: 'All documentation attached. Pet has been with us for 2 weeks.'
-        },
-        {
-          id: 2,
-          name: 'Max',
-          species: 'Cat',
-          breed: 'Persian',
-          age: '5 years',
-          gender: 'Male',
-          size: 'Medium',
-          description: 'Max is a senior Persian cat who needs special nutrition for his kidney condition. He is very gentle and loves to be petted.',
-          images: ['/placeholder.jpg'],
-          status: 'pending_approval',
-          urgency: 'medium',
-          foodNeed: {
-            reason: 'Senior cat with kidney issues needs special diet',
-            specialDiet: 'Prescription kidney diet, low protein',
-            estimatedCost: 600,
-            duration: '6_months'
-          },
-          shelter: {
-            name: 'City Animal Care',
-            address: '456 Care Avenue, Krakow, Poland',
-            contactPhone: '+48 456 789 123',
-            contactEmail: 'info@citycare.org',
-            licenseNumber: 'SHL-2024-002'
-          },
-          location: {
-            city: 'Krakow',
-            address: '456 Care Avenue, Krakow',
-            coordinates: [19.94497, 50.04932]
-          },
-          submittedBy: {
-            id: 'user456',
-            name: 'Piotr Nowak',
-            email: 'piotr@citycare.org',
-            phone: '+48 654 321 987'
-          },
-          createdAt: new Date('2024-01-14'),
-          submissionNotes: 'Veterinary records and license attached.'
-        }
-      ];
+      setLoading(true);
+      const response = await petApi.getAllPets({
+        status: 'Pending',
+        type: 'food_donation',
+        limit: 100
+      });
 
-      setPets(mockPets);
+      const petsData = response.data?.pets || response.data || [];
+
+      // Map backend data to frontend format
+      const formattedPets = petsData.map(pet => ({
+        id: pet._id,
+        name: pet.title || pet.name,
+        species: pet.species || 'Unknown',
+        breed: pet.breed || 'Mixed',
+        age: pet.ageMonths ? `${Math.floor(pet.ageMonths / 12)} years` : 'Unknown',
+        gender: pet.gender || 'Unknown',
+        size: pet.size || 'Medium',
+        description: pet.description || 'No description provided',
+        images: pet.images || ['/placeholder.jpg'],
+        status: 'pending_approval',
+        urgency: pet.isUrgent ? 'high' : 'medium',
+        foodNeed: pet.foodNeed || {
+          reason: 'Food assistance needed',
+          specialDiet: pet.specialNeeds || 'Standard diet',
+          estimatedCost: 500,
+          duration: '1_month'
+        },
+        shelter: pet.shelter || {
+          name: 'Animal Shelter',
+          address: pet.location?.address || 'Unknown location',
+          contactPhone: '+48 123 456 789',
+          contactEmail: 'contact@shelter.org',
+          licenseNumber: 'N/A'
+        },
+        location: {
+          city: pet.location?.city || 'Unknown',
+          address: pet.location?.address || 'Unknown',
+          coordinates: pet.location?.coordinates || [21.01178, 52.22977]
+        },
+        submittedBy: {
+          id: pet.createdBy || 'unknown',
+          name: pet.createdByName || 'User',
+          email: pet.createdByEmail || 'N/A',
+          phone: '+48 000 000 000'
+        },
+        createdAt: pet.createdAt || new Date(),
+        submissionNotes: pet.submissionNotes || 'No additional notes'
+      }));
+
+      setPets(formattedPets);
       setLoading(false);
     } catch (error) {
       console.error('Error fetching pending pets:', error);
@@ -110,12 +79,12 @@ const FoodPetApprovals = () => {
   const handleApprove = async (petId) => {
     setActionLoading(true);
     try {
-      // API call to approve pet
-      await new Promise(resolve => setTimeout(resolve, 1000)); // Mock delay
-      
+      await petApi.updatePetStatus(petId, 'Approved');
+
       setPets(prev => prev.filter(pet => pet.id !== petId));
       toast.success('Pet approved successfully! It will now appear for donations.');
       setShowModal(false);
+      fetchPendingPets();
     } catch (error) {
       console.error('Error approving pet:', error);
       toast.error('Failed to approve pet');
@@ -132,13 +101,13 @@ const FoodPetApprovals = () => {
 
     setActionLoading(true);
     try {
-      // API call to reject pet
-      await new Promise(resolve => setTimeout(resolve, 1000)); // Mock delay
-      
+      await petApi.updatePetStatus(petId, 'Rejected');
+
       setPets(prev => prev.filter(pet => pet.id !== petId));
       toast.success('Pet rejected. The submitter has been notified.');
       setShowModal(false);
       setRejectionReason('');
+      fetchPendingPets();
     } catch (error) {
       console.error('Error rejecting pet:', error);
       toast.error('Failed to reject pet');
@@ -154,10 +123,10 @@ const FoodPetApprovals = () => {
 
   const getUrgencyColor = (urgency) => {
     const colors = {
-      low: 'bg-blue-100 text-blue-800',
-      medium: 'bg-yellow-100 text-yellow-800',
-      high: 'bg-orange-100 text-orange-800',
-      critical: 'bg-red-100 text-red-800'
+      low: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-200',
+      medium: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-200',
+      high: 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-200',
+      critical: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-200'
     };
     return colors[urgency] || colors.medium;
   };
@@ -207,7 +176,7 @@ const FoodPetApprovals = () => {
             </div>
           </div>
         </div>
-        
+
         <div className="bg-white rounded-lg shadow p-6">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
@@ -219,7 +188,7 @@ const FoodPetApprovals = () => {
             </div>
           </div>
         </div>
-        
+
         <div className="bg-white rounded-lg shadow p-6">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
@@ -259,11 +228,11 @@ const FoodPetApprovals = () => {
                           {pet.urgency} priority
                         </span>
                       </div>
-                      
+
                       <p className="text-sm text-gray-600 mb-2">
                         {pet.breed} • {pet.species} • {pet.age} • {pet.gender}
                       </p>
-                      
+
                       <div className="flex items-center gap-4 text-sm text-gray-500 mb-3">
                         <span className="flex items-center gap-1">
                           <MapPin className="h-4 w-4" />
@@ -275,21 +244,21 @@ const FoodPetApprovals = () => {
                         </span>
                         <span>Submitted {formatDate(pet.createdAt)}</span>
                       </div>
-                      
+
                       <p className="text-sm text-gray-700 line-clamp-2 mb-2">{pet.description}</p>
-                      
-                      <div className="bg-orange-50 border border-orange-200 rounded-lg p-3">
-                        <p className="text-sm text-orange-800">
+
+                      <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3">
+                        <p className="text-sm text-blue-800 dark:text-blue-200">
                           <span className="font-medium">Food Need:</span> {pet.foodNeed.reason}
                         </p>
-                        <p className="text-sm text-orange-700 mt-1">
-                          Estimated cost: ₹{pet.foodNeed.estimatedCost} • 
+                        <p className="text-sm text-blue-700 dark:text-blue-300 mt-1">
+                          Estimated cost: ₹{pet.foodNeed.estimatedCost} •
                           {pet.foodNeed.specialDiet && ` Special diet: ${pet.foodNeed.specialDiet}`}
                         </p>
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className="flex gap-3 ml-4">
                     <button
                       onClick={() => openPetModal(pet)}
@@ -329,7 +298,7 @@ const FoodPetApprovals = () => {
                 </button>
               </div>
             </div>
-            
+
             <div className="p-6 grid md:grid-cols-2 gap-6">
               {/* Pet Information */}
               <div className="space-y-6">
@@ -340,7 +309,7 @@ const FoodPetApprovals = () => {
                     className="w-full h-64 object-cover rounded-lg"
                   />
                 </div>
-                
+
                 <div>
                   <h4 className="font-semibold text-gray-900 mb-3">Pet Details</h4>
                   <div className="grid grid-cols-2 gap-3 text-sm">
@@ -352,7 +321,7 @@ const FoodPetApprovals = () => {
                     <div><span className="font-medium">Size:</span> {selectedPet.size}</div>
                   </div>
                 </div>
-                
+
                 <div>
                   <h5 className="font-medium text-gray-900 mb-2">Description</h5>
                   <p className="text-sm text-gray-700">{selectedPet.description}</p>
@@ -362,21 +331,21 @@ const FoodPetApprovals = () => {
               {/* Application Details */}
               <div className="space-y-6">
                 <div>
-                  <h4 className="font-semibold text-gray-900 mb-3">Food Need Information</h4>
-                  <div className="bg-orange-50 border border-orange-200 rounded-lg p-4 space-y-2">
-                    <div><span className="font-medium">Reason:</span> {selectedPet.foodNeed.reason}</div>
-                    <div><span className="font-medium">Estimated Cost:</span> ₹{selectedPet.foodNeed.estimatedCost}</div>
-                    <div><span className="font-medium">Priority:</span> 
+                  <h4 className="font-semibold text-gray-900 dark:text-white mb-3">Food Need Information</h4>
+                  <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 space-y-2">
+                    <div className="dark:text-gray-200"><span className="font-medium">Reason:</span> {selectedPet.foodNeed.reason}</div>
+                    <div className="dark:text-gray-200"><span className="font-medium">Estimated Cost:</span> ₹{selectedPet.foodNeed.estimatedCost}</div>
+                    <div className="dark:text-gray-200"><span className="font-medium">Priority:</span>
                       <span className={`ml-2 px-2 py-1 rounded-full text-xs ${getUrgencyColor(selectedPet.urgency)}`}>
                         {selectedPet.urgency}
                       </span>
                     </div>
                     {selectedPet.foodNeed.specialDiet && (
-                      <div><span className="font-medium">Special Diet:</span> {selectedPet.foodNeed.specialDiet}</div>
+                      <div className="dark:text-gray-200"><span className="font-medium">Special Diet:</span> {selectedPet.foodNeed.specialDiet}</div>
                     )}
                   </div>
                 </div>
-                
+
                 <div>
                   <h4 className="font-semibold text-gray-900 mb-3">Shelter Information</h4>
                   <div className="space-y-2 text-sm">
@@ -393,7 +362,7 @@ const FoodPetApprovals = () => {
                     </div>
                   </div>
                 </div>
-                
+
                 <div>
                   <h4 className="font-semibold text-gray-900 mb-3">Submitted By</h4>
                   <div className="space-y-2 text-sm">
@@ -403,7 +372,7 @@ const FoodPetApprovals = () => {
                     <div><span className="font-medium">Submitted:</span> {formatDate(selectedPet.createdAt)}</div>
                   </div>
                 </div>
-                
+
                 {selectedPet.submissionNotes && (
                   <div>
                     <h5 className="font-medium text-gray-900 mb-2">Submission Notes</h5>
@@ -427,7 +396,7 @@ const FoodPetApprovals = () => {
                   placeholder="Provide a reason for rejection (required if rejecting)..."
                 />
               </div>
-              
+
               <div className="flex gap-3 justify-end">
                 <button
                   onClick={() => setShowModal(false)}

@@ -116,6 +116,16 @@ export default function UserAccountDropdown() {
                                 onClick={() => navigateTo("/dashboard/profile")}
                             />
                             <DropdownItem
+                                icon={<FiHeart />}
+                                label="Food Donations"
+                                onClick={() => navigateTo("/website/food-donations")}
+                            />
+                            <DropdownItem
+                                icon={<FiHeart />}
+                                label="Donation History"
+                                onClick={() => navigateTo("/dashboard/donation-history")}
+                            />
+                            <DropdownItem
                                 icon={<FiSearch />}
                                 label="Lost & Found"
                                 onClick={() => navigateTo("/website/lost-found")}
@@ -124,11 +134,6 @@ export default function UserAccountDropdown() {
                                 icon={<FiPhone />}
                                 label="Contact Us"
                                 onClick={() => navigateTo("/website/contact")}
-                            />
-                            <DropdownItem
-                                icon={<FiHeart />}
-                                label="Food Donations"
-                                onClick={() => navigateTo("/website/food-donations")}
                             />
                         </div>
 
