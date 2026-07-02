@@ -13,6 +13,9 @@ import Pets from "./pages/Pets";
 import AdoptionRequests from "./pages/AdoptionRequests";
 import LostFound from "./pages/LostFound";
 import SettingsPage from "./pages/SettingsPage";
+import FoodDonations from "./pages/FoodDonations";
+import FoodPackages from "./pages/FoodPackages";
+import FoodPetApprovals from "./pages/FoodPetApprovals";
 
 function App() {
   const isLoggedIn = localStorage.getItem("adminLoggedIn") === "true";
@@ -70,6 +73,9 @@ function App() {
             <Route path="/pets" element={<Pets />} />
             <Route path="/adoption-requests" element={<AdoptionRequests />} />
             <Route path="/lost-found" element={<LostFound />} />
+            <Route path="/food-donations" element={<FoodDonations />} />
+            <Route path="/food-packages" element={<FoodPackages />} />
+            <Route path="/food-pet-approvals" element={<FoodPetApprovals />} />
             <Route path="/settings" element={<SettingsPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>

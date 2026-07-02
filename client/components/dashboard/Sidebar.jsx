@@ -88,6 +88,16 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
       icon: <FaPaw className="w-6 h-6" />,
     },
     {
+      label: "Food Donations",
+      href: "/dashboard/food-pets",
+      icon: <FiHeart className="w-6 h-6" />,
+    },
+    {
+      label: "Donation History",
+      href: "/dashboard/donation-history",
+      icon: <FiHeart className="w-6 h-6" />,
+    },
+    {
       label: "Messages",
       href: "/dashboard/messages",
       icon: <BsChatLeftDots className="w-6 h-6" />,
@@ -99,17 +109,17 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
     },
     ...(user?.role === "admin"
       ? [
-          {
-            label: "Admin: Pets",
-            href: "/dashboard/admin/cars",
-            icon: <FaPaw className="w-6 h-6" />,
-          },
-          {
-            label: "Admin: Lost & Found",
-            href: "/dashboard/admin/lost-found",
-            icon: <RiDashboardHorizontalLine className="w-6 h-6" />,
-          },
-        ]
+        {
+          label: "Admin: Pets",
+          href: "/dashboard/admin/cars",
+          icon: <FaPaw className="w-6 h-6" />,
+        },
+        {
+          label: "Admin: Lost & Found",
+          href: "/dashboard/admin/lost-found",
+          icon: <RiDashboardHorizontalLine className="w-6 h-6" />,
+        },
+      ]
       : []),
   ];
 

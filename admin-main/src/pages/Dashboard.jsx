@@ -23,6 +23,7 @@ import {
   FiTarget,
 } from 'react-icons/fi';
 import { MdPets } from 'react-icons/md';
+import FoodDonationWidget from '../components/dashboard/FoodDonationWidget';
 
 ChartJS.register(
   CategoryScale,
@@ -393,6 +394,16 @@ const Dashboard = () => {
               </div>
             ))}
           </div>
+        </motion.div>
+      </div>
+
+      {/* Food Donations Widget */}
+      <div className="grid grid-cols-1 gap-6">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          <FoodDonationWidget />
         </motion.div>
       </div>
     </div>

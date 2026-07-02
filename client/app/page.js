@@ -171,6 +171,43 @@ function HomeContent() {
           </div>
         </section>
 
+        {/* Food Donations Section */}
+        <section className="bg-blue-50 dark:bg-dark-card rounded-[2.5rem] p-8 md:p-16 border border-blue-100 dark:border-dark-divider my-16 text-center shadow-lg relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full -mr-32 -mt-32"></div>
+          <div className="absolute bottom-0 left-0 w-48 h-48 bg-blue-500/10 rounded-full -ml-24 -mb-24"></div>
+          <div className="relative z-10 max-w-5xl mx-auto">
+            <h2 className="text-3xl md:text-5xl font-black mb-6 text-gray-900 dark:text-white">Help Feed Pets in Need</h2>
+            <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 mb-10 font-medium">
+              Support pets waiting for adoption with food donations. Every contribution helps provide nutrition for animals in shelters.
+            </p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
+              <div className="text-center">
+                <div className="text-3xl font-black text-blue-600">450+</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">Pets Fed This Month</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-black text-blue-600">25</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">Partner Shelters</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-black text-blue-600">15k zł</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">Food Donated</div>
+              </div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link href="/website/food-donations" className="bg-blue-600 text-white hover:bg-blue-700 font-bold py-4 px-8 rounded-xl transition-transform hover:scale-105 active:scale-95 shadow-xl shadow-blue-600/25 flex items-center justify-center gap-2">
+                <Heart className="w-5 h-5" />
+                Browse Pets Needing Food
+              </Link>
+              <Link href="/dashboard/food-pets/add" className="bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 dark:bg-dark-raised dark:border-dark-divider dark:text-gray-300 font-bold py-4 px-8 rounded-xl transition-transform hover:scale-105 active:scale-95">
+                List Pet for Food Support
+              </Link>
+            </div>
+          </div>
+        </section>
+
         {/* How it Works Section */}
         <section className="bg-blue-50 dark:bg-dark-card rounded-[2.5rem] p-8 md:p-16 border border-blue-100 dark:border-dark-divider my-16 text-center">
           <h2 className="text-3xl md:text-5xl font-black mb-16">How Pawfect Works</h2>

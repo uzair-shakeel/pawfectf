@@ -125,6 +125,11 @@ export default function UserAccountDropdown() {
                                 label="Contact Us"
                                 onClick={() => navigateTo("/website/contact")}
                             />
+                            <DropdownItem
+                                icon={<FiHeart />}
+                                label="Food Donations"
+                                onClick={() => navigateTo("/website/food-donations")}
+                            />
                         </div>
 
                         <div className="p-2 border-t border-gray-100 dark:border-dark-divider bg-gray-50/30 dark:bg-dark-card/30">

@@ -8,6 +8,9 @@ import {
   FiSettings,
   FiLogOut,
   FiSearch,
+  FiHeart,
+  FiPackage,
+  FiCheckCircle,
 } from "react-icons/fi";
 import { MdPets } from "react-icons/md";
 
@@ -30,6 +33,9 @@ const Sidebar = () => {
     { name: "Pets", path: "/pets", icon: MdPets },
     { name: "Adoption Requests", path: "/adoption-requests", icon: FiShoppingCart },
     { name: "Lost & Found", path: "/lost-found", icon: FiSearch },
+    { name: "Food Donations", path: "/food-donations", icon: FiHeart },
+    { name: "Food Packages", path: "/food-packages", icon: FiPackage },
+    { name: "Pet Approvals", path: "/food-pet-approvals", icon: FiCheckCircle },
   ];
 
   const isActive = (path) => location.pathname === path;

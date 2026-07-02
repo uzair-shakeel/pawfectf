@@ -15,6 +15,8 @@ const webhookRoutes = require("./routes/webhook");
 const authRoutes = require("./routes/auth");
 const imageDetectionRoutes = require("./routes/imageDetection");
 const listingGenerationRoutes = require("./routes/listingGeneration");
+const foodDonationRoutes = require("./routes/foodDonation");
+const foodPackageRoutes = require("./routes/foodPackage");
 
 // Connect to Database
 const { connectDB } = require("./config/connect");
@@ -115,6 +117,8 @@ app.use("/api/adoption-requests", adoptionRequestRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/image-detection", imageDetectionRoutes);
 app.use("/api/generate-listing", listingGenerationRoutes);
+app.use("/api/food-donations", foodDonationRoutes);
+app.use("/api/food-packages", foodPackageRoutes);
 app.use("/api/lost-found", require("./routes/lostFound"));
 app.use("/api", webhookRoutes);
 

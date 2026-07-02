@@ -42,4 +42,4 @@ const isAdmin = (req, res, next) => {
   }
 };
 
-module.exports = { auth, getAuth, isAdmin };
+module.exports = { auth, getAuth, isAdmin, protect: auth, admin: isAdmin };

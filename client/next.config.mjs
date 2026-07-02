@@ -20,11 +20,11 @@ if (!API_URL || !API_BASE_URL) {
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false, // Disable to prevent double renders
-  
+
   experimental: {
     optimizePackageImports: ["lucide-react", "react-icons", "framer-motion", "chart.js", "react-chartjs-2", "swiper", "@radix-ui/react-accordion", "@radix-ui/react-select"],
   },
-  
+
   compiler: {
     removeConsole: process.env.NODE_ENV === "production" ? { exclude: ["error", "warn"] } : false,
   },
@@ -35,11 +35,19 @@ const nextConfig = {
   },
 
   images: {
+    remotePatterns: [
+      { protocol: "https", hostname: "res.cloudinary.com" },
+      { protocol: "https", hostname: "images.unsplash.com" },
+      { protocol: "https", hostname: "img.clerk.com" },
+      { protocol: "http", hostname: "localhost" },
+      { protocol: "http", hostname: "127.0.0.1" },
+    ],
     domains: [
       "res.cloudinary.com",
       "images.unsplash.com",
       "img.clerk.com",
       "localhost",
+      "127.0.0.1",
     ],
     formats: ['image/webp', 'image/avif'],
     minimumCacheTTL: 60,
