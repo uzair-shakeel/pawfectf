@@ -2,67 +2,184 @@
   {
     "species": "Dog",
     "breeds": [
-      "Labrador Retriever", "German Shepherd", "Golden Retriever", "Bulldog",
-      "Poodle", "Beagle", "Rottweiler", "Yorkshire Terrier", "Dachshund",
-      "Siberian Husky", "Boxer", "Border Collie", "Shih Tzu", "Chihuahua",
-      "Pomeranian", "Great Dane", "Doberman", "Cocker Spaniel", "Maltese",
-      "French Bulldog", "Pugs", "Saint Bernard", "Akita", "Greyhound",
-      "Weimaraner", "Mixed Breed", "Other"
+      "Kundel / mieszaniec",
+      "Akita",
+      "Alaskan malamute",
+      "Amstaff",
+      "Australian shepherd",
+      "Beagle",
+      "Bernardyn",
+      "Bichon frise",
+      "Border collie",
+      "Bokser",
+      "Buldog angielski",
+      "Buldog francuski",
+      "Cane corso",
+      "Chihuahua",
+      "Chow chow",
+      "Cocker spaniel",
+      "Collie",
+      "Dalmatyńczyk",
+      "Doberman",
+      "Dog niemiecki",
+      "Golden retriever",
+      "Gończy polski",
+      "Husky syberyjski",
+      "Jack russell terrier",
+      "Jamnik",
+      "Labrador retriever",
+      "Maltańczyk",
+      "Mastif",
+      "Mops",
+      "Nowofundland",
+      "Owczarek belgijski",
+      "Owczarek niemiecki",
+      "Owczarek podhalański",
+      "Papillon",
+      "Pekińczyk",
+      "Pit bull",
+      "Pointer",
+      "Pomeranian",
+      "Pudel",
+      "Rottweiler",
+      "Samoyed",
+      "Seter",
+      "Shar pei",
+      "Shiba inu",
+      "Shih tzu",
+      "Spaniel",
+      "Staffordshire bull terrier",
+      "Sznaucer",
+      "Terier",
+      "West highland white terrier",
+      "Whippet",
+      "Wyżeł",
+      "Yorkshire terrier"
     ]
   },
   {
     "species": "Cat",
     "breeds": [
-      "Persian", "Maine Coon", "Siamese", "British Shorthair", "Ragdoll",
-      "Bengal", "Sphynx", "Scottish Fold", "Abyssinian", "Russian Blue",
-      "Norwegian Forest", "Birman", "Burmese", "Tonkinese", "Devon Rex",
-      "Cornish Rex", "Turkish Angora", "Himalayan", "Mixed Breed", "Other"
+      "Persian",
+      "Maine Coon",
+      "Siamese",
+      "British Shorthair",
+      "Ragdoll",
+      "Bengal",
+      "Sphynx",
+      "Scottish Fold",
+      "Abyssinian",
+      "Russian Blue",
+      "Norwegian Forest",
+      "Birman",
+      "Burmese",
+      "Tonkinese",
+      "Devon Rex",
+      "Cornish Rex",
+      "Turkish Angora",
+      "Himalayan",
+      "Mixed Breed",
+      "Other"
     ]
   },
   {
     "species": "Bird",
     "breeds": [
-      "African Grey Parrot", "Budgerigar", "Cockatiel", "Lovebird", "Macaw",
-      "Amazon Parrot", "Canary", "Finch", "Conure", "Cockatoo",
-      "Dove", "Parakeet", "Lorikeet", "Other"
+      "African Grey Parrot",
+      "Budgerigar",
+      "Cockatiel",
+      "Lovebird",
+      "Macaw",
+      "Amazon Parrot",
+      "Canary",
+      "Finch",
+      "Conure",
+      "Cockatoo",
+      "Dove",
+      "Parakeet",
+      "Lorikeet",
+      "Other"
     ]
   },
   {
     "species": "Rabbit",
     "breeds": [
-      "Holland Lop", "Mini Rex", "Lionhead", "Dutch", "Flemish Giant",
-      "Angora", "Rex", "Netherland Dwarf", "Mini Lop", "New Zealand",
-      "Mixed Breed", "Other"
+      "Holland Lop",
+      "Mini Rex",
+      "Lionhead",
+      "Dutch",
+      "Flemish Giant",
+      "Angora",
+      "Rex",
+      "Netherland Dwarf",
+      "Mini Lop",
+      "New Zealand",
+      "Mixed Breed",
+      "Other"
     ]
   },
   {
     "species": "Hamster",
     "breeds": [
-      "Syrian", "Dwarf Campbell", "Roborovski", "Chinese", "Winter White", "Other"
+      "Syrian",
+      "Dwarf Campbell",
+      "Roborovski",
+      "Chinese",
+      "Winter White",
+      "Other"
     ]
   },
   {
     "species": "Guinea Pig",
     "breeds": [
-      "American", "Peruvian", "Abyssinian", "Silkie", "Teddy", "Texel", "Other"
+      "American",
+      "Peruvian",
+      "Abyssinian",
+      "Silkie",
+      "Teddy",
+      "Texel",
+      "Other"
     ]
   },
   {
     "species": "Reptile",
     "breeds": [
-      "Bearded Dragon", "Leopard Gecko", "Ball Python", "Corn Snake",
-      "Blue-Tongued Skink", "Crested Gecko", "Chameleon", "Red-Eared Slider", "Other"
+      "Bearded Dragon",
+      "Leopard Gecko",
+      "Ball Python",
+      "Corn Snake",
+      "Blue-Tongued Skink",
+      "Crested Gecko",
+      "Chameleon",
+      "Red-Eared Slider",
+      "Other"
     ]
   },
   {
     "species": "Fish",
     "breeds": [
-      "Goldfish", "Betta", "Guppy", "Angelfish", "Tetras", "Cichlid",
-      "Discus", "Molly", "Platy", "Swordtail", "Other"
+      "Goldfish",
+      "Betta",
+      "Guppy",
+      "Angelfish",
+      "Tetras",
+      "Cichlid",
+      "Discus",
+      "Molly",
+      "Platy",
+      "Swordtail",
+      "Other"
     ]
   },
   {
     "species": "Other",
-    "breeds": ["Ferret", "Chinchilla", "Hedgehog", "Sugar Glider", "Axolotl", "Other"]
+    "breeds": [
+      "Ferret",
+      "Chinchilla",
+      "Hedgehog",
+      "Sugar Glider",
+      "Axolotl",
+      "Other"
+    ]
   }
 ]
