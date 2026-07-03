@@ -181,16 +181,8 @@ export default function FilterSidebar({ onApplyFilters, setShowMobileFilter, isV
             </select>
           </Section>
 
-          {/* Color */}
-          <Section index={6} label="Color">
-            <select name="color" value={filters.color} onChange={handleInputChange} className={selectClass}>
-              <option value="">Any Color</option>
-              {COLORS.map((c) => <option key={c} value={c}>{c}</option>)}
-            </select>
-          </Section>
-
           {/* Coat Length */}
-          <Section index={7} label="Coat Length">
+          <Section index={6} label="Coat Length">
             <select name="coatLength" value={filters.coatLength} onChange={handleInputChange} className={selectClass}>
               <option value="">Any</option>
               <option value="Hairless">Hairless</option>
@@ -201,28 +193,11 @@ export default function FilterSidebar({ onApplyFilters, setShowMobileFilter, isV
           </Section>
 
           {/* Health Status */}
-          <Section index={8} label="Health Status">
+          <Section index={7} label="Health Status">
             <select name="healthStatus" value={filters.healthStatus} onChange={handleInputChange} className={selectClass}>
               <option value="">Any</option>
               {HEALTH_OPTIONS.map((h) => <option key={h} value={h}>{h}</option>)}
             </select>
-          </Section>
-
-          {/* Adoption Status */}
-          <Section index={9} label="Adoption Status">
-            <select name="adoptionStatus" value={filters.adoptionStatus} onChange={handleInputChange} className={selectClass}>
-              <option value="">All</option>
-              <option value="Available">Available</option>
-              <option value="Pending">Pending</option>
-            </select>
-          </Section>
-
-          {/* Adoption Fee */}
-          <Section index={10} label="Adoption Fee">
-            <div className="flex gap-2">
-              <input type="number" name="feeFrom" value={filters.feeFrom} onChange={handleInputChange} placeholder="Min fee" className={selectClass} min="0" />
-              <input type="number" name="feeTo" value={filters.feeTo} onChange={handleInputChange} placeholder="Max fee" className={selectClass} min="0" />
-            </div>
           </Section>
         </div>
 
