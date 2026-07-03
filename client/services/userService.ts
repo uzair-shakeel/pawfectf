@@ -61,7 +61,7 @@ try {
           console.warn("[Axios][Response][Error] logging failed:", e);
         }
         return Promise.reject(error);
-      }
+      },
     );
 
     w.__OJEST_AXIOS_DEBUG_INSTALLED__ = true;
@@ -120,10 +120,9 @@ interface UpdateUserData {
 // use getPublicUserInfo() instead.
 export const getUserById = async (
   userId: string,
-  getToken?: () => string | null | Promise<string | null>
+  getToken?: () => string | null | Promise<string | null>,
 ): Promise<UserData> => {
   try {
-
     let headers: Record<string, string> = {};
     if (getToken) {
       const token =
@@ -149,7 +148,7 @@ export const getUserById = async (
     // Provide helpful error message for 403 errors
     if (error.response?.status === 403) {
       throw new Error(
-        "Access denied. You can only access your own profile. For public user information, use getPublicUserInfo() instead."
+        "Access denied. You can only access your own profile. For public user information, use getPublicUserInfo() instead.",
       );
     }
 
@@ -160,13 +159,33 @@ export const getUserById = async (
 // Get public user information (no authentication required)
 export const getPublicUserInfo = async (userId: string): Promise<any> => {
   try {
-
     if (!userId) {
       throw new Error("User ID is required");
     }
 
-    const response = await axios.get(`${API_URL}/users/public/${userId}`);
-    return response.data;
+    // Try API route first
+    try {
+      const response = await axios.get(`${API_URL}/users/public/${userId}`);
+      return response.data;
+    } catch (apiError: any) {
+      // If API route fails (404), try direct backend call as fallback
+      console.log(
+        "[getPublicUserInfo] API route failed, trying direct backend...",
+      );
+
+      const backendUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+      if (backendUrl) {
+        const directResponse = await axios.get(
+          `${backendUrl}/api/users/public/${userId}`,
+          {
+            timeout: 15000,
+          },
+        );
+        return directResponse.data;
+      }
+
+      throw apiError;
+    }
   } catch (error: any) {
     console.error("Error fetching public user info:", error);
     console.error("Error details:", {
@@ -187,14 +206,14 @@ export const getPublicUserInfo = async (userId: string): Promise<any> => {
     }
 
     throw new Error(
-      error?.response?.data?.message || "Failed to fetch public user info"
+      error?.response?.data?.message || "Failed to fetch public user info",
     );
   }
 };
 
 // Get all users (admin route)
 export const getAllUsers = async (
-  getToken: () => Promise<string | null>
+  getToken: () => Promise<string | null>,
 ): Promise<UserData[]> => {
   try {
     const token = await getToken();
@@ -235,14 +254,13 @@ export const updateUser = async (
     image?: File | string;
     brands?: string[]; // Add brands to the type definition
   },
-  getToken: () => string | null | Promise<string | null>
+  getToken: () => string | null | Promise<string | null>,
 ) => {
   try {
     const token = typeof getToken === "function" ? await getToken() : getToken;
     if (!token) {
       throw new Error("No authentication token found");
     }
-
 
     // Create a FormData object
     const formData = new FormData();
@@ -328,7 +346,7 @@ export const updateUser = async (
           error.response?.data?.error ||
           error.response?.data?.message ||
           error.message ||
-          "Failed to update profile"
+          "Failed to update profile",
       );
     }
 
@@ -361,7 +379,7 @@ export const updateUserCustom = async (formData, getToken) => {
     const response = await axios.put(
       `${API_URL}/users/profile/custom`,
       formDataToSend,
-      config
+      config,
     );
     return response.data;
   } catch (error) {
@@ -374,7 +392,7 @@ export const updateUserCustom = async (formData, getToken) => {
 export const updateUserSellerType = async (
   userId: string,
   sellerType: "private" | "company",
-  getToken: () => Promise<string | null>
+  getToken: () => Promise<string | null>,
 ) => {
   try {
     const token = await getToken();
@@ -390,7 +408,7 @@ export const updateUserSellerType = async (
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json", // Explicitly set Content-Type
         },
-      } // Config
+      }, // Config
     );
     return response.data;
   } catch (error: any) {
@@ -400,14 +418,14 @@ export const updateUserSellerType = async (
       status: error.response?.status,
     });
     throw new Error(
-      error?.response?.data?.message || "Failed to update seller type"
+      error?.response?.data?.message || "Failed to update seller type",
     );
   }
 };
 
 // Delete user account
 export const deleteUserAccount = async (
-  getToken: () => Promise<string | null>
+  getToken: () => Promise<string | null>,
 ): Promise<{ message: string }> => {
   try {
     const token = await getToken();
@@ -421,7 +439,7 @@ export const deleteUserAccount = async (
     return response.data;
   } catch (error: any) {
     throw new Error(
-      error?.response?.data?.message || "Account deletion failed"
+      error?.response?.data?.message || "Account deletion failed",
     );
   }
 };
@@ -433,13 +451,17 @@ export const fetchUser = getUserById;
 
 export const likeCar = async (
   carId: string,
-  getToken: () => Promise<string | null>
+  getToken: () => Promise<string | null>,
 ) => {
   try {
     const token = await getToken();
-    const response = await axios.post(`${API_URL}/users/like/${carId}`, {}, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
+    const response = await axios.post(
+      `${API_URL}/users/like/${carId}`,
+      {},
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      },
+    );
     return response.data;
   } catch (error: any) {
     throw new Error(error?.response?.data?.message || "Failed to like car");
@@ -448,57 +470,69 @@ export const likeCar = async (
 
 export const passCar = async (
   carId: string,
-  getToken: () => Promise<string | null>
+  getToken: () => Promise<string | null>,
 ) => {
   try {
     const token = await getToken();
-    const response = await axios.post(`${API_URL}/users/pass/${carId}`, {}, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
+    const response = await axios.post(
+      `${API_URL}/users/pass/${carId}`,
+      {},
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      },
+    );
     return response.data;
   } catch (error: any) {
     throw new Error(error?.response?.data?.message || "Failed to pass car");
   }
 };
 
-export const getWishlist = async (
-  getToken: () => Promise<string | null>
-) => {
+export const getWishlist = async (getToken: () => Promise<string | null>) => {
   try {
     const token = await getToken();
     const response = await axios.get(`${API_URL}/users/wishlist/all`, {
-      headers: { Authorization: `Bearer ${token}` }
+      headers: { Authorization: `Bearer ${token}` },
     });
     return response.data;
   } catch (error: any) {
-    throw new Error(error?.response?.data?.message || "Failed to fetch wishlist");
+    throw new Error(
+      error?.response?.data?.message || "Failed to fetch wishlist",
+    );
   }
 };
 
 export const getInteractedCars = async (
-  getToken: () => Promise<string | null>
+  getToken: () => Promise<string | null>,
 ) => {
   try {
     const token = await getToken();
     const response = await axios.get(`${API_URL}/users/discovery/interacted`, {
-      headers: { Authorization: `Bearer ${token}` }
+      headers: { Authorization: `Bearer ${token}` },
     });
     return response.data;
   } catch (error: any) {
-    throw new Error(error?.response?.data?.message || "Failed to fetch interacted cars");
+    throw new Error(
+      error?.response?.data?.message || "Failed to fetch interacted cars",
+    );
   }
 };
 
 export const resetDiscoveryInteractions = async (
-  getToken: () => Promise<string | null>
+  getToken: () => Promise<string | null>,
 ) => {
   try {
     const token = await getToken();
-    const response = await axios.post(`${API_URL}/users/discovery/reset`, {}, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
+    const response = await axios.post(
+      `${API_URL}/users/discovery/reset`,
+      {},
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      },
+    );
     return response.data;
   } catch (error: any) {
-    throw new Error(error?.response?.data?.message || "Failed to reset discovery");
+    throw new Error(
+      error?.response?.data?.message || "Failed to reset discovery",
+    );
   }
 };
