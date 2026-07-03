@@ -152,48 +152,69 @@ function HomeContent() {
 
         {/* Pets Needing Food Section */}
         {foodDonationPets.length > 0 && (
-          <section>
+          <section className="bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-dark-card dark:via-dark-card dark:to-dark-card rounded-[2.5rem] p-8 md:p-12 border border-gray-100 dark:border-dark-divider shadow-lg">
             <div className="flex justify-between items-end mb-8">
               <div>
-                <h2 className="text-3xl md:text-4xl font-black">Pets Needing Food</h2>
-                <p className="text-gray-500 mt-2">Help these pets get the nutrition they need.</p>
+                <div className="inline-flex items-center gap-2 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-400 px-3 py-1.5 rounded-full text-xs font-bold mb-3">
+                  <Heart className="h-3.5 w-3.5" />
+                  HELP NEEDED
+                </div>
+                <h2 className="text-3xl md:text-4xl font-black text-gray-900 dark:text-white mb-2">Pets Needing Food</h2>
+                <p className="text-gray-600 dark:text-gray-400">Your donation makes a real difference</p>
               </div>
-              <Link href="/website/food-donations" className="hidden md:flex items-center gap-2 text-blue-600 font-semibold hover:text-blue-700">
+              <Link href="/website/food-donations" className="hidden md:flex items-center gap-2 text-blue-600 font-bold hover:text-blue-700 hover:gap-3 transition-all">
                 View All <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {foodDonationPets.map((pet, i) => (
-                <Link key={i} href={`/website/food-donations/donate/${pet._id || pet.id}`} className="group bg-white dark:bg-dark-card rounded-2xl overflow-hidden border border-gray-100 dark:border-dark-divider hover:shadow-xl transition-all block relative">
+                <Link key={i} href={`/website/food-donations/donate/${pet._id || pet.id}`} className="group bg-white dark:bg-dark-raised rounded-2xl overflow-hidden border border-gray-100 dark:border-dark-divider hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 block relative">
                   <div className="relative h-48">
                     <Image
                       src={(pet.images && pet.images[0]) || "/images/hamer1.png"}
                       alt={pet.name || "Pet"}
                       fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="object-cover group-hover:scale-110 transition-transform duration-500"
                       loading="lazy"
                       sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
                       quality={60}
                     />
                     {pet.isUrgent && (
-                      <div className="absolute top-3 left-3 bg-red-500 text-white px-3 py-1 rounded-full text-xs font-bold">
-                        Urgent
+                      <div className="absolute top-3 left-3 bg-red-500 text-white px-3 py-1.5 rounded-full text-xs font-bold animate-pulse shadow-lg">
+                        🚨 URGENT
                       </div>
                     )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                   </div>
                   <div className="p-4">
-                    <h3 className="font-bold text-lg">{pet.name || pet.species || "Pet"}</h3>
-                    <p className="text-sm text-gray-500 mb-2">{pet.breed || pet.species}</p>
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="font-semibold text-blue-600 flex items-center gap-1">
-                        <Heart className="w-4 h-4" /> Needs Food
+                    <div className="flex items-start justify-between mb-2">
+                      <h3 className="font-bold text-lg text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{pet.name || pet.species || "Pet"}</h3>
+                      <Heart className="h-5 w-5 text-gray-400 group-hover:text-red-500 group-hover:fill-red-500 transition-all" />
+                    </div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">{pet.breed || pet.species}</p>
+                    <div className="flex items-center justify-between pt-3 border-t border-gray-100 dark:border-dark-divider">
+                      <div className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
+                        <MapPin className="h-3.5 w-3.5" />
+                        {pet.location?.city || "Available"}
+                      </div>
+                      <span className="text-sm font-bold text-blue-600 dark:text-blue-400 group-hover:translate-x-1 transition-transform">
+                        Donate →
                       </span>
-                      <span className="text-gray-400">{pet.location?.city || "Available"}</span>
                     </div>
                   </div>
                 </Link>
               ))}
+            </div>
+
+            <div className="mt-8 text-center">
+              <Link
+                href="/website/food-donations"
+                className="inline-flex items-center justify-center px-6 py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-all shadow-lg hover:shadow-xl hover:scale-105"
+              >
+                <Heart className="h-4 w-4 mr-2" />
+                See All Pets Needing Food
+              </Link>
             </div>
           </section>
         )}
