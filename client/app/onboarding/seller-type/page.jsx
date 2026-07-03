@@ -66,7 +66,7 @@ const SellerTypePage = () => {
       <div className="max-w-3xl mx-auto">
         <div className="text-center mb-12">
           <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-200 mb-4">
-            How will you be using Pawfect?
+            How will you be using Rofrof?
           </h1>
           <p className="text-lg text-gray-600">
             Select the type of account that fits you best
@@ -77,10 +77,10 @@ const SellerTypePage = () => {
           {/* Company Seller Option */}
           <div
             className={`relative bg-white rounded-2xl shadow-lg p-8 cursor-pointer transition-all duration-300 ${selectedType === "company"
-                ? "ring-2 ring-blue-500"
-                : hoveredType === "company"
-                  ? "shadow-xl"
-                  : ""
+              ? "ring-2 ring-blue-500"
+              : hoveredType === "company"
+                ? "shadow-xl"
+                : ""
               }`}
             onClick={companySeller}
             onMouseEnter={() => setHoveredType("company")}
@@ -117,10 +117,10 @@ const SellerTypePage = () => {
           {/* Private Seller Option */}
           <div
             className={`relative bg-white rounded-2xl shadow-lg p-8 cursor-pointer transition-all duration-300 ${selectedType === "private"
-                ? "ring-2 ring-blue-500"
-                : hoveredType === "private"
-                  ? "shadow-xl"
-                  : ""
+              ? "ring-2 ring-blue-500"
+              : hoveredType === "private"
+                ? "shadow-xl"
+                : ""
               }`}
             onClick={privateSeller}
             onMouseEnter={() => setHoveredType("private")}

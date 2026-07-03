@@ -27,15 +27,15 @@ function HomeContent() {
     // Lazy load services only when needed, with slight delay for better UX
     const timer = setTimeout(() => {
       Promise.all([
-        import("../services/petService").then(({ getAllPets }) => 
-          getAllPets().then(pets => setRecentPets(pets.slice(0, 4))).catch(() => {})
+        import("../services/petService").then(({ getAllPets }) =>
+          getAllPets().then(pets => setRecentPets(pets.slice(0, 4))).catch(() => { })
         ),
-        import("../services/lostFoundService").then(({ getAllLostFound }) => 
-          getAllLostFound().then(entries => setRecentLost(entries.slice(0, 4))).catch(() => {})
+        import("../services/lostFoundService").then(({ getAllLostFound }) =>
+          getAllLostFound().then(entries => setRecentLost(entries.slice(0, 4))).catch(() => { })
         )
       ]);
     }, 100);
-    
+
     return () => clearTimeout(timer);
   }, [searchParams, router]);
 
@@ -67,25 +67,25 @@ function HomeContent() {
           </p>
 
           <div className="w-full max-w-4xl bg-white/10 backdrop-blur-md p-3 md:p-4 rounded-2xl md:rounded-[2rem] border border-white/20 shadow-2xl flex flex-col md:flex-row gap-3 animate-in slide-in-from-bottom-8 duration-1000 delay-300">
-            <button 
+            <button
               onClick={() => router.push("/website/pets?species=Dog")}
               className="flex-1 bg-white/10 hover:bg-white/20 transition-colors py-4 rounded-xl md:rounded-2xl font-bold flex flex-col items-center justify-center gap-2"
             >
               <span className="text-3xl">🐶</span> Dogs
             </button>
-            <button 
+            <button
               onClick={() => router.push("/website/pets?species=Cat")}
               className="flex-1 bg-white/10 hover:bg-white/20 transition-colors py-4 rounded-xl md:rounded-2xl font-bold flex flex-col items-center justify-center gap-2"
             >
               <span className="text-3xl">🐱</span> Cats
             </button>
-            <button 
+            <button
               onClick={() => router.push("/website/lost-found")}
               className="flex-1 bg-white/10 hover:bg-white/20 transition-colors py-4 rounded-xl md:rounded-2xl font-bold flex flex-col items-center justify-center gap-2 text-white"
             >
               <span className="text-3xl">🔍</span> Lost & Found
             </button>
-            <button 
+            <button
               onClick={() => router.push("/website/pets")}
               className="flex-1 bg-blue-600 hover:bg-blue-500 transition-colors py-4 rounded-xl md:rounded-2xl font-bold flex items-center justify-center gap-2 text-white shadow-lg shadow-blue-500/25"
             >
@@ -97,11 +97,11 @@ function HomeContent() {
         <div className="absolute bottom-0 left-0 w-full h-1/4 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
       </section>
 
-      
+
 
       <main className="flex-grow text-gray-900 dark:text-gray-200 max-w-7xl mx-auto w-full px-4 py-16 space-y-24">
-        
-        
+
+
         {/* Newly Listed Section */}
         {recentPets.length > 0 && (
           <section>
@@ -114,15 +114,15 @@ function HomeContent() {
                 View All <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {recentPets.map((pet, i) => (
                 <Link key={i} href={`/website/pets/${pet._id || pet.id}`} className="group bg-white dark:bg-dark-card rounded-2xl overflow-hidden border border-gray-100 dark:border-dark-divider hover:shadow-xl transition-all block">
                   <div className="relative h-48">
-                    <Image 
-                      src={(pet.images && pet.images[0]) || "/images/hamer1.png"} 
-                      alt={pet.name || "Pet"} 
-                      fill 
+                    <Image
+                      src={(pet.images && pet.images[0]) || "/images/hamer1.png"}
+                      alt={pet.name || "Pet"}
+                      fill
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
                       loading="lazy"
                       sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
@@ -145,7 +145,7 @@ function HomeContent() {
 
         {/* Why Adopt Section */}
         <section className="text-center">
-          <h2 className="text-3xl md:text-5xl font-black mb-12">Why Adopt via Pawfect?</h2>
+          <h2 className="text-3xl md:text-5xl font-black mb-12">Why Adopt via Rofrof?</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="bg-gray-50 dark:bg-dark-card p-8 rounded-3xl border border-gray-100 dark:border-dark-divider">
               <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
@@ -180,7 +180,7 @@ function HomeContent() {
             <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 mb-10 font-medium">
               Support pets waiting for adoption with food donations. Every contribution helps provide nutrition for animals in shelters.
             </p>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
               <div className="text-center">
                 <div className="text-3xl font-black text-blue-600">450+</div>
@@ -210,23 +210,23 @@ function HomeContent() {
 
         {/* How it Works Section */}
         <section className="bg-blue-50 dark:bg-dark-card rounded-[2.5rem] p-8 md:p-16 border border-blue-100 dark:border-dark-divider my-16 text-center">
-          <h2 className="text-3xl md:text-5xl font-black mb-16">How Pawfect Works</h2>
+          <h2 className="text-3xl md:text-5xl font-black mb-16">How Rofrof Works</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 relative">
             {/* Connecting line for desktop */}
             <div className="hidden md:block absolute top-12 left-[15%] right-[15%] h-1 bg-blue-200 dark:bg-blue-900/50 z-0"></div>
-            
+
             <div className="relative z-10 flex flex-col items-center">
               <div className="w-24 h-24 bg-blue-600 text-white rounded-full flex items-center justify-center text-3xl font-black mb-6 shadow-xl shadow-blue-500/30">1</div>
               <h3 className="text-xl font-bold mb-3">Find a Pet</h3>
               <p className="text-gray-600 dark:text-gray-400">Browse thousands of adorable pets from verified local shelters and private owners.</p>
             </div>
-            
+
             <div className="relative z-10 flex flex-col items-center">
               <div className="w-24 h-24 bg-blue-600 text-white rounded-full flex items-center justify-center text-3xl font-black mb-6 shadow-xl shadow-blue-500/30">2</div>
               <h3 className="text-xl font-bold mb-3">Meet & Greet</h3>
               <p className="text-gray-600 dark:text-gray-400">Connect instantly via our platform to ask questions and schedule a meet-up.</p>
             </div>
-            
+
             <div className="relative z-10 flex flex-col items-center">
               <div className="w-24 h-24 bg-blue-600 text-white rounded-full flex items-center justify-center text-3xl font-black mb-6 shadow-xl shadow-blue-500/30">3</div>
               <h3 className="text-xl font-bold mb-3">Take Them Home</h3>
@@ -246,7 +246,7 @@ function HomeContent() {
               View All <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
-          
+
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
               { name: "Small Dogs", q: "species=Dog&size=Small", img: "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&q=80&w=600" },
@@ -255,10 +255,10 @@ function HomeContent() {
               { name: "Senior Pets", q: "ageGroup=Senior", img: "https://images.unsplash.com/photo-1505628346881-b72b27e84530?auto=format&fit=crop&q=80&w=600" },
             ].map((cat, i) => (
               <Link key={i} href={`/website/pets?${cat.q}`} className="group relative h-48 md:h-64 rounded-2xl overflow-hidden">
-                <Image 
-                  src={cat.img} 
-                  alt={cat.name} 
-                  fill 
+                <Image
+                  src={cat.img}
+                  alt={cat.name}
+                  fill
                   className="object-cover group-hover:scale-110 transition-transform duration-500"
                   loading="lazy"
                   sizes="(max-width: 768px) 50vw, 25vw"
@@ -282,25 +282,25 @@ function HomeContent() {
             <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 mb-10 font-medium">
               We are a community. Help reunite pets with their loving families or report a lost pet to get everyone looking.
             </p>
-            
+
             {recentLost.length > 0 && (
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-10 text-left">
                 {recentLost.map((entry, i) => (
                   <Link key={i} href={`/website/lost-found/${entry._id}`} className="group bg-white dark:bg-dark-raised rounded-2xl overflow-hidden border border-gray-100 dark:border-dark-divider hover:shadow-xl transition-all block">
                     <div className="relative h-40">
-                      <Image 
-                        src={(entry.images && entry.images[0]) || "/images/hamer1.png"} 
-                        alt={entry.title || "Pet"} 
-                        fill 
+                      <Image
+                        src={(entry.images && entry.images[0]) || "/images/hamer1.png"}
+                        alt={entry.title || "Pet"}
+                        fill
                         className="object-cover group-hover:scale-105 transition-transform duration-500"
                         loading="lazy"
                         sizes="(max-width: 768px) 100vw, 25vw"
                         quality={60}
                       />
                       <div className="absolute top-3 left-3">
-                          <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider text-white shadow-md ${entry.type === 'Lost' ? 'bg-red-500' : 'bg-green-500'}`}>
-                              {entry.type}
-                          </span>
+                        <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider text-white shadow-md ${entry.type === 'Lost' ? 'bg-red-500' : 'bg-green-500'}`}>
+                          {entry.type}
+                        </span>
                       </div>
                     </div>
                     <div className="p-4">
@@ -332,7 +332,7 @@ function HomeContent() {
           <div className="relative z-10 max-w-2xl mx-auto">
             <Heart className="w-16 h-16 mx-auto mb-6 text-pink-400 animate-pulse" />
             <h2 className="text-4xl md:text-5xl font-black mb-6">Ready to change a life?</h2>
-            <p className="text-xl text-blue-100 mb-10 font-medium">Join thousands of people who have found their perfect companion through Pawfect.</p>
+            <p className="text-xl text-blue-100 mb-10 font-medium">Join thousands of people who have found their perfect companion through Rofrof.</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/website/pets" className="bg-white text-blue-700 hover:bg-gray-50 font-bold py-4 px-8 rounded-xl transition-transform hover:scale-105 active:scale-95 shadow-xl">
                 Adopt a Pet

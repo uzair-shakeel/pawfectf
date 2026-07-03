@@ -20,7 +20,7 @@ export default function ForgotPasswordPage() {
         <div className="absolute inset-0 bg-gradient-to-br from-pink-500 via-purple-600 to-blue-600">
           <Image
             src="/Hero2-QKTSHICM.webp"
-            alt="Pawfect"
+            alt="Rofrof"
             fill
             className="object-cover brightness-75"
             priority
@@ -31,7 +31,7 @@ export default function ForgotPasswordPage() {
             <div className="mb-12 absolute top-5 left-5">
               <div className="mb-8">
                 <div className="flex items-center">
-                  <img src="/logo-white.png" alt="Pawfect Logo" className="h-10 mr-3" />
+                  <img src="/logo-white.png" alt="Rofrof Logo" className="h-10 mr-3" />
                 </div>
               </div>
             </div>

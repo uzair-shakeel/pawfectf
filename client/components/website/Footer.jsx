@@ -108,14 +108,14 @@ export function Footer() {
               <div className="relative w-48 h-14">
                 <Image
                   src="/whitelogo.png"
-                  alt="Pawfect Logo"
+                  alt="Rofrof Logo"
                   fill
                   className="object-contain brightness-0 invert"
                 />
               </div>
             </Link>
             <p className="text-gray-400 text-sm mt-2">
-              All rights reserved © {new Date().getFullYear()} Pawfect.
+              All rights reserved © {new Date().getFullYear()} Rofrof.
               Wszelkie prawa zastrzeżone.
             </p>
           </div>

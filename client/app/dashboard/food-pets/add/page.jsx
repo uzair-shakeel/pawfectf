@@ -191,14 +191,23 @@ const AddFoodPetPage = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Breed</label>
-                <input
-                  type="text"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Breed</label>
+                <select
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 dark:bg-dark-raised rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:text-white"
                   value={formData.breed}
                   onChange={(e) => handleInputChange('breed', e.target.value)}
-                  placeholder="e.g. Golden Retriever"
-                />
+                >
+                  <option value="">Select breed (optional)</option>
+                  {formData.species === 'Dog' && ["Kundel / mieszaniec", "Akita", "Alaskan malamute", "Amstaff", "Australian shepherd", "Beagle", "Bernardyn", "Bichon frise", "Border collie", "Bokser", "Buldog angielski", "Buldog francuski", "Cane corso", "Chihuahua", "Chow chow", "Cocker spaniel", "Collie", "Dalmatyńczyk", "Doberman", "Dog niemiecki", "Golden retriever", "Gończy polski", "Husky syberyjski", "Jack russell terrier", "Jamnik", "Labrador retriever", "Maltańczyk", "Mastif", "Mops", "Nowofundland", "Owczarek belgijski", "Owczarek niemiecki", "Owczarek podhalański", "Papillon", "Pekińczyk", "Pit bull", "Pointer", "Pomeranian", "Pudel", "Rottweiler", "Samoyed", "Seter", "Shar pei", "Shiba inu", "Shih tzu", "Spaniel", "Staffordshire bull terrier", "Sznaucer", "Terier", "West highland white terrier", "Whippet", "Wyżeł", "Yorkshire terrier"].map(breed => (
+                    <option key={breed} value={breed}>{breed}</option>
+                  ))}
+                  {formData.species === 'Cat' && ["Kundel / mieszaniec", "Abisyński", "American shorthair", "Angora turecka", "Bengalski", "Birma", "Bombay", "Brytyjski krótkowłosy", "Brytyjski długowłosy", "Devon rex", "Egzotyczny krótkowłosy", "Maine coon", "Norweski leśny", "Pers", "Ragdoll", "Rosyjski niebieski", "Sfinks", "Syjamski", "Syberyjski"].map(breed => (
+                    <option key={breed} value={breed}>{breed}</option>
+                  ))}
+                  {formData.species !== 'Dog' && formData.species !== 'Cat' && (
+                    <option value="Mixed">Mixed</option>
+                  )}
+                </select>
               </div>
 
               <div>

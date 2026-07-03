@@ -40,7 +40,7 @@ const LoginPage = () => {
             id: data.user._id,
           })
         );
-        toast.success("Welcome to Pawfect Admin!");
+        toast.success("Welcome to Rofrof Admin!");
         window.location.href = "/";
       } else {
         // Fallback to hardcoded credentials for demo
@@ -77,7 +77,7 @@ const LoginPage = () => {
             id: "demo-admin",
           })
         );
-        toast.success("Welcome to Pawfect Admin! (Demo Mode)");
+        toast.success("Welcome to Rofrof Admin! (Demo Mode)");
         window.location.href = "/";
       } else {
         toast.error("Failed to connect to server. Check your backend connection.");
@@ -91,7 +91,7 @@ const LoginPage = () => {
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
       {/* Background with blur */}
       <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 opacity-80" />
-      
+
       {/* Content */}
       <div className="relative z-10 w-full max-w-md p-6">
         <motion.div
@@ -104,7 +104,7 @@ const LoginPage = () => {
               <span className="text-white font-bold text-2xl">P</span>
             </div>
             <h2 className="text-2xl font-bold text-slate-200">
-              Pawfect Admin Panel
+              Rofrof Admin Panel
             </h2>
             <p className="text-slate-400 mt-2">Sign in to manage the platform</p>
           </div>

@@ -184,8 +184,8 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
             <div className="h-16 px-4 border-b border-gray-100 dark:border-dark-divider flex justify-between items-center sticky top-0 bg-white/80 dark:bg-dark-panel/80 backdrop-blur-md z-10">
               <div className="flex items-center">
                 <Link href="/" onClick={toggleSidebar} className="flex items-center">
-                  <img src="/logo.png" alt="Pawfect" className="h-10 md:h-12 w-auto object-contain dark:hidden" />
-                  <img src="/whitelogo.png" alt="Pawfect" className="h-10 md:h-12 w-auto object-contain hidden dark:block" />
+                  <img src="/logo.png" alt="Rofrof" className="h-10 md:h-12 w-auto object-contain dark:hidden" />
+                  <img src="/whitelogo.png" alt="Rofrof" className="h-10 md:h-12 w-auto object-contain hidden dark:block" />
                 </Link>
               </div>
 
@@ -247,7 +247,7 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
               {/* Footer */}
               <div className="pt-2 text-center">
                 <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">
-                  Pawfect &copy; {new Date().getFullYear()}
+                  Rofrof &copy; {new Date().getFullYear()}
                 </p>
               </div>
             </div>
@@ -262,7 +262,7 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
         {/* Header / Logo */}
         <div className="h-20 flex items-center justify-between px-6 border-b border-dark-divider flex-shrink-0">
           <Link href="/" className="block">
-            <img src="/whitelogo.png" alt="Pawfect" className="h-10 w-auto object-contain" />
+            <img src="/whitelogo.png" alt="Rofrof" className="h-10 w-auto object-contain" />
           </Link>
         </div>
 
@@ -331,7 +331,7 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
         {/* Footer info */}
         <div className="p-4 text-center">
           <p className="text-[10px] text-[#4A4A4A] font-bold uppercase tracking-widest">
-            Pawfect &copy; {new Date().getFullYear()}
+            Rofrof &copy; {new Date().getFullYear()}
           </p>
         </div>
       </motion.div>

@@ -23,7 +23,7 @@ const faqs = [
   },
   {
     question: "Do you offer transportation for pets?",
-    answer: "Pawfect is a listing platform to connect you with pets. Transportation is typically arranged directly between the adopter and the shelter or current owner. Some rescues may offer transport services for an additional fee."
+    answer: "Rofrof is a listing platform to connect you with pets. Transportation is typically arranged directly between the adopter and the shelter or current owner. Some rescues may offer transport services for an additional fee."
   }
 ];
 
@@ -35,20 +35,20 @@ export default function FAQPage() {
       <main className="flex-grow max-w-4xl mx-auto px-4 py-16 w-full">
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white mb-4">Frequently Asked Questions</h1>
-          <p className="text-lg text-gray-600 dark:text-gray-400">Everything you need to know about adopting a pet through Pawfect.</p>
+          <p className="text-lg text-gray-600 dark:text-gray-400">Everything you need to know about adopting a pet through Rofrof.</p>
         </div>
 
         <div className="space-y-4">
           {faqs.map((faq, i) => (
             <div key={i} className="border border-gray-200 dark:border-dark-divider rounded-2xl overflow-hidden bg-gray-50 dark:bg-dark-card transition-all">
-              <button 
+              <button
                 onClick={() => setOpen(open === i ? -1 : i)}
                 className="w-full text-left px-6 py-5 flex items-center justify-between font-bold text-gray-900 dark:text-gray-100 focus:outline-none"
               >
                 <span className="text-lg">{faq.question}</span>
                 <ChevronDown className={`w-5 h-5 text-blue-500 transition-transform ${open === i ? "rotate-180" : ""}`} />
               </button>
-              
+
               <div className={`px-6 pb-5 text-gray-600 dark:text-gray-400 leading-relaxed transition-all ${open === i ? "block" : "hidden"}`}>
                 {faq.answer}
               </div>

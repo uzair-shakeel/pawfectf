@@ -48,7 +48,7 @@ const Sidebar = () => {
           <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
             <span className="text-white font-bold text-sm">P</span>
           </div>
-          <span className="text-xl font-bold text-slate-200">Pawfect Admin</span>
+          <span className="text-xl font-bold text-slate-200">Rofrof Admin</span>
         </div>
       </div>
 
@@ -62,11 +62,10 @@ const Sidebar = () => {
             <Link
               key={item.name}
               to={item.path}
-              className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 ${
-                active
+              className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 ${active
                   ? "bg-gradient-to-r from-blue-500/20 to-purple-500/20 text-blue-400 border border-blue-500/30"
                   : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/50"
-              }`}
+                }`}
             >
               <Icon size={20} />
               <span className="font-medium">{item.name}</span>

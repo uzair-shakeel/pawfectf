@@ -14,12 +14,12 @@ export default function TermsPage() {
         <div className="prose prose-blue max-w-none dark:prose-invert">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4">1. Acceptance of Terms</h2>
           <p className="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">
-            By accessing and using Pawfect, you accept and agree to be bound by the terms and provision of this agreement. In addition, when using these particular services, you shall be subject to any posted guidelines or rules applicable to such services.
+            By accessing and using Rofrof, you accept and agree to be bound by the terms and provision of this agreement. In addition, when using these particular services, you shall be subject to any posted guidelines or rules applicable to such services.
           </p>
 
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4">2. Description of Service</h2>
           <p className="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">
-            Pawfect provides an online platform that connects potential pet adopters with animal shelters, rescues, and private individuals looking to rehome pets. Pawfect does not own, breed, or sell animals. We are solely a facilitator of communication.
+            Rofrof provides an online platform that connects potential pet adopters with animal shelters, rescues, and private individuals looking to rehome pets. Rofrof does not own, breed, or sell animals. We are solely a facilitator of communication.
           </p>
 
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4">3. User Responsibilities</h2>
@@ -29,12 +29,12 @@ export default function TermsPage() {
 
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4">4. Adoption Process & Fees</h2>
           <p className="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">
-            Pawfect does not process adoption fees directly. All financial transactions, adoption agreements, and health guarantees are strictly between the adopter and the listing shelter or private owner. Pawfect is not liable for any disputes, health issues, or behavioral problems that arise post-adoption.
+            Rofrof does not process adoption fees directly. All financial transactions, adoption agreements, and health guarantees are strictly between the adopter and the listing shelter or private owner. Rofrof is not liable for any disputes, health issues, or behavioral problems that arise post-adoption.
           </p>
 
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4">5. Prohibited Conduct</h2>
           <p className="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">
-            Users may not use Pawfect to sell animals for commercial breeding (puppy mills), illegal activities, or fighting. Any user found violating these terms will be permanently banned from the platform and reported to appropriate animal welfare authorities.
+            Users may not use Rofrof to sell animals for commercial breeding (puppy mills), illegal activities, or fighting. Any user found violating these terms will be permanently banned from the platform and reported to appropriate animal welfare authorities.
           </p>
         </div>
       </main>

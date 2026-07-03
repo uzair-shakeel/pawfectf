@@ -16,12 +16,12 @@ export default function ContactPage() {
     <div className="flex flex-col min-h-screen bg-white dark:bg-dark-main">
       <main className="flex-grow max-w-7xl mx-auto px-4 py-16 w-full">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
-          
+
           {/* Left: Contact Info */}
           <div>
             <h1 className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white mb-6">Get in Touch</h1>
             <p className="text-lg text-gray-600 dark:text-gray-400 mb-12">
-              Whether you're looking to adopt, want to list your shelter, or just have a question about how Pawfect works, we're here to help.
+              Whether you're looking to adopt, want to list your shelter, or just have a question about how Rofrof works, we're here to help.
             </p>
 
             <div className="space-y-8">
@@ -31,7 +31,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h3 className="text-lg font-bold text-gray-900 dark:text-white">Email Us</h3>
-                  <p className="text-gray-600 dark:text-gray-400 mt-1">support@pawfect.pl</p>
+                  <p className="text-gray-600 dark:text-gray-400 mt-1">support@Rofrof.pl</p>
                   <p className="text-gray-500 text-sm mt-1">We aim to reply within 24 hours.</p>
                 </div>
               </div>
@@ -63,7 +63,7 @@ export default function ContactPage() {
           {/* Right: Contact Form */}
           <div className="bg-gray-50 dark:bg-dark-card p-8 rounded-3xl border border-gray-200 dark:border-dark-divider">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Send a Message</h2>
-            
+
             {status ? (
               <div className="p-4 bg-green-50 text-green-700 rounded-xl border border-green-200">
                 {status}

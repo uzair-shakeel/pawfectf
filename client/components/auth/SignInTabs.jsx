@@ -71,7 +71,7 @@ export default function SignInTabs() {
         <div className="absolute inset-0 bg-gradient-to-br from-pink-500 via-purple-600 to-blue-600">
           <Image
             src="/Hero2-QKTSHICM.webp"
-            alt="Pawfect Logo"
+            alt="Rofrof Logo"
             fill
             className="object-cover brightness-75"
             priority
@@ -90,7 +90,7 @@ export default function SignInTabs() {
                 <div className="flex items-center">
                   <img
                     src="/logo-white.png"
-                    alt="Pawfect Logo"
+                    alt="Rofrof Logo"
                     className="h-10 mr-3"
                   />
                 </div>
@@ -101,12 +101,12 @@ export default function SignInTabs() {
               <h2 className="text-5xl font-bold mb-8 leading-tight">
                 Find Your
                 <br />
-                Pawfect Companion
+                Rofrof Companion
               </h2>
 
               {/* Sub Text */}
               <p className="text-xl font-light opacity-95 leading-relaxed">
-                Join thousands of satisfied users on the newest and best Pawfect platform. Have a great adoption!
+                Join thousands of satisfied users on the newest and best Rofrof platform. Have a great adoption!
 
               </p>
             </div>

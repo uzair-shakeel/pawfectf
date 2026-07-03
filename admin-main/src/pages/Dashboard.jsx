@@ -247,9 +247,8 @@ const Dashboard = () => {
           <p className="text-2xl font-bold text-slate-200 mt-1">{value}</p>
           {trend && (
             <p
-              className={`text-sm mt-1 ${
-                trend > 0 ? 'text-green-400' : 'text-red-400'
-              }`}
+              className={`text-sm mt-1 ${trend > 0 ? 'text-green-400' : 'text-red-400'
+                }`}
             >
               {trend > 0 ? '+' : ''}
               {trend}% from last month
@@ -281,7 +280,7 @@ const Dashboard = () => {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-slate-200">Dashboard</h1>
-          <p className="text-slate-400 mt-1">Welcome to Pawfect Admin Panel</p>
+          <p className="text-slate-400 mt-1">Welcome to Rofrof Admin Panel</p>
         </div>
         <button
           onClick={fetchDashboardData}
