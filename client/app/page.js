@@ -16,6 +16,7 @@ function HomeContent() {
   const searchParams = useSearchParams();
   const [recentPets, setRecentPets] = useState([]);
   const [recentLost, setRecentLost] = useState([]);
+  const [foodDonationPets, setFoodDonationPets] = useState([]);
 
   useEffect(() => {
     const clerkJwt = searchParams.get("__clerk_db_jwt");
@@ -28,7 +29,13 @@ function HomeContent() {
     const timer = setTimeout(() => {
       Promise.all([
         import("../services/petService").then(({ getAllPets }) =>
-          getAllPets().then(pets => setRecentPets(pets.slice(0, 4))).catch(() => { })
+          getAllPets().then(pets => {
+            // Separate adoption pets and food donation pets
+            const adoptionPets = pets.filter(p => p.type !== 'food_donation');
+            const foodPets = pets.filter(p => p.type === 'food_donation' && p.status === 'Approved');
+            setRecentPets(adoptionPets.slice(0, 4));
+            setFoodDonationPets(foodPets.slice(0, 4));
+          }).catch(() => { })
         ),
         import("../services/lostFoundService").then(({ getAllLostFound }) =>
           getAllLostFound().then(entries => setRecentLost(entries.slice(0, 4))).catch(() => { })
@@ -134,6 +141,54 @@ function HomeContent() {
                     <p className="text-sm text-gray-500 mb-2">{pet.breed || pet.species}</p>
                     <div className="flex items-center justify-between text-sm">
                       <span className="font-semibold text-blue-600">{pet.adoptionFee ? `${pet.adoptionFee} PLN` : "Free"}</span>
+                      <span className="text-gray-400">{pet.location?.city || "Available"}</span>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* Pets Needing Food Section */}
+        {foodDonationPets.length > 0 && (
+          <section>
+            <div className="flex justify-between items-end mb-8">
+              <div>
+                <h2 className="text-3xl md:text-4xl font-black">Pets Needing Food</h2>
+                <p className="text-gray-500 mt-2">Help these pets get the nutrition they need.</p>
+              </div>
+              <Link href="/website/food-donations" className="hidden md:flex items-center gap-2 text-blue-600 font-semibold hover:text-blue-700">
+                View All <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {foodDonationPets.map((pet, i) => (
+                <Link key={i} href={`/website/food-donations/donate/${pet._id || pet.id}`} className="group bg-white dark:bg-dark-card rounded-2xl overflow-hidden border border-gray-100 dark:border-dark-divider hover:shadow-xl transition-all block relative">
+                  <div className="relative h-48">
+                    <Image
+                      src={(pet.images && pet.images[0]) || "/images/hamer1.png"}
+                      alt={pet.name || "Pet"}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      loading="lazy"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                      quality={60}
+                    />
+                    {pet.isUrgent && (
+                      <div className="absolute top-3 left-3 bg-red-500 text-white px-3 py-1 rounded-full text-xs font-bold">
+                        Urgent
+                      </div>
+                    )}
+                  </div>
+                  <div className="p-4">
+                    <h3 className="font-bold text-lg">{pet.name || pet.species || "Pet"}</h3>
+                    <p className="text-sm text-gray-500 mb-2">{pet.breed || pet.species}</p>
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="font-semibold text-blue-600 flex items-center gap-1">
+                        <Heart className="w-4 h-4" /> Needs Food
+                      </span>
                       <span className="text-gray-400">{pet.location?.city || "Available"}</span>
                     </div>
                   </div>
