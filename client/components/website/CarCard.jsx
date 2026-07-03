@@ -16,7 +16,7 @@ import {
   Zap
 } from "lucide-react";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "/api";
+const API_BASE = (process.env.NEXT_PUBLIC_API_BASE_URL || "/api").replace(/\/$/, "");
 
 export default function CarCard({ car, viewMode = 'grid' }) {
   const router = useRouter();

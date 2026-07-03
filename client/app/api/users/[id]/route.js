@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 export async function GET(request, { params }) {
     try {
         const { id } = params;
-        const backendUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5000';
+        const backendUrl = (process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5000').replace(/\/$/, "");
 
         // Get the authorization header from the request
         const authHeader = request.headers.get('authorization');

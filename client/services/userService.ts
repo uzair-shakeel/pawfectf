@@ -176,7 +176,9 @@ export const getPublicUserInfo = async (userId: string): Promise<any> => {
       const backendUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
       if (backendUrl) {
         // Remove trailing /api if it exists to avoid double /api
-        const baseUrl = backendUrl.replace(/\/api\/?$/, "");
+        let baseUrl = backendUrl.replace(/\/api\/?$/, "");
+        // Remove trailing slash if it exists to avoid double slash
+        baseUrl = baseUrl.replace(/\/$/, "");
         const directResponse = await axios.get(
           `${baseUrl}/api/users/public/${userId}`,
           {
