@@ -2,7 +2,7 @@
 import React, { useState, useEffect, Suspense } from "react";
 import Image from "next/image";
 import { useSearchParams, useRouter } from "next/navigation";
-import { FaMapMarkerAlt, FaPhoneAlt, FaGlobe, FaInstagram, FaFacebook, FaCar, FaCalendar, FaGasPump, FaCog } from "react-icons/fa";
+import { FaMapMarkerAlt, FaPhoneAlt, FaGlobe, FaInstagram, FaFacebook, FaPaw, FaCalendar, FaGasPump, FaCog } from "react-icons/fa";
 import { MdEmail, MdVerified } from "react-icons/md";
 import { motion, AnimatePresence } from "framer-motion";
 import { getPublicUserInfo } from "../../../services/userService";
@@ -97,45 +97,71 @@ function ProfileContent({ sellerId }) {
         <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 pb-12">
             <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-8">
 
-                {/* Profile Header */}
-                <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="bg-gradient-to-r from-blue-500 to-purple-600 dark:from-blue-600 dark:to-purple-700 rounded-2xl p-8 mb-8 shadow-xl relative overflow-hidden">
-                    <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-32 -mt-32"></div>
-                    <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/10 rounded-full -ml-24 -mb-24"></div>
-
-                    <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center gap-6">
-                        <motion.div whileHover={{ scale: 1.05, rotate: 5 }} transition={{ type: "spring", stiffness: 300 }} className="w-28 h-28 rounded-full overflow-hidden bg-white shadow-2xl flex-shrink-0 ring-4 ring-white/50">
-                            <Image src={formatImageUrl(user?.image || user?.profilePicture)} alt={displayName} width={112} height={112} className="object-cover w-full h-full" />
-                        </motion.div>
-
-                        <div className="flex-1 text-white">
-                            <div className="flex items-center gap-3 mb-2">
-                                <motion.h1 initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }} className="text-3xl md:text-4xl font-bold">{displayName}</motion.h1>
-                                {sellerType === "company" && <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.4, type: "spring" }}><MdVerified className="text-2xl text-blue-200" /></motion.div>}
-                                {socials?.facebook && <a href={socials.facebook.startsWith('http') ? socials.facebook : `https://${socials.facebook}`} target="_blank" rel="noopener noreferrer" className="text-blue-100 hover:text-white transition"><FaFacebook size={20} /></a>}
-                                {socials?.instagram && <a href={socials.instagram.startsWith('http') ? socials.instagram : `https://${socials.instagram}`} target="_blank" rel="noopener noreferrer" className="text-pink-200 hover:text-white transition"><FaInstagram size={20} /></a>}
-                                {socials?.website && <a href={socials.website.startsWith('http') ? socials.website : `https://${socials.website}`} target="_blank" rel="noopener noreferrer" className="text-gray-200 hover:text-white transition"><FaGlobe size={20} /></a>}
-                            </div>
-
-                            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }} className="flex flex-wrap items-center gap-4 text-sm text-blue-100 mb-3">
-                                <span className="flex items-center gap-1.5 bg-white/20 px-3 py-1 rounded-full backdrop-blur-sm"><FaCar />{pets.length} {pets.length === 1 ? 'Pet' : 'Pets'}</span>
-                                {joinDate && <span className="flex items-center gap-1.5 bg-white/20 px-3 py-1 rounded-full backdrop-blur-sm"><FaCalendar />Joined {joinDate}</span>}
-                                <span className="flex items-center gap-1.5 bg-white/20 px-3 py-1 rounded-full backdrop-blur-sm">{sellerType === "company" ? "🏢 Shelter" : "👤 Private Seller"}</span>
-                            </motion.div>
-
-                            {bio && <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }} className="text-blue-50 text-base leading-relaxed max-w-2xl">{bio}</motion.p>}
-
-                            {uniqueSpecies.length > 0 && (
-                                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} className="flex flex-wrap gap-2 mt-4">
-                                    {uniqueSpecies.map((species) => (
-                                        <span key={species} className="bg-white/10 hover:bg-white/20 transition-colors px-3 py-1 rounded-full text-xs font-medium text-blue-50 border border-white/10">
-                                            {species}
-                                        </span>
-                                    ))}
-                                </motion.div>
-                            )}
+                {/* Standard Pawfect Profile Header */}
+                <div className="bg-white dark:bg-dark-main p-6 sm:p-10 rounded-3xl border border-gray-100 dark:border-dark-divider shadow-sm mb-8 flex flex-col md:flex-row gap-8 items-center md:items-start">
+                    <div className="relative">
+                        <div className="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-gray-50 dark:border-gray-800 shadow-md flex-shrink-0 bg-white">
+                            <Image src={formatImageUrl(user?.image || user?.profilePicture)} alt={displayName} width={160} height={160} className="object-cover w-full h-full" />
                         </div>
+                        {sellerType === "company" && (
+                            <div className="absolute bottom-2 right-2 bg-white rounded-full p-1 shadow-sm">
+                                <MdVerified className="text-3xl text-blue-600" title="Verified Shelter/Company" />
+                            </div>
+                        )}
                     </div>
-                </motion.div>
+
+                    <div className="flex-1 text-center md:text-left">
+                        <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight mb-2">
+                            {displayName}
+                        </h1>
+                        
+                        <p className="text-gray-600 dark:text-gray-300 font-medium text-sm md:text-base mb-6 max-w-2xl mx-auto md:mx-0 leading-relaxed">
+                            {bio || "Passionate about matching the perfect pets with loving families."}
+                        </p>
+
+                        <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 mb-6">
+                            <span className="flex items-center gap-2 text-sm font-bold text-gray-700 dark:text-gray-200 bg-gray-50 dark:bg-dark-raised px-4 py-2 rounded-xl border border-gray-100 dark:border-dark-divider">
+                                <FaPaw className="text-blue-600" /> {pets.length} {pets.length === 1 ? 'Pet' : 'Pets'}
+                            </span>
+                            {joinDate && (
+                                <span className="flex items-center gap-2 text-sm font-bold text-gray-700 dark:text-gray-200 bg-gray-50 dark:bg-dark-raised px-4 py-2 rounded-xl border border-gray-100 dark:border-dark-divider">
+                                    <FaCalendar className="text-blue-600" /> Joined {joinDate}
+                                </span>
+                            )}
+                            <span className="flex items-center gap-2 text-sm font-bold text-gray-700 dark:text-gray-200 bg-gray-50 dark:bg-dark-raised px-4 py-2 rounded-xl border border-gray-100 dark:border-dark-divider">
+                                {sellerType === "company" ? "🏢 Shelter / Breeder" : "👤 Private Seller"}
+                            </span>
+                        </div>
+
+                        {uniqueSpecies.length > 0 && (
+                            <div className="flex flex-wrap items-center justify-center md:justify-start gap-2">
+                                {uniqueSpecies.map((species) => (
+                                    <span key={species} className="text-xs font-bold uppercase tracking-widest text-blue-600 bg-blue-50 dark:bg-blue-900/20 px-3 py-1.5 rounded-lg border border-blue-100 dark:border-blue-900/50">
+                                        {species}
+                                    </span>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+
+                    <div className="flex md:flex-col gap-4 justify-center items-center">
+                        {socials?.facebook && (
+                            <a href={socials.facebook.startsWith('http') ? socials.facebook : `https://${socials.facebook}`} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-xl flex items-center justify-center bg-gray-50 dark:bg-dark-raised text-gray-600 dark:text-gray-400 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-600 dark:hover:text-white transition-all border border-gray-100 dark:border-dark-divider">
+                                <FaFacebook size={20} />
+                            </a>
+                        )}
+                        {socials?.instagram && (
+                            <a href={socials.instagram.startsWith('http') ? socials.instagram : `https://${socials.instagram}`} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-xl flex items-center justify-center bg-gray-50 dark:bg-dark-raised text-gray-600 dark:text-gray-400 hover:bg-pink-600 hover:text-white dark:hover:bg-pink-600 dark:hover:text-white transition-all border border-gray-100 dark:border-dark-divider">
+                                <FaInstagram size={20} />
+                            </a>
+                        )}
+                        {socials?.website && (
+                            <a href={socials.website.startsWith('http') ? socials.website : `https://${socials.website}`} target="_blank" rel="noopener noreferrer" className="w-12 h-12 rounded-xl flex items-center justify-center bg-gray-50 dark:bg-dark-raised text-gray-600 dark:text-gray-400 hover:bg-gray-900 hover:text-white dark:hover:bg-gray-600 dark:hover:text-white transition-all border border-gray-100 dark:border-dark-divider">
+                                <FaGlobe size={20} />
+                            </a>
+                        )}
+                    </div>
+                </div>
 
                 {/* Tabs */}
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }} className="bg-white dark:bg-dark-main rounded-xl shadow-md p-2 mb-8">
@@ -161,7 +187,7 @@ function ProfileContent({ sellerId }) {
                                 </motion.div>
                             ) : (
                                 <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="bg-white dark:bg-dark-main rounded-xl p-12 text-center shadow-lg">
-                                    <FaCar className="mx-auto text-6xl text-gray-300 dark:text-gray-600 mb-4" />
+                                    <FaPaw className="mx-auto text-6xl text-gray-300 dark:text-gray-600 mb-4" />
                                     <p className="text-gray-500 dark:text-gray-400 text-lg">No pets listed yet.</p>
                                 </motion.div>
                             )}
