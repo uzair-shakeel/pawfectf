@@ -123,7 +123,7 @@ export default function FilterNavbar({ onApplyFilters }) {
                 </div>
               </div>
 
-              {/* Row 2: Gender, Color, Adoption Status, Health Status */}
+              {/* Row 2: Gender, Coat Length, Health Status */}
               <div className="flex items-center justify-between w-full gap-1">
                 <div className="relative flex-1">
                   <select name="gender" value={filters.gender} onChange={handleInputChange} className={sel}>
@@ -133,16 +133,12 @@ export default function FilterNavbar({ onApplyFilters }) {
                   </select>{arrow}
                 </div>
                 <div className="relative flex-1">
-                  <select name="color" value={filters.color} onChange={handleInputChange} className={sel}>
-                    <option value="">Color</option>
-                    {COLORS.map((c) => <option key={c} value={c}>{c}</option>)}
-                  </select>{arrow}
-                </div>
-                <div className="relative flex-1">
-                  <select name="adoptionStatus" value={filters.adoptionStatus} onChange={handleInputChange} className={sel}>
-                    <option value="">Status</option>
-                    <option value="Available">Available</option>
-                    <option value="Pending">Pending</option>
+                  <select name="coatLength" value={filters.coatLength} onChange={handleInputChange} className={sel}>
+                    <option value="">Coat Length</option>
+                    <option value="Hairless">Hairless</option>
+                    <option value="Short">Short</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Long">Long</option>
                   </select>{arrow}
                 </div>
                 <div className="relative flex-1">
@@ -151,45 +147,16 @@ export default function FilterNavbar({ onApplyFilters }) {
                     {HEALTH_OPTIONS.map((h) => <option key={h} value={h}>{h}</option>)}
                   </select>{arrow}
                 </div>
-              </div>
+                <div className="relative flex-1">
 
-              {/* Row 3 (expanded): Coat Length, Fee From, Fee To */}
-              {isDesktopExpanded && (
-                <div className="flex items-center justify-between w-full gap-1">
-                  <div className="relative flex-1">
-                    <select name="coatLength" value={filters.coatLength} onChange={handleInputChange} className={sel}>
-                      <option value="">Coat Length</option>
-                      <option value="Hairless">Hairless</option>
-                      <option value="Short">Short</option>
-                      <option value="Medium">Medium</option>
-                      <option value="Long">Long</option>
-                    </select>{arrow}
-                  </div>
-                  <div className="relative flex-1">
-                    <input type="number" name="feeFrom" value={filters.feeFrom} onChange={handleInputChange} placeholder="Fee from (zł)" className={sel} min="0" />
-                  </div>
-                  <div className="relative flex-1">
-                    <input type="number" name="feeTo" value={filters.feeTo} onChange={handleInputChange} placeholder="Fee to (zł)" className={sel} min="0" />
-                  </div>
-                </div>
-              )}
-
-              {/* Row 4: Location, Reset + Expand buttons */}
-              <div className="hidden md:flex items-center justify-center w-full gap-1">
-                <div className="relative flex-[2]">
                   <input type="text" name="location" value={filters.location} onChange={handleInputChange} placeholder="Search by location..." className={sel} />
+
                 </div>
-                <button onClick={handleReset} className={`${sel} flex-1 justify-center text-gray-600 hover:text-gray-900`}>
-                  Reset
-                </button>
-                <button
-                  onClick={() => setIsDesktopExpanded(!isDesktopExpanded)}
-                  className="flex items-center justify-center gap-1 lg:gap-2 px-2 py-1.5 text-sm lg:px-4 lg:py-3 lg:text-base font-medium border border-blue-500 rounded-md lg:rounded-lg focus:outline-none whitespace-nowrap shadow-sm flex-[2] text-white bg-blue-500"
-                >
-                  {isDesktopExpanded ? "Less Filters" : "More Filters"}
-                  <MdKeyboardArrowDown className={`w-5 h-5 transition-transform ${isDesktopExpanded ? "rotate-180" : ""}`} />
-                </button>
               </div>
+
+
+
+
             </div>
 
             {/* Mobile Layout */}
@@ -271,7 +238,7 @@ export default function FilterNavbar({ onApplyFilters }) {
                   <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none"><MdKeyboardArrowDown className="w-5 h-5 text-gray-500" /></div>
                 </div>
               </div>
-              {/* Size + Color */}
+              {/* Size + Coat */}
               <div className="flex gap-1">
                 <div className="relative flex-1">
                   <select name="size" value={filters.size} onChange={handleInputChange} className="w-full px-3 h-10 pr-6 text-sm font-medium border border-gray-200 dark:border-dark-divider rounded-lg focus:outline-none bg-white dark:bg-dark-raised dark:text-dark-text-primary shadow-sm appearance-none">
@@ -284,16 +251,6 @@ export default function FilterNavbar({ onApplyFilters }) {
                   <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none"><MdKeyboardArrowDown className="w-5 h-5 text-gray-500" /></div>
                 </div>
                 <div className="relative flex-1">
-                  <select name="color" value={filters.color} onChange={handleInputChange} className="w-full px-3 h-10 pr-6 text-sm font-medium border border-gray-200 dark:border-dark-divider rounded-lg focus:outline-none bg-white dark:bg-dark-raised dark:text-dark-text-primary shadow-sm appearance-none">
-                    <option value="">Color</option>
-                    {COLORS.map((c) => <option key={c} value={c}>{c}</option>)}
-                  </select>
-                  <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none"><MdKeyboardArrowDown className="w-5 h-5 text-gray-500" /></div>
-                </div>
-              </div>
-              {/* Coat + Health */}
-              <div className="flex gap-1">
-                <div className="relative flex-1">
                   <select name="coatLength" value={filters.coatLength} onChange={handleInputChange} className="w-full px-3 h-10 pr-6 text-sm font-medium border border-gray-200 dark:border-dark-divider rounded-lg focus:outline-none bg-white dark:bg-dark-raised dark:text-dark-text-primary shadow-sm appearance-none">
                     <option value="">Coat</option>
                     <option value="Hairless">Hairless</option>
@@ -303,18 +260,14 @@ export default function FilterNavbar({ onApplyFilters }) {
                   </select>
                   <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none"><MdKeyboardArrowDown className="w-5 h-5 text-gray-500" /></div>
                 </div>
-                <div className="relative flex-1">
-                  <select name="healthStatus" value={filters.healthStatus} onChange={handleInputChange} className="w-full px-3 h-10 pr-6 text-sm font-medium border border-gray-200 dark:border-dark-divider rounded-lg focus:outline-none bg-white dark:bg-dark-raised dark:text-dark-text-primary shadow-sm appearance-none">
-                    <option value="">Health</option>
-                    {HEALTH_OPTIONS.map((h) => <option key={h} value={h}>{h}</option>)}
-                  </select>
-                  <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none"><MdKeyboardArrowDown className="w-5 h-5 text-gray-500" /></div>
-                </div>
               </div>
-              {/* Fee From + Fee To */}
-              <div className="flex gap-1">
-                <input type="number" name="feeFrom" value={filters.feeFrom} onChange={handleInputChange} placeholder="Fee from (zł)" className="w-full px-3 h-10 text-sm font-medium border border-gray-200 dark:border-dark-divider rounded-lg focus:outline-none bg-white dark:bg-dark-raised dark:text-dark-text-primary shadow-sm" min="0" />
-                <input type="number" name="feeTo" value={filters.feeTo} onChange={handleInputChange} placeholder="Fee to (zł)" className="w-full px-3 h-10 text-sm font-medium border border-gray-200 dark:border-dark-divider rounded-lg focus:outline-none bg-white dark:bg-dark-raised dark:text-dark-text-primary shadow-sm" min="0" />
+              {/* Health Status */}
+              <div className="relative">
+                <select name="healthStatus" value={filters.healthStatus} onChange={handleInputChange} className="w-full px-3 h-10 pr-6 text-sm font-medium border border-gray-200 dark:border-dark-divider rounded-lg focus:outline-none bg-white dark:bg-dark-raised dark:text-dark-text-primary shadow-sm appearance-none">
+                  <option value="">Health</option>
+                  {HEALTH_OPTIONS.map((h) => <option key={h} value={h}>{h}</option>)}
+                </select>
+                <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none"><MdKeyboardArrowDown className="w-5 h-5 text-gray-500" /></div>
               </div>
               {/* Location */}
               <input type="text" name="location" value={filters.location} onChange={handleInputChange} placeholder="Location" className="w-full px-3 h-10 text-sm font-medium border border-gray-200 dark:border-dark-divider rounded-lg focus:outline-none bg-white dark:bg-dark-raised dark:text-dark-text-primary shadow-sm" />
