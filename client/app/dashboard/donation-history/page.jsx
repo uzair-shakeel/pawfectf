@@ -31,10 +31,20 @@ export default function DonationHistoryPage() {
     const loadDonations = async () => {
         try {
             setLoading(true);
+            console.log('[DONATION HISTORY] Loading donations...');
+            console.log('[DONATION HISTORY] User:', user);
+
             const data = await foodDonationService.getMyDonations();
-            setDonations(Array.isArray(data) ? data : []);
+            console.log('[DONATION HISTORY] Received data:', data);
+
+            const donationsArray = data.donations || data || [];
+            console.log('[DONATION HISTORY] Donations array:', donationsArray);
+
+            setDonations(Array.isArray(donationsArray) ? donationsArray : []);
         } catch (error) {
-            console.error("Error loading donations:", error);
+            console.error("[DONATION HISTORY] Error loading donations:", error);
+            console.error("[DONATION HISTORY] Error details:", error.response?.data || error.message);
+
             // Use mock data if API fails
             const mockDonations = [
                 {
@@ -84,6 +94,7 @@ export default function DonationHistoryPage() {
             setLoading(false);
         }
     };
+
 
     const filtered = donations;
 

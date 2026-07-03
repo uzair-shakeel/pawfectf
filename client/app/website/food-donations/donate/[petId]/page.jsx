@@ -85,33 +85,37 @@ export default function DonatePage() {
 
         setDonating(true);
         try {
-            // Try to create donation via API, fallback to mock success
-            try {
-                await foodDonationService.createDonation({
-                    petId,
-                    donationType: 'sponsorship',
-                    foodPackage: {
-                        type: 'custom',
-                        duration: '1_month',
-                        amount: finalAmount,
-                        description: donorMessage || 'Food donation'
-                    },
-                    donorMessage: donorMessage || undefined,
-                    delivery: {
-                        type: 'shelter_direct'
-                    }
-                });
-            } catch (apiError) {
-                console.log("API not available, proceeding with mock donation:", apiError);
-                // Mock delay to simulate processing
-                await new Promise(resolve => setTimeout(resolve, 1500));
-            }
+            console.log('[DONATION] Starting donation process...');
+            console.log('[DONATION] User:', user);
+            console.log('[DONATION] Pet ID:', petId);
+            console.log('[DONATION] Amount:', finalAmount);
 
+            const donationData = {
+                petId,
+                donationType: 'sponsorship',
+                foodPackage: {
+                    type: 'custom',
+                    duration: '1_month',
+                    amount: finalAmount,
+                    description: donorMessage || 'Food donation'
+                },
+                donorMessage: donorMessage || undefined,
+                delivery: {
+                    type: 'shelter_direct'
+                }
+            };
+
+            console.log('[DONATION] Sending donation data:', donationData);
+
+            const result = await foodDonationService.createDonation(donationData);
+
+            console.log('[DONATION] Donation created successfully:', result);
             toast.success("Donation successful!");
             router.push(`/website/food-donations/success/${petId}`);
         } catch (err) {
-            console.error("Donation failed:", err);
-            toast.error("Donation failed. Please try again.");
+            console.error("[DONATION] Donation failed:", err);
+            console.error("[DONATION] Error details:", err.response?.data || err.message);
+            toast.error(err.response?.data?.message || err.message || "Donation failed. Please try again.");
         } finally {
             setDonating(false);
         }
