@@ -426,44 +426,7 @@ export default function DonatePage() {
                                 </div>
                             </div>
 
-                            {/* Recent Donors */}
-                            <div className="bg-white dark:bg-dark-card rounded-2xl border border-gray-100 dark:border-dark-divider p-6">
-                                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Recent Donors</h3>
-                                <div className="space-y-3">
-                                    {recentDonors.map((donor, idx) => (
-                                        <div key={idx} className="flex items-center justify-between py-2 border-b border-gray-100 dark:border-dark-divider last:border-0">
-                                            <div className="flex items-center gap-3">
-                                                <div className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400 font-bold text-sm">
-                                                    {donor.name[0]}
-                                                </div>
-                                                <div>
-                                                    <p className="text-sm font-semibold text-gray-900 dark:text-white">{donor.name}</p>
-                                                    <p className="text-xs text-gray-500 dark:text-gray-400">{donor.date}</p>
-                                                </div>
-                                            </div>
-                                            <div className="text-sm font-bold text-blue-600 dark:text-blue-400">
-                                                {donor.amount} zł
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                                <div className="mt-4 pt-4 border-t border-gray-100 dark:border-dark-divider">
-                                    <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400 mb-2">
-                                        <span>Total raised:</span>
-                                        <span className="font-bold text-gray-900 dark:text-white">575 zł</span>
-                                    </div>
-                                    <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400 mb-2">
-                                        <span>Goal:</span>
-                                        <span className="font-bold text-gray-900 dark:text-white">1000 zł</span>
-                                    </div>
-                                    <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 overflow-hidden">
-                                        <div className="bg-gradient-to-r from-blue-500 to-purple-500 h-3 rounded-full transition-all" style={{ width: '57.5%' }} />
-                                    </div>
-                                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 text-center">
-                                        57% funded • 425 zł needed
-                                    </p>
-                                </div>
-                            </div>
+
                         </div>
                     </div>
                 </div>

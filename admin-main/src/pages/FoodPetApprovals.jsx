@@ -38,7 +38,7 @@ const FoodPetApprovals = () => {
         description: pet.description || 'No description provided',
         images: pet.images || ['/placeholder.jpg'],
         status: 'pending_approval',
-        urgency: pet.isUrgent ? 'high' : 'medium',
+        urgency: pet.isUrgent ? 'high' : (pet.foodNeed?.urgency || 'medium'),
         foodNeed: pet.foodNeed || {
           reason: 'Food assistance needed',
           specialDiet: pet.specialNeeds || 'Standard diet',
@@ -143,12 +143,12 @@ const FoodPetApprovals = () => {
 
   if (loading) {
     return (
-      <div className="p-6">
+      <div className="p-6 min-h-screen" style={{ background: 'transparent' }}>
         <div className="animate-pulse">
-          <div className="h-8 bg-gray-200 rounded w-1/3 mb-6"></div>
+          <div className="h-8 bg-gray-700 dark:bg-gray-700 rounded w-1/3 mb-6"></div>
           <div className="space-y-4">
             {[...Array(3)].map((_, i) => (
-              <div key={i} className="h-32 bg-gray-200 rounded-lg"></div>
+              <div key={i} className="h-32 bg-gray-700 dark:bg-gray-700 rounded-lg"></div>
             ))}
           </div>
         </div>
@@ -157,65 +157,65 @@ const FoodPetApprovals = () => {
   }
 
   return (
-    <div className="p-6 max-w-7xl mx-auto">
+    <div className="p-6 max-w-7xl mx-auto min-h-screen" style={{ background: 'transparent' }}>
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Food Pet Approvals</h1>
-        <p className="text-gray-600">Review and approve pets for food donation listings</p>
+        <h1 className="text-3xl font-bold text-white dark:text-white mb-2">Food Pet Approvals</h1>
+        <p className="text-gray-400 dark:text-gray-400">Review and approve pets for food donation listings</p>
       </div>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div className="bg-white rounded-lg shadow p-6">
+        <div className="bg-gray-800 rounded-lg shadow p-6 border border-gray-700">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
-              <Clock className="h-6 w-6 text-yellow-600" />
+            <div className="w-12 h-12 bg-yellow-900/30 rounded-lg flex items-center justify-center">
+              <Clock className="h-6 w-6 text-yellow-400" />
             </div>
             <div>
-              <p className="text-2xl font-bold text-gray-900">{pets.length}</p>
-              <p className="text-sm text-gray-600">Pending Approval</p>
+              <p className="text-2xl font-bold text-white">{pets.length}</p>
+              <p className="text-sm text-gray-400">Pending Approval</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow p-6">
+        <div className="bg-gray-800 rounded-lg shadow p-6 border border-gray-700">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
-              <AlertTriangle className="h-6 w-6 text-red-600" />
+            <div className="w-12 h-12 bg-red-900/30 rounded-lg flex items-center justify-center">
+              <AlertTriangle className="h-6 w-6 text-red-400" />
             </div>
             <div>
-              <p className="text-2xl font-bold text-gray-900">{pets.filter(p => p.urgency === 'critical' || p.urgency === 'high').length}</p>
-              <p className="text-sm text-gray-600">Urgent Cases</p>
+              <p className="text-2xl font-bold text-white">{pets.filter(p => p.urgency === 'critical' || p.urgency === 'high').length}</p>
+              <p className="text-sm text-gray-400">Urgent Cases</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow p-6">
+        <div className="bg-gray-800 rounded-lg shadow p-6 border border-gray-700">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-              <Eye className="h-6 w-6 text-blue-600" />
+            <div className="w-12 h-12 bg-blue-900/30 rounded-lg flex items-center justify-center">
+              <Eye className="h-6 w-6 text-blue-400" />
             </div>
             <div>
-              <p className="text-2xl font-bold text-gray-900">24h</p>
-              <p className="text-sm text-gray-600">Avg Review Time</p>
+              <p className="text-2xl font-bold text-white">24h</p>
+              <p className="text-sm text-gray-400">Avg Review Time</p>
             </div>
           </div>
         </div>
       </div>
 
       {/* Pending Pets List */}
-      <div className="bg-white rounded-lg shadow overflow-hidden">
+      <div className="bg-gray-800 rounded-lg shadow overflow-hidden border border-gray-700">
         {pets.length === 0 ? (
           <div className="p-12 text-center">
             <Check className="h-12 w-12 text-green-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">All caught up!</h3>
-            <p className="text-gray-600">No pets are currently waiting for approval.</p>
+            <h3 className="text-lg font-medium text-white mb-2">All caught up!</h3>
+            <p className="text-gray-400">No pets are currently waiting for approval.</p>
           </div>
         ) : (
-          <div className="divide-y divide-gray-200">
+          <div className="divide-y divide-gray-200 dark:divide-gray-700">
             {pets.map((pet) => (
-              <div key={pet.id} className="p-6 hover:bg-gray-50 transition-colors">
+              <div key={pet.id} className="p-6 hover:bg-gray-700/50 transition-colors">
                 <div className="flex items-start justify-between">
-                  <div className="flex items-start gap-4">
+                  <div className="flex items-start gap-4 flex-1">
                     <img
                       src={pet.images[0] || '/placeholder.jpg'}
                       alt={pet.name}
@@ -223,17 +223,17 @@ const FoodPetApprovals = () => {
                     />
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-2">
-                        <h3 className="text-lg font-semibold text-gray-900">{pet.name}</h3>
+                        <h3 className="text-lg font-semibold text-white">{pet.name}</h3>
                         <span className={`px-3 py-1 rounded-full text-xs font-medium ${getUrgencyColor(pet.urgency)}`}>
                           {pet.urgency} priority
                         </span>
                       </div>
 
-                      <p className="text-sm text-gray-600 mb-2">
+                      <p className="text-sm text-gray-400 mb-2">
                         {pet.breed} • {pet.species} • {pet.age} • {pet.gender}
                       </p>
 
-                      <div className="flex items-center gap-4 text-sm text-gray-500 mb-3">
+                      <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-3">
                         <span className="flex items-center gap-1">
                           <MapPin className="h-4 w-4" />
                           {pet.shelter.name}, {pet.location.city}
@@ -245,7 +245,7 @@ const FoodPetApprovals = () => {
                         <span>Submitted {formatDate(pet.createdAt)}</span>
                       </div>
 
-                      <p className="text-sm text-gray-700 line-clamp-2 mb-2">{pet.description}</p>
+                      <p className="text-sm text-gray-300 line-clamp-2 mb-2">{pet.description}</p>
 
                       <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3">
                         <p className="text-sm text-blue-800 dark:text-blue-200">
@@ -262,7 +262,7 @@ const FoodPetApprovals = () => {
                   <div className="flex gap-3 ml-4">
                     <button
                       onClick={() => openPetModal(pet)}
-                      className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors flex items-center gap-2"
+                      className="px-4 py-2 border border-gray-600 text-gray-300 rounded-lg hover:bg-gray-700 transition-colors flex items-center gap-2"
                     >
                       <Eye className="h-4 w-4" />
                       Review
@@ -286,13 +286,13 @@ const FoodPetApprovals = () => {
       {/* Pet Details Modal */}
       {showModal && selectedPet && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="p-6 border-b border-gray-200">
+          <div className="bg-gray-800 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6 border-b border-gray-700">
               <div className="flex items-center justify-between">
-                <h3 className="text-xl font-semibold">Review Pet Application</h3>
+                <h3 className="text-xl font-semibold text-white">Review Pet Application</h3>
                 <button
                   onClick={() => setShowModal(false)}
-                  className="text-gray-400 hover:text-gray-600"
+                  className="text-gray-400 hover:text-gray-300"
                 >
                   <X className="h-5 w-5" />
                 </button>
@@ -311,8 +311,8 @@ const FoodPetApprovals = () => {
                 </div>
 
                 <div>
-                  <h4 className="font-semibold text-gray-900 mb-3">Pet Details</h4>
-                  <div className="grid grid-cols-2 gap-3 text-sm">
+                  <h4 className="font-semibold text-white mb-3">Pet Details</h4>
+                  <div className="grid grid-cols-2 gap-3 text-sm text-gray-300">
                     <div><span className="font-medium">Name:</span> {selectedPet.name}</div>
                     <div><span className="font-medium">Species:</span> {selectedPet.species}</div>
                     <div><span className="font-medium">Breed:</span> {selectedPet.breed}</div>
@@ -323,16 +323,16 @@ const FoodPetApprovals = () => {
                 </div>
 
                 <div>
-                  <h5 className="font-medium text-gray-900 mb-2">Description</h5>
-                  <p className="text-sm text-gray-700">{selectedPet.description}</p>
+                  <h5 className="font-medium text-white mb-2">Description</h5>
+                  <p className="text-sm text-gray-300">{selectedPet.description}</p>
                 </div>
               </div>
 
               {/* Application Details */}
               <div className="space-y-6">
                 <div>
-                  <h4 className="font-semibold text-gray-900 dark:text-white mb-3">Food Need Information</h4>
-                  <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 space-y-2">
+                  <h4 className="font-semibold text-white mb-3">Food Need Information</h4>
+                  <div className="bg-blue-950 border border-blue-200 dark:border-blue-800 rounded-lg p-4 space-y-2">
                     <div className="dark:text-gray-200"><span className="font-medium">Reason:</span> {selectedPet.foodNeed.reason}</div>
                     <div className="dark:text-gray-200"><span className="font-medium">Estimated Cost:</span> ₹{selectedPet.foodNeed.estimatedCost}</div>
                     <div className="dark:text-gray-200"><span className="font-medium">Priority:</span>
@@ -346,9 +346,10 @@ const FoodPetApprovals = () => {
                   </div>
                 </div>
 
+
                 <div>
-                  <h4 className="font-semibold text-gray-900 mb-3">Shelter Information</h4>
-                  <div className="space-y-2 text-sm">
+                  <h4 className="font-semibold text-white mb-3">Shelter Information</h4>
+                  <div className="space-y-2 text-sm text-gray-300">
                     <div><span className="font-medium">Name:</span> {selectedPet.shelter.name}</div>
                     <div><span className="font-medium">Address:</span> {selectedPet.shelter.address}</div>
                     <div><span className="font-medium">License:</span> {selectedPet.shelter.licenseNumber}</div>
@@ -364,8 +365,8 @@ const FoodPetApprovals = () => {
                 </div>
 
                 <div>
-                  <h4 className="font-semibold text-gray-900 mb-3">Submitted By</h4>
-                  <div className="space-y-2 text-sm">
+                  <h4 className="font-semibold text-white mb-3">Submitted By</h4>
+                  <div className="space-y-2 text-sm text-gray-300">
                     <div><span className="font-medium">Name:</span> {selectedPet.submittedBy.name}</div>
                     <div><span className="font-medium">Email:</span> {selectedPet.submittedBy.email}</div>
                     <div><span className="font-medium">Phone:</span> {selectedPet.submittedBy.phone}</div>
@@ -375,22 +376,22 @@ const FoodPetApprovals = () => {
 
                 {selectedPet.submissionNotes && (
                   <div>
-                    <h5 className="font-medium text-gray-900 mb-2">Submission Notes</h5>
-                    <p className="text-sm text-gray-700 bg-gray-50 p-3 rounded-lg">{selectedPet.submissionNotes}</p>
+                    <h5 className="font-medium text-white mb-2">Submission Notes</h5>
+                    <p className="text-sm text-gray-300 bg-gray-700 p-3 rounded-lg">{selectedPet.submissionNotes}</p>
                   </div>
                 )}
               </div>
             </div>
 
             {/* Actions */}
-            <div className="p-6 border-t border-gray-200">
+            <div className="p-6 border-t border-gray-700">
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-300 mb-2">
                   Rejection Reason (if rejecting)
                 </label>
                 <textarea
                   rows="3"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   value={rejectionReason}
                   onChange={(e) => setRejectionReason(e.target.value)}
                   placeholder="Provide a reason for rejection (required if rejecting)..."
@@ -400,7 +401,7 @@ const FoodPetApprovals = () => {
               <div className="flex gap-3 justify-end">
                 <button
                   onClick={() => setShowModal(false)}
-                  className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                  className="px-4 py-2 border border-gray-600 text-gray-300 rounded-lg hover:bg-gray-700 transition-colors"
                 >
                   Cancel
                 </button>

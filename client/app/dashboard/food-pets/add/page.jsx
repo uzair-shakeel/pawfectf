@@ -4,9 +4,11 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Heart, Upload, MapPin, AlertCircle, Camera } from 'lucide-react';
 import { toast } from 'react-hot-toast';
+import { useAuth } from '../../../../lib/auth/AuthContext';
 
 const AddFoodPetPage = () => {
   const router = useRouter();
+  const { getToken } = useAuth();
   const [loading, setLoading] = useState(false);
   const [images, setImages] = useState([]);
   const [formData, setFormData] = useState({
@@ -102,9 +104,15 @@ const AddFoodPetPage = () => {
         submitData.append(`images`, img.file);
       });
 
+      // Get auth token
+      const token = await getToken();
+
       // Submit to API
       const response = await fetch('/api/pets/food-donation', {
         method: 'POST',
+        headers: {
+          ...(token && { Authorization: `Bearer ${token}` })
+        },
         body: submitData,
       });
 
@@ -112,11 +120,13 @@ const AddFoodPetPage = () => {
         toast.success('Pet added for food donations! Awaiting admin approval.');
         router.push('/dashboard/food-pets');
       } else {
-        throw new Error('Failed to add pet');
+        const errorData = await response.json();
+        console.error('Server response:', errorData);
+        throw new Error(errorData.error || errorData.message || 'Failed to add pet');
       }
     } catch (error) {
       console.error('Error adding pet:', error);
-      toast.error('Failed to add pet. Please try again.');
+      toast.error(error.message || 'Failed to add pet. Please try again.');
     } finally {
       setLoading(false);
     }

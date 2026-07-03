@@ -41,6 +41,7 @@ exports.addPet = async (req, res) => {
       healthStatus, specialNeeds,
       adoptionFee, currency, adoptionStatus,
       personality, isFeatured,
+      type, isUrgent, foodNeed, shelter
     } = req.body;
 
     // Validate required fields per schema
@@ -63,10 +64,13 @@ exports.addPet = async (req, res) => {
       url, category: "unknown", detected_label: "Processing...", confidence: 0, index: i,
     }));
 
-    const parsedAiSections  = parseJsonField(req.body.aiSections);
+    const parsedAiSections = parseJsonField(req.body.aiSections);
     const parsedHealthStatus = parseJsonField(healthStatus, []);
-    const parsedPersonality  = parseJsonField(personality, []);
-    const isFeaturedBool     = String(isFeatured).toLowerCase() === "true";
+    const parsedPersonality = parseJsonField(personality, []);
+    const parsedFoodNeed = parseJsonField(foodNeed, null);
+    const parsedShelter = parseJsonField(shelter, null);
+    const isFeaturedBool = String(isFeatured).toLowerCase() === "true";
+    const isUrgentBool = isUrgent ? String(isUrgent).toLowerCase() === "true" : false;
 
     const pet = new Pet({
       createdBy: userId,
@@ -91,6 +95,10 @@ exports.addPet = async (req, res) => {
       aiSections: parsedAiSections,
       location: user.location,
       status: "Pending",
+      type: type || "adoption",
+      isUrgent: isUrgentBool,
+      ...(parsedFoodNeed && { foodNeed: parsedFoodNeed }),
+      ...(parsedShelter && { shelter: parsedShelter }),
       isFeatured: isFeaturedBool,
     });
 
@@ -438,9 +446,9 @@ exports.getAllPets = async (req, res) => {
       .lean()
       .limit(100)
       .populate(
-      "createdBy",
-      "firstName lastName"
-    );
+        "createdBy",
+        "firstName lastName"
+      );
     res.status(200).json(pets); // Returns an array of pets
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -455,8 +463,8 @@ exports.getFeaturedPets = async (req, res) => {
       .lean()
       .limit(50)
       .sort({
-      createdAt: -1,
-    });
+        createdAt: -1,
+      });
     res.status(200).json(pets);
   } catch (error) {
     res.status(500).json({ message: error.message });

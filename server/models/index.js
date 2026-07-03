@@ -260,6 +260,26 @@ const petSchema = new mongoose.Schema({
     enum: ["Pending", "Approved", "Rejected"],
     default: "Pending"
   },
+  type: {
+    type: String,
+    enum: ["adoption", "food_donation"],
+    default: "adoption"
+  },
+  isUrgent: { type: Boolean, default: false },
+  foodNeed: {
+    urgency: { type: String, enum: ["low", "medium", "high", "critical"], default: "medium" },
+    specialDiet: { type: String, trim: true },
+    reason: { type: String, trim: true },
+    estimatedCost: { type: Number },
+    duration: { type: String }
+  },
+  shelter: {
+    name: { type: String, trim: true },
+    address: { type: String, trim: true },
+    contactPhone: { type: String, trim: true },
+    contactEmail: { type: String, trim: true },
+    licenseNumber: { type: String, trim: true }
+  },
   isFeatured: { type: Boolean, default: false },
   createdBy: { type: String, required: true },  // User ID of shelter/owner
 }, { timestamps: true });
