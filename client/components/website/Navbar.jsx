@@ -223,8 +223,8 @@ const Navbar = () => {
       {/* Logo Section - Left Side */}
       <div className="flex items-center">
         <Link href="/" className="flex items-center">
-          <Image src="/logo.png" alt="Rofrof" width={150} height={40} className="h-20 md:h-14 w-auto object-contain dark:hidden" priority />
-          <Image src="/whitelogo.png" alt="Rofrof" width={150} height={40} className="h-20 md:h-14 w-auto object-contain hidden dark:block" priority />
+          <Image src="/logo.png" alt="Rafraf" width={150} height={40} className="h-20 md:h-14 w-auto object-contain dark:hidden" priority />
+          <Image src="/whitelogo.png" alt="Rafraf" width={150} height={40} className="h-20 md:h-14 w-auto object-contain hidden dark:block" priority />
         </Link>
       </div>
 
@@ -409,8 +409,8 @@ const Navbar = () => {
           <div className="h-16 px-4 border-b border-gray-100 dark:border-dark-divider flex justify-between items-center sticky top-0 bg-white/80 dark:bg-dark-panel/80 backdrop-blur-md z-10">
             <div className="flex items-center">
               <Link href="/" onClick={() => setIsMenuOpen(false)} className="flex items-center">
-                <Image src="/logo.png" alt="Rofrof" width={150} height={48} className="h-10 md:h-12 w-auto object-contain dark:hidden" priority />
-                <Image src="/whitelogo.png" alt="Rofrof" width={150} height={48} className="h-10 md:h-12 w-auto object-contain hidden dark:block" priority />
+                <Image src="/logo.png" alt="Rafraf" width={150} height={48} className="h-10 md:h-12 w-auto object-contain dark:hidden" priority />
+                <Image src="/whitelogo.png" alt="Rafraf" width={150} height={48} className="h-10 md:h-12 w-auto object-contain hidden dark:block" priority />
               </Link>
             </div>
 

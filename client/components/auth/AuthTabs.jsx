@@ -285,7 +285,7 @@ export default function AuthTabs() {
           <div className="absolute inset-0 bg-gradient-to-br from-pink-500 via-purple-600 to-blue-600">
             <Image
               src="/Hero2-QKTSHICM.webp"
-              alt="Rofrof Logo"
+              alt="Rafraf Logo"
               fill
               className="object-cover brightness-75"
               priority
@@ -302,7 +302,7 @@ export default function AuthTabs() {
                   <div className="flex items-center">
                     <img
                       src="/logo-white.png"
-                      alt="Rofrof Logo"
+                      alt="Rafraf Logo"
                       className="h-10 mr-3"
                     />
                   </div>
@@ -335,7 +335,7 @@ export default function AuthTabs() {
       <div className="absolute inset-0 z-0">
         <Image
           src="/Hero2-QKTSHICM.webp"
-          alt="Rofrof Background"
+          alt="Rafraf Background"
           fill
           className="object-cover"
           priority
@@ -348,10 +348,10 @@ export default function AuthTabs() {
       <div className="relative z-10 w-full max-w-2xl bg-white/10 dark:bg-dark-card/40 backdrop-blur-xl border border-white/20 dark:border-white/10 rounded-[2rem] p-8 md:p-12 shadow-2xl">
         <div className="text-center mb-10">
           <Link href="/" className="inline-block mb-6">
-            <Image src="/logo-white.png" alt="Rofrof" width={140} height={40} className="h-10 w-auto" />
+            <Image src="/logo-white.png" alt="Rafraf" width={140} height={40} className="h-10 w-auto" />
           </Link>
           <h1 className="text-4xl md:text-5xl font-black text-white mb-4 tracking-tight drop-shadow-md">
-            Join Rofrof Today
+            Join Rafraf Today
           </h1>
           <p className="text-lg text-gray-200 font-medium max-w-md mx-auto">
             Create an account to start your journey and find your new best friend.

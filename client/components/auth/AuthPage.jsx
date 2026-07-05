@@ -86,7 +86,7 @@ export default function AuthPage({ defaultTab = "login" }) {
       <div className="hidden lg:flex lg:w-[45%] xl:w-1/2 relative flex-col overflow-hidden">
         <Image
           src="/auth-bg.png"
-          alt="Rofrof"
+          alt="Rafraf"
           fill
           className="object-cover object-center"
           priority
@@ -98,7 +98,7 @@ export default function AuthPage({ defaultTab = "login" }) {
         <div className="relative z-10 flex flex-col h-full p-10 justify-between">
           {/* Top: Logo */}
           <Link href="/" className="inline-flex items-center">
-            <Image src="/logo-white.png" alt="Rofrof" width={130} height={36} className="h-10 w-auto" />
+            <Image src="/logo-white.png" alt="Rafraf" width={130} height={36} className="h-10 w-auto" />
           </Link>
 
           {/* Bottom: Tagline */}
@@ -109,7 +109,7 @@ export default function AuthPage({ defaultTab = "login" }) {
             </div>
             <h2 className="text-4xl xl:text-5xl font-black text-white leading-tight mb-4">
               Find Your<br />
-              <span className="text-blue-300">Rofrof</span><br />
+              <span className="text-blue-300">Rafraf</span><br />
               Companion
             </h2>
             <p className="text-white/70 text-base leading-relaxed max-w-sm">
@@ -126,8 +126,8 @@ export default function AuthPage({ defaultTab = "login" }) {
           {/* Mobile logo */}
           <div className="flex lg:hidden justify-center mb-8">
             <Link href="/">
-              <Image src="/logo.png" alt="Rofrof" width={120} height={34} className="h-9 w-auto dark:hidden" />
-              <Image src="/logo-white.png" alt="Rofrof" width={120} height={34} className="h-9 w-auto hidden dark:block" />
+              <Image src="/logo.png" alt="Rafraf" width={120} height={34} className="h-9 w-auto dark:hidden" />
+              <Image src="/logo-white.png" alt="Rafraf" width={120} height={34} className="h-9 w-auto hidden dark:block" />
             </Link>
           </div>
 
@@ -181,8 +181,8 @@ export default function AuthPage({ defaultTab = "login" }) {
                 </h1>
                 <p className="text-gray-500 dark:text-gray-400 text-sm">
                   {tab === "login"
-                    ? "Sign in to your Rofrof account"
-                    : "Join thousands of pet lovers on Rofrof"}
+                    ? "Sign in to your Rafraf account"
+                    : "Join thousands of pet lovers on Rafraf"}
                 </p>
               </div>
 
@@ -235,7 +235,7 @@ export default function AuthPage({ defaultTab = "login" }) {
                     {loginLoading ? "Signing in..." : "Sign In"}
                   </button>
                   <p className="text-center text-gray-500 text-sm pt-1">
-                    New to Rofrof?{" "}
+                    New to Rafraf?{" "}
                     <button type="button" onClick={() => setTab("register")} className="text-blue-600 font-bold hover:underline">
                       Create account
                     </button>

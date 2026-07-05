@@ -100,8 +100,8 @@ export default function DashboardNavbar({ isOpen, toggleSidebar }) {
       {/* Logo Section - Left Side */}
       <div className="flex items-center gap-3">
         <Link href="/" className="flex items-center">
-          <img src="/logo.png" alt="Rofrof" className="h-10 md:h-12 w-auto object-contain dark:hidden" />
-          <img src="/whitelogo.png" alt="Rofrof" className="h-10 md:h-12 w-auto object-contain hidden dark:block" />
+          <img src="/logo.png" alt="Rafraf" className="h-10 md:h-12 w-auto object-contain dark:hidden" />
+          <img src="/whitelogo.png" alt="Rafraf" className="h-10 md:h-12 w-auto object-contain hidden dark:block" />
         </Link>
       </div>
 

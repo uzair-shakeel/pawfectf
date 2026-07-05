@@ -21,7 +21,7 @@ export default function ContactPage() {
           <div>
             <h1 className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white mb-6">Get in Touch</h1>
             <p className="text-lg text-gray-600 dark:text-gray-400 mb-12">
-              Whether you're looking to adopt, want to list your shelter, or just have a question about how Rofrof works, we're here to help.
+              Whether you're looking to adopt, want to list your shelter, or just have a question about how Rafraf works, we're here to help.
             </p>
 
             <div className="space-y-8">
@@ -31,7 +31,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h3 className="text-lg font-bold text-gray-900 dark:text-white">Email Us</h3>
-                  <p className="text-gray-600 dark:text-gray-400 mt-1">support@Rofrof.pl</p>
+                  <p className="text-gray-600 dark:text-gray-400 mt-1">support@Rafraf.pl</p>
                   <p className="text-gray-500 text-sm mt-1">We aim to reply within 24 hours.</p>
                 </div>
               </div>

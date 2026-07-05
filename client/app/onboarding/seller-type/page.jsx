@@ -66,7 +66,7 @@ const SellerTypePage = () => {
       <div className="max-w-3xl mx-auto">
         <div className="text-center mb-12">
           <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-200 mb-4">
-            How will you be using Rofrof?
+            How will you be using Rafraf?
           </h1>
           <p className="text-lg text-gray-600">
             Select the type of account that fits you best

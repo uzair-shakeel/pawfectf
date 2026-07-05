@@ -73,9 +73,10 @@ export default function PetCard({ car: pet, viewMode = "grid" }) {
     pet?.gender,
   ].filter(Boolean).join(" · ");
 
-  const feeLabel = pet?.customLabel || (pet?.adoptionFee
-    ? `Adoption Fee: ${Number(pet.adoptionFee).toLocaleString()} zł`
-    : "Free Adoption");
+  // Fee display removed per user request
+  // const feeLabel = pet?.customLabel || (pet?.adoptionFee
+  //   ? `Adoption Fee: ${Number(pet.adoptionFee).toLocaleString()} zł`
+  //   : "Free Adoption");
 
   const handleCardClick = () => router.push(pet?.href || `/website/pets/${pet._id}`);
 
@@ -107,10 +108,10 @@ export default function PetCard({ car: pet, viewMode = "grid" }) {
               <Image src={firstImage} alt={displayName} fill className="object-cover transition-transform duration-500" loading="lazy" sizes="(max-width: 768px) 100vw, 50vw" />
             )}
 
-            {/* Fee overlay */}
-            <div className="absolute bottom-3 left-3 bg-gray-900/90 backdrop-blur-md px-3 py-1.5 rounded-xl shadow-lg border border-white/10">
+            {/* Fee overlay - REMOVED per user request */}
+            {/* <div className="absolute bottom-3 left-3 bg-gray-900/90 backdrop-blur-md px-3 py-1.5 rounded-xl shadow-lg border border-white/10">
               <div className="text-sm font-semibold text-white">{feeLabel}</div>
-            </div>
+            </div> */}
 
             {/* Featured badge */}
             {pet?.isFeatured && (
@@ -187,9 +188,10 @@ export default function PetCard({ car: pet, viewMode = "grid" }) {
                 <MapPin className="w-3 h-3 md:w-4 md:h-4" />
                 {locationDetails.city || "Location TBD"}
               </div>
-              <div className="text-sm xs:text-base sm:text-xl md:text-2xl font-black text-gray-900 dark:text-gray-200 tracking-tighter">
+              {/* Fee display removed per user request */}
+              {/* <div className="text-sm xs:text-base sm:text-xl md:text-2xl font-black text-gray-900 dark:text-gray-200 tracking-tighter">
                 {feeLabel}
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

@@ -132,7 +132,8 @@ export default function PetDetailPage() {
   if (!images.length) images.push("/images/hamer1.png");
 
   const name = pet.name || pet.breed || pet.species || "Pet";
-  const adoptionFee = pet.adoptionFee ? `${Number(pet.adoptionFee).toLocaleString()} zł` : "Free";
+  // Fee display removed per user request
+  // const adoptionFee = pet.adoptionFee ? `${Number(pet.adoptionFee).toLocaleString()} zł` : "Free";
   const ownerName = owner?.sellerType === "company" ? (owner?.companyName || "Shelter") : `${owner?.firstName || ""} ${owner?.lastName || ""}`.trim() || "Shelter";
 
   const specs = [
@@ -261,10 +262,11 @@ export default function PetDetailPage() {
                 </div>
               </div>
 
-              <div className="bg-gray-50 dark:bg-dark-raised rounded-xl p-4">
+              {/* Fee section removed per user request */}
+              {/* <div className="bg-gray-50 dark:bg-dark-raised rounded-xl p-4">
                 <p className="text-xs text-gray-400 uppercase tracking-widest font-semibold mb-1">Adoption Fee</p>
                 <p className="text-3xl font-black text-gray-900 dark:text-white">{adoptionFee}</p>
-              </div>
+              </div> */}
 
               {/* Health badges */}
               {pet.healthStatus?.length > 0 && (
@@ -323,18 +325,18 @@ export default function PetDetailPage() {
           <div className="bg-white dark:bg-dark-card w-full max-w-lg rounded-3xl p-6 shadow-2xl animate-in zoom-in-95 duration-200 border border-gray-100 dark:border-dark-divider">
             <h2 className="text-2xl font-black mb-2 text-gray-900 dark:text-white">Adoption Application</h2>
             <p className="text-gray-500 text-sm mb-6">Send an adoption request directly to the shelter to start the process for {name}.</p>
-            
+
             <div className="mb-6">
               <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Message to Shelter</label>
-              <textarea 
+              <textarea
                 value={applicationText}
                 onChange={(e) => setApplicationText(e.target.value)}
-                rows={4} 
+                rows={4}
                 className="w-full p-3 rounded-xl border border-gray-200 dark:border-dark-divider bg-gray-50 dark:bg-dark-raised focus:ring-2 focus:ring-blue-500 outline-none text-sm resize-none"
                 placeholder="Tell the shelter a bit about yourself..."
               />
             </div>
-            
+
             <div className="flex gap-3">
               <button onClick={() => setIsModalOpen(false)} className="flex-1 py-3 rounded-xl font-bold text-gray-600 bg-gray-100 hover:bg-gray-200 dark:bg-dark-raised dark:text-gray-300 dark:hover:bg-gray-800 transition-colors">
                 Cancel

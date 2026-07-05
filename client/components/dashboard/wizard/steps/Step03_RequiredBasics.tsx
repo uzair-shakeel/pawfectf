@@ -16,7 +16,7 @@ export default function Step03_RequiredBasics({ formData, updateFormData, nextSt
 
     const canProceed =
         formData.mileage &&
-        formData.price &&
+        // formData.price && // Price field hidden per user request
         formData.registrationStatus &&
         formData.saleDocument;
 
@@ -50,8 +50,8 @@ export default function Step03_RequiredBasics({ formData, updateFormData, nextSt
                         </div>
                     </div>
 
-                    {/* Price */}
-                    <div className="col-span-1 space-y-2">
+                    {/* Price field hidden per user request */}
+                    {/* <div className="col-span-1 space-y-2">
                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                             Asking Price *
                         </label>
@@ -81,7 +81,7 @@ export default function Step03_RequiredBasics({ formData, updateFormData, nextSt
                                 <option value="USD">USD</option>
                             </select>
                         </div>
-                    </div>
+                    </div> */}
 
                     {/* If Transmission/Drivetrain missing from Step 2, ask here */}
                     {!formData.transmission && (

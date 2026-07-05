@@ -83,7 +83,7 @@ export default function DashboardStats({ user: userProp }) {
             Welcome back, {user?.firstName || "Friend"}! 👋
           </h1>
           <p className="text-dark-text-secondary dark:text-dark-text-secondary font-medium mt-1 transition-colors">
-            Here is a summary of your Rofrof account activity.
+            Here is a summary of your Rafraf account activity.
           </p>
         </div>
         <div className="flex gap-3">

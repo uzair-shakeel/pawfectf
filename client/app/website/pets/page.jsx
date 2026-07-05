@@ -158,10 +158,9 @@ const PetsContent = () => {
   };
 
   const sortBtnClass = (val) =>
-    `text-[14px] leading-[17px] font-medium text-center px-0 transition-none shrink-0 border-b-2 bg-transparent focus:outline-none appearance-none ${
-      sortBy === val
-        ? "text-gray-900 dark:text-gray-200 border-gray-900 dark:border-dark-text-primary"
-        : "text-gray-500 dark:text-dark-text-muted border-transparent hover:text-gray-700 dark:hover:text-dark-text-primary"
+    `text-[14px] leading-[17px] font-medium text-center px-0 transition-none shrink-0 border-b-2 bg-transparent focus:outline-none appearance-none ${sortBy === val
+      ? "text-gray-900 dark:text-gray-200 border-gray-900 dark:border-dark-text-primary"
+      : "text-gray-500 dark:text-dark-text-muted border-transparent hover:text-gray-700 dark:hover:text-dark-text-primary"
     }`;
 
   return (
@@ -198,8 +197,9 @@ const PetsContent = () => {
               <ul ref={sortListRef} className="filter-sorts flex flex-nowrap items-center overflow-x-scroll scrollbar-hide whitespace-nowrap -mx-2 px-2 pr-4 gap-2 lg:gap-4 cursor-grab select-none active:cursor-grabbing">
                 {[
                   { val: "best-match", label: "Best Match" },
-                  { val: "lowest-fee", label: "Lowest Fee" },
-                  { val: "highest-fee", label: "Highest Fee" },
+                  // Fee sorting removed per user request
+                  // { val: "lowest-fee", label: "Lowest Fee" },
+                  // { val: "highest-fee", label: "Highest Fee" },
                   { val: "youngest", label: "Youngest" },
                   { val: "oldest", label: "Oldest" },
                   { val: "newest-listed", label: "Newest Listed" },

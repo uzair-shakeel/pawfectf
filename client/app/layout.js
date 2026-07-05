@@ -7,9 +7,9 @@ import ScrollToTop from "../components/ScrollToTop";
 
 
 export const metadata = {
-  title: "Rofrof - Pet Adoption & Shelter Marketplace",
+  title: "Rafraf - Pet Adoption & Shelter Marketplace",
   description:
-    "Find, adopt, and list pets on Rofrof - the ultimate pet adoption marketplace.",
+    "Find, adopt, and list pets on Rafraf - the ultimate pet adoption marketplace.",
 };
 
 export default function RootLayout({ children }) {

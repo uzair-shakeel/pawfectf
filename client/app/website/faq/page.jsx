@@ -23,7 +23,7 @@ const faqs = [
   },
   {
     question: "Do you offer transportation for pets?",
-    answer: "Rofrof is a listing platform to connect you with pets. Transportation is typically arranged directly between the adopter and the shelter or current owner. Some rescues may offer transport services for an additional fee."
+    answer: "Rafraf is a listing platform to connect you with pets. Transportation is typically arranged directly between the adopter and the shelter or current owner. Some rescues may offer transport services for an additional fee."
   }
 ];
 
@@ -35,7 +35,7 @@ export default function FAQPage() {
       <main className="flex-grow max-w-4xl mx-auto px-4 py-16 w-full">
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white mb-4">Frequently Asked Questions</h1>
-          <p className="text-lg text-gray-600 dark:text-gray-400">Everything you need to know about adopting a pet through Rofrof.</p>
+          <p className="text-lg text-gray-600 dark:text-gray-400">Everything you need to know about adopting a pet through Rafraf.</p>
         </div>
 
         <div className="space-y-4">

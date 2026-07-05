@@ -108,14 +108,14 @@ export function Footer() {
               <div className="relative w-48 h-14">
                 <Image
                   src="/whitelogo.png"
-                  alt="Rofrof Logo"
+                  alt="Rafraf Logo"
                   fill
                   className="object-contain brightness-0 invert"
                 />
               </div>
             </Link>
             <p className="text-gray-400 text-sm mt-2">
-              All rights reserved © {new Date().getFullYear()} Rofrof.
+              All rights reserved © {new Date().getFullYear()} Rafraf.
               Wszelkie prawa zastrzeżone.
             </p>
           </div>

@@ -33,7 +33,8 @@ export default function Step12_Publish({ formData, prevStep, handleSubmit, loadi
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
                     <SummaryItem icon={Car} label="Vehicle" value={`${formData.make} ${formData.model} ${formData.year}`} />
-                    <SummaryItem icon={DollarSign} label="Price" value={`${formData.price} ${formData.currency}`} />
+                    {/* Price display removed per user request */}
+                    {/* <SummaryItem icon={DollarSign} label="Price" value={`${formData.price} ${formData.currency}`} /> */}
                     <SummaryItem icon={Gauge} label="Mileage" value={`${formData.mileage} km`} />
                     <SummaryItem icon={Fuel} label="Fuel" value={formData.fuel} />
                     <SummaryItem icon={Calendar} label="Reg. Status" value={formData.registrationStatus} />

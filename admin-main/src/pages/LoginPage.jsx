@@ -40,7 +40,7 @@ const LoginPage = () => {
             id: data.user._id,
           })
         );
-        toast.success("Welcome to Rofrof Admin!");
+        toast.success("Welcome to Rafraf Admin!");
         window.location.href = "/";
       } else {
         // Fallback to hardcoded credentials for demo
@@ -77,7 +77,7 @@ const LoginPage = () => {
             id: "demo-admin",
           })
         );
-        toast.success("Welcome to Rofrof Admin! (Demo Mode)");
+        toast.success("Welcome to Rafraf Admin! (Demo Mode)");
         window.location.href = "/";
       } else {
         toast.error("Failed to connect to server. Check your backend connection.");
@@ -104,7 +104,7 @@ const LoginPage = () => {
               <span className="text-white font-bold text-2xl">P</span>
             </div>
             <h2 className="text-2xl font-bold text-slate-200">
-              Rofrof Admin Panel
+              Rafraf Admin Panel
             </h2>
             <p className="text-slate-400 mt-2">Sign in to manage the platform</p>
           </div>

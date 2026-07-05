@@ -140,7 +140,8 @@ function HomeContent() {
                     <h3 className="font-bold text-lg">{pet.name || pet.species || "Pet"}</h3>
                     <p className="text-sm text-gray-500 mb-2">{pet.breed || pet.species}</p>
                     <div className="flex items-center justify-between text-sm">
-                      <span className="font-semibold text-blue-600">{pet.adoptionFee ? `${pet.adoptionFee} PLN` : "Free"}</span>
+                      {/* Fee display removed per user request */}
+                      {/* <span className="font-semibold text-blue-600">{pet.adoptionFee ? `${pet.adoptionFee} PLN` : "Free"}</span> */}
                       <span className="text-gray-400">{pet.location?.city || "Available"}</span>
                     </div>
                   </div>
@@ -221,7 +222,7 @@ function HomeContent() {
 
         {/* Why Adopt Section */}
         <section className="text-center">
-          <h2 className="text-3xl md:text-5xl font-black mb-12">Why Adopt via Rofrof?</h2>
+          <h2 className="text-3xl md:text-5xl font-black mb-12">Why Adopt via Rafraf?</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="bg-gray-50 dark:bg-dark-card p-8 rounded-3xl border border-gray-100 dark:border-dark-divider">
               <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
@@ -286,7 +287,7 @@ function HomeContent() {
 
         {/* How it Works Section */}
         <section className="bg-blue-50 dark:bg-dark-card rounded-[2.5rem] p-8 md:p-16 border border-blue-100 dark:border-dark-divider my-16 text-center">
-          <h2 className="text-3xl md:text-5xl font-black mb-16">How Rofrof Works</h2>
+          <h2 className="text-3xl md:text-5xl font-black mb-16">How Rafraf Works</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 relative">
             {/* Connecting line for desktop */}
             <div className="hidden md:block absolute top-12 left-[15%] right-[15%] h-1 bg-blue-200 dark:bg-blue-900/50 z-0"></div>
@@ -408,7 +409,7 @@ function HomeContent() {
           <div className="relative z-10 max-w-2xl mx-auto">
             <Heart className="w-16 h-16 mx-auto mb-6 text-pink-400 animate-pulse" />
             <h2 className="text-4xl md:text-5xl font-black mb-6">Ready to change a life?</h2>
-            <p className="text-xl text-blue-100 mb-10 font-medium">Join thousands of people who have found their perfect companion through Rofrof.</p>
+            <p className="text-xl text-blue-100 mb-10 font-medium">Join thousands of people who have found their perfect companion through Rafraf.</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/website/pets" className="bg-white text-blue-700 hover:bg-gray-50 font-bold py-4 px-8 rounded-xl transition-transform hover:scale-105 active:scale-95 shadow-xl">
                 Adopt a Pet
