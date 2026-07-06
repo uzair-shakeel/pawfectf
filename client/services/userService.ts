@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// Use the Next.js API proxy - Fixed to use consistent env var name
-const API_URL = "/api";
+const API_BASE = (process.env.NEXT_PUBLIC_API_BASE_URL || "").trim().replace(/\/$/, "");
+const API_URL = API_BASE ? `${API_BASE}/api` : "/api";
 
 // Install Axios interceptors for debugging profile update flows (once)
 try {
@@ -175,12 +175,9 @@ export const getPublicUserInfo = async (userId: string): Promise<any> => {
 
       const backendUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
       if (backendUrl) {
-        // Remove trailing /api if it exists to avoid double /api
-        let baseUrl = backendUrl.replace(/\/api\/?$/, "");
-        // Remove trailing slash if it exists to avoid double slash
-        baseUrl = baseUrl.replace(/\/$/, "");
+        // Do not strip /api, as the production backend requires double /api due to Nginx proxy configuration
         const directResponse = await axios.get(
-          `${baseUrl}/api/users/public/${userId}`,
+          `${backendUrl.replace(/\/$/, "")}/api/users/public/${userId}`,
           {
             timeout: 15000,
           },
