@@ -89,7 +89,25 @@ const PetsContent = () => {
         const response = await searchPets(payload);
         let fetched = Array.isArray(response) ? response : (response?.cars ?? []);
 
-        // Client-side fee filtering
+        // Client-side filtering (fallback in case backend doesn't filter properly)
+        if (filters.species) fetched = fetched.filter(p => p.species?.toLowerCase() === filters.species.toLowerCase());
+        if (filters.breed) fetched = fetched.filter(p => p.breed?.toLowerCase() === filters.breed.toLowerCase());
+        if (filters.size) fetched = fetched.filter(p => p.size?.toLowerCase() === filters.size.toLowerCase());
+        if (filters.coatLength) fetched = fetched.filter(p => p.coatLength?.toLowerCase() === filters.coatLength.toLowerCase());
+        if (filters.healthStatus) fetched = fetched.filter(p => Array.isArray(p.healthStatus) ? p.healthStatus.some(h => h.toLowerCase() === filters.healthStatus.toLowerCase()) : p.healthStatus?.toLowerCase() === filters.healthStatus.toLowerCase());
+        if (filters.adoptionStatus) fetched = fetched.filter(p => p.adoptionStatus?.toLowerCase() === filters.adoptionStatus.toLowerCase());
+        if (filters.ageGroup) {
+          fetched = fetched.filter(p => {
+            const age = p.ageMonths || 0;
+            switch (filters.ageGroup) {
+              case "Baby": return age <= 6;
+              case "Young": return age > 6 && age <= 24;
+              case "Adult": return age > 24 && age <= 84;
+              case "Senior": return age > 84;
+              default: return true;
+            }
+          });
+        }
         if (filters.minFee) fetched = fetched.filter(p => (p.adoptionFee || 0) >= filters.minFee);
         if (filters.maxFee) fetched = fetched.filter(p => (p.adoptionFee || 0) <= filters.maxFee);
         if (filters.color) fetched = fetched.filter(p => p.color?.toLowerCase() === filters.color.toLowerCase());
