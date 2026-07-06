@@ -3,7 +3,11 @@ import { NextResponse } from 'next/server';
 export async function GET(request, { params }) {
     try {
         const { id } = params;
-        const backendUrl = (process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5000').replace(/\/$/, "");
+        // Strip trailing /api from the base URL to avoid double /api in the path
+        // e.g. "https://rafraf.pl/api" → "https://rafraf.pl"
+        const backendUrl = (process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5000')
+            .replace(/\/$/, "")
+            .replace(/\/api$/, "");
 
         console.log(`[API Route] Fetching public user info for ID: ${id}`);
         console.log(`[API Route] Backend URL: ${backendUrl}`);
