@@ -170,7 +170,7 @@ const MessagesPage = () => {
 
         // Use fetch with explicit error handling
         const authToken = token || (typeof window !== "undefined" ? localStorage.getItem("token") : null);
-        const response = await fetch(`${API_BASE}/api/chat/my-chats`, {
+        const response = await fetch(`${API_BASE}/chat/my-chats`, {
           headers: {
             "Content-Type": "application/json",
             ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}),
@@ -286,7 +286,7 @@ const MessagesPage = () => {
 
         const authToken = token || (typeof window !== "undefined" ? localStorage.getItem("token") : null);
         const response = await fetch(
-          `${API_BASE}/api/chat/${selectedChat._id}/messages`,
+          `${API_BASE}/chat/${selectedChat._id}/messages`,
           {
             headers: {
               "Content-Type": "application/json",

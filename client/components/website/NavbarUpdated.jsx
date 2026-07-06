@@ -23,7 +23,7 @@ const NavbarUpdated = () => {
     const fetchChats = async () => {
       try {
         const response = await fetch(
-          `${API_BASE}/api/chat/my-chats`,
+          `${API_BASE}/chat/my-chats`,
           {
             headers: {
               "x-clerk-user-id": userId,
@@ -76,8 +76,8 @@ const NavbarUpdated = () => {
           onClick={handleAddListing}
           className="hidden md:block bg-white border border-gray-300 px-4 py-2 rounded-full hover:bg-gray-100"
         >
-{isSignedIn ? "Dodaj ogłoszenie" : "Zostań sprzedawcą"}
-</button>
+          {isSignedIn ? "Dodaj ogłoszenie" : "Zostań sprzedawcą"}
+        </button>
 
         {/* Messages Button - Only show when signed in */}
         {isSignedIn && (
@@ -100,7 +100,7 @@ const NavbarUpdated = () => {
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           className="text-gray-700"
         >
-          { user ? (
+          {user ? (
             <Avatar
               src={user.image || user.profilePicture}
               alt={user.firstName || user.email || "User"}

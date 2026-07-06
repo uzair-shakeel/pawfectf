@@ -84,7 +84,7 @@ export default function PetDetailPage() {
     if (!user) { router.push("/sign-in"); return; }
     try {
       const authToken = token || localStorage.getItem("token");
-      const res = await fetch(`${API_BASE}/api/chat/create`, {
+      const res = await fetch(`${API_BASE}/chat/create`, {
         method: "POST",
         headers: { "Content-Type": "application/json", ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}) },
         body: JSON.stringify({ petId, ownerId: pet?.createdBy }),
@@ -102,7 +102,7 @@ export default function PetDetailPage() {
     try {
       const authToken = token || localStorage.getItem("token");
       // Step 1: create or retrieve the chat
-      const res = await fetch(`${API_BASE}/api/chat/create`, {
+      const res = await fetch(`${API_BASE}/chat/create`, {
         method: "POST",
         headers: { "Content-Type": "application/json", ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}) },
         body: JSON.stringify({ petId, ownerId: pet?.createdBy }),
@@ -114,7 +114,7 @@ export default function PetDetailPage() {
 
       // Step 2: send the application message via REST (socket not available here)
       if (chatId && applicationText.trim()) {
-        await fetch(`${API_BASE}/api/chat/${chatId}/messages`, {
+        await fetch(`${API_BASE}/chat/${chatId}/messages`, {
           method: "POST",
           headers: { "Content-Type": "application/json", ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}) },
           body: JSON.stringify({ content: applicationText, senderId: user?.id || user?._id }),

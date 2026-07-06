@@ -37,8 +37,8 @@ const page = () => {
 
       // Fetch both in parallel for speed
       const [carsRes, chatsRes] = await Promise.all([
-        fetch(`${API_BASE}/api/cars/my-cars/all`, { headers }).catch(() => ({ ok: false })),
-        fetch(`${API_BASE}/api/chat/my-chats`, { headers }).catch(() => ({ ok: false }))
+        fetch(`${API_BASE}/cars/my-cars/all`, { headers }).catch(() => ({ ok: false })),
+        fetch(`${API_BASE}/chat/my-chats`, { headers }).catch(() => ({ ok: false }))
       ]);
 
       // Process cars
@@ -52,14 +52,14 @@ const page = () => {
         const chatsJson = await chatsRes.json();
         const chats = Array.isArray(chatsJson) ? chatsJson : chatsJson?.chats || [];
         setRecentChats(chats);
-        
+
         const groups = {};
         chats.forEach((c) => {
           const d = new Date(c.updatedAt || c.lastMessage?.timestamp || Date.now());
           const key = new Date(d.getFullYear(), d.getMonth(), d.getDate()).toISOString();
           groups[key] = (groups[key] || 0) + 1;
         });
-        
+
         const sorted = Object.keys(groups)
           .sort()
           .slice(-7)
@@ -92,7 +92,7 @@ const page = () => {
       {error && <p className="text-red-500">{error}</p>}
 
       <DashboardStats user={user} />
-      
+
       {loading ? (
         <div className="flex items-center justify-center py-12">
           <div className="w-8 h-8 border-4 border-blue-600/20 border-t-blue-600 rounded-full animate-spin" />

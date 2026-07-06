@@ -132,9 +132,9 @@ const SellerDetailsPage = () => {
       sellerType === "company"
         ? { key: "companyName", title: "Organization or shelter name", required: true }
         : null,
-      sellerType === "company"
-        ? { key: "brands", title: "Select animal types you specialize in", optional: true }
-        : null,
+      // sellerType === "company"
+      //   ? { key: "brands", title: "Select animal types you specialize in", optional: true }
+      //   : null,
       { key: "phone", title: "Your phone number", optional: true },
       { key: "description", title: "Write a short bio", optional: true },
       { key: "social", title: "Add your social links", optional: true },

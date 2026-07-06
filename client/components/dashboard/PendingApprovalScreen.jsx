@@ -27,7 +27,7 @@ const PendingApprovalScreen = ({ user }) => {
       if (!token) return;
 
       const response = await fetch(
-        `${API_BASE}/api/users/${user.id || user._id}`,
+        `${API_BASE}/users/${user.id || user._id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -67,7 +67,7 @@ const PendingApprovalScreen = ({ user }) => {
 
       // Fetch updated user data
       const response = await fetch(
-        `${API_BASE}/api/users/${user.id || user._id}`,
+        `${API_BASE}/users/${user.id || user._id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
