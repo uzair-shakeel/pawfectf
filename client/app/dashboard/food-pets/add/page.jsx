@@ -108,7 +108,7 @@ const AddFoodPetPage = () => {
       const token = await getToken();
 
       // Submit to API
-      const response = await fetch('/api/food-donation', {
+      const response = await fetch('/api/pets/food-donation', {
         method: 'POST',
         headers: {
           ...(token && { Authorization: `Bearer ${token}` })

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
 const API_BASE = (process.env.NEXT_PUBLIC_API_BASE_URL || '').trim().replace(/\/$/, '');
-const API_BASE_URL = API_BASE ? `${API_BASE}` : '/';
+const API_BASE_URL = API_BASE ? `${API_BASE}` : '/api';
 
 export async function POST(request) {
   try {
