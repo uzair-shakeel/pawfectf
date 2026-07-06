@@ -40,6 +40,7 @@ const allowedOrigins = [
   "https://64.227.68.1:3000",
   "http://192.168.100.5:3000",
   "http://192.168.100.5:3001",
+  "https://rafraf.pl",
   "https://pawfectsite.vercel.app",
   "https://pawfectf-p2su.vercel.app",
 ];
