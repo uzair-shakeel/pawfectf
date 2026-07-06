@@ -3,8 +3,9 @@ import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 
-// Strip trailing slash so https://host/ + /api/... never becomes //api/...
-const API_BASE = (process.env.NEXT_PUBLIC_API_BASE_URL || "").replace(/\/$/, "");
+// Match the same pattern as userService.ts
+const API_BASE = (process.env.NEXT_PUBLIC_API_BASE_URL || "").trim().replace(/\/$/, "");
+const API_URL = API_BASE ? `${API_BASE}/api` : "/api";
 
 const AuthContext = createContext();
 
@@ -59,7 +60,7 @@ export const AuthProvider = ({ children }) => {
     setLoading(true);
     try {
       const response = await axios.post(
-        `${API_BASE}/api/auth/signin`,
+        `${API_URL}/auth/signin`,
         credentials
       );
 
@@ -104,7 +105,7 @@ export const AuthProvider = ({ children }) => {
     setLoading(true);
     try {
       const response = await axios.post(
-        `${API_BASE}/api/auth/signup`,
+        `${API_URL}/auth/signup`,
         userData
       );
 
@@ -133,6 +134,18 @@ export const AuthProvider = ({ children }) => {
       }
     } catch (error) {
       console.error("Sign up error:", error);
+      // 500 most likely means OTP email failed to send on the server
+      if (error.response?.status === 500) {
+        const message = error.response?.data?.message || "Server error during signup";
+        // "Failed to send OTP" means the account creation itself worked,
+        // but email delivery failed — surface a helpful message
+        if (message.toLowerCase().includes("otp") || message.toLowerCase().includes("email")) {
+          toast.error("Account created but we couldn't send the verification email. Please contact support or try again.");
+        } else {
+          toast.error("Server error. Please try again later.");
+        }
+        return { success: false, error: message };
+      }
       const message =
         error.response?.data?.message || error.message || "Sign up failed";
       toast.error(message);
@@ -149,7 +162,7 @@ export const AuthProvider = ({ children }) => {
   const verifyOTP = async (userId, otp) => {
     setLoading(true);
     try {
-      const response = await axios.post(`${API_BASE}/api/auth/verify-otp`, {
+      const response = await axios.post(`${API_URL}/auth/verify-otp`, {
         userId,
         otp,
       });
@@ -185,7 +198,7 @@ export const AuthProvider = ({ children }) => {
   const resendOTP = async (userId) => {
     setLoading(true);
     try {
-      const response = await axios.post(`${API_BASE}/api/auth/resend-otp`, {
+      const response = await axios.post(`${API_URL}/auth/resend-otp`, {
         userId,
       });
 
@@ -214,7 +227,7 @@ export const AuthProvider = ({ children }) => {
   const requestPasswordReset = async (email) => {
     setLoading(true);
     try {
-      await axios.post(`${API_BASE}/api/auth/forgot-password`, { email });
+      await axios.post(`${API_URL}/auth/forgot-password`, { email });
       toast.success("If the email exists, a reset link was sent");
       return { success: true };
     } catch (error) {
@@ -230,7 +243,7 @@ export const AuthProvider = ({ children }) => {
   const resetPassword = async (token, newPassword) => {
     setLoading(true);
     try {
-      await axios.post(`${API_BASE}/api/auth/reset-password`, { token, newPassword });
+      await axios.post(`${API_URL}/auth/reset-password`, { token, newPassword });
       toast.success("Password has been reset");
       return { success: true };
     } catch (error) {
@@ -246,7 +259,7 @@ export const AuthProvider = ({ children }) => {
   const changePassword = async (currentPassword, newPassword) => {
     setLoading(true);
     try {
-      await axios.put(`${API_BASE}/api/auth/change-password`, { currentPassword, newPassword });
+      await axios.put(`${API_URL}/auth/change-password`, { currentPassword, newPassword });
       toast.success("Password changed successfully");
       return { success: true };
     } catch (error) {
@@ -263,7 +276,7 @@ export const AuthProvider = ({ children }) => {
     setLoading(true);
     try {
       const response = await axios.post(
-        `${API_BASE}/api/auth/google`,
+        `${API_URL}/auth/google`,
         googleData
       );
 
@@ -311,7 +324,7 @@ export const AuthProvider = ({ children }) => {
     setLoading(true);
     try {
       const response = await axios.put(
-        `${API_BASE}/api/users/profile`,
+        `${API_URL}/users/profile`,
         profileData,
         {
           headers: {

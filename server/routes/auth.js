@@ -4,9 +4,6 @@ const { User } = require("../models");
 const crypto = require("crypto");
 const { auth } = require("../middlewares/auth");
 const { validatePhoneNumber, sendOTP } = require("../utils/otpService");
-const {
-  ComplianceRegistrationInquiriesContextImpl,
-} = require("twilio/lib/rest/trusthub/v1/complianceRegistrationInquiries");
 const router = express.Router();
 
 // Test endpoint
