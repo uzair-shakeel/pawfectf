@@ -237,7 +237,7 @@ const SellerDetailsPage = () => {
     <div
       className="min-h-screen bg-white flex items-center justify-center px-4 py-10"
       style={{
-        backgroundImage: "url('/Hero2-QKTSHICM.webp')",
+        backgroundImage: "url('/721.jpg')",
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
@@ -381,7 +381,7 @@ const SellerDetailsPage = () => {
                 value={formData.firstName}
                 onChange={(e) => setValue("firstName", e.target.value)}
                 placeholder="Your first name"
-                className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                className="w-full border border-gray-300 rounded-md py-2 px-3 dark:bg-gray-900 dark:text-white focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
           )}
@@ -393,7 +393,7 @@ const SellerDetailsPage = () => {
                 value={formData.lastName}
                 onChange={(e) => setValue("lastName", e.target.value)}
                 placeholder="Your last name"
-                className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                className="w-full border border-gray-300 dark:bg-gray-900 dark:text-white rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
           )}
@@ -405,63 +405,12 @@ const SellerDetailsPage = () => {
                 value={formData.companyName}
                 onChange={(e) => setValue("companyName", e.target.value)}
                 placeholder="Company name"
-                className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                className="w-full border border-gray-300 dark:bg-gray-900 dark:text-white rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
           )}
 
-          {current?.key === "brands" && (
-            <div className="space-y-3">
-              <p className="text-sm text-gray-600 dark:text-gray-300 transition-colors duration-300">
-                Pick the animal types you specialize in
-              </p>
-              <div className="grid grid-cols-2 gap-2">
-                {[
-                  "Dogs",
-                  "Cats",
-                  "Rabbits",
-                  "Birds",
-                  "Reptiles",
-                  "Small Animals",
-                  "Horses",
-                  "Fish",
-                  "Guinea Pigs",
-                  "Ferrets",
-                  "Turtles",
-                  "Hamsters",
-                  "Snakes",
-                  "Parrots",
-                  "Mixed Breeds",
-                  "Other",
-                ].map((species) => {
-                  const active = formData.brands.includes(species);
-                  return (
-                    <button
-                      key={species}
-                      type="button"
-                      onClick={() => {
-                        setFormData((prev) => {
-                          const list = new Set(prev.brands || []);
-                          if (list.has(species)) list.delete(species);
-                          else list.add(species);
-                          return { ...prev, brands: Array.from(list) };
-                        });
-                      }}
-                      className={`px-3 py-2 rounded-md text-sm border transition ${active
-                        ? "bg-blue-600 text-white border-blue-600"
-                        : "border-gray-200 hover:bg-gray-50"
-                        }`}
-                    >
-                      {species}
-                    </button>
-                  );
-                })}
-              </div>
-              <p className="text-xs text-gray-500 dark:text-gray-300 transition-colors duration-300">
-                Optional. You can edit brands later in your profile.
-              </p>
-            </div>
-          )}
+
 
           {current?.key === "phone" && (
             <div>
@@ -470,7 +419,7 @@ const SellerDetailsPage = () => {
                 value={formData.phoneNumbers?.[0]?.phone || ""}
                 onChange={(e) => setValue("phoneNumbers.0", e.target.value)}
                 placeholder="Phone number"
-                className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                className="w-full dark:bg-gray-900 dark:text-white border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               />
               <p className="text-xs text-gray-500 mt-2 transition-colors duration-300">
                 Optional. You can add more later in your profile.
@@ -485,7 +434,7 @@ const SellerDetailsPage = () => {
                 onChange={(e) => setValue("description", e.target.value)}
                 placeholder="Tell adopters a bit about you or your shelter"
                 rows={4}
-                className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                className="w-full dark:bg-gray-900 dark:text-white border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
           )}
@@ -501,7 +450,7 @@ const SellerDetailsPage = () => {
                     setValue(`socialMedia.${platform}`, e.target.value)
                   }
                   placeholder={`${platform} link`}
-                  className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full dark:bg-gray-900 dark:text-white border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                 />
               ))}
             </div>
