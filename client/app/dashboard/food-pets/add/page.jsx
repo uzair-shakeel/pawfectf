@@ -92,37 +92,65 @@ const AddFoodPetPage = () => {
         return;
       }
 
-      // Create form data with images
-      const submitData = new FormData();
-      submitData.append('petData', JSON.stringify({
-        ...formData,
-        type: 'food_donation',
-        status: 'pending_approval'
-      }));
-
-      images.forEach((img, index) => {
-        submitData.append(`images`, img.file);
-      });
-
       // Get auth token
       const token = await getToken();
+      if (!token) {
+        toast.error('Please sign in to add a pet');
+        router.push('/sign-in');
+        return;
+      }
 
-      // Submit to API
-      const response = await fetch('/api/pets/food-donation', {
+      // Create form data for backend
+      const backendFormData = new FormData();
+
+      // Add pet data fields directly
+      backendFormData.append('title', formData.name);
+      backendFormData.append('name', formData.name);
+      backendFormData.append('description', formData.description);
+      backendFormData.append('species', formData.species);
+      backendFormData.append('breed', formData.breed || '');
+
+      if (formData.age && !isNaN(parseInt(formData.age))) {
+        backendFormData.append('ageMonths', parseInt(formData.age) * 12);
+      }
+
+      backendFormData.append('gender', formData.gender);
+      backendFormData.append('size', formData.size);
+      backendFormData.append('type', 'food_donation');
+      backendFormData.append('status', 'Pending');
+      backendFormData.append('adoptionStatus', 'Available');
+      backendFormData.append('isUrgent', formData.foodNeed?.urgency === 'high' || formData.foodNeed?.urgency === 'critical');
+      backendFormData.append('foodNeed', JSON.stringify(formData.foodNeed || {}));
+      backendFormData.append('shelter', JSON.stringify(formData.shelter || {}));
+
+      // Add images
+      images.forEach((img) => {
+        backendFormData.append('images', img.file);
+      });
+
+      // Get API base URL
+      const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://rafraf.pl';
+      const apiUrl = `${API_BASE}/api/pets`;
+
+      console.log('Submitting to:', apiUrl);
+
+      // Submit directly to backend
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
-          ...(token && { Authorization: `Bearer ${token}` })
+          'Authorization': `Bearer ${token}`
         },
-        body: submitData,
+        body: backendFormData,
       });
+
+      const data = await response.json();
 
       if (response.ok) {
         toast.success('Pet added for food donations! Awaiting admin approval.');
         router.push('/dashboard/food-pets');
       } else {
-        const errorData = await response.json();
-        console.error('Server response:', errorData);
-        throw new Error(errorData.error || errorData.message || 'Failed to add pet');
+        console.error('Server response:', data);
+        throw new Error(data.error || data.message || 'Failed to add pet');
       }
     } catch (error) {
       console.error('Error adding pet:', error);
