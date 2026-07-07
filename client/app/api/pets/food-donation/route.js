@@ -1,7 +1,11 @@
 import { NextResponse } from 'next/server';
 
 const API_BASE = (process.env.NEXT_PUBLIC_API_BASE_URL || '').trim().replace(/\/$/, '');
-const API_BASE_URL = API_BASE ? `${API_BASE}` : '/api';
+const API_BASE_URL = API_BASE ? `${API_BASE}/api` : '/api';
+
+export async function GET(request) {
+  return NextResponse.json({ message: 'Food donation pet API endpoint' }, { status: 200 });
+}
 
 export async function POST(request) {
   try {
@@ -11,13 +15,19 @@ export async function POST(request) {
     console.log('[Food Donation API] Received request');
     console.log('[Food Donation API] Pet data string:', petDataStr);
 
+    if (!petDataStr) {
+      return NextResponse.json(
+        { error: 'Missing pet data' },
+        { status: 400 }
+      );
+    }
+
     const petData = JSON.parse(petDataStr);
 
     console.log('[Food Donation API] Parsed pet data:', petData);
 
     // Get the auth token from the request
     const authHeader = request.headers.get('authorization');
-    const cookieHeader = request.headers.get('cookie');
 
     console.log('[Food Donation API] Has auth header:', !!authHeader);
 
@@ -40,12 +50,6 @@ export async function POST(request) {
       isUrgent: petData.foodNeed?.urgency === 'high' || petData.foodNeed?.urgency === 'critical',
       foodNeed: JSON.stringify(petData.foodNeed || {}),
       shelter: JSON.stringify(petData.shelter || {}),
-      location: JSON.stringify({
-        type: 'Point',
-        coordinates: petData.location?.coordinates || [21.01178, 52.22977],
-        city: petData.location?.city || 'Unknown',
-        address: petData.shelter?.address || 'Unknown'
-      })
     };
 
     console.log('[Food Donation API] Pet payload:', petPayload);
@@ -64,7 +68,6 @@ export async function POST(request) {
       if (value === undefined || value === null) {
         return; // Skip undefined/null values
       }
-      // All values are already properly formatted (strings or stringified objects)
       backendFormData.append(key, value);
     });
 
@@ -73,13 +76,11 @@ export async function POST(request) {
     if (authHeader) {
       headers['Authorization'] = authHeader;
     }
-    if (cookieHeader) {
-      headers['Cookie'] = cookieHeader;
-    }
 
-    console.log('[Food Donation API] Sending to backend:', `${API_BASE_URL}/pets`);
+    const backendUrl = `${API_BASE_URL}/pets`;
+    console.log('[Food Donation API] Sending to backend:', backendUrl);
 
-    const response = await fetch(`${API_BASE_URL}/pets`, {
+    const response = await fetch(backendUrl, {
       method: 'POST',
       headers,
       body: backendFormData,
@@ -106,3 +107,6 @@ export async function POST(request) {
     );
   }
 }
+
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
