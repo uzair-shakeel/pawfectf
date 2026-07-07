@@ -130,7 +130,7 @@ const AddFoodPetPage = () => {
 
       // Get API base URL
       const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://rafraf.pl';
-      const apiUrl = `${API_BASE}/api/pets`;
+      const apiUrl = `${API_BASE}/pets`;
 
       console.log('Submitting to:', apiUrl);
 
