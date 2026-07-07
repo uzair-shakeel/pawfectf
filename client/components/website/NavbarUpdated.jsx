@@ -47,7 +47,6 @@ const NavbarUpdated = () => {
 
   const navLinks = [
     { name: "Home", href: "/website" },
-    { name: "Blog", href: "/website/blog" },
     { name: "FAQ", href: "/website/faq" },
     { name: "Contact", href: "/website/contact" },
   ];

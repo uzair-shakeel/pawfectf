@@ -32,14 +32,7 @@ export function Footer() {
                 </Link>
               </li>
 
-              <li>
-                <Link
-                  href="/website/blog"
-                  className="text-gray-400 hover:text-white transition-colors"
-                >
-                  Blog
-                </Link>
-              </li>
+
             </ul>
           </div>
 

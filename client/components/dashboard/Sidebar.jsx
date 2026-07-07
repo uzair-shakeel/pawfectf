@@ -127,7 +127,6 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
     { label: "Home", href: "/", icon: <FiHome className="w-6 h-6" /> },
     { label: "Adopt", href: "/website/pets", icon: <FiSearch className="w-6 h-6" /> },
     { label: "Saved Pets", href: "/wishlist", icon: <FiHeart className="w-6 h-6" /> },
-    { label: "Blog", href: "/website/blog", icon: <FiBook className="w-6 h-6" /> },
     { label: "FAQ", href: "/website/faq", icon: <FiLifeBuoy className="w-6 h-6" /> },
     { label: "Contact", href: "/website/contact", icon: <FiPhone className="w-6 h-6" /> },
   ];
