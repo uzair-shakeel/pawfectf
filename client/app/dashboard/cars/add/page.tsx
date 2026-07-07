@@ -157,17 +157,45 @@ export default function AddPetPage() {
         {/* Step 1: Images */}
         {step === 1 && (
           <section>
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4 border-b border-gray-100 dark:border-dark-divider pb-2">Photos</h2>
-            <div className="flex gap-4 overflow-x-auto pb-4 custom-scrollbar">
-              <label className="flex-shrink-0 w-32 h-32 flex flex-col items-center justify-center border-2 border-dashed border-blue-300 dark:border-blue-800 bg-blue-50 dark:bg-blue-900/10 rounded-2xl cursor-pointer hover:bg-blue-100 dark:hover:bg-blue-900/20 transition-colors text-blue-600 dark:text-blue-400">
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4 border-b border-gray-100 dark:border-dark-divider pb-2">
+              Photos
+            </h2>
+
+            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
+              {/* Upload Button */}
+              <label className="aspect-square flex flex-col items-center justify-center border-2 border-dashed border-blue-300 dark:border-blue-800 bg-blue-50 dark:bg-blue-900/10 rounded-2xl cursor-pointer hover:bg-blue-100 dark:hover:bg-blue-900/20 transition-colors text-blue-600 dark:text-blue-400">
                 <UploadCloud className="w-8 h-8 mb-2" />
-                <span className="text-xs font-bold">Add Photo</span>
-                <input type="file" multiple accept="image/*" className="hidden" onChange={handleImageChange} />
+                <span className="text-xs font-semibold text-center">
+                  Add Photo
+                </span>
+
+                <input
+                  type="file"
+                  multiple
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleImageChange}
+                />
               </label>
+
+              {/* Previews */}
               {previews.map((src, i) => (
-                <div key={i} className="flex-shrink-0 w-32 h-32 relative rounded-2xl overflow-hidden border border-gray-200 group">
-                  <Image src={src} alt="Preview" fill className="object-cover" />
-                  <button type="button" onClick={() => removeImage(i)} className="absolute top-1 right-1 bg-black/60 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
+                <div
+                  key={i}
+                  className="relative aspect-square rounded-2xl overflow-hidden border border-gray-200 dark:border-dark-divider group"
+                >
+                  <Image
+                    src={src}
+                    alt={`Preview ${i + 1}`}
+                    fill
+                    className="object-cover"
+                  />
+
+                  <button
+                    type="button"
+                    onClick={() => removeImage(i)}
+                    className="absolute top-2 right-2 bg-black/60 text-white rounded-full p-1 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition"
+                  >
                     <X className="w-4 h-4" />
                   </button>
                 </div>
