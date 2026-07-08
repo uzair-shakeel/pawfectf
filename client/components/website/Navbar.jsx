@@ -221,11 +221,27 @@ const Navbar = () => {
   return (
     <header className="w-full h-16 px-4 bg-white dark:bg-dark-panel shadow-md flex justify-between items-center text-black dark:text-dark-text-primary transition-colors duration-300 relative">
       {/* Logo Section - Left Side */}
-      <div className="flex items-center">
+      <div className="flex items-center gap-2">
         <Link href="/" className="flex items-center">
-          <Image src="/logo.png" alt="Rafraf" width={150} height={40} className="h-20 md:h-14 w-auto object-contain dark:hidden" priority />
-          <Image src="/whitelogo.png" alt="Rafraf" width={150} height={40} className="h-20 md:h-14 w-auto object-contain hidden dark:block" priority />
+          <Image
+            src="/logo.png"
+            alt="Rafraf"
+            width={150}
+            height={40}
+            className="h-20 md:h-14 w-auto object-contain dark:hidden"
+            priority
+          />
+          <Image
+            src="/whitelogo.png"
+            alt="Rafraf"
+            width={150}
+            height={40}
+            className="h-20 md:h-14 w-auto object-contain hidden dark:block"
+            priority
+          />
         </Link>
+
+
       </div>
 
       <div className="flex items-center space-x-2 md:space-x-3">
