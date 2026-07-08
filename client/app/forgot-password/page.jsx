@@ -19,7 +19,7 @@ export default function ForgotPasswordPage() {
       <div className="hidden lg:flex m-2 rounded-3xl lg:w-1/2 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-pink-500 via-purple-600 to-blue-600">
           <Image
-            src="/Hero2-QKTSHICM.webp"
+            src="/auth-bg.png"
             alt="Rafraf"
             fill
             className="object-cover brightness-75"
