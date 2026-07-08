@@ -753,6 +753,43 @@
       "markAllRead": "Oznacz wszystkie jako przeczytane",
       "noNotifications": "Brak powiadomień",
       "markRead": "Oznacz jako przeczytane"
+    },
+    "addPet": {
+      "title": "Wystaw zwierzę do adopcji",
+      "subtitle": "Podaj szczegółowe informacje, aby pomóc mu znaleźć kochający dom.",
+      "steps": {
+        "photos": "Zdjęcia",
+        "details": "Szczegóły",
+        "healthBio": "Zdrowie i biografia"
+      },
+      "addPhoto": "Dodaj zdjęcie",
+      "basicInfo": "Podstawowe informacje",
+      "petName": "Imię zwierzęcia",
+      "species": "Gatunek",
+      "selectSpecies": "Wybierz gatunek",
+      "breed": "Rasa",
+      "selectBreed": "Wybierz rasę",
+      "ageMonths": "Wiek (miesiące)",
+      "gender": "Płeć",
+      "male": "Samiec",
+      "female": "Samica",
+      "size": "Rozmiar",
+      "small": "Mały",
+      "medium": "Średni",
+      "large": "Duży",
+      "extraLarge": "Bardzo duży",
+      "color": "Kolor",
+      "healthPersonality": "Zdrowie i osobowość",
+      "healthTags": "Tagi zdrowia",
+      "personalityTags": "Tagi osobowości",
+      "specialNeeds": "Specjalne potrzeby (opcjonalnie)",
+      "descriptionBio": "Opis / biografia",
+      "back": "Wstecz",
+      "cancel": "Anuluj",
+      "nextStep": "Następny krok",
+      "publishing": "Publikowanie...",
+      "publishListing": "Opublikuj ogłoszenie",
+      "error": "Gatunek i rasa są wymagane."
     }
   },
   "foodDonations": {
