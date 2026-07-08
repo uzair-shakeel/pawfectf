@@ -142,12 +142,12 @@ const Navbar = () => {
     },
     {
       label: "List a Pet",
-      href: "/dashboard/cars/add",
+      href: "/dashboard/pets/add",
       icon: <BiAddToQueue className="w-6 h-6" />,
     },
     {
       label: "My Listings",
-      href: "/dashboard/cars",
+      href: "/dashboard/pets",
       icon: <FaPaw className="w-6 h-6" />,
     },
     {
@@ -188,7 +188,6 @@ const Navbar = () => {
     const p = pathname === "/" ? "/" : pathname.replace(/\/$/, "");
     const h = href === "/" ? "/" : href.replace(/\/$/, "");
     if (h === "/") return p === "/";
-    if (href === '/dashboard/cars' && pathname.startsWith('/dashboard/cars/add')) return false;
     if (href === '/dashboard/pets' && pathname.startsWith('/dashboard/pets/add')) return false;
     return p === h || p.startsWith(h + '/');
   };

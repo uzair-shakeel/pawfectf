@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
 import { useNotifications } from "../../../lib/notifications/NotificationsContext";
+import { useLanguage } from "../../../lib/i18n/LanguageContext";
 
 function fmt(d) {
   const date = new Date(d);
@@ -13,6 +14,7 @@ function fmt(d) {
 }
 
 export default function NotificationsPage() {
+  const { t } = useLanguage();
   const { notifications, unreadCount, markRead, markAll, refresh } = useNotifications();
   const [filter, setFilter] = useState("all");
 
@@ -39,8 +41,8 @@ export default function NotificationsPage() {
     <div className="space-y-4 p-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-gray-200 dark:text-white">Powiadomienia</h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400">Nieprzeczytane: {unreadCount}</p>
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-gray-200 dark:text-white">{t("dashboard:notifications.title", "Notifications")}</h1>
+          <p className="text-sm text-gray-500 dark:text-gray-400">{t("dashboard:notifications.unread", "Unread")}: {unreadCount}</p>
         </div>
         <div className="flex items-center gap-2">
           <select
@@ -48,25 +50,24 @@ export default function NotificationsPage() {
             onChange={(e) => setFilter(e.target.value)}
             className="border border-gray-200 dark:border-gray-700 bg-white dark:bg-dark-main rounded-md px-2 py-1 text-sm"
           >
-            <option value="all">Wszystkie</option>
-            <option value="unread">Nieprzeczytane</option>
-            <option value="message">Wiadomości</option>
-            <option value="car">Samochody</option>
-            <option value="status">Status</option>
-            <option value="system">System</option>
+            <option value="all">{t("dashboard:notifications.all", "All")}</option>
+            <option value="unread">{t("dashboard:notifications.unread", "Unread")}</option>
+            <option value="message">{t("dashboard:notifications.messages", "Messages")}</option>
+            <option value="car">{t("dashboard:notifications.pets", "Pets")}</option>
+            <option value="status">{t("dashboard:notifications.status", "Status")}</option>
+            <option value="system">{t("dashboard:notifications.system", "System")}</option>
           </select>
           <button
             onClick={markAll}
             className="px-3 py-1.5 text-sm rounded-md bg-blue-600 text-white hover:bg-blue-700"
-          >
-            Oznacz wszystkie jako przeczytane
+          >{t("dashboard:notifications.markAllRead", "Mark all as read")}
           </button>
         </div>
       </div>
 
       <div className="bg-white dark:bg-dark-main border border-gray-200 dark:border-gray-700 rounded-xl p-4">
         {items.length === 0 ? (
-          <div className="text-sm text-gray-500 dark:text-gray-400">Brak powiadomień</div>
+          <div className="text-sm text-gray-500 dark:text-gray-400">{t("dashboard:notifications.noNotifications", "No notifications")}</div>
         ) : (
           <ul className="divide-y divide-gray-100 dark:divide-gray-700">
             {items.map((n) => (
@@ -96,7 +97,7 @@ export default function NotificationsPage() {
                       onClick={() => markRead(n.id)}
                       className="text-xs text-blue-600 hover:underline"
                     >
-                      Oznacz jako przeczytane
+                      {t("dashboard:notifications.markRead", "Mark as read")}
                     </button>
                   )}
                 </div>

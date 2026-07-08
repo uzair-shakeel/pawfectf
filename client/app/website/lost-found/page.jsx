@@ -109,7 +109,7 @@ export default function LostFoundPage() {
                         {filteredEntries.map(entry => (
                             <div key={entry._id}>
                                 <PetCard 
-                                    car={{
+                                    pet={{
                                         _id: entry._id,
                                         createdBy: entry.reporterId,
                                         location: entry.location,

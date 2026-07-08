@@ -2,9 +2,11 @@
 import { useState } from "react";
 import Image from "next/image";
 import { useAuth } from "../../lib/auth/AuthContext";
+import { useLanguage } from "../../lib/i18n/LanguageContext";
 
 export default function ForgotPasswordPage() {
   const { requestPasswordReset, loading } = useAuth();
+  const { t } = useLanguage();
   const [email, setEmail] = useState("");
 
   const onSubmit = async (e) => {
@@ -36,9 +38,9 @@ export default function ForgotPasswordPage() {
               </div>
             </div>
             <div className="absolute bottom-5 left-5 right-5 w-full max-w-xl">
-              <h2 className="text-5xl font-bold mb-8 leading-tight">Reset your access</h2>
+              <h2 className="text-5xl font-bold mb-8 leading-tight">{t('forgotPassword.leftPanel.title')}</h2>
               <p className="text-xl font-light opacity-95 leading-relaxed">
-                Enter your email address and we will send you a secure link to reset your password.
+                {t('forgotPassword.leftPanel.description')}
               </p>
             </div>
           </div>
@@ -49,14 +51,14 @@ export default function ForgotPasswordPage() {
       <div className="w-full lg:w-1/2 flex items-center justify-center p-8 bg-white">
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold text-gray-900 dark:text-gray-200 mb-2">Forgot your password</h1>
-            <p className="text-base text-gray-600">We will send you a link to reset your password</p>
+            <h1 className="text-4xl font-bold text-gray-900 dark:text-gray-200 mb-2">{t('forgotPassword.title')}</h1>
+            <p className="text-base text-gray-600">{t('forgotPassword.subtitle')}</p>
           </div>
 
           <form onSubmit={onSubmit} className="space-y-5">
             <div>
               <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2 tracking-wide">
-                Email
+                {t('forgotPassword.email')}
               </label>
               <input
                 id="email"
@@ -65,7 +67,7 @@ export default function ForgotPasswordPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="you@example.com"
+                placeholder={t('forgotPassword.emailPlaceholder')}
               />
             </div>
             <button
@@ -73,7 +75,7 @@ export default function ForgotPasswordPage() {
               disabled={loading}
               className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 disabled:opacity-50 font-medium tracking-wide"
             >
-              {loading ? "Loading..." : "Send Link"}
+              {loading ? t('forgotPassword.loading') : t('forgotPassword.sendButton')}
             </button>
           </form>
         </div>

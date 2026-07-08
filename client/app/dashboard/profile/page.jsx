@@ -7,8 +7,10 @@ import "react-phone-input-2/lib/style.css";
 import { getUserById, updateUser } from "../../../services/userService";
 import Avatar from "../../../components/both/Avatar";
 import { toast } from "react-hot-toast";
+import { useLanguage } from "../../../lib/i18n/LanguageContext";
 
 const ProfileComponent = () => {
+  const { t } = useLanguage();
   const { userId, updateUserState, changePassword } = useAuth();
   const [user, setUser] = useState(null);
   const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "/api";
@@ -178,18 +180,18 @@ const ProfileComponent = () => {
     <div className="p-4 max-w-7xl mx-auto dark:bg-dark-card">
       <div className="flex items-center justify-between mb-8 animate-fadeIn">
         <div>
-          <h1 className="text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight">Your Profile</h1>
-          <p className="text-gray-500 mt-2 font-medium">Manage your personal details and account settings.</p>
+          <h1 className="text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight">{t("dashboard:profile.yourProfile", "Your Profile")}</h1>
+          <p className="text-gray-500 mt-2 font-medium">{t("dashboard:profile.subtitle", "Manage your personal details and account settings.")}</p>
         </div>
         <button type="button" onClick={() => setIsCpOpen(true)} className="bg-white dark:bg-dark-main text-gray-700 dark:text-gray-200 font-bold border border-gray-200 dark:border-dark-divider px-6 py-3 rounded-xl hover:bg-gray-50 dark:hover:bg-dark-raised transition-all shadow-sm">
-          Change Password
+          {t("dashboard:profile.changePassword", "Change Password")}
         </button>
       </div>
 
       <form onSubmit={handleSubmit} className="grid grid-cols-1 xl:grid-cols-3 gap-8">
         <div className="xl:col-span-2 space-y-8 animate-slideIn">
           <div className="bg-white dark:bg-dark-main p-4 sm:p-8 rounded-3xl border border-gray-100 dark:border-dark-divider shadow-sm relative overflow-hidden group">
-            <h2 className="text-lg font-bold text-gray-900 dark:text-white uppercase tracking-widest mb-6">Profile Photo</h2>
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white uppercase tracking-widest mb-6">{t("dashboard:profile.profilePhoto", "Profile Photo")}</h2>
             <div className="flex items-center gap-8">
               <div className="relative">
                 <Avatar src={formatImageUrl(user?.image || user?.profilePicture)} alt="Profile" size={100} imgClassName="border-4 border-white dark:border-gray-800 shadow-xl rounded-full object-cover" />
@@ -197,34 +199,34 @@ const ProfileComponent = () => {
               </div>
               <div>
                 <label className="bg-blue-600 text-white font-bold px-6 py-3 rounded-xl cursor-pointer hover:bg-blue-700 transition-all shadow-lg inline-block">
-                  Upload new photo
+                  {t("dashboard:profile.uploadNewPhoto", "Upload new photo")}
                   <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
                 </label>
-                <p className="text-xs text-gray-500 mt-3 font-medium">Recommended: JPG, PNG, WebP. Max 5MB.</p>
+                <p className="text-xs text-gray-500 mt-3 font-medium">{t("dashboard:profile.photoRecommended", "Recommended: JPG, PNG, WebP. Max 5MB.")}</p>
               </div>
             </div>
           </div>
 
           <div className="bg-white dark:bg-dark-main p-4 sm:p-8 rounded-3xl border border-gray-100 dark:border-dark-divider shadow-sm">
-            <h2 className="text-lg font-bold text-gray-900 dark:text-white uppercase tracking-widest mb-6">Personal Details</h2>
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white uppercase tracking-widest mb-6">{t("dashboard:profile.personalDetails", "Personal Details")}</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               <div>
-                <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">First Name</label>
+                <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">{t("dashboard:profile.firstName", "First Name")}</label>
                 <input type="text" name="firstName" value={formData.firstName} onChange={handleInputChange} className="w-full border-2 border-gray-100 dark:border-dark-divider p-4 rounded-xl focus:border-blue-500 focus:ring-blue-500 transition-all font-semibold bg-gray-50/50 dark:bg-dark-raised text-gray-900 dark:text-white" required />
               </div>
               <div>
-                <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Last Name</label>
+                <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">{t("dashboard:profile.lastName", "Last Name")}</label>
                 <input type="text" name="lastName" value={formData.lastName} onChange={handleInputChange} className="w-full border-2 border-gray-100 dark:border-dark-divider p-4 rounded-xl focus:border-blue-500 focus:ring-blue-500 transition-all font-semibold bg-gray-50/50 dark:bg-dark-raised text-gray-900 dark:text-white" required />
               </div>
             </div>
             <div>
-              <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">About</label>
-              <textarea name="description" value={formData.description} onChange={handleInputChange} className="w-full border-2 border-gray-100 dark:border-dark-divider p-4 rounded-xl focus:border-blue-500 focus:ring-blue-500 transition-all bg-gray-50/50 dark:bg-dark-raised text-gray-900 dark:text-white min-h-[120px]" placeholder="Write a few words about yourself or your shelter..." />
+              <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">{t("dashboard:profile.about", "About")}</label>
+              <textarea name="description" value={formData.description} onChange={handleInputChange} className="w-full border-2 border-gray-100 dark:border-dark-divider p-4 rounded-xl focus:border-blue-500 focus:ring-blue-500 transition-all bg-gray-50/50 dark:bg-dark-raised text-gray-900 dark:text-white min-h-[120px]" placeholder={t("dashboard:profile.aboutPlaceholder", "Write a few words about yourself or your shelter...")} />
             </div>
           </div>
 
           <div className="bg-white dark:bg-dark-main p-4 sm:p-8 rounded-3xl border border-gray-100 dark:border-dark-divider shadow-sm">
-            <h2 className="text-lg font-bold text-gray-900 dark:text-white uppercase tracking-widest mb-6">Location</h2>
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white uppercase tracking-widest mb-6">{t("dashboard:profile.location", "Location")}</h2>
             <div className="rounded-2xl overflow-hidden border-2 border-gray-100 dark:border-dark-divider">
               {MapComponent ? (
                 <MapComponent location={formData.location} setLocation={(loc) => setFormData({ ...formData, location: loc })} />
@@ -237,27 +239,27 @@ const ProfileComponent = () => {
 
         <div className="xl:col-span-1 space-y-8 animate-slideIn">
           <div className="bg-white dark:bg-dark-main p-4 sm:p-8 rounded-3xl border border-gray-100 dark:border-dark-divider shadow-sm">
-            <h2 className="text-lg font-bold text-gray-900 dark:text-white uppercase tracking-widest mb-6">Contact & Business</h2>
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white uppercase tracking-widest mb-6">{t("dashboard:profile.contactBusiness", "Contact & Business")}</h2>
             <div className="space-y-6">
               <div>
-                <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Email</label>
+                <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">{t("dashboard:profile.email", "Email")}</label>
                 <input type="email" value={formData.email} disabled className="w-full border-2 border-gray-100 dark:border-dark-divider p-4 rounded-xl bg-gray-50 dark:bg-dark-raised text-gray-500 font-medium cursor-not-allowed" />
               </div>
               <div>
-                <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Account Type</label>
+                <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">{t("dashboard:profile.accountType", "Account Type")}</label>
                 <div className="flex bg-gray-50 dark:bg-dark-raised p-1 rounded-xl border border-gray-100 dark:border-dark-divider">
-                  <button type="button" onClick={() => setFormData({ ...formData, sellerType: 'private' })} className={`flex-1 py-3 px-4 rounded-lg text-sm font-bold transition-all ${formData.sellerType === 'private' ? 'bg-white dark:bg-dark-card text-blue-600 shadow-sm' : 'text-gray-500'}`}>Private Owner</button>
-                  <button type="button" onClick={() => setFormData({ ...formData, sellerType: 'company' })} className={`flex-1 py-3 px-4 rounded-lg text-sm font-bold transition-all ${formData.sellerType === 'company' ? 'bg-white dark:bg-dark-card text-blue-600 shadow-sm' : 'text-gray-500'}`}>Shelter / Rescue</button>
+                  <button type="button" onClick={() => setFormData({ ...formData, sellerType: 'private' })} className={`flex-1 py-3 px-4 rounded-lg text-sm font-bold transition-all ${formData.sellerType === 'private' ? 'bg-white dark:bg-dark-card text-blue-600 shadow-sm' : 'text-gray-500'}`}>{t("dashboard:profile.privateOwner", "Private Owner")}</button>
+                  <button type="button" onClick={() => setFormData({ ...formData, sellerType: 'company' })} className={`flex-1 py-3 px-4 rounded-lg text-sm font-bold transition-all ${formData.sellerType === 'company' ? 'bg-white dark:bg-dark-card text-blue-600 shadow-sm' : 'text-gray-500'}`}>{t("dashboard:profile.shelterRescue", "Shelter / Rescue")}</button>
                 </div>
               </div>
               {formData.sellerType === 'company' && (
                 <div className="animate-slideUp">
-                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Shelter Name</label>
+                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">{t("dashboard:profile.shelterName", "Shelter Name")}</label>
                   <input type="text" name="companyName" value={formData.companyName} onChange={handleInputChange} className="w-full border-2 border-gray-100 dark:border-dark-divider p-4 rounded-xl focus:border-blue-500 transition-all font-semibold bg-gray-50/50 dark:bg-dark-raised text-gray-900 dark:text-white" />
                 </div>
               )}
               <div>
-                <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Phone Numbers</label>
+                <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">{t("dashboard:profile.phoneNumbers", "Phone Numbers")}</label>
                 <div className="space-y-3">
                   {formData.phoneNumbers.map((phone, index) => (
                     <div key={index} className="flex gap-2">
@@ -270,7 +272,7 @@ const ProfileComponent = () => {
                     </div>
                   ))}
                   {formData.phoneNumbers.length < 4 && (
-                    <button type="button" onClick={addPhoneNumber} className="w-full py-3 border-2 border-dashed border-gray-200 dark:border-dark-divider text-gray-500 rounded-xl font-bold hover:bg-gray-50 dark:hover:bg-dark-raised text-sm">+ Add Number</button>
+                    <button type="button" onClick={addPhoneNumber} className="w-full py-3 border-2 border-dashed border-gray-200 dark:border-dark-divider text-gray-500 rounded-xl font-bold hover:bg-gray-50 dark:hover:bg-dark-raised text-sm">{t("dashboard:profile.addNumber", "+ Add Number")}</button>
                   )}
                 </div>
               </div>
@@ -278,7 +280,7 @@ const ProfileComponent = () => {
           </div>
 
           <div className="bg-white dark:bg-dark-main p-4 sm:p-8 rounded-3xl border border-gray-100 dark:border-dark-divider shadow-sm">
-            <h2 className="text-lg font-bold text-gray-900 dark:text-white uppercase tracking-widest mb-6">Social Links</h2>
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white uppercase tracking-widest mb-6">{t("dashboard:profile.socialLinks", "Social Links")}</h2>
             <div className="space-y-4">
               {['instagram', 'facebook', 'website'].map((social) => (
                 <div key={social} className="relative">
@@ -294,7 +296,7 @@ const ProfileComponent = () => {
 
         <div className="col-span-1 xl:col-span-3 flex justify-center sm:justify-end py-4">
           <button type="submit" className="bg-blue-600 text-white font-bold px-12 py-5 rounded-xl hover:bg-blue-700 transition-all shadow-xl hover:-translate-y-1 text-lg flex items-center gap-2">
-            <span>Save Changes</span>
+            <span>{t("dashboard:profile.saveChanges", "Save Changes")}</span>
           </button>
         </div>
       </form>
@@ -304,26 +306,26 @@ const ProfileComponent = () => {
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onClick={() => setIsCpOpen(false)} />
           <div className="relative z-10 w-full max-w-lg bg-white dark:bg-dark-main rounded-2xl shadow-2xl p-8 border border-gray-100 dark:border-dark-divider">
             <div className="flex items-center justify-between mb-8">
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Change Password</h3>
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white">{t("dashboard:profile.changePassword", "Change Password")}</h3>
               <button type="button" onClick={() => setIsCpOpen(false)} className="text-gray-400 hover:text-gray-600 p-2">✕</button>
             </div>
             <form onSubmit={handleChangePassword} className="grid grid-cols-1 gap-4">
               <div>
-                <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Current Password</label>
+                <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">{t("dashboard:profile.currentPassword", "Current Password")}</label>
                 <input type="password" value={cpCurrent} onChange={(e) => setCpCurrent(e.target.value)} className="w-full border-2 border-gray-100 dark:border-dark-divider p-4 rounded-xl focus:border-blue-500 bg-gray-50/50 dark:bg-dark-raised text-gray-900 dark:text-white" required />
               </div>
               <div>
-                <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">New Password</label>
+                <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">{t("dashboard:profile.newPassword", "New Password")}</label>
                 <input type="password" value={cpNew} onChange={(e) => setCpNew(e.target.value)} minLength={6} className="w-full border-2 border-gray-100 dark:border-dark-divider p-4 rounded-xl focus:border-blue-500 bg-gray-50/50 dark:bg-dark-raised text-gray-900 dark:text-white" required />
               </div>
               <div>
-                <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Confirm New Password</label>
+                <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">{t("dashboard:profile.confirmNewPassword", "Confirm New Password")}</label>
                 <input type="password" value={cpConfirm} onChange={(e) => setCpConfirm(e.target.value)} minLength={6} className="w-full border-2 border-gray-100 dark:border-dark-divider p-4 rounded-xl focus:border-blue-500 bg-gray-50/50 dark:bg-dark-raised text-gray-900 dark:text-white" required />
               </div>
               <div className="flex justify-end gap-3 pt-4">
-                <button type="button" onClick={() => setIsCpOpen(false)} className="px-6 py-3 rounded-xl border border-gray-200 dark:border-dark-divider text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-50 dark:hover:bg-dark-raised">Cancel</button>
+                <button type="button" onClick={() => setIsCpOpen(false)} className="px-6 py-3 rounded-xl border border-gray-200 dark:border-dark-divider text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-50 dark:hover:bg-dark-raised">{t("dashboard:profile.cancel", "Cancel")}</button>
                 <button type="submit" disabled={cpLoading} className="px-8 py-3 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-700 disabled:opacity-50">
-                  {cpLoading ? "Updating..." : "Update Password"}
+                  {cpLoading ? t("dashboard:profile.updating", "Updating...") : t("dashboard:profile.updatePassword", "Update Password")}
                 </button>
               </div>
             </form>

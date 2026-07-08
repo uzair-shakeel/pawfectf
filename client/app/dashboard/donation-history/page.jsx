@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Clock, Heart, MapPin, ArrowRight, CheckCircle } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { useAuth } from "../../../lib/auth/AuthContext";
+import { useLanguage } from "../../../lib/i18n/LanguageContext";
 import foodDonationService from "../../../services/foodDonationService";
 
 const API_BASE = (process.env.NEXT_PUBLIC_API_BASE_URL || "").trim().replace(/\/$/, "");
@@ -19,6 +20,7 @@ function getImageSrc(images) {
 }
 
 export default function DonationHistoryPage() {
+    const { t } = useLanguage();
     const { user, getToken } = useAuth();
     const [donations, setDonations] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -102,7 +104,7 @@ export default function DonationHistoryPage() {
         return (
             <div className="flex flex-col items-center justify-center py-20 dark:bg-dark-main">
                 <div className="w-16 h-16 border-4 border-blue-100 dark:border-blue-900 border-t-blue-600 rounded-full animate-spin mb-4"></div>
-                <p className="text-gray-400 font-medium">Loading...</p>
+                <p className="text-gray-400 font-medium">{t("dashboard:donationHistory.loading", "Loading...")}</p>
             </div>
         );
     }
@@ -113,10 +115,10 @@ export default function DonationHistoryPage() {
             <div className="flex flex-col sm:flex-row justify-between items-end gap-4 md:gap-0 mb-12">
                 <div>
                     <h1 className="text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight">
-                        Donation History
+                        {t("dashboard:donationHistory.title", "Donation History")}
                     </h1>
                     <p className="text-gray-500 dark:text-gray-400 mt-2 font-medium">
-                        View all your food donations to pets in need
+                        {t("dashboard:donationHistory.subtitle", "View all your food donations to pets in need")}
                     </p>
                 </div>
                 <Link
@@ -124,7 +126,7 @@ export default function DonationHistoryPage() {
                     className="bg-blue-600 text-white px-4 sm:px-8 py-2 sm:py-4 rounded-xl font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 dark:shadow-blue-900/40 flex items-center gap-2 hover:-translate-y-1"
                 >
                     <Heart className="h-4 w-4" />
-                    Donate to More Pets
+                    {t("dashboard:donationHistory.donateMore", "Donate to More Pets")}
                 </Link>
             </div>
 
@@ -139,7 +141,7 @@ export default function DonationHistoryPage() {
                             <p className="text-xl font-bold text-gray-900 dark:text-white">
                                 {donations.length}
                             </p>
-                            <p className="text-xs text-gray-500 dark:text-gray-400">Total Donations</p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400">{t("dashboard:donationHistory.totalDonations", "Total Donations")}</p>
                         </div>
                     </div>
                 </div>
@@ -150,7 +152,7 @@ export default function DonationHistoryPage() {
                         </div>
                         <div>
                             <p className="text-xl font-bold text-gray-900 dark:text-white">{donations.length}</p>
-                            <p className="text-xs text-gray-500 dark:text-gray-400">Pets Helped</p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400">{t("dashboard:donationHistory.petsHelped", "Pets Helped")}</p>
                         </div>
                     </div>
                 </div>
@@ -163,7 +165,7 @@ export default function DonationHistoryPage() {
                             <p className="text-xl font-bold text-gray-900 dark:text-white">
                                 {donations.reduce((sum, d) => sum + (d.payment?.amount || 0), 0)}
                             </p>
-                            <p className="text-xs text-gray-500 dark:text-gray-400">Total Donated</p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400">{t("dashboard:donationHistory.totalDonated", "Total Donated")}</p>
                         </div>
                     </div>
                 </div>
@@ -176,17 +178,17 @@ export default function DonationHistoryPage() {
                         <Heart className="h-10 w-10 text-gray-300 dark:text-gray-600" />
                     </div>
                     <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-                        No donations yet
+                        {t("dashboard:donationHistory.noDonations", "No donations yet")}
                     </h3>
                     <p className="text-gray-500 dark:text-gray-400 mb-8 max-w-md mx-auto">
-                        Start making a difference by donating food to pets in need.
+                        {t("dashboard:donationHistory.noDonationsDesc", "Start making a difference by donating food to pets in need.")}
                     </p>
                     <Link
                         href="/website/food-donations"
                         className="inline-flex items-center px-8 py-4 text-sm font-bold rounded-xl shadow-lg text-white bg-blue-600 hover:bg-blue-700 transition-all hover:scale-105"
                     >
                         <Heart className="h-4 w-4 mr-2" />
-                        Browse Pets to Help
+                        {t("dashboard:donationHistory.browsePets", "Browse Pets to Help")}
                     </Link>
                 </div>
             ) : (
@@ -212,7 +214,7 @@ export default function DonationHistoryPage() {
                                         />
                                         <div className="absolute top-3 left-3">
                                             <span className="px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider text-white shadow-md bg-green-500">
-                                                Donated
+                                                {t("dashboard:donationHistory.donated", "Donated")}
                                             </span>
                                         </div>
                                     </div>
@@ -257,7 +259,7 @@ export default function DonationHistoryPage() {
                                                 href={`/website/pets/${pet?._id}`}
                                                 className="flex items-center gap-1 text-xs text-blue-600 dark:text-blue-400 hover:text-blue-700 font-bold"
                                             >
-                                                View Pet
+                                                {t("dashboard:donationHistory.viewPet", "View Pet")}
                                                 <ArrowRight className="h-3 w-3" />
                                             </Link>
                                         </div>

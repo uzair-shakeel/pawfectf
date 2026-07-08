@@ -2,9 +2,11 @@
 import { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useAuth } from "../../lib/auth/AuthContext";
+import { useLanguage } from "../../lib/i18n/LanguageContext";
 
 export default function ResetPassword() {
   const { resetPassword, loading } = useAuth();
+  const { t } = useLanguage();
   const params = useSearchParams();
   const router = useRouter();
   const [token, setToken] = useState("");
@@ -27,27 +29,29 @@ export default function ResetPassword() {
   return (
     <div className="min-h-screen flex items-center justify-center p-6">
       <div className="w-full max-w-md bg-white rounded-xl p-6 shadow">
-        <h1 className="text-2xl font-semibold mb-4">Reset password</h1>
+        <h1 className="text-2xl font-semibold mb-4">{t('resetPassword.title')}</h1>
         <form onSubmit={onSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">New password</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">{t('resetPassword.newPassword')}</label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               minLength={6}
               required
+              placeholder={t('resetPassword.passwordPlaceholder')}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Confirm password</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">{t('resetPassword.confirmPassword')}</label>
             <input
               type="password"
               value={confirm}
               onChange={(e) => setConfirm(e.target.value)}
               minLength={6}
               required
+              placeholder={t('resetPassword.passwordPlaceholder')}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
@@ -56,7 +60,7 @@ export default function ResetPassword() {
             disabled={loading}
             className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50"
           >
-            {loading ? "Resetting..." : "Reset password"}
+            {loading ? t('resetPassword.loading') : t('resetPassword.resetButton')}
           </button>
         </form>
       </div>

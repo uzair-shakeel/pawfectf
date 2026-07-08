@@ -13,12 +13,14 @@ import { useRouter, usePathname } from "next/navigation";
 import Avatar from "../both/Avatar";
 import ThemeToggle from "../ThemeToggle";
 import { useNotifications } from "../../lib/notifications/NotificationsContext";
+import { useLanguage } from "../../lib/i18n/LanguageContext";
 
 // Prefer same-origin proxy (/api) unless a full external base is explicitly provided
 const RAW_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "";
 const API_BASE = RAW_BASE ? RAW_BASE.replace(/\/$/, "") : "";
 
 export default function Sidebar({ isOpen, toggleSidebar }) {
+  const { t } = useLanguage();
   const { userId, getToken, user, logout } = useAuth();
   const { messageCount } = useNotifications();
   const router = useRouter();
@@ -59,63 +61,63 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
 
   const dashboardMenuItems = [
     {
-      label: "Dashboard",
+      label: t("dashboard:sidebar.dashboard", "Dashboard"),
       href: "/dashboard/home",
       icon: <RiDashboardHorizontalLine className="w-6 h-6" />,
     },
     {
-      label: "List a Pet",
+      label: t("dashboard:sidebar.listPet", "List a Pet"),
       href: "/dashboard/cars/add",
       icon: <BiAddToQueue className="w-6 h-6" />,
     },
     {
-      label: "My Listings",
+      label: t("dashboard:sidebar.myListings", "My Listings"),
       href: "/dashboard/cars",
       icon: <FaPaw className="w-6 h-6" />,
     },
     ...(sellerType === "private" || sellerType === "company"
       ? [
         {
-          label: "Adoption Requests",
+          label: t("dashboard:sidebar.adoptionRequests", "Adoption Requests"),
           href: "/dashboard/adoption-requests",
           icon: <FiShoppingBag className="w-6 h-6" />,
         },
       ]
       : []),
     {
-      label: "Lost & Found",
+      label: t("dashboard:sidebar.lostFound", "Lost & Found"),
       href: "/dashboard/lost-found",
       icon: <FaPaw className="w-6 h-6" />,
     },
     {
-      label: "Food Donations",
+      label: t("dashboard:sidebar.foodDonations", "Food Donations"),
       href: "/dashboard/food-pets",
       icon: <FiHeart className="w-6 h-6" />,
     },
     {
-      label: "Donation History",
+      label: t("dashboard:sidebar.donationHistory", "Donation History"),
       href: "/dashboard/donation-history",
       icon: <FiHeart className="w-6 h-6" />,
     },
     {
-      label: "Messages",
+      label: t("dashboard:sidebar.messages", "Messages"),
       href: "/dashboard/messages",
       icon: <BsChatLeftDots className="w-6 h-6" />,
     },
     {
-      label: "Profile",
+      label: t("dashboard:sidebar.profile", "Profile"),
       href: "/dashboard/profile",
       icon: <BsPersonGear className="w-6 h-6" />,
     },
     ...(user?.role === "admin"
       ? [
         {
-          label: "Admin: Pets",
+          label: t("dashboard:sidebar.adminPets", "Admin: Pets"),
           href: "/dashboard/admin/cars",
           icon: <FaPaw className="w-6 h-6" />,
         },
         {
-          label: "Admin: Lost & Found",
+          label: t("dashboard:sidebar.adminLostFound", "Admin: Lost & Found"),
           href: "/dashboard/admin/lost-found",
           icon: <RiDashboardHorizontalLine className="w-6 h-6" />,
         },
@@ -124,11 +126,11 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
   ];
 
   const websiteLinks = [
-    { label: "Home", href: "/", icon: <FiHome className="w-6 h-6" /> },
-    { label: "Adopt", href: "/website/pets", icon: <FiSearch className="w-6 h-6" /> },
-    { label: "Saved Pets", href: "/wishlist", icon: <FiHeart className="w-6 h-6" /> },
-    { label: "FAQ", href: "/website/faq", icon: <FiLifeBuoy className="w-6 h-6" /> },
-    { label: "Contact", href: "/website/contact", icon: <FiPhone className="w-6 h-6" /> },
+    { label: t("navbar:links.home", "Home"), href: "/", icon: <FiHome className="w-6 h-6" /> },
+    { label: t("navbar:links.adopt", "Adopt"), href: "/website/pets", icon: <FiSearch className="w-6 h-6" /> },
+    { label: t("navbar:links.savedPets", "Saved Pets"), href: "/wishlist", icon: <FiHeart className="w-6 h-6" /> },
+    { label: t("navbar:links.faq", "FAQ"), href: "/website/faq", icon: <FiLifeBuoy className="w-6 h-6" /> },
+    { label: t("navbar:links.contact", "Contact"), href: "/website/contact", icon: <FiPhone className="w-6 h-6" /> },
   ];
 
   // Combined for mobile ONLY (following user requested order)
@@ -139,7 +141,7 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
   ];
 
   const logoutItem = {
-    label: "Logout",
+    label: t("dashboard:sidebar.logout", "Logout"),
     icon: <FiLogOut className="w-6 h-6" />,
     action: async () => {
       try {
@@ -205,10 +207,10 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
                   <Avatar src={profileImage} alt="User" size={50} />
                   <div className="min-w-0 flex-1">
                     <h3 className="text-lg font-black text-gray-900 dark:text-white truncate">
-                      {userData?.firstName || "Użytkownik"}
+                      {userData?.firstName || "User"}
                     </h3>
                     <p className="text-xs text-gray-400 font-bold uppercase tracking-widest leading-none mt-1">
-                      {sellerType === 'company' ? 'Shelter Account' : 'Pet Owner'}
+                      {sellerType === 'company' ? t("dashboard:sidebar.shelterAccount", 'Shelter Account') : t("dashboard:sidebar.petOwner", 'Pet Owner')}
                     </p>
                   </div>
                 </div>
@@ -238,7 +240,7 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
                 >
                   <div className="flex items-center gap-4">
                     <FiLogOut className="w-5 h-5" />
-                    <span>Logout</span>
+                    <span>{t("dashboard:sidebar.logout", "Logout")}</span>
                   </div>
                 </button>
               </div>
@@ -272,8 +274,8 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
               <div className="absolute top-0 right-0 w-16 h-16 bg-blue-500/10 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110"></div>
               <Avatar src={profileImage} alt="User" size={40} />
               <div className="min-w-0 flex-1 relative z-10">
-                <h3 className="text-sm font-bold text-white truncate">{userData?.firstName || "Użytkownik"}</h3>
-                <p className="text-xs text-gray-400 truncate font-medium">{sellerType === 'company' ? 'Shelter Account' : 'Pet Owner'}</p>
+                <h3 className="text-sm font-bold text-white truncate">{userData?.firstName || "User"}</h3>
+                <p className="text-xs text-gray-400 truncate font-medium">{sellerType === 'company' ? t("dashboard:sidebar.shelterAccount", 'Shelter Account') : t("dashboard:sidebar.petOwner", 'Pet Owner')}</p>
               </div>
             </div>
           )}

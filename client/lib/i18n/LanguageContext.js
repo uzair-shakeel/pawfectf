@@ -11,10 +11,12 @@ const translations = {
   en: {
     translation: enTranslations,
     blog: enBlogTranslations,
+    dashboard: enTranslations.dashboard,
   },
   pl: {
     translation: plTranslations,
     blog: plBlogTranslations,
+    dashboard: plTranslations.dashboard,
   },
 };
 
@@ -57,8 +59,11 @@ export function LanguageProvider({ children }) {
   };
 
   // Get translation for a key with nested support and namespace
-  const t = (key, options = {}) => {
+  const t = (key, fallbackOrOptions = {}) => {
     try {
+      const options = typeof fallbackOrOptions === 'string' 
+        ? { defaultValue: fallbackOrOptions } 
+        : fallbackOrOptions;
       const [namespace, ...keyParts] = key.split(":");
       const translationKey = keyParts.length ? keyParts.join(":") : namespace;
       const translationNamespace = keyParts.length ? namespace : "translation";
@@ -74,10 +79,10 @@ export function LanguageProvider({ children }) {
         return result;
       }
 
-      return result || key;
+      return result || options.defaultValue || key;
     } catch (e) {
       console.warn(`Translation key not found: ${key}`);
-      return key;
+      return typeof fallbackOrOptions === 'string' ? fallbackOrOptions : fallbackOrOptions?.defaultValue || key;
     }
   };
 

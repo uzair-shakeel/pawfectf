@@ -9,10 +9,12 @@ import { useState, useEffect, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { useAuth } from "../../../lib/auth/AuthContext";
+import { useLanguage } from "../../../lib/i18n/LanguageContext";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "/api";
 
 const page = () => {
+  const { t } = useLanguage();
   const { user } = useAuth();
   const router = useRouter();
   const [error, setError] = useState(null);
@@ -82,10 +84,10 @@ const page = () => {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white transition-colors duration-300">
-            Welcome Back{user?.firstName ? ", " + user.firstName : ""}!
+            {t("dashboard:home.welcome", "Welcome Back")}{user?.firstName ? ", " + user.firstName : ""}!
           </h1>
           <p className="text-sm text-gray-500 dark:text-gray-400 transition-colors duration-300 mt-1">
-            Here's a quick overview of your activity.
+            {t("dashboard:home.overview", "Here's a quick overview of your activity.")}
           </p>
         </div>
       </div>

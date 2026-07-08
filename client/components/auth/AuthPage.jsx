@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import toast from "react-hot-toast";
 import { useAuth } from "../../lib/auth/AuthContext";
+import { useLanguage } from "../../lib/i18n/LanguageContext";
 
 export default function AuthPage({ defaultTab = "login" }) {
   const [tab, setTab] = useState(defaultTab);
@@ -27,6 +28,7 @@ export default function AuthPage({ defaultTab = "login" }) {
 
   const router = useRouter();
   const { signIn, signUp, verifyOTP, resendOTP, loading } = useAuth();
+  const { t } = useLanguage();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -105,15 +107,15 @@ export default function AuthPage({ defaultTab = "login" }) {
           <div className="pb-4">
             <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 mb-6">
               <span className="text-lg">🐾</span>
-              <span className="text-white/80 text-sm font-semibold">Trusted by 10,000+ pet lovers</span>
+              <span className="text-white/80 text-sm font-semibold">{t('auth.leftPanel.trustedBy')}</span>
             </div>
             <h2 className="text-4xl xl:text-5xl font-black text-white leading-tight mb-4">
-              Find Your<br />
+              {t('auth.leftPanel.findYour')}<br />
               <span className="text-blue-300">Rafraf</span><br />
-              Companion
+              {t('auth.leftPanel.companion')}
             </h2>
             <p className="text-white/70 text-base leading-relaxed max-w-sm">
-              The most trusted pet adoption platform. Connect with shelters and give a pet the loving home they deserve.
+              {t('auth.leftPanel.description')}
             </p>
           </div>
         </div>
@@ -138,9 +140,9 @@ export default function AuthPage({ defaultTab = "login" }) {
                 <div className="w-14 h-14 bg-blue-50 dark:bg-blue-900/30 rounded-2xl flex items-center justify-center mb-4">
                   <span className="text-2xl">📧</span>
                 </div>
-                <h1 className="text-3xl font-black text-gray-900 dark:text-white mb-2">Check your email</h1>
+                <h1 className="text-3xl font-black text-gray-900 dark:text-white mb-2">{t('auth.otp.checkEmail')}</h1>
                 <p className="text-gray-500 dark:text-gray-400 text-sm">
-                  We sent a 6-digit code to <span className="font-bold text-gray-700 dark:text-gray-300">{regData.email}</span>
+                  {t('auth.otp.sentCode')} <span className="font-bold text-gray-700 dark:text-gray-300">{regData.email}</span>
                 </p>
               </div>
               <form onSubmit={handleOtpSubmit} className="space-y-6">
@@ -160,14 +162,14 @@ export default function AuthPage({ defaultTab = "login" }) {
                   ))}
                 </div>
                 <button type="submit" disabled={loading} className="w-full py-4 rounded-xl bg-blue-600 text-white font-black text-base hover:bg-blue-700 transition-all disabled:opacity-60 shadow-lg shadow-blue-500/25">
-                  {loading ? "Verifying..." : "Verify Code"}
+                  {loading ? t('auth.otp.verifying') : t('auth.otp.verifyButton')}
                 </button>
                 <div className="text-center space-y-2">
                   <button type="button" onClick={() => resendOTP(tempUserId).then(() => toast.success("Code resent!"))} className="text-blue-600 hover:text-blue-700 text-sm font-semibold">
-                    Resend code
+                    {t('auth.otp.resendCode')}
                   </button>
                   <div>
-                    <button type="button" onClick={() => setStep("form")} className="text-gray-400 hover:text-gray-600 text-xs">← Back to sign up</button>
+                    <button type="button" onClick={() => setStep("form")} className="text-gray-400 hover:text-gray-600 text-xs">{t('auth.otp.backToSignup')}</button>
                   </div>
                 </div>
               </form>
@@ -177,12 +179,12 @@ export default function AuthPage({ defaultTab = "login" }) {
             <div>
               <div className="mb-8">
                 <h1 className="text-3xl font-black text-gray-900 dark:text-white mb-1">
-                  {tab === "login" ? "Welcome back 👋" : "Create account 🐾"}
+                  {tab === "login" ? t('auth.login.title') : t('auth.register.title')}
                 </h1>
                 <p className="text-gray-500 dark:text-gray-400 text-sm">
                   {tab === "login"
-                    ? "Sign in to your Rafraf account"
-                    : "Join thousands of pet lovers on Rafraf"}
+                    ? t('auth.login.subtitle')
+                    : t('auth.register.subtitle')}
                 </p>
               </div>
 
@@ -196,7 +198,7 @@ export default function AuthPage({ defaultTab = "login" }) {
                     : "text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
                     }`}
                 >
-                  Log In
+                  {t('auth.tabs.login')}
                 </button>
                 <button
                   type="button"
@@ -206,7 +208,7 @@ export default function AuthPage({ defaultTab = "login" }) {
                     : "text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
                     }`}
                 >
-                  Sign Up
+                  {t('auth.tabs.signUp')}
                 </button>
               </div>
 
@@ -214,16 +216,16 @@ export default function AuthPage({ defaultTab = "login" }) {
               {tab === "login" && (
                 <form onSubmit={handleLogin} className="space-y-4">
                   <div>
-                    <label className={label}>Email</label>
+                    <label className={label}>{t('auth.login.email')}</label>
                     <input type="email" required value={loginData.email}
                       onChange={e => setLoginData({ ...loginData, email: e.target.value })}
                       className={input} placeholder="you@example.com" />
                   </div>
                   <div>
                     <div className="flex justify-between items-center mb-1.5">
-                      <label className={label} style={{ marginBottom: 0 }}>Password</label>
+                      <label className={label} style={{ marginBottom: 0 }}>{t('auth.login.password')}</label>
                       <Link href="/forgot-password" className="text-xs text-blue-600 hover:text-blue-700 font-semibold">
-                        Forgot password?
+                        {t('auth.login.forgotPassword')}
                       </Link>
                     </div>
                     <input type="password" required value={loginData.password}
@@ -232,12 +234,12 @@ export default function AuthPage({ defaultTab = "login" }) {
                   </div>
                   <button type="submit" disabled={loginLoading}
                     className="w-full py-4 mt-2 rounded-xl bg-blue-600 text-white font-black text-sm hover:bg-blue-700 active:scale-[0.98] transition-all disabled:opacity-60 shadow-lg shadow-blue-500/25">
-                    {loginLoading ? "Signing in..." : "Sign In"}
+                    {loginLoading ? t('auth.login.signingIn') : t('auth.login.signInButton')}
                   </button>
                   <p className="text-center text-gray-500 text-sm pt-1">
-                    New to Rafraf?{" "}
+                    {t('auth.login.newToRafraf')}{" "}
                     <button type="button" onClick={() => setTab("register")} className="text-blue-600 font-bold hover:underline">
-                      Create account
+                      {t('auth.login.createAccount')}
                     </button>
                   </p>
                 </form>
@@ -248,36 +250,36 @@ export default function AuthPage({ defaultTab = "login" }) {
                 <form onSubmit={handleRegister} className="space-y-4">
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className={label}>First Name</label>
+                      <label className={label}>{t('auth.register.firstName')}</label>
                       <input type="text" required value={regData.firstName}
                         onChange={e => setRegData({ ...regData, firstName: e.target.value })}
                         className={input} placeholder="Alex" />
                     </div>
                     <div>
-                      <label className={label}>Last Name</label>
+                      <label className={label}>{t('auth.register.lastName')}</label>
                       <input type="text" required value={regData.lastName}
                         onChange={e => setRegData({ ...regData, lastName: e.target.value })}
                         className={input} placeholder="Smith" />
                     </div>
                   </div>
                   <div>
-                    <label className={label}>Email</label>
+                    <label className={label}>{t('auth.register.email')}</label>
                     <input type="email" required value={regData.email}
                       onChange={e => setRegData({ ...regData, email: e.target.value })}
                       className={input} placeholder="you@example.com" />
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className={label}>Password</label>
+                      <label className={label}>{t('auth.register.password')}</label>
                       <input type="password" required minLength="6" value={regData.password}
                         onChange={e => setRegData({ ...regData, password: e.target.value })}
-                        className={input} placeholder="Min 6 chars" />
+                        className={input} placeholder={t('auth.register.minChars')} />
                     </div>
                     <div>
-                      <label className={label}>Confirm</label>
+                      <label className={label}>{t('auth.register.confirmPassword')}</label>
                       <input type="password" required minLength="6" value={regData.confirmPassword}
                         onChange={e => setRegData({ ...regData, confirmPassword: e.target.value })}
-                        className={input} placeholder="Repeat" />
+                        className={input} placeholder={t('auth.register.repeat')} />
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
@@ -285,20 +287,20 @@ export default function AuthPage({ defaultTab = "login" }) {
                       onChange={e => setTermsAccepted(e.target.checked)}
                       className="w-4 h-4 mt-0.5 rounded border-gray-300 accent-blue-600 flex-shrink-0" />
                     <label htmlFor="terms" className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
-                      I agree to the{" "}
-                      <Link href="/terms" className="text-blue-600 font-semibold hover:underline">Terms</Link>
-                      {" "}&{" "}
-                      <Link href="/privacy" className="text-blue-600 font-semibold hover:underline">Privacy Policy</Link>
+                      {t('auth.register.terms')}{" "}
+                      <Link href="/terms" className="text-blue-600 font-semibold hover:underline">{t('auth.register.termsLink')}</Link>
+                      {" "}{t('auth.register.and')}{" "}
+                      <Link href="/privacy" className="text-blue-600 font-semibold hover:underline">{t('auth.register.privacyLink')}</Link>
                     </label>
                   </div>
                   <button type="submit" disabled={loading}
                     className="w-full py-4 rounded-xl bg-blue-600 text-white font-black text-sm hover:bg-blue-700 active:scale-[0.98] transition-all disabled:opacity-60 shadow-lg shadow-blue-500/25">
-                    {loading ? "Creating Account..." : "Create Account"}
+                    {loading ? t('auth.register.creating') : t('auth.register.createButton')}
                   </button>
                   <p className="text-center text-gray-500 text-sm pt-1">
-                    Already have an account?{" "}
+                    {t('auth.register.alreadyHaveAccount')}{" "}
                     <button type="button" onClick={() => setTab("login")} className="text-blue-600 font-bold hover:underline">
-                      Sign in
+                      {t('auth.register.signIn')}
                     </button>
                   </p>
                 </form>

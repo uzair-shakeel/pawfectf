@@ -25,10 +25,10 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="/website/cars"
+                  href="/website/pets"
                   className="text-gray-400 hover:text-white transition-colors"
                 >
-                  Samochody
+                  Adoptuj
                 </Link>
               </li>
 

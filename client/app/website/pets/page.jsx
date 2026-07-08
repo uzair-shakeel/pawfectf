@@ -87,7 +87,7 @@ const PetsContent = () => {
         filters.page = 1;
         const payload = Object.fromEntries(Object.entries(filters).filter(([, v]) => v !== undefined && v !== "" && !Number.isNaN(v)));
         const response = await searchPets(payload);
-        let fetched = Array.isArray(response) ? response : (response?.cars ?? []);
+        let fetched = Array.isArray(response) ? response : (response?.pets ?? response?.cars ?? []);
 
         // Client-side filtering (fallback in case backend doesn't filter properly)
         if (filters.species) fetched = fetched.filter(p => p.species?.toLowerCase() === filters.species.toLowerCase());
@@ -244,7 +244,7 @@ const PetsContent = () => {
                 <button onClick={() => window.location.reload()} className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Try Again</button>
               </div>
             ) : pets.length > 0 ? (
-              pets.map((pet, i) => <PetCard key={`${i}-${pet._id}`} car={pet} viewMode={viewMode} />)
+              pets.map((pet, i) => <PetCard key={`${i}-${pet._id}`} pet={pet} viewMode={viewMode} />)
             ) : (
               <div className="text-center py-12">
                 <h3 className="text-lg font-medium text-gray-900 dark:text-gray-200">No pets found</h3>

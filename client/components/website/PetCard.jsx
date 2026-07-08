@@ -19,7 +19,7 @@ const formatAge = (ageMonths) => {
   return `${years}y ${months}m`;
 };
 
-export default function PetCard({ car: pet, viewMode = "grid" }) {
+export default function PetCard({ pet, viewMode = "grid" }) {
   const router = useRouter();
   const [locationDetails, setLocationDetails] = useState({ city: "", state: "" });
   const [owner, setOwner] = useState(null);

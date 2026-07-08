@@ -5,8 +5,10 @@ import { useRouter } from 'next/navigation';
 import { Heart, Upload, MapPin, AlertCircle, Camera } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { useAuth } from '../../../../lib/auth/AuthContext';
+import { useLanguage } from "../../../../lib/i18n/LanguageContext";
 
 const AddFoodPetPage = () => {
+  const { t } = useLanguage();
   const router = useRouter();
   const { getToken } = useAuth();
   const [loading, setLoading] = useState(false);
@@ -170,16 +172,16 @@ const AddFoodPetPage = () => {
               <Heart className="h-8 w-8 text-orange-600" />
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Add Pet for Food Donations</h1>
-              <p className="text-gray-600 mt-1">Help a pet in need by listing them for food sponsorship</p>
+              <h1 className="text-3xl font-bold text-gray-900">{t("dashboard:foodPets.addTitle", "Add Pet for Food Donations")}</h1>
+              <p className="text-gray-600 mt-1">{t("dashboard:foodPets.addSubtitle", "Help a pet in need by listing them for food sponsorship")}</p>
             </div>
           </div>
 
           <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 flex items-start gap-3">
             <AlertCircle className="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" />
             <div className="text-sm text-blue-800">
-              <p className="font-medium mb-1">Admin Approval Required</p>
-              <p>All pets must be approved by our admin team before appearing on the platform. We'll review your submission within 24 hours.</p>
+              <p className="font-medium mb-1">{t("dashboard:foodPets.approvalRequired", "Admin Approval Required")}</p>
+              <p>{t("dashboard:foodPets.approvalDesc", "All pets must be approved by our admin team before appearing on the platform. We'll review your submission within 24 hours.")}</p>
             </div>
           </div>
         </div>
@@ -187,11 +189,11 @@ const AddFoodPetPage = () => {
         <form onSubmit={handleSubmit} className="space-y-8">
           {/* Pet Information */}
           <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
-            <h2 className="text-xl font-semibold text-gray-900 mb-6">Pet Information</h2>
+            <h2 className="text-xl font-semibold text-gray-900 mb-6">{t("dashboard:foodPets.petInfo", "Pet Information")}</h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Pet Name *</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">{t("dashboard:foodPets.petName", "Pet Name *")}</label>
                 <input
                   type="text"
                   required
@@ -203,7 +205,7 @@ const AddFoodPetPage = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Species *</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">{t("dashboard:foodPets.species", "Species *")}</label>
                 <select
                   required
                   className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent"
@@ -219,7 +221,7 @@ const AddFoodPetPage = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Breed</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t("dashboard:foodPets.breed", "Breed")}</label>
                 <select
                   className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 dark:bg-dark-raised rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:text-white"
                   value={formData.breed}
@@ -239,7 +241,7 @@ const AddFoodPetPage = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Age</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">{t("dashboard:foodPets.age", "Age")}</label>
                 <input
                   type="text"
                   className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent"
@@ -250,7 +252,7 @@ const AddFoodPetPage = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Gender</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">{t("dashboard:foodPets.gender", "Gender")}</label>
                 <select
                   className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                   value={formData.gender}
@@ -263,7 +265,7 @@ const AddFoodPetPage = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Size</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">{t("dashboard:foodPets.size", "Size")}</label>
                 <select
                   className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                   value={formData.size}
@@ -278,7 +280,7 @@ const AddFoodPetPage = () => {
             </div>
 
             <div className="mt-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Description *</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">{t("dashboard:foodPets.description", "Description *")}</label>
               <textarea
                 required
                 rows="4"
@@ -292,11 +294,11 @@ const AddFoodPetPage = () => {
 
           {/* Food Need Information */}
           <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
-            <h2 className="text-xl font-semibold text-gray-900 mb-6">Food Need Details</h2>
+            <h2 className="text-xl font-semibold text-gray-900 mb-6">{t("dashboard:foodPets.foodNeedDetails", "Food Need Details")}</h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Urgency Level</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">{t("dashboard:foodPets.urgencyLevel", "Urgency Level")}</label>
                 <select
                   className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                   value={formData.foodNeed.urgency}
@@ -310,7 +312,7 @@ const AddFoodPetPage = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Estimated Monthly Cost</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">{t("dashboard:foodPets.estimatedCost", "Estimated Monthly Cost")}</label>
                 <input
                   type="number"
                   className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent"
@@ -322,7 +324,7 @@ const AddFoodPetPage = () => {
             </div>
 
             <div className="mt-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Special Dietary Requirements</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">{t("dashboard:foodPets.specialDiet", "Special Dietary Requirements")}</label>
               <input
                 type="text"
                 className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent"
@@ -333,7 +335,7 @@ const AddFoodPetPage = () => {
             </div>
 
             <div className="mt-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Reason for Food Need</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">{t("dashboard:foodPets.reasonForNeed", "Reason for Food Need")}</label>
               <textarea
                 rows="3"
                 className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent"
@@ -346,11 +348,11 @@ const AddFoodPetPage = () => {
 
           {/* Shelter Information */}
           <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
-            <h2 className="text-xl font-semibold text-gray-900 mb-6">Shelter/Care Provider Information</h2>
+            <h2 className="text-xl font-semibold text-gray-900 mb-6">{t("dashboard:foodPets.shelterInfo", "Shelter/Care Provider Information")}</h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Organization Name *</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">{t("dashboard:foodPets.orgName", "Organization Name *")}</label>
                 <input
                   type="text"
                   required
@@ -362,7 +364,7 @@ const AddFoodPetPage = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">License Number</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">{t("dashboard:foodPets.licenseNumber", "License Number")}</label>
                 <input
                   type="text"
                   className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent"
@@ -373,7 +375,7 @@ const AddFoodPetPage = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Contact Phone *</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">{t("dashboard:foodPets.contactPhone", "Contact Phone *")}</label>
                 <input
                   type="tel"
                   required
@@ -385,7 +387,7 @@ const AddFoodPetPage = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Contact Email *</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">{t("dashboard:foodPets.contactEmail", "Contact Email *")}</label>
                 <input
                   type="email"
                   required
@@ -398,7 +400,7 @@ const AddFoodPetPage = () => {
             </div>
 
             <div className="mt-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Address *</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">{t("dashboard:foodPets.address", "Address *")}</label>
               <input
                 type="text"
                 required
@@ -414,11 +416,11 @@ const AddFoodPetPage = () => {
           <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
             <h2 className="text-xl font-semibold text-gray-900 mb-6 flex items-center gap-3">
               <MapPin className="h-5 w-5 text-orange-600" />
-              Location
+              {t("dashboard:foodPets.location", "Location")}
             </h2>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">City *</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">{t("dashboard:foodPets.city", "City *")}</label>
               <input
                 type="text"
                 required
@@ -434,7 +436,7 @@ const AddFoodPetPage = () => {
           <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
             <h2 className="text-xl font-semibold text-gray-900 mb-6 flex items-center gap-3">
               <Camera className="h-5 w-5 text-orange-600" />
-              Pet Photos
+              {t("dashboard:foodPets.photos", "Pet Photos")}
             </h2>
 
             <div className="mb-6">
@@ -442,9 +444,9 @@ const AddFoodPetPage = () => {
                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
                   <Upload className="w-10 h-10 mb-3 text-gray-400" />
                   <p className="mb-2 text-sm text-gray-500">
-                    <span className="font-semibold">Click to upload</span> or drag and drop
+                    <span className="font-semibold">{t("dashboard:foodPets.clickUpload", "Click to upload")}</span> {t("dashboard:foodPets.orDrag", "or drag and drop")}
                   </p>
-                  <p className="text-xs text-gray-500">PNG, JPG or JPEG (MAX. 5MB each)</p>
+                  <p className="text-xs text-gray-500">PNG, JPG {t("dashboard:foodPets.or", "or")} JPEG (MAX. 5MB each)</p>
                 </div>
                 <input
                   type="file"
@@ -485,7 +487,7 @@ const AddFoodPetPage = () => {
               onClick={() => router.back()}
               className="px-8 py-4 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors font-medium"
             >
-              Cancel
+              {t("dashboard:foodPets.cancel", "Cancel")}
             </button>
             <button
               type="submit"
@@ -495,12 +497,12 @@ const AddFoodPetPage = () => {
               {loading ? (
                 <>
                   <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
-                  Submitting...
+                  {t("dashboard:foodPets.submitting", "Submitting...")}
                 </>
               ) : (
                 <>
                   <Heart className="h-4 w-4" />
-                  Submit for Approval
+                  {t("dashboard:foodPets.submitApproval", "Submit for Approval")}
                 </>
               )}
             </button>

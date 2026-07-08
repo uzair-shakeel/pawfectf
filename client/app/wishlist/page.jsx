@@ -2,9 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../../components/website/Navbar';
 import { Footer } from '../../components/website/Footer';
-import CarCard from '../../components/website/CarCard';
+import PetCard from '../../components/website/PetCard';
 import { getAllPets } from '../../services/petService';
-import { getWishlist, passCar } from '../../services/userService';
+import { getWishlist, passPet } from '../../services/userService';
 import { useAuth } from '../../lib/auth/AuthContext';
 import { Shovel as Ghost, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
@@ -23,17 +23,17 @@ export default function WishlistPage() {
                     const dbWishlist = await getWishlist(getToken);
                     setWishlist(dbWishlist);
                     // Sync local storage
-                    const likedIds = dbWishlist.map(car => car._id);
-                    localStorage.setItem('ojest_liked_cars', JSON.stringify(likedIds));
+                    const likedIds = dbWishlist.map(pet => pet._id);
+                    localStorage.setItem('rafraf_liked_pets', JSON.stringify(likedIds));
                 } else {
-                    const likedIds = JSON.parse(localStorage.getItem('ojest_liked_cars') || '[]');
+                    const likedIds = JSON.parse(localStorage.getItem('rafraf_liked_pets') || '[]');
                     if (likedIds.length === 0) {
                         setWishlist([]);
                         return;
                     }
-                    const allCars = await getAllPets();
-                    const likedCars = allCars.filter(car => likedIds.includes(car._id));
-                    setWishlist(likedCars);
+                    const allPets = await getAllPets();
+                    const likedPets = allPets.filter(pet => likedIds.includes(pet._id));
+                    setWishlist(likedPets);
                 }
             } catch (error) {
                 console.error("Error fetching wishlist:", error);
@@ -45,22 +45,22 @@ export default function WishlistPage() {
         fetchWishlist();
     }, [isSignedIn]);
 
-    const removeFromWishlist = async (carId) => {
+    const removeFromWishlist = async (petId) => {
         // Update Local Storage
-        const likedIds = JSON.parse(localStorage.getItem('ojest_liked_cars') || '[]');
-        const updatedIds = likedIds.filter(id => id !== carId);
-        localStorage.setItem('ojest_liked_cars', JSON.stringify(updatedIds));
+        const likedIds = JSON.parse(localStorage.getItem('rafraf_liked_pets') || '[]');
+        const updatedIds = likedIds.filter(id => id !== petId);
+        localStorage.setItem('rafraf_liked_pets', JSON.stringify(updatedIds));
 
-        // Update DB if signed in (passing a car moves it from liked to passed)
+        // Update DB if signed in (passing a pet moves it from liked to passed)
         if (isSignedIn) {
             try {
-                await passCar(carId, getToken);
+                await passPet(petId, getToken);
             } catch (err) {
                 console.error("Failed to remove from DB wishlist:", err);
             }
         }
 
-        setWishlist(prev => prev.filter(car => car._id !== carId));
+        setWishlist(prev => prev.filter(pet => pet._id !== petId));
     };
 
     return (
@@ -71,7 +71,7 @@ export default function WishlistPage() {
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
                     <div>
                         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-[10px] font-black uppercase tracking-widest mb-4">
-                            <img src="/logooo.png" alt="Ojest" className="h-3 w-3" />
+                            <img src="/logooo.png" alt="Rafraf" className="h-3 w-3" />
                             Your Collection
                         </div>
                         <h1 className="text-4xl md:text-6xl font-black text-gray-900 dark:text-white tracking-tighter uppercase italic">
@@ -115,11 +115,11 @@ export default function WishlistPage() {
                     </motion.div>
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {wishlist.map((car) => (
-                            <div key={car._id} className="relative group">
-                                <CarCard car={car} />
+                        {wishlist.map((pet) => (
+                            <div key={pet._id} className="relative group">
+                                <PetCard pet={pet} />
                                 <button
-                                    onClick={() => removeFromWishlist(car._id)}
+                                    onClick={() => removeFromWishlist(pet._id)}
                                     className="absolute top-4 right-6 z-30 p-3 bg-white/20 backdrop-blur-md rounded-full text-white hover:bg-red-500 transition-colors border border-white/20 opacity-0 group-hover:opacity-100"
                                 >
                                     <X className="h-5 w-5" />
@@ -140,7 +140,7 @@ export default function WishlistPage() {
                             href="/discovery"
                             className="relative z-10 px-8 py-4 bg-white text-blue-600 rounded-2xl font-black shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center gap-2"
                         >
-                            Back to Swiping <img src="/logooo.png" alt="Ojest" className="h-4 w-4" />
+                            Back to Swiping <img src="/logooo.png" alt="Rafraf" className="h-4 w-4" />
                         </Link>
                     </div>
                 )}

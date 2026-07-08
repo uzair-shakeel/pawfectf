@@ -8,9 +8,9 @@ import { optimizeCloudinaryUrl } from '../../lib/imageUtils';
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "/api";
 
-const DiscoveryCard = React.memo(function DiscoveryCard({ car, onAction, active }) {
+const DiscoveryCard = React.memo(function DiscoveryCard({ pet, onAction, active }) {
     const imageUrl = useMemo(() => {
-        const imagePath = car.images?.[0];
+        const imagePath = pet.images?.[0];
         if (!imagePath) return "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?q=80&w=1000&auto=format&fit=crop";
         let finalUrl;
         if (typeof imagePath === "string" && /^(https?:)?\/\//i.test(imagePath)) {
@@ -19,13 +19,13 @@ const DiscoveryCard = React.memo(function DiscoveryCard({ car, onAction, active 
             finalUrl = `${API_BASE}/${String(imagePath).replace("\\", "/")}`;
         }
         return optimizeCloudinaryUrl(finalUrl, 800);
-    }, [car.images]);
+    }, [pet.images]);
 
     const displayTitle = useMemo(() => {
         const toTitleCase = (text) =>
             text ? text.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') : "";
-        return `${car.year} ${toTitleCase(car.make)} ${toTitleCase(car.model)}`;
-    }, [car.year, car.make, car.model]);
+        return `${toTitleCase(pet.name || 'Pet')} - ${toTitleCase(pet.breed || pet.species)}`;
+    }, [pet.name, pet.breed, pet.species]);
 
     return (
         <div className="h-full w-full flex flex-col bg-white dark:bg-gray-950 relative overflow-hidden group">
@@ -43,18 +43,18 @@ const DiscoveryCard = React.memo(function DiscoveryCard({ car, onAction, active 
 
                 {/* Badges - Floating Style */}
                 <div className="absolute top-6 left-6 md:top-8 md:left-8 flex flex-col gap-2 md:gap-3">
-                    {car.isFeatured && (
+                    {pet.isFeatured && (
                         <motion.div
                             initial={{ x: -20, opacity: 0 }}
                             animate={{ x: 0, opacity: 1 }}
                             className="px-3 py-1.5 md:px-4 md:py-2 bg-blue-600 text-white rounded-xl text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-2 shadow-xl shadow-blue-500/20"
                         >
-                            <img src="/logooo.png" alt="Ojest" className="h-3 w-3 md:h-3.5 md:w-3.5 animate-pulse" />
+                            <img src="/logooo.png" alt="Rafraf" className="h-3 w-3 md:h-3.5 md:w-3.5 animate-pulse" />
                             Premium Listing
                         </motion.div>
                     )}
                     <div className="px-3 py-1.5 md:px-4 md:py-2 bg-white/10 backdrop-blur-xl text-white border border-white/20 rounded-xl text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em] w-fit">
-                        {car.condition || 'Used'}
+                        {pet.gender || 'Unknown'}
                     </div>
                 </div>
 
@@ -71,22 +71,22 @@ const DiscoveryCard = React.memo(function DiscoveryCard({ car, onAction, active 
                         <div className="flex flex-wrap items-center gap-2 md:gap-3 text-gray-300 font-bold mb-4 md:mb-6">
                             <div className="flex items-center gap-1.5">
                                 <MapPin className="h-3 md:h-4 w-3 md:w-4 text-blue-400" />
-                                <span className="text-[10px] md:text-sm uppercase tracking-wider">Warsaw</span>
+                                <span className="text-[10px] md:text-sm uppercase tracking-wider">{pet.location?.city || "Unknown"}</span>
                             </div>
                             <span className="hidden md:block w-1.5 h-1.5 rounded-full bg-blue-400/50" />
-                            <span className="text-[10px] md:text-sm uppercase tracking-wider">{car.mileage?.toLocaleString('pl-PL')} KM</span>
+                            <span className="text-[10px] md:text-sm uppercase tracking-wider">{pet.ageMonths ? `${pet.ageMonths} months` : 'Age N/A'}</span>
                         </div>
 
                         <div className="flex items-center justify-between">
                             <div className="flex flex-col">
-                                <span className="text-[8px] md:text-[10px] font-black uppercase tracking-widest text-blue-400 mb-0.5">Asking Price</span>
+                                <span className="text-[8px] md:text-[10px] font-black uppercase tracking-widest text-blue-400 mb-0.5">Adoption Fee</span>
                                 <div className="text-2xl md:text-4xl font-black italic tracking-tighter leading-none">
-                                    {car.financialInfo?.priceNetto?.toLocaleString('pl-PL') || "0"} <span className="text-[10px] md:text-sm align-super">zł</span>
+                                    {pet.adoptionFee?.toLocaleString('pl-PL') || "0"} <span className="text-[10px] md:text-sm align-super">zł</span>
                                 </div>
                             </div>
 
                             <Link
-                                href={`/website/cars/${car._id}`}
+                                href={`/website/pets/${pet._id}`}
                                 className="h-10 w-10 md:h-16 md:w-16 rounded-xl md:rounded-3xl bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20 hover:bg-white hover:text-black transition-all group/info"
                             >
                                 <Info className="h-5 w-5 md:h-6 md:w-6 group-hover/info:scale-110 transition-transform" />
@@ -108,7 +108,7 @@ const DiscoveryCard = React.memo(function DiscoveryCard({ car, onAction, active 
                     onClick={() => onAction('like')}
                     className="flex-[1.5] py-3.5 md:py-5 bg-gradient-to-r from-blue-600 to-sky-500 text-white rounded-2xl md:rounded-3xl font-black uppercase tracking-[0.2em] text-[10px] shadow-2xl shadow-blue-500/30 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2 md:gap-3"
                 >
-                    <Heart className="w-4 h-4 md:w-5 md:h-5 fill-white" /> Save Car
+                    <Heart className="w-4 h-4 md:w-5 md:h-5 fill-white" /> Save Pet
                 </button>
             </div>
         </div>

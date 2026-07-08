@@ -1,170 +1,92 @@
 {
   "homepage": {
-    "findBuyOwn": "Znajdź, Kup i Posiadaj Swój Wymarzony Samochód",
-    "carsNearMe": {
-      "title": "Samochody na Sprzedaż w Pobliżu",
-      "viewAll": "Zobacz Wszystkie",
-      "loading": "Ładowanie samochodów...",
-      "noCars": "Nie znaleziono samochodów."
+    "hero": {
+      "title1": "Znajdź swojego",
+      "title2": "najlepszego przyjaciela",
+      "subtitle": "Adoptuj, nie kupuj. Daj kochający dom zwierzakowi w potrzebie.",
+      "dogs": "Psy",
+      "cats": "Koty",
+      "lostFound": "Zaginione",
+      "allPets": "Wszystkie"
     },
-    "browseCategories": {
-      "title": "Wybierz swoją ulubioną markę",
-      "seeMore": "Zobacz więcej",
-      "brands": [
-        {
-          "id": 1,
-          "name": "Toyota",
-          "logo": "/toyota.png",
-          "discount": "2K"
-        },
-        {
-          "id": 2,
-          "name": "BMW",
-          "logo": "/BMW.png"
-        },
-        {
-          "id": 3,
-          "name": "Chevrolet",
-          "logo": "/chevrolet.png"
-        },
-        {
-          "id": 4,
-          "name": "Honda",
-          "logo": "/honda.png"
-        },
-        {
-          "id": 5,
-          "name": "Ford",
-          "logo": "/ford.png"
-        },
-        {
-          "id": 6,
-          "name": "Audi",
-          "logo": "https://www.carlogos.org/car-logos/audi-logo-2016.png"
-        },
-        {
-          "id": 7,
-          "name": "Acura",
-          "logo": "/acura.png"
-        },
-        {
-          "id": 8,
-          "name": "Hyundai",
-          "logo": "/hyundai.png"
-        },
-        {
-          "id": 9,
-          "name": "Dodge",
-          "logo": "/dodge.png",
-          "discount": "1K"
-        },
-        {
-          "id": 10,
-          "name": "Mercedes-Benz",
-          "logo": "/Mercedes.png",
-          "discount": "5.5K"
-        },
-        {
-          "id": 11,
-          "name": "Kia",
-          "logo": "/kia.png"
-        },
-        {
-          "id": 12,
-          "name": "Lexus",
-          "logo": "/lexus.png"
-        }
-      ]
+    "newlyListed": {
+      "title": "Nowo dodane",
+      "subtitle": "Poznaj nasze najnowsze zwierzaki szukające domu"
     },
-    "featuredCategories": {
-      "title": "Polecane Kategorie",
-      "exploreMore": "Zobacz Więcej",
-      "categories": {
-        "luxuryCars": "SAMOCHODY LUKSUSOWE",
-        "luxuryCarsDesc": "Doświadcz najwyższego komfortu i stylu",
-        "sportsCars": "SAMOCHODY SPORTOWE",
-        "sportsCarsDesc": "Poczuj dreszcz emocji",
-        "classicCars": "SAMOCHODY KLASYCZNE",
-        "classicCarsDesc": "Ponadczasowa elegancja na kołach"
-      }
+    "viewAll": "Zobacz wszystkie",
+    "petsNeedingFood": {
+      "badge": "Potrzebuje karmy",
+      "title": "Zwierzaki potrzebujące karmy",
+      "subtitle": "Pomóż tym zwierzakom uzyskać potrzebne im pożywienie",
+      "donate": "Przekaż"
     },
-    "browseLocations": {
-      "title": "Najlepiej oceniane samochody według typu",
-      "scrollLeft": "Przewiń w lewo",
-      "scrollRight": "Przewiń w prawo",
-      "types": {
-        "hatchback": "HATCHBACK",
-        "sedan": "SEDAN",
-        "kombi": "KOMBI",
-        "coupe": "COUPE",
-        "sports": "SPORTOWE",
-        "limousine": "LIMUZYNA",
-        "suv": "SUV",
-        "convertible": "KABRIOLET",
-        "pickup": "PICKUP",
-        "offroad": "TERENOWE",
-        "bus": "AUTOBUS",
-        "classic": "KLASYK",
-        "campers": "KAMPER"
-      }
-    },
-    "browseByMake": {
-      "title": "Przeglądaj według Marki",
-      "viewAll": "Zobacz Wszystkie",
-      "makes": {
-        "toyota": "Toyota",
-        "toyotaDesc": "Niezawodna japońska inżynieria z innowacyjną technologią",
-        "bmw": "BMW",
-        "bmwDesc": "Najlepsze maszyny do jazdy z luksusem i wydajnością",
-        "mercedes": "Mercedes",
-        "mercedesDesc": "Luksusowe pojazdy z najnowocześniejszą technologią i komfortem",
-        "audi": "Audi",
-        "audiDesc": "Wyrafinowany design z zaawansowaną technologią i wydajnością",
-        "porsche": "Porsche",
-        "porscheDesc": "Precyzyjne niemieckie samochody sportowe o niezrównanej wydajności",
-        "tesla": "Tesla",
-        "teslaDesc": "Rewolucyjne pojazdy elektryczne zmieniające branżę motoryzacyjną",
-        "ford": "Ford",
-        "fordDesc": "Amerykańskie pojazdy z dziedzictwem innowacji i wydajności",
-        "honda": "Honda",
-        "hondaDesc": "Niezawodne i wydajne pojazdy o doskonałej wartości odsprzedaży"
-      }
-    },
-    "blogSection": {
-      "title": "Najnowsze z naszego Bloga",
-      "viewAll": "Zobacz Wszystkie Posty",
-      "categories": {
-        "guides": "Poradniki"
+    "whyAdopt": {
+      "title": "Dlaczego warto adoptować?",
+      "saveLife": {
+        "title": "Uratuj życie",
+        "desc": "Adoptując, dajesz drugą szansę potrzebującemu zwierzęciu i robisz miejsce dla kolejnego w schronisku."
       },
-      "dates": {
-        "march5": "5 marca 2025",
-        "march3": "3 marca 2025",
-        "march1": "1 marca 2025",
-        "feb28": "28 lutego 2025"
+      "localShelters": {
+        "title": "Wspieraj lokalne schroniska",
+        "desc": "Opłaty adopcyjne trafiają bezpośrednio do schronisk, aby pomóc im w opiece nad większą liczbą zwierząt."
       },
-      "posts": {
-        "buyCarEasily": "Jak łatwo kupić samochód",
-        "bestCars2025": "Najlepsze samochody do kupienia w 2025",
-        "sellCarEasily": "Jak łatwo sprzedać samochód",
-        "financingOptions": "Opcje finansowania dla kupujących samochody"
+      "easyProcess": {
+        "title": "Prosty proces",
+        "desc": "Sprawiamy, że proces adopcji jest prosty i przejrzysty, abyś mógł skupić się na powitaniu nowego członka rodziny."
       }
+    },
+    "feedPets": {
+      "title": "Nakarm potrzebującego zwierzaka",
+      "subtitle": "Twoja niewielka darowizna może zrobić wielką różnicę w życiu zwierzaka ze schroniska.",
+      "stat1": "Przekazane posiłki",
+      "stat2": "Wsparte schroniska",
+      "stat3": "Przekazano",
+      "browseBtn": "Przeglądaj zwierzaki do nakarmienia",
+      "listBtn": "Zgłoś zwierzaka po karmę"
+    },
+    "howItWorks": {
+      "title": "Jak to działa",
+      "step1": {
+        "title": "Znajdź zwierzaka",
+        "desc": "Przeglądaj nasze ogłoszenia, aby znaleźć zwierzaka pasującego do Twojego stylu życia."
+      },
+      "step2": {
+        "title": "Nawiąż kontakt",
+        "desc": "Skontaktuj się ze schroniskiem lub właścicielem bezpośrednio przez naszą platformę."
+      },
+      "step3": {
+        "title": "Adoptuj",
+        "desc": "Zakończ proces adopcji i powitaj swojego nowego najlepszego przyjaciela."
+      }
+    },
+    "browseCategory": {
+      "title": "Przeglądaj według kategorii",
+      "subtitle": "Znajdź idealny rodzaj zwierzaka dla siebie",
+      "smallDogs": "Małe psy",
+      "bigDogs": "Duże psy",
+      "kittens": "Kocięta",
+      "seniorPets": "Starsi pupile"
+    },
+    "lostFound": {
+      "title": "Zaginione i znalezione",
+      "subtitle": "Pomóż zjednoczyć zagubione zwierzęta z ich rodzinami lub zgłoś znalezione zwierzę."
     }
   },
   "terms": {
     "hero": {
-      "title": "Jasne Warunki. Płynna Jazda. Prowadź z Pewnością."
+      "title": "Jasne Warunki. Bezpieczne Adopcje. Adoptuj z Pewnością."
     },
     "sections": {
       "introduction": {
         "title": "1. Wprowadzenie",
-        "content": "Witamy w OjestSell. Niniejsze Warunki korzystania regulują korzystanie z naszej witryny i usług. Korzystając z OjestSell, zgadzasz się przestrzegać tych Warunków."
+        "content": "Witamy w Rafraf. Niniejsze Warunki korzystania regulują korzystanie z naszej witryny i usług. Korzystając z Rafraf, zgadzasz się przestrzegać tych Warunków."
       },
       "definitions": {
         "title": "2. Definicje",
         "items": {
-          "ojestsell": "\"OjestSell\" odnosi się do naszej firmy, strony internetowej i usług.",
+          "rafraf": "\"Rafraf\" odnosi się do naszej platformy, strony internetowej i usług.",
           "user": "\"Użytkownik\" odnosi się do osób, które korzystają z naszych usług.",
-          "listing": "\"Ogłoszenie\" odnosi się do ogłoszeń samochodowych utworzonych na naszej platformie.",
+          "listing": "\"Ogłoszenie\" odnosi się do ogłoszeń adopcyjnych zwierząt utworzonych na naszej platformie.",
           "content": "\"Treść\" odnosi się do tekstu, zdjęć i innych materiałów przesłanych na naszą platformę."
         }
       },
@@ -174,25 +96,25 @@
       },
       "listingRules": {
         "title": "4. Zasady Ogłoszeń",
-        "intro": "Podczas tworzenia ogłoszeń na OjestSell musisz:",
+        "intro": "Podczas tworzenia ogłoszeń na Rafraf musisz:",
         "items": [
-          "Podać dokładne i prawdziwe informacje o pojeździe",
-          "Zamieszczać tylko zdjęcia sprzedawanego pojazdu",
-          "Ustalać realistyczne i uczciwe ceny",
+          "Podać dokładne i prawdziwe informacje o zwierzęciu",
+          "Zamieszczać tylko zdjęcia adoptowanego zwierzęcia",
+          "Ustalać realistyczne i uczciwe opłaty adopcyjne",
           "Odpowiadać na zapytania w odpowiednim czasie",
-          "Usuwać ogłoszenia niezwłocznie po sprzedaży"
+          "Usuwać ogłoszenia niezwłocznie po udanej adopcji"
         ]
       },
       "prohibitedActivities": {
         "title": "5. Zabronione Działania",
         "intro": "Następujące działania są zabronione na naszej platformie:",
         "items": [
-          "Publikowanie fałszywych ogłoszeń lub wprowadzanie w błąd co do pojazdów",
+          "Publikowanie fałszywych ogłoszeń lub wprowadzanie w błąd co do zwierząt",
           "Nękanie lub obraźliwe zachowanie wobec innych użytkowników",
           "Próby obejścia naszej struktury opłat",
           "Tworzenie wielu kont dla tej samej osoby",
           "Używanie zautomatyzowanych systemów do zbierania danych",
-          "Publikowanie nielegalnych lub skradzionych pojazdów"
+          "Publikowanie nielegalnych ogłoszeń lub sprzedaż zwierząt dla zysku"
         ]
       },
       "feesAndPayments": {
@@ -201,15 +123,15 @@
       },
       "intellectualProperty": {
         "title": "7. Własność Intelektualna",
-        "content": "Treści przesłane przez użytkowników pozostają własnością odpowiednich użytkowników. Przesyłając treści, udzielasz OjestSell niewyłącznej licencji na używanie, wyświetlanie i rozpowszechnianie tych treści na naszej platformie."
+        "content": "Treści przesłane przez użytkowników pozostają własnością odpowiednich użytkowników. Przesyłając treści, udzielasz Rafraf niewyłącznej licencji na używanie, wyświetlanie i rozpowszechnianie tych treści na naszej platformie."
       },
       "privacy": {
         "title": "8. Prywatność",
-        "content": "Nasza Polityka Prywatności reguluje zbieranie i wykorzystywanie Twoich danych osobowych. Korzystając z OjestSell, wyrażasz zgodę na praktyki opisane w naszej Polityce Prywatności."
+        "content": "Nasza Polityka Prywatności reguluje zbieranie i wykorzystywanie Twoich danych osobowych. Korzystając z Rafraf, wyrażasz zgodę na praktyki opisane w naszej Polityce Prywatności."
       },
       "limitationOfLiability": {
         "title": "9. Ograniczenie Odpowiedzialności",
-        "content": "OjestSell jest dostarczany \"tak jak jest\" bez żadnych gwarancji. Nie ponosimy odpowiedzialności za dokładność ogłoszeń użytkowników, stan pojazdów ani transakcje między użytkownikami. Nie gwarantujemy, że nasza usługa będzie nieprzerwana lub wolna od błędów."
+        "content": "Rafraf jest dostarczany \"tak jak jest\" bez żadnych gwarancji. Nie ponosimy odpowiedzialności za dokładność ogłoszeń użytkowników, stan zwierząt ani transakcje między użytkownikami. Nie gwarantujemy, że nasza usługa będzie nieprzerwana lub wolna od błędów."
       },
       "disputeResolution": {
         "title": "10. Rozwiązywanie Sporów",
@@ -217,17 +139,17 @@
       },
       "termination": {
         "title": "11. Zakończenie",
-        "content": "Zastrzegamy sobie prawo do zakończenia lub zawieszenia kont, które naruszają niniejsze Warunki lub z dowolnego innego powodu według naszego uznania. Użytkownicy mogą w każdej chwili zakończyć swoje konta."
+        "content": "Zastrzegamy sobie prawo do zakończenia lub zawieszenia kont, które naruszają niniejsze Warunki lub z dowolnego innego powodu według naszego uznania. Użytkownicy mogą w każdej chwili usunąć swoje konta."
       },
       "changes": {
         "title": "12. Zmiany w Warunkach",
-        "content": "Możemy modyfikować niniejsze Warunki w dowolnym momencie. Dalsze korzystanie z OjestSell po zmianach oznacza akceptację zmodyfikowanych Warunków. Dołożymy wszelkich starań, aby powiadomić użytkowników o istotnych zmianach."
+        "content": "Możemy modyfikować niniejsze Warunki w dowolnym momencie. Dalsze korzystanie z Rafraf po zmianach oznacza akceptację zmodyfikowanych Warunków. Dołożymy wszelkich starań, aby powiadomić użytkowników o istotnych zmianach."
       },
       "contact": {
         "title": "13. Informacje Kontaktowe",
         "intro": "Jeśli masz pytania dotyczące niniejszych Warunków, skontaktuj się z nami pod adresem:",
-        "email": "Email: legal@ojestsell.com",
-        "address": "Adres: 123 Car Boulevard, Automotive City, AC 12345"
+        "email": "Email: legal@rafraf.com",
+        "address": "Adres: 123 Pet Boulevard, Animal City, AC 12345"
       }
     },
     "lastUpdated": "Ostatnia Aktualizacja",
@@ -235,20 +157,20 @@
   },
   "privacy": {
     "hero": {
-      "title": "Twoje Dane, Twoja Jazda — Zawsze Bezpieczne, Zawsze Prywatne."
+      "title": "Twoje Dane — Zawsze Bezpieczne, Zawsze Prywatne."
     },
     "sections": {
       "introduction": {
         "title": "1. Wprowadzenie",
-        "content": "W OjestSell zobowiązujemy się do ochrony Twojej prywatności. Ta Polityka Prywatności wyjaśnia, jak zbieramy, wykorzystujemy, ujawniamy i chronimy Twoje informacje podczas odwiedzania naszej strony internetowej lub korystania z naszych usług."
+        "content": "W Rafraf zobowiązujemy się do ochrony Twojej prywatności. Ta Polityka Prywatności wyjaśnia, jak zbieramy, wykorzystujemy, ujawniamy i chronimy Twoje informacje podczas odwiedzania naszej platformy lub korzystania z naszych usług."
       },
       "informationWeCollect": {
         "title": "2. Informacje, Które Zbieramy",
         "intro": "Zbieramy kilka rodzajów informacji od i o użytkownikach naszej strony internetowej, w tym:",
         "items": {
           "personal": "Dane Osobowe: Imię i nazwisko, adres email, numer telefonu, adres pocztowy i informacje o płatnościach.",
-          "vehicle": "Informacje o Pojeździe: Marka, model, rok, stan i szczegóły pojazdów wystawionych na naszej platformie.",
-          "usage": "Informacje o Użytkowaniu: Jak korzystasz z naszej strony, jakie strony odwiedzasz i Twoje interakcje z ogłoszeniami.",
+          "pet": "Informacje o Zwierzęciu: Gatunek, rasa, wiek, stan zdrowia i szczegóły zwierząt wystawionych na naszej platformie.",
+          "usage": "Informacje o Użytkowaniu: Jak korzystasz z naszej platformy, jakie strony odwiedzasz i Twoje interakcje z ogłoszeniami.",
           "device": "Informacje o Urządzeniu: Adres IP, typ przeglądarki, system operacyjny i inne informacje techniczne."
         }
       },
@@ -256,7 +178,7 @@
         "title": "3. Jak Zbieramy Informacje",
         "intro": "Zbieramy informacje poprzez:",
         "items": [
-          "Bezpośrednie interakcje podczas tworzenia konta lub wystawiania pojazdu",
+          "Bezpośrednie interakcje podczas tworzenia konta lub wystawiania zwierzęcia do adopcji",
           "Zautomatyzowane technologie, takie jak pliki cookie i podobne technologie śledzenia",
           "Strony trzecie, takie jak procesory płatności i usługi weryfikacji tożsamości"
         ]
@@ -266,9 +188,9 @@
         "intro": "Wykorzystujemy Twoje informacje do:",
         "items": [
           "Dostarczania, utrzymywania i ulepszania naszych usług",
-          "Przetwarzania transakcji i wysyłania komunikatów związanych z transakcjami",
+          "Przetwarzania transakcji i wysyłania komunikatów związanych z adopcją",
           "Tworzenia i utrzymywania Twojego konta",
-          "Łączenia kupujących ze sprzedającymi",
+          "Łączenia adoptujących ze schroniskami i właścicielami",
           "Wysyłania informacji administracyjnych i komunikatów marketingowych",
           "Ochrony naszej platformy przed oszustwami lub nielegalną działalnością",
           "Przestrzegania zobowiązań prawnych"
@@ -293,40 +215,40 @@
   "faq": {
     "hero": {
       "title": "Często Zadawane Pytania",
-      "subtitle": "Znajdź odpowiedzi na popularne pytania dotyczące korzystania z naszego serwisu samochodowego."
+      "subtitle": "Znajdź odpowiedzi na popularne pytania dotyczące naszej platformy adopcyjnej."
     },
     "questions": [
       {
-        "question": "Jak wystawić samochód na sprzedaż?",
-        "answer": "Aby wystawić samochód na sprzedaż, najpierw utwórz konto lub zaloguj się. Następnie kliknij przycisk 'Zostań sprzedawcą' w pasku nawigacyjnym, uzupełnij profil sprzedawcy i postępuj zgodnie z procesem dodawania szczegółów samochodu, zdjęć i ustalania ceny."
+        "question": "Jak wystawić zwierzę do adopcji?",
+        "answer": "Aby wystawić zwierzę do adopcji, najpierw utwórz konto lub zaloguj się. Następnie kliknij przycisk 'Wystaw zwierzę' w pasku nawigacyjnym, uzupełnij profil i postępuj zgodnie z procesem dodawania szczegółów i zdjęć zwierzęcia."
       },
       {
         "question": "Czy wystawienie ogłoszenia jest płatne?",
-        "answer": "Podstawowe ogłoszenia są bezpłatne. Oferujemy również opcje ogłoszeń premium z dodatkowymi funkcjami, takimi jak wyróżnione miejsce, dłuższy czas wyświetlania i więcej zdjęć, aby Twój samochód się wyróżniał. Możesz zobaczyć opcje cenowe podczas procesu wystawiania ogłoszenia."
+        "answer": "Podstawowe ogłoszenia adopcyjne są darmowe. Skupiamy się na znalezieniu najlepszych domów dla zwierząt."
       },
       {
         "question": "Jak długo ogłoszenie pozostaje aktywne?",
-        "answer": "Standardowe ogłoszenia pozostają aktywne przez 30 dni. Ogłoszenia premium mogą pozostać aktywne do 60 dni. Zawsze możesz odnowić lub zaktualizować swoje ogłoszenie, jeśli samochód nie został sprzedany w tym czasie."
+        "answer": "Ogłoszenia pozostają aktywne do czasu adopcji zwierzęcia lub gdy zdecydujesz się usunąć ogłoszenie. Prosimy o niezwłoczne aktualizowanie statusu, gdy zwierzę znajdzie dom."
       },
       {
-        "question": "Jak skontaktować się ze sprzedającym?",
-        "answer": "Podczas przeglądania ogłoszenia zobaczysz opcje kontaktu, takie jak wysłanie bezpośredniej wiadomości przez naszą platformę, prośba o oddzwonienie lub w niektórych przypadkach wyświetlenie numeru telefonu sprzedającego, jeśli zdecydował się go udostępnić."
+        "question": "Jak skontaktować się ze schroniskiem lub właścicielem?",
+        "answer": "Podczas przeglądania ogłoszenia zobaczysz opcje kontaktu, takie jak wysłanie bezpośredniej wiadomości przez naszą platformę."
       },
       {
-        "question": "Czy istnieją jakieś polityki ochrony kupującego?",
-        "answer": "Tak, oferujemy ochronę kupującego poprzez nasz bezpieczny system wiadomości i transakcji. Zalecamy zawsze komunikowanie się przez naszą platformę i przestrzeganie naszych wytycznych bezpieczeństwa dotyczących oglądania i zakupu pojazdów."
+        "question": "Czy istnieją jakieś polityki ochrony adopcyjnej?",
+        "answer": "Tak, priorytetowo traktujemy bezpieczne adopcje. Zalecamy zawsze komunikowanie się przez naszą platformę i przestrzeganie naszych wytycznych bezpieczeństwa."
       },
       {
-        "question": "Czy mogę sprzedawać samochody komercyjnie na tej platformie?",
-        "answer": "Tak, przyjmujemy zarówno sprzedawców prywatnych, jak i profesjonalnych dealerów. Sprzedawcy komercyjni mogą utworzyć konto dealera z dodatkowymi funkcjami zaprojektowanymi do zarządzania wieloma ogłoszeniami i prezentowania swojego salonu."
+        "question": "Czy jako schronisko mogę wystawiać tu zwierzęta?",
+        "answer": "Tak, zapraszamy zarówno prywatnych właścicieli, jak i zarejestrowane schroniska. Schroniska mogą utworzyć konto specjalne z dodatkowymi funkcjami do zarządzania ogłoszeniami."
       },
       {
-        "question": "Jakie metody płatności są obsługiwane?",
-        "answer": "Nasza platforma ułatwia połączenia między kupującymi a sprzedającymi. Chociaż zalecamy bezpieczne metody płatności, rzeczywiste ustalenia dotyczące płatności są między kupującymi a sprzedającymi. Sugerujemy korzystanie z bezpiecznych metod, takich jak przelewy bankowe lub usługi escrow dla dużych transakcji."
+        "question": "Jak działają opłaty adopcyjne?",
+        "answer": "Nasza platforma ułatwia połączenia między adoptującymi a schroniskami. Wszelkie opłaty adopcyjne są regulowane bezpośrednio między adoptującym a schroniskiem lub właścicielem."
       },
       {
         "question": "Jak edytować lub usunąć moje ogłoszenie?",
-        "answer": "Możesz zarządzać wszystkimi aspektami swojego ogłoszenia z poziomu panelu kontrolnego. Po prostu zaloguj się, przejdź do 'Moje Samochody', wybierz ogłoszenie, które chcesz zmodyfikować i użyj dostępnych opcji edycji lub usuwania."
+        "answer": "Możesz zarządzać wszystkimi aspektami swojego ogłoszenia z poziomu panelu kontrolnego. Po prostu zaloguj się, przejdź do 'Moje Ogłoszenia', wybierz ogłoszenie i użyj opcji edycji lub usuwania."
       }
     ],
     "moreQuestions": {
@@ -337,7 +259,7 @@
   },
   "contact": {
     "hero": {
-      "title": "Gotowy na jazdę wymarzonym samochodem? Skontaktuj się z nami i ruszajmy w drogę!"
+      "title": "Gotowy, aby poznać swojego nowego przyjaciela? Skontaktuj się z nami i zacznijmy adopcję!"
     },
     "main": {
       "title": "Kontakt",
@@ -345,12 +267,12 @@
       "info": {
         "title": "Informacje Kontaktowe",
         "address": {
-          "line1": "123 Car Boulevard",
-          "line2": "Automotive City, AC 12345",
+          "line1": "123 Pet Boulevard",
+          "line2": "Animal City, AC 12345",
           "line3": "Stany Zjednoczone"
         },
         "phone": "+1 (555) 123-4567",
-        "email": "support@ojestsell.com",
+        "email": "support@rafraf.com",
         "hours": {
           "weekday": "Poniedziałek - Piątek: 9:00 - 18:00",
           "saturday": "Sobota: 10:00 - 16:00",
@@ -381,24 +303,22 @@
   "blog": {
     "hero": {
       "title": "Nasz Blog",
-      "subtitle": "Odkryj najnowsze spostrzeżenia, porady i trendy w świecie motoryzacji"
+      "subtitle": "Odkryj najnowsze porady i trendy w adopcji i opiece nad zwierzętami"
     },
     "readMore": "Czytaj więcej →",
     "minuteRead": "min czytania"
   },
-  "cars": {
+  "pets": {
     "filters": {
       "title": "Filtry",
       "sort": {
         "label": "Sortuj według",
         "options": {
           "bestMatch": "Najlepsze Dopasowanie",
-          "lowestPrice": "Najniższa Cena",
-          "highestPrice": "Najwyższa Cena",
-          "lowestMileage": "Najniższy Przebieg",
-          "highestMileage": "Najwyższy Przebieg",
-          "newestYear": "Najnowszy Rok",
-          "oldestYear": "Najstarszy Rok",
+          "lowestFee": "Najniższa Opłata",
+          "highestFee": "Najwyższa Opłata",
+          "youngest": "Najmłodsze",
+          "oldest": "Najstarsze",
           "newestListed": "Najnowsze Ogłoszenia",
           "oldestListed": "Najstarsze Ogłoszenia"
         }
@@ -412,11 +332,11 @@
       "clear": "Wyczyść Wszystko"
     },
     "noResults": {
-      "title": "Nie znaleziono samochodów",
+      "title": "Nie znaleziono zwierząt",
       "message": "Spróbuj dostosować filtry lub kryteria wyszukiwania"
     },
-    "loading": "Ładowanie samochodów...",
-    "error": "Błąd podczas ładowania samochodów. Spróbuj ponownie."
+    "loading": "Ładowanie zwierząt...",
+    "error": "Błąd podczas ładowania zwierząt. Spróbuj ponownie."
   },
   "navbar": {
     "links": {
@@ -425,13 +345,13 @@
       "faq": "FAQ",
       "contact": "Kontakt"
     },
-    "becomeSeller": "Zostań sprzedawcą",
+    "becomeSeller": "Wystaw zwierzę",
     "messages": "Wiadomości",
     "dashboard": "Panel"
   },
   "footer": {
     "about": {
-      "title": "O Ojest",
+      "title": "O Rafraf",
       "links": {
         "aboutUs": "O nas",
         "careers": "Kariera",
@@ -441,13 +361,13 @@
       }
     },
     "brands": {
-      "title": "Popularne marki",
+      "title": "Popularne zwierzęta",
       "links": {
-        "toyota": "Toyota",
-        "honda": "Honda",
-        "bmw": "BMW",
-        "mercedes": "Mercedes",
-        "tesla": "Tesla"
+        "toyota": "Psy",
+        "honda": "Koty",
+        "bmw": "Ptaki",
+        "mercedes": "Króliki",
+        "tesla": "Inne"
       }
     },
     "other": {
@@ -462,10 +382,492 @@
     },
     "newsletter": {
       "title": "Newsletter",
-      "description": "Zapisz się do naszego newslettera i otrzymuj ekskluzywne oferty, których nie znajdziesz nigdzie indziej.",
+      "description": "Zapisz się do naszego newslettera i otrzymuj ekskluzywne informacje o nowych zwierzętach do adopcji.",
       "placeholder": "Wpisz swój email",
       "button": "Zapisz się"
     },
-    "copyright": "© 2025 Ojest. Wszelkie prawa zastrzeżone."
+    "copyright": "© 2025 Rafraf. Wszelkie prawa zastrzeżone."
+  },
+  "auth": {
+    "login": {
+      "title": "Witaj ponownie 👋",
+      "subtitle": "Zaloguj się do swojego konta Rafraf",
+      "email": "Email",
+      "password": "Hasło",
+      "forgotPassword": "Zapomniałeś hasła?",
+      "signInButton": "Zaloguj się",
+      "signingIn": "Logowanie...",
+      "newToRafraf": "Nowy w Rafraf?",
+      "createAccount": "Utwórz konto"
+    },
+    "register": {
+      "title": "Utwórz konto 🐾",
+      "subtitle": "Dołącz do tysięcy miłośników zwierząt na Rafraf",
+      "firstName": "Imię",
+      "lastName": "Nazwisko",
+      "email": "Email",
+      "password": "Hasło",
+      "confirmPassword": "Potwierdź",
+      "minChars": "Min 6 znaków",
+      "repeat": "Powtórz",
+      "terms": "Zgadzam się z",
+      "and": "i",
+      "termsLink": "Regulaminem",
+      "privacyLink": "Polityką prywatności",
+      "createButton": "Utwórz konto",
+      "creating": "Tworzenie konta...",
+      "alreadyHaveAccount": "Masz już konto?",
+      "signIn": "Zaloguj się"
+    },
+    "otp": {
+      "checkEmail": "Sprawdź swoją skrzynkę email",
+      "sentCode": "Wysłaliśmy 6-cyfrowy kod na",
+      "verifyButton": "Zweryfikuj kod",
+      "verifying": "Weryfikacja...",
+      "resendCode": "Wyślij kod ponownie",
+      "backToSignup": "← Wróć do rejestracji"
+    },
+    "leftPanel": {
+      "trustedBy": "Zaufało nam ponad 10 000 miłośników zwierząt",
+      "findYour": "Znajdź swojego",
+      "companion": "Towarzysza",
+      "description": "Najbardziej zaufana platforma adopcji zwierząt. Połącz się ze schroniskami i daj zwierzęciu kochający dom, na który zasługuje."
+    },
+    "tabs": {
+      "login": "Zaloguj się",
+      "signUp": "Zarejestruj się"
+    }
+  },
+  "forgotPassword": {
+    "title": "Zapomniałeś hasła",
+    "subtitle": "Wyślemy Ci link do zresetowania hasła",
+    "leftPanel": {
+      "title": "Zresetuj swój dostęp",
+      "description": "Wprowadź swój adres email, a wyślemy Ci bezpieczny link do zresetowania hasła."
+    },
+    "email": "Email",
+    "emailPlaceholder": "ty@przyklad.pl",
+    "sendButton": "Wyślij link",
+    "loading": "Ładowanie..."
+  },
+  "resetPassword": {
+    "title": "Resetuj hasło",
+    "subtitle": "Wprowadź nowe hasło dla swojego konta",
+    "newPassword": "Nowe hasło",
+    "confirmPassword": "Potwierdź hasło",
+    "resetButton": "Resetuj hasło",
+    "loading": "Ładowanie...",
+    "passwordPlaceholder": "••••••••"
+  },
+  "foodPets": {
+    "add": {
+      "title": "Dodaj zwierzę do darowizn żywności",
+      "subtitle": "Pomóż zwierzęciu w potrzebie, wystawiając je na sponsoring żywności",
+      "adminApproval": {
+        "title": "Wymagana zgoda administratora",
+        "description": "Wszystkie zwierzęta muszą zostać zatwierdzone przez nasz zespół administracyjny przed pojawieniem się na platformie. Przejrzymy Twoje zgłoszenie w ciągu 24 godzin."
+      },
+      "sections": {
+        "petInfo": {
+          "title": "Informacje o zwierzęciu",
+          "name": "Imię zwierzęcia",
+          "namePlaceholder": "np. Luna",
+          "species": "Gatunek",
+          "breed": "Rasa",
+          "breedPlaceholder": "Wybierz rasę (opcjonalnie)",
+          "age": "Wiek",
+          "agePlaceholder": "np. 2 lata",
+          "gender": "Płeć",
+          "size": "Rozmiar",
+          "description": "Opis",
+          "descriptionPlaceholder": "Opowiedz nam o osobowości tego zwierzęcia, obecnej sytuacji i dlaczego potrzebuje wsparcia żywnościowego..."
+        },
+        "foodNeed": {
+          "title": "Szczegóły potrzeby żywnościowej",
+          "urgency": "Poziom pilności",
+          "urgencyLevels": {
+            "low": "Niski - Regularny harmonogram karmienia",
+            "medium": "Średni - Potrzebne stałe dostawy jedzenia",
+            "high": "Wysoki - Kończy się jedzenie",
+            "critical": "Krytyczny - Jedzenia starczy na dni"
+          },
+          "estimatedCost": "Szacowany miesięczny koszt",
+          "costPlaceholder": "np. 200",
+          "specialDiet": "Specjalne wymagania dietetyczne",
+          "dietPlaceholder": "np. Bezzbożowe, formuła dla seniorów, dieta na receptę...",
+          "reason": "Powód potrzeby żywności",
+          "reasonPlaceholder": "Wyjaśnij, dlaczego to zwierzę potrzebuje wsparcia żywnościowego..."
+        },
+        "shelter": {
+          "title": "Informacje o schronisku/opiekunie",
+          "name": "Nazwa organizacji",
+          "namePlaceholder": "np. Schronisko Szczęśliwe Łapki",
+          "license": "Numer licencji",
+          "licensePlaceholder": "Numer licencji organizacji",
+          "phone": "Telefon kontaktowy",
+          "phonePlaceholder": "+48 123 456 789",
+          "email": "Email kontaktowy",
+          "emailPlaceholder": "kontakt@schronisko.org",
+          "address": "Adres",
+          "addressPlaceholder": "Pełny adres schroniska"
+        },
+        "location": {
+          "title": "Lokalizacja",
+          "city": "Miasto",
+          "cityPlaceholder": "np. Warszawa"
+        },
+        "photos": {
+          "title": "Zdjęcia zwierzęcia",
+          "upload": "Kliknij aby przesłać",
+          "dragDrop": "lub przeciągnij i upuść",
+          "fileTypes": "PNG, JPG lub JPEG (MAKS. 5MB każde)"
+        }
+      },
+      "species": {
+        "dog": "Pies",
+        "cat": "Kot",
+        "bird": "Ptak",
+        "rabbit": "Królik",
+        "other": "Inny"
+      },
+      "gender": {
+        "male": "Samiec",
+        "female": "Samica",
+        "unknown": "Nieznana"
+      },
+      "size": {
+        "small": "Mały",
+        "medium": "Średni",
+        "large": "Duży",
+        "extraLarge": "Bardzo duży"
+      },
+      "buttons": {
+        "cancel": "Anuluj",
+        "submit": "Prześlij do zatwierdzenia",
+        "submitting": "Przesyłanie..."
+      },
+      "validation": {
+        "requiredFields": "Proszę wypełnić wszystkie wymagane pola",
+        "atLeastOneImage": "Proszę przesłać przynajmniej jedno zdjęcie",
+        "signInRequired": "Proszę się zalogować, aby dodać zwierzę"
+      },
+      "success": "Zwierzę dodane do darowizn żywności! Oczekiwanie na zatwierdzenie przez administratora.",
+      "error": "Failed to add pet. Please try again."
+    }
+  },
+  "dashboard": {
+    "sidebar": {
+      "dashboard": "Panel",
+      "listPet": "Wystaw zwierzę",
+      "myListings": "Moje ogłoszenia",
+      "adoptionRequests": "Prośby o adopcję",
+      "lostFound": "Zaginione i znalezione",
+      "foodDonations": "Darowizny żywności",
+      "donationHistory": "Historia darowizn",
+      "messages": "Wiadomości",
+      "profile": "Profil",
+      "adminPets": "Admin: Zwierzęta",
+      "adminLostFound": "Admin: Zaginione i znalezione",
+      "logout": "Wyloguj",
+      "shelterAccount": "Konto schroniska",
+      "petOwner": "Właściciel zwierzęcia"
+    },
+    "navbar": {
+      "messages": "Wiadomości",
+      "openChat": "Otwórz czat",
+      "loading": "Ładowanie...",
+      "noMessages": "Brak wiadomości",
+      "user": "Użytkownik",
+      "attachment": "załącznik(i)",
+      "newMessage": "Nowa wiadomość",
+      "seeAllMessages": "Zobacz wszystkie wiadomości",
+      "notifications": "Powiadomienia",
+      "markAllRead": "Oznacz wszystkie jako przeczytane",
+      "noNotifications": "Brak powiadomień",
+      "seeAll": "Zobacz wszystkie"
+    },
+    "home": {
+      "welcome": "Witaj ponownie",
+      "overview": "Oto szybki przegląd Twojej aktywności."
+    },
+    "profile": {
+      "yourProfile": "Twój profil",
+      "subtitle": "Zarządzaj swoimi danymi osobowymi i ustawieniami konta.",
+      "changePassword": "Zmień hasło",
+      "profilePhoto": "Zdjęcie profilowe",
+      "uploadNewPhoto": "Prześlij nowe zdjęcie",
+      "photoRecommended": "Zalecane: JPG, PNG, WebP. Maks. 5MB.",
+      "personalDetails": "Dane osobowe",
+      "firstName": "Imię",
+      "lastName": "Nazwisko",
+      "about": "O sobie",
+      "aboutPlaceholder": "Napisz kilka słów o sobie lub swoim schronisku...",
+      "location": "Lokalizacja",
+      "contactBusiness": "Kontakt i firma",
+      "email": "E-mail",
+      "accountType": "Typ konta",
+      "privateOwner": "Właściciel prywatny",
+      "shelterRescue": "Schronisko / Ratownictwo",
+      "shelterName": "Nazwa schroniska",
+      "phoneNumbers": "Numery telefonów",
+      "addNumber": "+ Dodaj numer",
+      "socialLinks": "Linki społecznościowe",
+      "saveChanges": "Zapisz zmiany",
+      "currentPassword": "Aktualne hasło",
+      "newPassword": "Nowe hasło",
+      "confirmNewPassword": "Potwierdź nowe hasło",
+      "cancel": "Anuluj",
+      "updating": "Aktualizowanie...",
+      "updatePassword": "Zaktualizuj hasło"
+    },
+    "myPets": {
+      "title": "Moje zwierzęta",
+      "subtitle": "Zarządzaj swoimi ogłoszeniami adopcyjnymi.",
+      "addPet": "Dodaj zwierzę",
+      "loading": "Ładowanie...",
+      "confirmDelete": "Czy na pewno chcesz usunąć to ogłoszenie?",
+      "pendingApproval": "Oczekuje na zatwierdzenie",
+      "pendingDesc": "Niektóre Twoje ogłoszenia są przeglądane. Będą widoczne dla adoptujących po zatwierdzeniu przez administratora.",
+      "noPets": "Brak wystawionych zwierząt",
+      "noPetsDesc": "Nie masz żadnych aktywnych ogłoszeń. Utwórz pierwsze ogłoszenie, aby pomóc zwierzęciu znaleźć dom.",
+      "createFirst": "Utwórz pierwsze ogłoszenie",
+      "status": "Status",
+      "active": "Aktywne",
+      "underReview": "W trakcie weryfikacji",
+      "rejected": "Odrzucone",
+      "delete": "Usuń"
+    },
+    "lostFound": {
+      "title": "Moje zgłoszenia zagubionych i znalezionych",
+      "subtitle": "Zarządzaj aktywnymi zgłoszeniami zaginionych lub znalezionych zwierząt.",
+      "reportPet": "Zgłoś zwierzę",
+      "confirmDelete": "Czy na pewno chcesz usunąć to zgłoszenie?",
+      "noReports": "Brak zgłoszeń",
+      "noReportsDesc": "Nie zgłosiłeś żadnych zaginionych ani znalezionych zwierząt.",
+      "createReport": "Utwórz zgłoszenie",
+      "viewPublic": "Wyświetl publicznie"
+    },
+    "reportPet": {
+      "title": "Zgłoś zwierzę",
+      "whatReporting": "Co zgłaszasz?",
+      "lostPet": "Zgubiłem zwierzę",
+      "foundPet": "Znalazłem zwierzę",
+      "titleLabel": "Tytuł",
+      "titlePlaceholder": "np. Mały biały pudel znaleziony w Centrum Miasta",
+      "descriptionLabel": "Opis",
+      "descriptionPlaceholder": "Podaj szczegóły dotyczące zwierzęcia, obroży, zachowania, dokładną lokalizację...",
+      "species": "Gatunek",
+      "dog": "Pies",
+      "cat": "Kot",
+      "bird": "Ptak",
+      "other": "Inne",
+      "gender": "Płeć",
+      "male": "Samiec",
+      "female": "Samica",
+      "unknown": "Nieznana",
+      "location": "Lokalizacja (miasto/dzielnica)",
+      "locationPlaceholder": "np. Warszawa, Mokotów",
+      "date": "Data",
+      "contactPhone": "Telefon kontaktowy",
+      "contactEmail": "E-mail kontaktowy",
+      "photos": "Zdjęcia",
+      "addPhoto": "Dodaj zdjęcie",
+      "submit": "Wyślij zgłoszenie"
+    },
+    "foodDonations": {
+      "title": "Zwierzęta potrzebujące jedzenia",
+      "subtitle": "Zarządzaj zwierzętami wystawionymi do sponsorowania żywności",
+      "addPet": "Dodaj zwierzę do darowizn żywności",
+      "loading": "Ładowanie...",
+      "confirmDelete": "Czy na pewno chcesz usunąć to ogłoszenie?",
+      "pendingApproval": "Oczekuje na zatwierdzenie",
+      "pendingDesc": "Niektóre zwierzęta są weryfikowane. Będą widoczne dla darczyńców po zatwierdzeniu przez administratora.",
+      "approved": "Zatwierdzone",
+      "pending": "Oczekujące",
+      "rejected": "Odrzucone",
+      "totalListed": "Łącznie wystawionych",
+      "searchPlaceholder": "Szukaj po nazwie zwierzęcia lub gatunku...",
+      "allStatus": "Wszystkie statusy",
+      "noPets": "Brak wystawionych zwierząt",
+      "noPetsDesc": "Wystawiaj zwierzęta, aby zacząć otrzymywać darowizny żywności od wspierających.",
+      "addFirst": "Dodaj pierwsze zwierzę",
+      "view": "Wyświetl",
+      "delete": "Usuń"
+    },
+    "foodPets": {
+      "addTitle": "Dodaj zwierzę do darowizn żywności",
+      "addSubtitle": "Pomóż zwierzęciu w potrzebie, wystawiając je do sponsorowania",
+      "approvalRequired": "Wymagane zatwierdzenie administratora",
+      "approvalDesc": "Wszystkie zwierzęta muszą być zatwierdzone przez nasz zespół administratorów przed pojawieniem się na platformie. Sprawdzimy Twoje zgłoszenie w ciągu 24 godzin.",
+      "petInfo": "Informacje o zwierzęciu",
+      "petName": "Imię zwierzęcia *",
+      "species": "Gatunek *",
+      "breed": "Rasa",
+      "age": "Wiek",
+      "gender": "Płeć",
+      "size": "Rozmiar",
+      "description": "Opis *",
+      "foodNeedDetails": "Szczegóły potrzeb żywieniowych",
+      "urgencyLevel": "Poziom pilności",
+      "estimatedCost": "Szacowany miesięczny koszt",
+      "specialDiet": "Specjalne wymagania dietetyczne",
+      "reasonForNeed": "Powód potrzeby żywności",
+      "shelterInfo": "Informacje o schronisku/opiekunie",
+      "orgName": "Nazwa organizacji *",
+      "licenseNumber": "Numer licencji",
+      "contactPhone": "Telefon kontaktowy *",
+      "contactEmail": "E-mail kontaktowy *",
+      "address": "Adres *",
+      "location": "Lokalizacja",
+      "city": "Miasto *",
+      "photos": "Zdjęcia zwierzęcia",
+      "clickUpload": "Kliknij, aby przesłać",
+      "orDrag": "lub przeciągnij i upuść",
+      "or": "lub",
+      "cancel": "Anuluj",
+      "submitting": "Wysyłanie...",
+      "submitApproval": "Wyślij do zatwierdzenia"
+    },
+    "donationHistory": {
+      "title": "Historia darowizn",
+      "subtitle": "Wyświetl wszystkie swoje darowizny żywności dla potrzebujących zwierząt",
+      "donateMore": "Przekaż darowiznę dla kolejnych zwierząt",
+      "loading": "Ładowanie...",
+      "totalDonations": "Łączna liczba darowizn",
+      "petsHelped": "Zwierząt pomogli",
+      "totalDonated": "Łącznie przekazano",
+      "noDonations": "Brak darowizn",
+      "noDonationsDesc": "Zacznij robić różnicę, przekazując jedzenie dla potrzebujących zwierząt.",
+      "browsePets": "Przeglądaj zwierzęta do pomocy",
+      "donated": "Przekazano",
+      "viewPet": "Wyświetl zwierzę"
+    },
+    "notifications": {
+      "title": "Powiadomienia",
+      "unread": "Nieprzeczytane",
+      "all": "Wszystkie",
+      "messages": "Wiadomości",
+      "pets": "Zwierzęta",
+      "status": "Status",
+      "system": "System",
+      "markAllRead": "Oznacz wszystkie jako przeczytane",
+      "noNotifications": "Brak powiadomień",
+      "markRead": "Oznacz jako przeczytane"
+    }
+  },
+  "foodDonations": {
+    "page": {
+      "title": "Darowizny żywności",
+      "subtitle": "Pomóż zwierzętom ze schroniska zdobyć potrzebne im pożywienie",
+      "listPetButton": "Wystaw zwierzę",
+      "stats": {
+        "petsFed": "Zwierząt nakarmionych",
+        "shelters": "Schronisk",
+        "donated": "Przekazano"
+      },
+      "loading": "Ładowanie...",
+      "noPets": {
+        "title": "Jeszcze żadne zwierzęta nie potrzebują wsparcia żywnościowego",
+        "message": "Sprawdź wkrótce lub pomóż rozpowszechnić informację",
+        "browseLink": "Przeglądaj zwierzęta do adopcji"
+      },
+      "petCard": {
+        "urgent": "Pilne",
+        "donateFood": "Przekaż jedzenie",
+        "unknown": "Nieznane"
+      },
+      "timeAgo": {
+        "justNow": "Przed chwilą",
+        "minutesAgo": "min temu",
+        "hoursAgo": "godz. temu",
+        "daysAgo": "dni temu",
+        "monthsAgo": "mies. temu",
+        "yearsAgo": "lat temu"
+      }
+    },
+    "hero": {
+      "badge": "Nowa funkcja",
+      "title": "Nakarm zwierzę,",
+      "titleHighlight": "Uratuj życie",
+      "subtitle": "Sponsoruj darowizny żywności dla zwierząt bezpośrednio do schronisk i pomóż bezdomnym zwierzętom uzyskać pożywienie, którego potrzebują, czekając na swoje domy na zawsze.",
+      "startDonating": "Zacznij przekazywać",
+      "howItWorks": "Jak to działa",
+      "stats": {
+        "petsFed": "Zwierząt nakarmionych",
+        "shelters": "Schronisk",
+        "donated": "Przekazano"
+      },
+      "features": {
+        "directImpact": {
+          "title": "Bezpośredni wpływ",
+          "description": "Twoja darowizna trafia bezpośrednio do karmienia konkretnych zwierząt"
+        },
+        "verifiedShelters": {
+          "title": "Zweryfikowane schroniska",
+          "description": "Wszystkie schroniska są zweryfikowane i zaufane partnerzy"
+        },
+        "communityDriven": {
+          "title": "Napędzane przez społeczność",
+          "description": "Dołącz do tysięcy miłośników zwierząt, którzy robią różnicę"
+        },
+        "realTimeUpdates": {
+          "title": "Aktualizacje w czasie rzeczywistym",
+          "description": "Śledź wpływ swojej darowizny za pomocą aktualizacji na żywo"
+        }
+      }
+    }
+  },
+  "navbar": {
+    "links": {
+      "home": "Strona główna",
+      "blog": "Blog",
+      "faq": "FAQ",
+      "contact": "Kontakt"
+    },
+    "becomeSeller": "Wystaw zwierzę",
+    "addListing": "Dodaj ogłoszenie",
+    "messages": "Wiadomości",
+    "dashboard": "Panel",
+    "login": "Zaloguj się",
+    "logout": "Wyloguj"
+  },
+  "footer": {
+    "about": {
+      "title": "O Rafraf",
+      "links": {
+        "aboutUs": "O nas",
+        "careers": "Kariera",
+        "mobile": "Aplikacja mobilna",
+        "blog": "Blog",
+        "howWeWork": "Jak działamy"
+      }
+    },
+    "brands": {
+      "title": "Popularne zwierzęta",
+      "links": {
+        "toyota": "Psy",
+        "honda": "Koty",
+        "bmw": "Ptaki",
+        "mercedes": "Króliki",
+        "tesla": "Inne"
+      }
+    },
+    "other": {
+      "title": "Inne",
+      "links": {
+        "contact": "Kontakt",
+        "faq": "Pomoc/FAQ",
+        "affiliates": "Partnerzy",
+        "privacy": "Polityka prywatności",
+        "terms": "Regulamin"
+      }
+    },
+    "newsletter": {
+      "title": "Newsletter",
+      "description": "Zapisz się do naszego newslettera i otrzymuj powiadomienia o nowych zwierzętach do adopcji.",
+      "placeholder": "Wpisz swój email",
+      "button": "Zapisz się"
+    },
+    "copyright": "© 2025 Rafraf. Wszelkie prawa zastrzeżone."
   }
 }

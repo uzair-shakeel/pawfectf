@@ -67,10 +67,10 @@ function HomeContent() {
 
         <div className="relative w-full z-10 h-full flex flex-col justify-center items-center text-center text-white px-6">
           <h1 className="text-5xl md:text-7xl font-black mb-6 tracking-tight drop-shadow-xl animate-in slide-in-from-bottom-8 duration-700">
-            Find Your <span className="text-blue-400">Best Friend</span>
+            {t('homepage.hero.title1')} <span className="text-blue-400">{t('homepage.hero.title2')}</span>
           </h1>
           <p className="text-lg md:text-2xl font-medium mb-12 max-w-2xl text-gray-200 drop-shadow-md animate-in slide-in-from-bottom-8 duration-1000 delay-150">
-            Thousands of adoptable pets are looking for people. People like you.
+            {t('homepage.hero.subtitle')}
           </p>
 
           <div className="w-full max-w-4xl bg-white/10 backdrop-blur-md p-3 md:p-4 rounded-2xl md:rounded-[2rem] border border-white/20 shadow-2xl flex flex-col md:flex-row gap-3 animate-in slide-in-from-bottom-8 duration-1000 delay-300">
@@ -78,25 +78,25 @@ function HomeContent() {
               onClick={() => router.push("/website/pets?species=Dog")}
               className="flex-1 bg-white/10 hover:bg-white/20 transition-colors py-4 rounded-xl md:rounded-2xl font-bold flex flex-col items-center justify-center gap-2"
             >
-              <span className="text-3xl">🐶</span> Dogs
+              <span className="text-3xl">🐶</span> {t('homepage.hero.dogs')}
             </button>
             <button
               onClick={() => router.push("/website/pets?species=Cat")}
               className="flex-1 bg-white/10 hover:bg-white/20 transition-colors py-4 rounded-xl md:rounded-2xl font-bold flex flex-col items-center justify-center gap-2"
             >
-              <span className="text-3xl">🐱</span> Cats
+              <span className="text-3xl">🐱</span> {t('homepage.hero.cats')}
             </button>
             <button
               onClick={() => router.push("/website/lost-found")}
               className="flex-1 bg-white/10 hover:bg-white/20 transition-colors py-4 rounded-xl md:rounded-2xl font-bold flex flex-col items-center justify-center gap-2 text-white"
             >
-              <span className="text-3xl">🔍</span> Lost & Found
+              <span className="text-3xl">🔍</span> {t('homepage.hero.lostFound')}
             </button>
             <button
               onClick={() => router.push("/website/pets")}
               className="flex-1 bg-blue-600 hover:bg-blue-500 transition-colors py-4 rounded-xl md:rounded-2xl font-bold flex items-center justify-center gap-2 text-white shadow-lg shadow-blue-500/25"
             >
-              <Search className="w-5 h-5" /> All Pets
+              <Search className="w-5 h-5" /> {t('homepage.hero.allPets')}
             </button>
           </div>
         </div>
@@ -114,11 +114,11 @@ function HomeContent() {
           <section>
             <div className="flex justify-between items-end mb-8">
               <div>
-                <h2 className="text-3xl md:text-4xl font-black">Newly Listed</h2>
-                <p className="text-gray-500 mt-2">Meet the newest additions looking for a home.</p>
+                <h2 className="text-3xl md:text-4xl font-black">{t('homepage.newlyListed.title')}</h2>
+                <p className="text-gray-500 mt-2">{t('homepage.newlyListed.subtitle')}</p>
               </div>
               <Link href="/website/pets" className="hidden md:flex items-center gap-2 text-blue-600 font-semibold hover:text-blue-700">
-                View All <ArrowRight className="w-4 h-4" />
+                {t('homepage.viewAll')} <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
 
@@ -158,10 +158,10 @@ function HomeContent() {
               <div>
                 <div className="inline-flex items-center gap-2 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-400 px-3 py-1.5 rounded-full text-xs font-bold mb-3">
                   <Heart className="h-3.5 w-3.5" />
-                  HELP NEEDED
+                  {t('homepage.petsNeedingFood.badge')}
                 </div>
-                <h2 className="text-3xl md:text-4xl font-black text-gray-900 dark:text-white mb-2">Pets Needing Food</h2>
-                <p className="text-gray-600 dark:text-gray-400">Your donation makes a real difference</p>
+                <h2 className="text-3xl md:text-4xl font-black text-gray-900 dark:text-white mb-2">{t('homepage.petsNeedingFood.title')}</h2>
+                <p className="text-gray-600 dark:text-gray-400">{t('homepage.petsNeedingFood.subtitle')}</p>
               </div>
               <Link href="/website/food-donations" className="hidden md:flex items-center gap-2 text-blue-600 font-bold hover:text-blue-700 hover:gap-3 transition-all">
                 View All <ArrowRight className="w-4 h-4" />
@@ -200,7 +200,7 @@ function HomeContent() {
                         {pet.location?.city || "Available"}
                       </div>
                       <span className="text-sm font-bold text-blue-600 dark:text-blue-400 group-hover:translate-x-1 transition-transform">
-                        Donate →
+                        {t('homepage.petsNeedingFood.donate')} →
                       </span>
                     </div>
                   </div>
@@ -222,28 +222,28 @@ function HomeContent() {
 
         {/* Why Adopt Section */}
         <section className="text-center">
-          <h2 className="text-3xl md:text-5xl font-black mb-12">Why Adopt via Rafraf?</h2>
+          <h2 className="text-3xl md:text-5xl font-black mb-12">{t('homepage.whyAdopt.title')}</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="bg-gray-50 dark:bg-dark-card p-8 rounded-3xl border border-gray-100 dark:border-dark-divider">
               <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
                 <Heart className="w-8 h-8" />
               </div>
-              <h3 className="text-xl font-bold mb-4">Save a Life</h3>
-              <p className="text-gray-600 dark:text-gray-400">When you adopt, you're giving a deserving animal a second chance at a happy life.</p>
+              <h3 className="text-xl font-bold mb-4">{t('homepage.whyAdopt.saveLife.title')}</h3>
+              <p className="text-gray-600 dark:text-gray-400">{t('homepage.whyAdopt.saveLife.desc')}</p>
             </div>
             <div className="bg-gray-50 dark:bg-dark-card p-8 rounded-3xl border border-gray-100 dark:border-dark-divider">
               <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 text-green-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
                 <MapPin className="w-8 h-8" />
               </div>
-              <h3 className="text-xl font-bold mb-4">Local Shelters</h3>
-              <p className="text-gray-600 dark:text-gray-400">We partner with local shelters and rescues to help you find the perfect pet near you.</p>
+              <h3 className="text-xl font-bold mb-4">{t('homepage.whyAdopt.localShelters.title')}</h3>
+              <p className="text-gray-600 dark:text-gray-400">{t('homepage.whyAdopt.localShelters.desc')}</p>
             </div>
             <div className="bg-gray-50 dark:bg-dark-card p-8 rounded-3xl border border-gray-100 dark:border-dark-divider">
               <div className="w-16 h-16 bg-purple-100 dark:bg-purple-900/30 text-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
                 <Search className="w-8 h-8" />
               </div>
-              <h3 className="text-xl font-bold mb-4">Easy Process</h3>
-              <p className="text-gray-600 dark:text-gray-400">Our seamless platform makes finding, applying, and adopting your new best friend easy.</p>
+              <h3 className="text-xl font-bold mb-4">{t('homepage.whyAdopt.easyProcess.title')}</h3>
+              <p className="text-gray-600 dark:text-gray-400">{t('homepage.whyAdopt.easyProcess.desc')}</p>
             </div>
           </div>
         </section>
@@ -253,33 +253,33 @@ function HomeContent() {
           <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full -mr-32 -mt-32"></div>
           <div className="absolute bottom-0 left-0 w-48 h-48 bg-blue-500/10 rounded-full -ml-24 -mb-24"></div>
           <div className="relative z-10 max-w-5xl mx-auto">
-            <h2 className="text-3xl md:text-5xl font-black mb-6 text-gray-900 dark:text-white">Help Feed Pets in Need</h2>
+            <h2 className="text-3xl md:text-5xl font-black mb-6 text-gray-900 dark:text-white">{t('homepage.feedPets.title')}</h2>
             <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 mb-10 font-medium">
-              Support pets waiting for adoption with food donations. Every contribution helps provide nutrition for animals in shelters.
+              {t('homepage.feedPets.subtitle')}
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
               <div className="text-center">
                 <div className="text-3xl font-black text-blue-600">450+</div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">Pets Fed This Month</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">{t('homepage.feedPets.stat1')}</div>
               </div>
               <div className="text-center">
                 <div className="text-3xl font-black text-blue-600">25</div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">Partner Shelters</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">{t('homepage.feedPets.stat2')}</div>
               </div>
               <div className="text-center">
                 <div className="text-3xl font-black text-blue-600">15k zł</div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">Food Donated</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">{t('homepage.feedPets.stat3')}</div>
               </div>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/website/food-donations" className="bg-blue-600 text-white hover:bg-blue-700 font-bold py-4 px-8 rounded-xl transition-transform hover:scale-105 active:scale-95 shadow-xl shadow-blue-600/25 flex items-center justify-center gap-2">
                 <Heart className="w-5 h-5" />
-                Browse Pets Needing Food
+                {t('homepage.feedPets.browseBtn')}
               </Link>
               <Link href="/dashboard/food-pets/add" className="bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 dark:bg-dark-raised dark:border-dark-divider dark:text-gray-300 font-bold py-4 px-8 rounded-xl transition-transform hover:scale-105 active:scale-95">
-                List Pet for Food Support
+                {t('homepage.feedPets.listBtn')}
               </Link>
             </div>
           </div>
@@ -287,27 +287,23 @@ function HomeContent() {
 
         {/* How it Works Section */}
         <section className="bg-blue-50 dark:bg-dark-card rounded-[2.5rem] p-8 md:p-16 border border-blue-100 dark:border-dark-divider my-16 text-center">
-          <h2 className="text-3xl md:text-5xl font-black mb-16">How Rafraf Works</h2>
+          <h2 className="text-3xl md:text-5xl font-black mb-16">{t('homepage.howItWorks.title')}</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 relative">
-            {/* Connecting line for desktop */}
             <div className="hidden md:block absolute top-12 left-[15%] right-[15%] h-1 bg-blue-200 dark:bg-blue-900/50 z-0"></div>
-
             <div className="relative z-10 flex flex-col items-center">
               <div className="w-24 h-24 bg-blue-600 text-white rounded-full flex items-center justify-center text-3xl font-black mb-6 shadow-xl shadow-blue-500/30">1</div>
-              <h3 className="text-xl font-bold mb-3">Find a Pet</h3>
-              <p className="text-gray-600 dark:text-gray-400">Browse thousands of adorable pets from verified local shelters and private owners.</p>
+              <h3 className="text-xl font-bold mb-3">{t('homepage.howItWorks.step1.title')}</h3>
+              <p className="text-gray-600 dark:text-gray-400">{t('homepage.howItWorks.step1.desc')}</p>
             </div>
-
             <div className="relative z-10 flex flex-col items-center">
               <div className="w-24 h-24 bg-blue-600 text-white rounded-full flex items-center justify-center text-3xl font-black mb-6 shadow-xl shadow-blue-500/30">2</div>
-              <h3 className="text-xl font-bold mb-3">Meet & Greet</h3>
-              <p className="text-gray-600 dark:text-gray-400">Connect instantly via our platform to ask questions and schedule a meet-up.</p>
+              <h3 className="text-xl font-bold mb-3">{t('homepage.howItWorks.step2.title')}</h3>
+              <p className="text-gray-600 dark:text-gray-400">{t('homepage.howItWorks.step2.desc')}</p>
             </div>
-
             <div className="relative z-10 flex flex-col items-center">
               <div className="w-24 h-24 bg-blue-600 text-white rounded-full flex items-center justify-center text-3xl font-black mb-6 shadow-xl shadow-blue-500/30">3</div>
-              <h3 className="text-xl font-bold mb-3">Take Them Home</h3>
-              <p className="text-gray-600 dark:text-gray-400">Complete the adoption process and give your new best friend the loving home they deserve.</p>
+              <h3 className="text-xl font-bold mb-3">{t('homepage.howItWorks.step3.title')}</h3>
+              <p className="text-gray-600 dark:text-gray-400">{t('homepage.howItWorks.step3.desc')}</p>
             </div>
           </div>
         </section>
@@ -316,20 +312,20 @@ function HomeContent() {
         <section>
           <div className="flex justify-between items-end mb-8">
             <div>
-              <h2 className="text-3xl md:text-4xl font-black">Browse by Category</h2>
-              <p className="text-gray-500 mt-2">Find exactly the companion you're looking for.</p>
+              <h2 className="text-3xl md:text-4xl font-black">{t('homepage.browseCategory.title')}</h2>
+              <p className="text-gray-500 mt-2">{t('homepage.browseCategory.subtitle')}</p>
             </div>
             <Link href="/website/pets" className="hidden md:flex items-center gap-2 text-blue-600 font-semibold hover:text-blue-700">
-              View All <ArrowRight className="w-4 h-4" />
+              {t('homepage.viewAll')} <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
-              { name: "Small Dogs", q: "species=Dog&size=Small", img: "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&q=80&w=600" },
-              { name: "Big Dogs", q: "species=Dog&size=Large", img: "https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&q=80&w=600" },
-              { name: "Kittens", q: "species=Cat&ageGroup=Baby", img: "https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&q=80&w=600" },
-              { name: "Senior Pets", q: "ageGroup=Senior", img: "https://images.unsplash.com/photo-1505628346881-b72b27e84530?auto=format&fit=crop&q=80&w=600" },
+              { name: t('homepage.browseCategory.smallDogs'), q: "species=Dog&size=Small", img: "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&q=80&w=600" },
+              { name: t('homepage.browseCategory.bigDogs'), q: "species=Dog&size=Large", img: "https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&q=80&w=600" },
+              { name: t('homepage.browseCategory.kittens'), q: "species=Cat&ageGroup=Baby", img: "https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&q=80&w=600" },
+              { name: t('homepage.browseCategory.seniorPets'), q: "ageGroup=Senior", img: "https://images.unsplash.com/photo-1505628346881-b72b27e84530?auto=format&fit=crop&q=80&w=600" },
             ].map((cat, i) => (
               <Link key={i} href={`/website/pets?${cat.q}`} className="group relative h-48 md:h-64 rounded-2xl overflow-hidden">
                 <Image
@@ -355,9 +351,9 @@ function HomeContent() {
           <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full -mr-32 -mt-32"></div>
           <div className="absolute bottom-0 left-0 w-48 h-48 bg-blue-500/10 rounded-full -ml-24 -mb-24"></div>
           <div className="relative z-10 max-w-5xl mx-auto">
-            <h2 className="text-3xl md:text-5xl font-black mb-6 text-gray-900 dark:text-white">Lost a Pet? Found a Pet?</h2>
+            <h2 className="text-3xl md:text-5xl font-black mb-6 text-gray-900 dark:text-white">{t('homepage.lostFound.title')}</h2>
             <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 mb-10 font-medium">
-              We are a community. Help reunite pets with their loving families or report a lost pet to get everyone looking.
+              {t('homepage.lostFound.subtitle')}
             </p>
 
             {recentLost.length > 0 && (
