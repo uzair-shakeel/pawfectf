@@ -73,7 +73,7 @@ const page = () => {
       }
     } catch (e) {
       console.error("Dashboard load error:", e);
-      setError("Failed to load dashboard data");
+      setError(t("dashboard.homeDashboard.loadError", "Failed to load dashboard data"));
     } finally {
       setLoading(false);
     }

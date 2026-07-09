@@ -38,7 +38,7 @@ export default function UserLostFoundPage() {
             setEntries(entries.filter(e => e._id !== id));
         } catch (error) {
             console.error("Failed to delete entry:", error);
-            alert("Failed to delete report.");
+            alert(t("dashboard.lostFoundDashboard.deleteFailed", "Failed to delete report."));
         }
     };
 
@@ -46,8 +46,8 @@ export default function UserLostFoundPage() {
         <div className="max-w-6xl mx-auto py-8">
             <div className="flex justify-between items-center mb-8">
                 <div>
-                    <h1 className="text-3xl font-black text-gray-900 dark:text-white">My Lost & Found Reports</h1>
-                    <p className="text-gray-500 dark:text-gray-400 mt-1">Manage your active lost or found pet reports.</p>
+                    <h1 className="text-3xl font-black text-gray-900 dark:text-white">{t("dashboard.lostFoundDashboard.title", "My Lost & Found Reports")}</h1>
+                    <p className="text-gray-500 dark:text-gray-400 mt-1">{t("dashboard.lostFoundDashboard.subtitle", "Manage your active lost or found pet reports.")}</p>
                 </div>
                 <Link href="/dashboard/lost-found/new" className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl font-bold flex items-center gap-2 shadow-lg shadow-blue-500/30 transition-transform hover:scale-105 active:scale-95">
                     <FaPlus /> {t("dashboard:lostFound.reportPet", "Report Pet")}
@@ -73,7 +73,7 @@ export default function UserLostFoundPage() {
                                 {entry.images && entry.images.length > 0 ? (
                                     <Image src={entry.images[0].startsWith('http') ? entry.images[0] : `${API_BASE}/${entry.images[0].replace("\\", "/")}`} alt={entry.title} fill className="object-cover" />
                                 ) : (
-                                    <div className="w-full h-full flex items-center justify-center text-gray-400">No Image</div>
+                                    <div className="w-full h-full flex items-center justify-center text-gray-400">{t("dashboard.lostFoundDashboard.noImage", "No Image")}</div>
                                 )}
                                 <div className="absolute top-3 left-3">
                                     <span className={`px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider text-white shadow-md ${entry.type === 'Lost' ? 'bg-red-500' : 'bg-green-500'}`}>
@@ -84,11 +84,11 @@ export default function UserLostFoundPage() {
                                     {entry.status}
                                 </div>
                             </div>
-                            
+
                             <div className="p-5 flex-1 flex flex-col">
                                 <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-1 truncate">{entry.title}</h2>
                                 <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">{new Date(entry.dateLostOrFound).toLocaleDateString()}</p>
-                                
+
                                 <div className="mt-auto pt-4 border-t border-gray-100 dark:border-dark-divider flex justify-between items-center">
                                     <Link href={`/website/lost-found`} className="text-sm text-blue-600 font-bold hover:underline">{t("dashboard:lostFound.viewPublic", "View Public")}</Link>
                                     <button onClick={() => handleDelete(entry._id)} className="text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 p-2 rounded-lg transition-colors">

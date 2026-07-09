@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useAuth } from "../../lib/auth/AuthContext";
+import { useLanguage } from "../../lib/i18n/LanguageContext";
 import Avatar from "./Avatar";
 import {
     FiUser,
@@ -19,6 +20,7 @@ import { motion, AnimatePresence } from "framer-motion";
 export default function UserAccountDropdown() {
     const [isOpen, setIsOpen] = useState(false);
     const { user, isSignedIn, logout } = useAuth();
+    const { t } = useLanguage();
     const router = useRouter();
     const pathname = usePathname();
     const dropdownRef = useRef(null);
@@ -26,8 +28,8 @@ export default function UserAccountDropdown() {
     // Dynamic first link: If in dashboard, go home. If on website, go to dashboard.
     const isInDashboard = pathname?.startsWith('/dashboard');
     const firstLink = isInDashboard
-        ? { label: "Home", href: "/", icon: <FiHome /> }
-        : { label: "Panel", href: "/dashboard/home", icon: <FiLayout /> };
+        ? { label: t("dashboard.userDropdown.home", "Home"), href: "/", icon: <FiHome /> }
+        : { label: t("dashboard.userDropdown.panel", "Panel"), href: "/dashboard/home", icon: <FiLayout /> };
 
     // Close when clicking outside
     useEffect(() => {
@@ -69,9 +71,9 @@ export default function UserAccountDropdown() {
                 />
                 <div className="hidden md:flex flex-col items-start pr-1 max-w-[120px]">
                     <span className="text-xs font-black leading-tight text-gray-900 dark:text-dark-text-primary truncate w-full text-left">
-                        {user?.firstName || "User"}
+                        {user?.firstName || t("dashboard.navbar.user", "User")}
                     </span>
-                    <span className="text-[10px] text-gray-400 font-bold uppercase tracking-tighter">Account</span>
+                    <span className="text-[10px] text-gray-400 font-bold uppercase tracking-tighter">{t("dashboard.userDropdown.account", "Account")}</span>
                 </div>
                 <FiChevronDown className={`w-4 h-4 text-gray-400 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`} />
             </button>
@@ -87,7 +89,7 @@ export default function UserAccountDropdown() {
                     >
                         {/* Header info */}
                         <div className="p-4 bg-gray-50/50 dark:bg-dark-card/50 border-b border-gray-100 dark:border-dark-divider">
-                            <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">Signed in as</p>
+                            <p className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">{t("dashboard.userDropdown.signedInAs", "Signed in as")}</p>
                             <div className="flex items-center gap-3">
                                 <Avatar
                                     src={user?.image || user?.profilePicture}
@@ -112,27 +114,27 @@ export default function UserAccountDropdown() {
                             />
                             <DropdownItem
                                 icon={<FiUser />}
-                                label="Profile Settings"
+                                label={t("dashboard.userDropdown.profileSettings", "Profile Settings")}
                                 onClick={() => navigateTo("/dashboard/profile")}
                             />
                             <DropdownItem
                                 icon={<FiHeart />}
-                                label="Food Donations"
+                                label={t("dashboard.userDropdown.foodDonations", "Food Donations")}
                                 onClick={() => navigateTo("/website/food-donations")}
                             />
                             <DropdownItem
                                 icon={<FiHeart />}
-                                label="Donation History"
+                                label={t("dashboard.userDropdown.donationHistory", "Donation History")}
                                 onClick={() => navigateTo("/dashboard/donation-history")}
                             />
                             <DropdownItem
                                 icon={<FiSearch />}
-                                label="Lost & Found"
+                                label={t("dashboard.userDropdown.lostFound", "Lost & Found")}
                                 onClick={() => navigateTo("/website/lost-found")}
                             />
                             <DropdownItem
                                 icon={<FiPhone />}
-                                label="Contact Us"
+                                label={t("dashboard.userDropdown.contactUs", "Contact Us")}
                                 onClick={() => navigateTo("/website/contact")}
                             />
                         </div>
@@ -145,7 +147,7 @@ export default function UserAccountDropdown() {
                                 <div className="p-1.5 rounded-lg bg-red-100 dark:bg-red-900/20 group-hover:bg-red-600 group-hover:text-white transition-colors">
                                     <FiLogOut className="w-4 h-4" />
                                 </div>
-                                Logout Account
+                                {t("dashboard.userDropdown.logoutAccount", "Logout Account")}
                             </button>
                         </div>
                     </motion.div>

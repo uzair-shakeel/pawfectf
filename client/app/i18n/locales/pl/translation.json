@@ -926,6 +926,27 @@
           "a": "Rafraf to platforma ogłoszeniowa łącząca Cię ze zwierzętami. Transport jest zazwyczaj organizowany bezpośrednio między adoptującym a schroniskiem lub obecnym właścicielem. Niektóre organizacje ratunkowe mogą oferować usługi transportu za dodatkową opłatą."
         }
       }
+    },
+    "userDropdown": {
+      "home": "Strona główna",
+      "panel": "Panel",
+      "account": "Konto",
+      "signedInAs": "Zalogowany jako",
+      "profileSettings": "Ustawienia profilu",
+      "foodDonations": "Darowizny żywności",
+      "donationHistory": "Historia darowizn",
+      "lostFound": "Zaginione i znalezione",
+      "contactUs": "Skontaktuj się",
+      "logoutAccount": "Wyloguj konto"
+    },
+    "lostFoundDashboard": {
+      "title": "Moje raporty o zaginionych i znalezionych",
+      "subtitle": "Zarządzaj aktywnymi raportami o zaginionych lub znalezionych zwierzętach.",
+      "noImage": "Brak obrazu",
+      "deleteFailed": "Nie udało się usunąć raportu."
+    },
+    "homeDashboard": {
+      "loadError": "Nie udało się załadować danych panelu"
     }
   },
   "foodDonations": {
