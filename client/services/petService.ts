@@ -138,7 +138,7 @@ export const addPet = async (
 export const getAllPets = async (): Promise<PetData[]> => {
   const tryFetch = async (): Promise<PetData[]> => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/pets`, {
+      const response = await axios.get(`${API_BASE_URL}/api/pets`, {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
