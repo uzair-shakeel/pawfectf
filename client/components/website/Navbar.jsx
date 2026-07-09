@@ -136,45 +136,45 @@ const Navbar = () => {
 
   const dashboardMenuItems = [
     {
-      label: "Dashboard",
+      label: t("dashboard.navbar.dashboard", "Dashboard"),
       href: "/dashboard/home",
       icon: <RiDashboardHorizontalLine className="w-6 h-6" />,
     },
     {
-      label: "List a Pet",
+      label: t("dashboard.navbar.listPet", "List a Pet"),
       href: "/dashboard/pets/add",
       icon: <BiAddToQueue className="w-6 h-6" />,
     },
     {
-      label: "My Listings",
+      label: t("dashboard.navbar.myListings", "My Listings"),
       href: "/dashboard/pets",
       icon: <FaPaw className="w-6 h-6" />,
     },
     {
-      label: "Adoption Requests",
+      label: t("dashboard.navbar.adoptionRequests", "Adoption Requests"),
       href: "/dashboard/buyer-requests",
       icon: <FiShoppingBag className="w-6 h-6" />,
     },
     {
-      label: "Messages",
+      label: t("dashboard.navbar.messages", "Messages"),
       href: "/dashboard/messages",
       icon: <BsChatLeftDots className="w-6 h-6" />,
     },
     {
-      label: "Profile",
+      label: t("dashboard.navbar.profile", "Profile"),
       href: "/dashboard/profile",
       icon: <BsPersonGear className="w-6 h-6" />,
     },
   ];
 
   const websiteLinks = [
-    { label: "Home", href: "/", icon: <FiHome className="w-6 h-6" /> },
-    { label: "Adopt", href: "/website/pets", icon: <FiSearch className="w-6 h-6" /> },
+    { label: t("dashboard.navbar.home", "Home"), href: "/", icon: <FiHome className="w-6 h-6" /> },
+    { label: t("dashboard.navbar.adopt", "Adopt"), href: "/website/pets", icon: <FiSearch className="w-6 h-6" /> },
     { label: "Lost & Found", href: "/website/lost-found", icon: <FiSearch className="w-6 h-6" /> },
-    { label: "Saved Pets", href: "/wishlist", icon: <FiHeart className="w-6 h-6" /> },
-    { label: "Blog", href: "/website/blog", icon: <FiBook className="w-6 h-6" /> },
-    { label: "FAQ", href: "/website/faq", icon: <FiLifeBuoy className="w-6 h-6" /> },
-    { label: "Contact", href: "/website/contact", icon: <FiPhone className="w-6 h-6" /> },
+    { label: t("dashboard.navbar.savedPets", "Saved Pets"), href: "/wishlist", icon: <FiHeart className="w-6 h-6" /> },
+    { label: t("dashboard.navbar.blog", "Blog"), href: "/website/blog", icon: <FiBook className="w-6 h-6" /> },
+    { label: t("dashboard.navbar.faq", "FAQ"), href: "/website/faq", icon: <FiLifeBuoy className="w-6 h-6" /> },
+    { label: t("dashboard.navbar.contact", "Contact"), href: "/website/contact", icon: <FiPhone className="w-6 h-6" /> },
   ];
 
   const mobileMenuItems = [
@@ -268,14 +268,14 @@ const Navbar = () => {
               {openMsg && (
                 <div className="fixed md:absolute inset-x-4 md:inset-auto md:right-0 mt-2 md:w-80 bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-divider rounded-xl shadow-xl z-50 overflow-hidden transform md:translate-x-0">
                   <div className="flex items-center justify-between px-3 py-2 border-b border-gray-100 dark:border-dark-divider">
-                    <div className="text-sm font-semibold text-gray-900 dark:text-white">Wiadomości</div>
-                    <Link href="/dashboard/messages" onClick={() => setOpenMsg(false)} className="text-xs text-blue-600 hover:underline">Otwórz czat</Link>
+                    <div className="text-sm font-semibold text-gray-900 dark:text-white">{t("dashboard.navbar.messages", "Wiadomości")}</div>
+                    <Link href="/dashboard/messages" onClick={() => setOpenMsg(false)} className="text-xs text-blue-600 hover:underline">{t("dashboard.navbar.openChat", "Otwórz czat")}</Link>
                   </div>
                   <div className="max-h-96 overflow-auto">
                     {loadingMessages ? (
-                      <div className="px-3 py-4 text-sm text-gray-500">Ładowanie...</div>
+                      <div className="px-3 py-4 text-sm text-gray-500">{t("dashboard.navbar.loading", "Ładowanie...")}</div>
                     ) : displayMessages.length === 0 ? (
-                      <div className="px-3 py-4 text-sm text-gray-500">Brak wiadomości</div>
+                      <div className="px-3 py-4 text-sm text-gray-500">{t("dashboard.navbar.noMessages", "Brak wiadomości")}</div>
                     ) : (
                       <ul className="divide-y divide-gray-100 dark:divide-dark-divider">
                         {displayMessages.map((msg) => (
@@ -293,12 +293,12 @@ const Navbar = () => {
                             <Avatar src={msg.sender?.image} alt={msg.sender?.name} size={36} />
                             <div className="min-w-0 flex-1">
                               <div className="text-sm font-bold text-gray-900 dark:text-white truncate">
-                                {msg.sender?.name || "Użytkownik"}
+                                {msg.sender?.name || t("dashboard.navbar.user", "Użytkownik")}
                               </div>
                               <div className="text-xs text-gray-500 dark:text-dark-text-muted line-clamp-1">
                                 {msg.attachments?.length > 0
-                                  ? `${msg.attachments.length} załącznik${msg.attachments.length > 1 ? 'ów' : ''}`
-                                  : msg.content || "Nowa wiadomość"}
+                                  ? `${msg.attachments.length} ${t("dashboard.navbar.attachment", "załącznik(i)")}`
+                                  : msg.content || t("dashboard.navbar.newMessage", "Nowa wiadomość")}
                               </div>
                               <div className="text-[10px] text-gray-400 mt-1">{new Date(msg.createdAt).toLocaleString()}</div>
                             </div>
@@ -314,7 +314,7 @@ const Navbar = () => {
                   </div>
                   <div className="px-3 py-2 border-t border-gray-100 dark:border-dark-divider text-center">
                     <Link href="/dashboard/messages" onClick={() => setOpenMsg(false)} className="text-xs font-bold text-blue-600 hover:underline uppercase tracking-widest">
-                      Zobacz wszystkie wiadomości
+                      {t("dashboard.navbar.seeAllMessages", "Zobacz wszystkie wiadomości")}
                     </Link>
                   </div>
                 </div>
@@ -337,16 +337,16 @@ const Navbar = () => {
               {openNotif && (
                 <div className="fixed md:absolute inset-x-4 md:inset-auto md:right-0 mt-2 md:w-80 bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-divider rounded-xl shadow-xl z-50 overflow-hidden transform md:translate-x-0">
                   <div className="flex items-center justify-between px-3 py-2 border-b border-gray-100 dark:border-gray-700">
-                    <div className="text-sm font-semibold text-gray-900 dark:text-gray-200 dark:text-white">Powiadomienia</div>
+                    <div className="text-sm font-semibold text-gray-900 dark:text-gray-200 dark:text-white">{t("dashboard.navbar.notifications", "Powiadomienia")}</div>
                     {markAll && (
                       <button onClick={markAll} className="text-xs text-blue-600 hover:underline">
-                        Oznacz wszystkie jako przeczytane
+                        {t("dashboard.navbar.markAllRead", "Oznacz wszystkie jako przeczytane")}
                       </button>
                     )}
                   </div>
                   <div className="max-h-96 overflow-auto">
                     {notificationsList.length === 0 ? (
-                      <div className="px-3 py-4 text-sm text-gray-500 dark:text-gray-400">Brak powiadomień</div>
+                      <div className="px-3 py-4 text-sm text-gray-500 dark:text-gray-400">{t("dashboard.navbar.noNotifications", "Brak powiadomień")}</div>
                     ) : (
                       <ul className="divide-y divide-gray-100 dark:divide-gray-700">
                         {notificationsList.slice(0, 8).map((n) => (
@@ -373,7 +373,7 @@ const Navbar = () => {
                   </div>
                   <div className="px-3 py-2 border-t border-gray-100 dark:border-gray-700 text-right">
                     <Link href="/dashboard/notifications" onClick={() => setOpenNotif(false)} className="text-sm text-blue-600 hover:underline">
-                      Zobacz wszystkie powiadomienia
+                      {t("dashboard.navbar.seeAll", "Zobacz wszystkie powiadomienia")}
                     </Link>
                   </div>
                 </div>
@@ -391,7 +391,7 @@ const Navbar = () => {
               onClick={handleSignIn}
               className="flex items-center gap-2 px-6 py-2 rounded-full bg-blue-600 text-white text-xs font-black uppercase tracking-widest hover:bg-blue-700 transition-all shadow-lg shadow-blue-500/25"
             >
-              Login
+              {t("dashboard.navbar.login", "Login")}
             </button>
           )}
         </div>
@@ -446,7 +446,7 @@ const Navbar = () => {
                 <Avatar src={user?.profilePicture || user?.image} alt="User" size={50} />
                 <div className="min-w-0 flex-1">
                   <h3 className="text-lg font-black text-gray-900 dark:text-white truncate">
-                    {user?.firstName || "Użytkownik"}
+                    {user?.firstName || t("dashboard.navbar.user", "Użytkownik")}
                   </h3>
                   <p className="text-xs text-gray-400 font-bold uppercase tracking-widest leading-none mt-1">
                     {user?.sellerType === 'company' ? 'Shelter Account' : 'Pet Owner'}
@@ -465,7 +465,7 @@ const Navbar = () => {
                   label={item.label}
                   onClick={() => setIsMenuOpen(false)}
                   active={isActive(item.href)}
-                  badge={item.label === "Wiadomości" ? messageCount : 0}
+                  badge={item.label === t("dashboard.navbar.messages", "Messages") ? messageCount : 0}
                 />
               ))}
             </div>
@@ -476,7 +476,7 @@ const Navbar = () => {
                   onClick={handleSignIn}
                   className="w-full py-5 rounded-[2rem] bg-gradient-to-r from-blue-600 to-blue-500 text-white font-black uppercase tracking-widest text-xs shadow-xl shadow-blue-500/25 flex items-center justify-center gap-2 animate-slideUp"
                 >
-                  Join the Community
+                  {t("dashboard.navbar.joinCommunity", "Join the Community")}
                 </button>
               </div>
             ) : (
@@ -487,7 +487,7 @@ const Navbar = () => {
                 >
                   <div className="flex items-center gap-4">
                     <FiLogOut size={20} />
-                    <span>Wyloguj Się</span>
+                    <span>{t("dashboard.navbar.logout", "Wyloguj Się")}</span>
                   </div>
                   <ArrowRight className="w-4 h-4" />
                 </button>

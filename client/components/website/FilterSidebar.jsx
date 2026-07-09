@@ -2,6 +2,7 @@
 import { X } from "lucide-react";
 import { useState } from "react";
 import { useSpeciesBreeds } from "../../hooks/useSpeciesBreeds";
+import { useLanguage } from "../../lib/i18n/LanguageContext";
 
 const COLORS = [
   "Black", "White", "Brown", "Golden", "Gray", "Cream", "Orange",
@@ -30,6 +31,7 @@ const EMPTY_FILTERS = {
 };
 
 export default function FilterSidebar({ onApplyFilters, setShowMobileFilter, isVisible = true }) {
+  const { t } = useLanguage();
   const [openIndex, setOpenIndex] = useState(null);
   const { getSpecies, getBreedsForSpecies, loading } = useSpeciesBreeds();
   const [filters, setFilters] = useState(EMPTY_FILTERS);
@@ -105,8 +107,8 @@ export default function FilterSidebar({ onApplyFilters, setShowMobileFilter, isV
       <div className="border rounded-md bg-white dark:bg-dark-card border-gray-200 dark:border-dark-divider text-gray-900 dark:text-gray-200 flex flex-col h-[100vh] md:h-auto">
         <div className="flex justify-between items-center px-4 py-4 border-b border-gray-200 dark:border-dark-divider sticky top-0 bg-white dark:bg-dark-card z-10">
           <div className="flex gap-6 items-center">
-            <h2 className="text-2xl font-semibold">Filters</h2>
-            <button onClick={handleReset} className="text-lg text-blue-600 font-medium">Reset</button>
+            <h2 className="text-2xl font-semibold">{t("dashboard.filters.title", "Filters")}</h2>
+            <button onClick={handleReset} className="text-lg text-blue-600 font-medium">{t("dashboard.filters.reset", "Reset")}</button>
           </div>
           {setShowMobileFilter && (
             <button onClick={() => setShowMobileFilter(false)} className="text-md md:hidden">
@@ -122,10 +124,10 @@ export default function FilterSidebar({ onApplyFilters, setShowMobileFilter, isV
           onTouchMove={(e) => e.stopPropagation()}
         >
           {/* Location */}
-          <Section index={0} label="Location">
-            <input type="text" name="location" value={filters.location} onChange={handleInputChange} placeholder="Enter location" className={selectClass} />
+          <Section index={0} label={t("dashboard.filters.location", "Location")}>
+            <input type="text" name="location" value={filters.location} onChange={handleInputChange} placeholder={t("dashboard.filters.enterLocation", "Enter location")} className={selectClass} />
             <select name="maxDistance" value={filters.maxDistance} onChange={handleInputChange} className={selectClass}>
-              <option value="">Select distance</option>
+              <option value="">{t("dashboard.filters.selectDistance", "Select distance")}</option>
               <option value="5">5 km</option>
               <option value="10">10 km</option>
               <option value="25">25 km</option>
@@ -135,56 +137,56 @@ export default function FilterSidebar({ onApplyFilters, setShowMobileFilter, isV
           </Section>
 
           {/* Species */}
-          <Section index={1} label="Species">
+          <Section index={1} label={t("dashboard.filters.species", "Species")}>
             <select name="species" value={filters.species} onChange={handleInputChange} className={selectClass} disabled={loading}>
-              <option value="">All Species</option>
+              <option value="">{t("dashboard.filters.allSpecies", "All Species")}</option>
               {getSpecies().map((s) => <option key={s} value={s}>{s}</option>)}
             </select>
           </Section>
 
           {/* Breed */}
-          <Section index={2} label="Breed">
+          <Section index={2} label={t("dashboard.filters.breed", "Breed")}>
             <select name="breed" value={filters.breed} onChange={handleInputChange} className={selectClass} disabled={!filters.species}>
-              <option value="">All Breeds</option>
+              <option value="">{t("dashboard.filters.allBreeds", "All Breeds")}</option>
               {getBreedsForSpecies(filters.species).map((b) => <option key={b} value={b}>{b}</option>)}
             </select>
           </Section>
 
           {/* Age Group */}
-          <Section index={3} label="Age">
+          <Section index={3} label={t("dashboard.filters.age", "Age")}>
             <select name="ageGroup" value={filters.ageGroup} onChange={handleInputChange} className={selectClass}>
-              <option value="">Any Age</option>
-              <option value="Baby">Baby (0–6 months)</option>
-              <option value="Young">Young (6m–2 years)</option>
-              <option value="Adult">Adult (2–7 years)</option>
-              <option value="Senior">Senior (7+ years)</option>
+              <option value="">{t("dashboard.filters.anyAge", "Any Age")}</option>
+              <option value="Baby">{t("dashboard.filters.baby", "Baby (0–6 months)")}</option>
+              <option value="Young">{t("dashboard.filters.young", "Young (6m–2 years)")}</option>
+              <option value="Adult">{t("dashboard.filters.adult", "Adult (2–7 years)")}</option>
+              <option value="Senior">{t("dashboard.filters.senior", "Senior (7+ years)")}</option>
             </select>
           </Section>
 
           {/* Gender */}
-          <Section index={4} label="Gender">
+          <Section index={4} label={t("dashboard.filters.gender", "Gender")}>
             <select name="gender" value={filters.gender} onChange={handleInputChange} className={selectClass}>
-              <option value="">Any</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
+              <option value="">{t("dashboard.filters.any", "Any")}</option>
+              <option value="Male">{t("dashboard.addPet.male", "Male")}</option>
+              <option value="Female">{t("dashboard.addPet.female", "Female")}</option>
             </select>
           </Section>
 
           {/* Size */}
-          <Section index={5} label="Size">
+          <Section index={5} label={t("dashboard.filters.size", "Size")}>
             <select name="size" value={filters.size} onChange={handleInputChange} className={selectClass}>
-              <option value="">Any Size</option>
-              <option value="Small">Small</option>
-              <option value="Medium">Medium</option>
-              <option value="Large">Large</option>
-              <option value="Extra Large">Extra Large</option>
+              <option value="">{t("dashboard.filters.anySize", "Any Size")}</option>
+              <option value="Small">{t("dashboard.addPet.small", "Small")}</option>
+              <option value="Medium">{t("dashboard.addPet.medium", "Medium")}</option>
+              <option value="Large">{t("dashboard.addPet.large", "Large")}</option>
+              <option value="Extra Large">{t("dashboard.addPet.extraLarge", "Extra Large")}</option>
             </select>
           </Section>
 
           {/* Coat Length */}
-          <Section index={6} label="Coat Length">
+          <Section index={6} label={t("dashboard.filters.coatLength", "Coat Length")}>
             <select name="coatLength" value={filters.coatLength} onChange={handleInputChange} className={selectClass}>
-              <option value="">Any</option>
+              <option value="">{t("dashboard.filters.any", "Any")}</option>
               <option value="Hairless">Hairless</option>
               <option value="Short">Short</option>
               <option value="Medium">Medium</option>
@@ -193,9 +195,9 @@ export default function FilterSidebar({ onApplyFilters, setShowMobileFilter, isV
           </Section>
 
           {/* Health Status */}
-          <Section index={7} label="Health Status">
+          <Section index={7} label={t("dashboard.filters.healthStatus", "Health Status")}>
             <select name="healthStatus" value={filters.healthStatus} onChange={handleInputChange} className={selectClass}>
-              <option value="">Any</option>
+              <option value="">{t("dashboard.filters.any", "Any")}</option>
               {HEALTH_OPTIONS.map((h) => <option key={h} value={h}>{h}</option>)}
             </select>
           </Section>
@@ -204,7 +206,7 @@ export default function FilterSidebar({ onApplyFilters, setShowMobileFilter, isV
         {setShowMobileFilter && (
           <div className="px-4 py-4 border-t sticky md:hidden bottom-0 bg-white z-10">
             <button onClick={handleApplyFilters} className="text-md bg-blue-600 text-white px-4 py-3 rounded-md w-full font-medium">
-              Apply Filters
+              {t("dashboard.filters.apply", "Apply Filters")}
             </button>
           </div>
         )}

@@ -790,6 +790,142 @@
       "publishing": "Publikowanie...",
       "publishListing": "Opublikuj ogłoszenie",
       "error": "Gatunek i rasa są wymagane."
+    },
+    "filters": {
+      "title": "Filtry",
+      "reset": "Resetuj",
+      "location": "Lokalizacja",
+      "enterLocation": "Wprowadź lokalizację",
+      "selectDistance": "Wybierz dystans",
+      "species": "Gatunek",
+      "allSpecies": "Wszystkie gatunki",
+      "breed": "Rasa",
+      "allBreeds": "Wszystkie rasy",
+      "age": "Wiek",
+      "anyAge": "Każdy wiek",
+      "baby": "Baby (0–6 miesięcy)",
+      "young": "Młode (6m–2 lata)",
+      "adult": "Dorosłe (2–7 lat)",
+      "senior": "Starsze (7+ lat)",
+      "gender": "Płeć",
+      "any": "Każdy",
+      "size": "Rozmiar",
+      "anySize": "Każdy rozmiar",
+      "coatLength": "Długość sierści",
+      "healthStatus": "Status zdrowia",
+      "apply": "Zastosuj",
+      "close": "Zamknij",
+      "findPet": "Znajdź zwierzę",
+      "ageGroup": "Grupa wiekowa",
+      "coat": "Sierść",
+      "searchByLocation": "Szukaj według lokalizacji..."
+    },
+    "pets": {
+      "loading": "Ładowanie zwierząt...",
+      "error": "Coś poszło nie tak. Spróbuj ponownie.",
+      "tryAgain": "Spróbuj ponownie",
+      "noPetsFound": "Nie znaleziono zwierząt",
+      "adjustFilters": "Spróbuj dostosować filtry, aby znaleźć więcej zwierząt.",
+      "sort": {
+        "bestMatch": "Najlepsze dopasowanie",
+        "youngest": "Najmłodsze",
+        "oldest": "Najstarsze",
+        "newestListed": "Najnowsze ogłoszenia",
+        "oldestListed": "Najstarsze ogłoszenia"
+      }
+    },
+    "lostFound": {
+      "title": "Zaginione i znalezione zwierzęta",
+      "subtitle": "Pomóż zjednoczyć zwierzęta z ich rodzinami.",
+      "noEntries": "Nie znaleziono wpisów",
+      "noEntriesDesc": "Obecnie nie ma raportów o {type} zwierzętach.",
+      "searchCity": "Szukaj miasta...",
+      "allSpecies": "Wszystkie gatunki",
+      "lostPet": "Zaginione zwierzę",
+      "foundPet": "Znalezione zwierzę"
+    },
+    "navbar": {
+      "messages": "Wiadomości",
+      "openChat": "Otwórz czat",
+      "loading": "Ładowanie...",
+      "noMessages": "Brak wiadomości",
+      "seeAllMessages": "Zobacz wszystkie wiadomości",
+      "notifications": "Powiadomienia",
+      "markAllRead": "Oznacz wszystkie jako przeczytane",
+      "noNotifications": "Brak powiadomień",
+      "seeAll": "Zobacz wszystkie",
+      "dashboard": "Panel",
+      "listPet": "Wystaw zwierzę",
+      "myListings": "Moje ogłoszenia",
+      "adoptionRequests": "Prośby o adopcję",
+      "profile": "Profil",
+      "home": "Strona główna",
+      "adopt": "Adoptuj",
+      "savedPets": "Zapisane zwierzęta",
+      "blog": "Blog",
+      "faq": "FAQ",
+      "contact": "Kontakt",
+      "login": "Zaloguj",
+      "joinCommunity": "Dołącz do społeczności",
+      "logout": "Wyloguj się",
+      "user": "Użytkownik",
+      "newMessage": "Nowa wiadomość",
+      "attachment": "załącznik(i)"
+    },
+    "contact": {
+      "title": "Skontaktuj się z nami",
+      "subtitle": "Czy szukasz zwierzęcia do adopcji, chcesz wystawić swoje schronisko, czy masz pytanie o działanie Rafraf - jesteśmy tu, aby pomóc.",
+      "emailUs": "Napisz do nas",
+      "email": "support@Rafraf.pl",
+      "emailResponse": "Staramy się odpowiadać w ciągu 24 godzin.",
+      "callUs": "Zadzwoń do nas",
+      "phone": "+48 123 456 789",
+      "phoneHours": "Pon-Pt od 8:00 do 17:00.",
+      "officeLocation": "Lokalizacja biura",
+      "location": "Warszawa, Polska",
+      "locationNote": "Dostępne na spotkania z partnerami schronisk po wcześniejszym umówieniu.",
+      "sendMessage": "Wyślij wiadomość",
+      "successMessage": "Dziękujemy! Twoja wiadomość została wysłana. Skontaktujemy się z Tobą wkrótce.",
+      "name": "Imię",
+      "email": "Email",
+      "subject": "Temat",
+      "message": "Wiadomość",
+      "sendButton": "Wyślij wiadomość",
+      "subjects": {
+        "general": "Ogólne zapytanie",
+        "adoption": "Pytanie o adopcję",
+        "partnership": "Współpraca ze schroniskiem",
+        "technical": "Wsparcie techniczne"
+      }
+    },
+    "faq": {
+      "title": "Często zadawane pytania",
+      "subtitle": "Wszystko, co musisz wiedzieć o adopcji zwierząt przez Rafraf.",
+      "stillHaveQuestions": "Nadal masz pytania?",
+      "supportText": "Nasz zespół wsparcia jest tu, aby pomóc Ci znaleźć idealnego towarzysza.",
+      "contactSupport": "Skontaktuj się z pomocą",
+      "questions": {
+        "adoptionProcess": {
+          "q": "Jak przebiega proces adopcji?",
+          "a": "Proces zaczyna się od znalezienia zwierzęcia, które pokochasz na naszej platformie. Możesz użyć naszego systemu wiadomości, aby skontaktować się bezpośrednio ze schroniskiem lub prywatnym właścicielem, aby zadać pytania, umówić się na spotkanie i omówić wymagania adopcji. Każde schronisko lub właściciel ma własny specyficzny proces aplikacji i selekcji adopcji."
+        },
+        "adoptionFee": {
+          "q": "Co jest uwzględnione w opłacie adopcyjnej?",
+          "a": "Opłaty adopcyjne różnią się w zależności od schroniska i właściciela. Zazwyczaj opłaty pokrywają koszty opieki, jaką zwierzę otrzymało, w tym szczepienia, sterylizację/kastrację, czipowanie i badania weterynaryjne. Możesz zobaczyć konkretną opłatę i status zdrowia na profilu każdego zwierzęcia."
+        },
+        "health": {
+          "q": "Czy zwierzęta są zdrowe i zaszczepione?",
+          "a": "Zachęcamy wszystkich wystawiających do podawania pełnych historii medycznych. Możesz zobaczyć odznaki na profilach zwierząt dla 'Zaszczepione', 'Wykastrowane/Sterylizowane', 'Oznakowane czipem' i 'Sprawdzone przez weterynarza'. Zawsze pytaj obecnego właściciela lub schronisko o oficjalne dokumenty weterynaryjne podczas procesu adopcji."
+        },
+        "listing": {
+          "q": "Czy mogę wystawić własne zwierzę do adopcji?",
+          "a": "Tak. Choć współpracujemy z wieloma schroniskami, osoby, które muszą znaleźć nowe domy dla swoich zwierząt, mogą również założyć konto prywatnego właściciela, aby wystawić swoje zwierzęta, zapewniając im kochający nowy dom."
+        },
+        "transport": {
+          "q": "Czy oferujecie transport dla zwierząt?",
+          "a": "Rafraf to platforma ogłoszeniowa łącząca Cię ze zwierzętami. Transport jest zazwyczaj organizowany bezpośrednio między adoptującym a schroniskiem lub obecnym właścicielem. Niektóre organizacje ratunkowe mogą oferować usługi transportu za dodatkową opłatą."
+        }
+      }
     }
   },
   "foodDonations": {

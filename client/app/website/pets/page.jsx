@@ -117,7 +117,7 @@ const PetsContent = () => {
         setTotalItems(fetched.length);
       } catch (err) {
         console.error("Fetch error:", err);
-        setError("Something went wrong. Please try again.");
+        setError(t("dashboard.pets.error", "Something went wrong. Please try again."));
         setAllPets([]); setPets([]); setTotalItems(0);
       } finally {
         setIsLoading(false);
@@ -214,14 +214,14 @@ const PetsContent = () => {
             <div className="order-2 lg:order-1 w-full -mt-[28px] lg:mt-4 lg:w-auto">
               <ul ref={sortListRef} className="filter-sorts flex flex-nowrap items-center overflow-x-scroll scrollbar-hide whitespace-nowrap -mx-2 px-2 pr-4 gap-2 lg:gap-4 cursor-grab select-none active:cursor-grabbing">
                 {[
-                  { val: "best-match", label: "Best Match" },
+                  { val: "best-match", label: t("dashboard.pets.sort.bestMatch", "Best Match") },
                   // Fee sorting removed per user request
                   // { val: "lowest-fee", label: "Lowest Fee" },
                   // { val: "highest-fee", label: "Highest Fee" },
-                  { val: "youngest", label: "Youngest" },
-                  { val: "oldest", label: "Oldest" },
-                  { val: "newest-listed", label: "Newest Listed" },
-                  { val: "oldest-listed", label: "Oldest Listed" },
+                  { val: "youngest", label: t("dashboard.pets.sort.youngest", "Youngest") },
+                  { val: "oldest", label: t("dashboard.pets.sort.oldest", "Oldest") },
+                  { val: "newest-listed", label: t("dashboard.pets.sort.newestListed", "Newest Listed") },
+                  { val: "oldest-listed", label: t("dashboard.pets.sort.oldestListed", "Oldest Listed") },
                 ].map(({ val, label }) => (
                   <li key={val} className="sort-option pr-3 flex-none">
                     <button onClick={() => handleSort(val)} className={sortBtnClass(val)}>{label}</button>
@@ -236,19 +236,19 @@ const PetsContent = () => {
             {isLoading ? (
               <div className="text-center py-8">
                 <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-blue-600 border-r-transparent" role="status" />
-                <p className="mt-2 text-gray-600">Loading pets...</p>
+                <p className="mt-2 text-gray-600">{t("dashboard.pets.loading", "Loading pets...")}</p>
               </div>
             ) : error ? (
               <div className="text-center py-8">
                 <p className="text-red-500">{error}</p>
-                <button onClick={() => window.location.reload()} className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Try Again</button>
+                <button onClick={() => window.location.reload()} className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">{t("dashboard.pets.tryAgain", "Try Again")}</button>
               </div>
             ) : pets.length > 0 ? (
               pets.map((pet, i) => <PetCard key={`${i}-${pet._id}`} pet={pet} viewMode={viewMode} />)
             ) : (
               <div className="text-center py-12">
-                <h3 className="text-lg font-medium text-gray-900 dark:text-gray-200">No pets found</h3>
-                <p className="mt-2 text-sm text-gray-500">Try adjusting your filters to find more pets.</p>
+                <h3 className="text-lg font-medium text-gray-900 dark:text-gray-200">{t("dashboard.pets.noPetsFound", "No pets found")}</h3>
+                <p className="mt-2 text-sm text-gray-500">{t("dashboard.pets.adjustFilters", "Try adjusting your filters to find more pets.")}</p>
               </div>
             )}
           </div>
