@@ -3,10 +3,12 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { MapPin, Clock, Heart, ArrowRight } from "lucide-react";
 import { getAllPets } from "../../../services/petService";
+import { useLanguage } from "../../../lib/i18n/LanguageContext";
 
 export default function FoodDonationsPage() {
     const [pets, setPets] = useState([]);
     const [loading, setLoading] = useState(true);
+    const { t } = useLanguage();
 
     useEffect(() => {
         const fetchPets = async () => {
@@ -58,16 +60,16 @@ export default function FoodDonationsPage() {
                     <div className="absolute inset-0 flex items-center justify-center">
                         <div className="text-center px-4">
                             <h1 className="text-4xl md:text-6xl font-black text-white mb-4">
-                                Food Donations
+                                {t('foodDonation.listings.title')}
                             </h1>
                             <p className="text-xl md:text-2xl text-white/90 mb-6 max-w-2xl mx-auto">
-                                Help shelter pets get the nutrition they need
+                                {t('foodDonation.listings.subtitle')}
                             </p>
                             <Link
                                 href="/dashboard/food-pets/add"
                                 className="inline-block bg-white text-blue-700 hover:bg-gray-100 font-bold py-4 px-8 rounded-xl transition-all shadow-xl"
                             >
-                                List a Pet
+                                {t('foodDonation.listings.listPet')}
                             </Link>
                         </div>
                     </div>
@@ -79,15 +81,15 @@ export default function FoodDonationsPage() {
                 <div className="grid grid-cols-3 gap-4 mb-10">
                     <div className="bg-white dark:bg-dark-card rounded-2xl p-6 border border-gray-100 dark:border-dark-divider shadow-sm text-center">
                         <div className="text-3xl font-black text-blue-600 dark:text-blue-400 mb-1">450+</div>
-                        <div className="text-sm text-gray-600 dark:text-gray-400">Pets Fed</div>
+                        <div className="text-sm text-gray-600 dark:text-gray-400">{t('foodDonation.listings.petsFed')}</div>
                     </div>
                     <div className="bg-white dark:bg-dark-card rounded-2xl p-6 border border-gray-100 dark:border-dark-divider shadow-sm text-center">
                         <div className="text-3xl font-black text-blue-600 dark:text-blue-400 mb-1">25</div>
-                        <div className="text-sm text-gray-600 dark:text-gray-400">Shelters</div>
+                        <div className="text-sm text-gray-600 dark:text-gray-400">{t('foodDonation.listings.shelters')}</div>
                     </div>
                     <div className="bg-white dark:bg-dark-card rounded-2xl p-6 border border-gray-100 dark:border-dark-divider shadow-sm text-center">
                         <div className="text-3xl font-black text-blue-600 dark:text-blue-400 mb-1">15k zł</div>
-                        <div className="text-sm text-gray-600 dark:text-gray-400">Donated</div>
+                        <div className="text-sm text-gray-600 dark:text-gray-400">{t('foodDonation.listings.donated')}</div>
                     </div>
                 </div>
 
@@ -102,16 +104,16 @@ export default function FoodDonationsPage() {
                             <Heart className="h-10 w-10 text-blue-600 dark:text-blue-400" />
                         </div>
                         <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-                            No pets need food support yet
+                            {t('foodDonation.listings.noPets')}
                         </h3>
                         <p className="text-gray-500 dark:text-gray-400 mb-6">
-                            Check back soon or help spread the word
+                            {t('foodDonation.listings.checkBack')}
                         </p>
                         <Link
                             href="/website/pets"
                             className="inline-flex items-center text-blue-600 font-semibold hover:text-blue-700"
                         >
-                            Browse Adoption Pets <ArrowRight className="w-4 h-4 ml-1" />
+                            {t('foodDonation.listings.browseAdoption')} <ArrowRight className="w-4 h-4 ml-1" />
                         </Link>
                     </div>
                 ) : (
@@ -130,7 +132,7 @@ export default function FoodDonationsPage() {
                                     />
                                     {pet.isUrgent && (
                                         <div className="absolute top-3 left-3 bg-red-500 text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-lg">
-                                            🚨 Urgent
+                                            🚨 {t('foodDonation.listings.urgent')}
                                         </div>
                                     )}
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -167,7 +169,7 @@ export default function FoodDonationsPage() {
 
                                     <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-dark-divider">
                                         <span className="text-sm font-semibold text-blue-600 dark:text-blue-400">
-                                            Donate Food
+                                            {t('foodDonation.listings.donateFood')}
                                         </span>
                                         <ArrowRight className="h-4 w-4 text-blue-600 dark:text-blue-400 group-hover:translate-x-1 transition-transform" />
                                     </div>

@@ -845,7 +845,20 @@
     "processing": "Processing...",
     "donate": "Donate",
     "securePayment": "Secure payment processing",
-    "specialNeeds": "Special Needs"
+    "specialNeeds": "Special Needs",
+    "listings": {
+      "title": "Food Donations",
+      "subtitle": "Help shelter pets get the nutrition they need",
+      "listPet": "List a Pet",
+      "petsFed": "Pets Fed",
+      "shelters": "Shelters",
+      "donated": "Donated",
+      "noPets": "No pets need food support yet",
+      "checkBack": "Check back soon or help spread the word",
+      "browseAdoption": "Browse Adoption Pets",
+      "urgent": "Urgent",
+      "donateFood": "Donate Food"
+    }
   },
   "petDetail": {
     "backToListings": "Back to listings",
@@ -876,6 +889,29 @@
     "submitApplication": "Submit Application",
     "locationNotSet": "Location not set",
     "specialNeeds": "Special Needs"
+  },
+  "profile": {
+    "userNotFound": "User not found",
+    "checkLink": "Please check the link and try again.",
+    "verifiedShelter": "Verified Shelter/Company",
+    "defaultBio": "Passionate about matching the perfect pets with loving families.",
+    "pet": "Pet",
+    "pets": "Pets",
+    "joined": "Joined",
+    "shelterBreeder": "Shelter / Breeder",
+    "privateSeller": "Private Seller",
+    "listings": "Listings",
+    "contact": "Contact",
+    "location": "Location",
+    "noPetsListed": "No pets listed yet.",
+    "clickToCall": "Click to call",
+    "sendEmail": "Send an email",
+    "website": "Website",
+    "instagram": "Instagram",
+    "facebook": "Facebook",
+    "sellersLocation": "Seller's Location",
+    "locationNotSpecified": "Location not specified",
+    "getDirections": "Get Directions"
   },
   "footer": {
     "about": {

@@ -1066,7 +1066,20 @@
     "processing": "Przetwarzanie...",
     "donate": "Przekaż",
     "securePayment": "Bezpieczne przetwarzanie płatności",
-    "specialNeeds": "Specjalne potrzeby"
+    "specialNeeds": "Specjalne potrzeby",
+    "listings": {
+      "title": "Darowizny żywności",
+      "subtitle": "Pomóż zwierzętom w schroniskach otrzymać odpowiednie odżywienie",
+      "listPet": "Wystaw zwierzę",
+      "petsFed": "Nakarmione zwierzęta",
+      "shelters": "Schroniska",
+      "donated": "Zebrane",
+      "noPets": "Żadne zwierzęta nie potrzebują wsparcia żywnościowego",
+      "checkBack": "Sprawdź ponownie wkrótce lub pomóż rozpowszechnić informację",
+      "browseAdoption": "Przeglądaj zwierzęta do adopcji",
+      "urgent": "Pilne",
+      "donateFood": "Przekaż żywność"
+    }
   },
   "petDetail": {
     "backToListings": "Powrót do ogłoszeń",
@@ -1097,6 +1110,29 @@
     "submitApplication": "Wyślij wniosek",
     "locationNotSet": "Lokalizacja nie ustawiona",
     "specialNeeds": "Specjalne potrzeby"
+  },
+  "profile": {
+    "userNotFound": "Nie znaleziono użytkownika",
+    "checkLink": "Sprawdź link i spróbuj ponownie.",
+    "verifiedShelter": "Zweryfikowane schronisko/firma",
+    "defaultBio": "Pasjonat łączenia idealnych zwierząt z kochającymi rodzinami.",
+    "pet": "Zwierzę",
+    "pets": "Zwierzęta",
+    "joined": "Dołączył",
+    "shelterBreeder": "Schronisko / Hodowca",
+    "privateSeller": "Sprzedawca prywatny",
+    "listings": "Ogłoszenia",
+    "contact": "Kontakt",
+    "location": "Lokalizacja",
+    "noPetsListed": "Brak ogłoszonych zwierząt.",
+    "clickToCall": "Kliknij, aby zadzwonić",
+    "sendEmail": "Wyślij e-mail",
+    "website": "Strona internetowa",
+    "instagram": "Instagram",
+    "facebook": "Facebook",
+    "sellersLocation": "Lokalizacja sprzedawcy",
+    "locationNotSpecified": "Lokalizacja nie określona",
+    "getDirections": "Pobierz wskazówki dojazdu"
   },
   "footer": {
     "about": {
