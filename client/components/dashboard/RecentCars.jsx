@@ -1,7 +1,9 @@
 "use client";
+import { useLanguage } from "../../lib/i18n/LanguageContext";
 import { optimizeCloudinaryUrl } from "../../lib/imageUtils";
 
 export default function RecentCars({ cars = [] }) {
+  const { t } = useLanguage();
   const items = Array.isArray(cars) ? cars.slice(-5).reverse() : [];
 
   const getStatusClasses = (status) => {
@@ -21,19 +23,19 @@ export default function RecentCars({ cars = [] }) {
     <div className="p-4 bg-white dark:bg-dark-panel shadow rounded-xl ring-1 ring-black/5 dark:ring-gray-700 border border-gray-200 dark:border-gray-700 transition-colors duration-300">
       <div className="flex items-center justify-between mb-3">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-200 dark:text-white transition-colors duration-300">
-          Ostatnio Dodane
+          {t("dashboard.recentCars.recentlyAdded", "Recently Added")}
         </h3>
       </div>
       <div className="divide-y">
         {items.length === 0 && (
           <div className="text-sm text-gray-500 dark:text-gray-400 transition-colors duration-300">
-            Brak Dodanych Aut
+            {t("dashboard.recentCars.noPetsAdded", "No pets added")}
           </div>
         )}
         {items.map((car) => {
           let img = "/images/placeholder-car.jpg";
           if (car?.images?.[0]) {
-             img = car.images[0];
+            img = car.images[0];
           }
           img = optimizeCloudinaryUrl(img, 400);
 

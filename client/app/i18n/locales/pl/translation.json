@@ -947,6 +947,33 @@
     },
     "homeDashboard": {
       "loadError": "Nie udało się załadować danych panelu"
+    },
+    "dashboardStats": {
+      "welcome": "Witaj ponownie",
+      "friend": "Przyjacielu",
+      "summary": "Oto podsumowanie aktywności Twojego konta Rafraf.",
+      "listPet": "Wystaw zwierzę",
+      "myListings": "Moje ogłoszenia",
+      "manageListings": "Zarządzaj ogłoszeniami",
+      "messages": "Wiadomości",
+      "goToMessages": "Przejdź do wiadomości",
+      "myProfile": "Mój profil",
+      "noEmail": "Brak adresu e-mail",
+      "accountType": "Typ konta",
+      "shelterOrg": "Schronisko / Organizacja",
+      "private": "Prywatne",
+      "editProfile": "Edytuj profil"
+    },
+    "dashboardCharts": {
+      "listedPets": "Wystawione zwierzęta",
+      "approved": "Zatwierdzone",
+      "rejected": "Odrzucone",
+      "messagesLast7Days": "Wiadomości z ostatnich 7 dni",
+      "newMessages": "Nowe wiadomości"
+    },
+    "recentCars": {
+      "recentlyAdded": "Ostatnio dodane",
+      "noPetsAdded": "Brak dodanych zwierząt"
     }
   },
   "foodDonations": {

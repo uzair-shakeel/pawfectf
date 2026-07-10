@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
+import { useLanguage } from "../../lib/i18n/LanguageContext";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -29,6 +30,7 @@ export default function DashboardCharts({
   recentCars = [],
   chatsCountByDay = [],
 }) {
+  const { t } = useLanguage();
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {
@@ -63,7 +65,7 @@ export default function DashboardCharts({
       labels: carLabels,
       datasets: [
         {
-          label: "Odrzucone",
+          label: t("dashboard.dashboardCharts.rejected", "Rejected"),
           data: carCounts,
           borderColor: "#2563eb",
           backgroundColor: (context) => {
@@ -97,7 +99,7 @@ export default function DashboardCharts({
       labels: barLabels,
       datasets: [
         {
-          label: "Nowe Wiadomości",
+          label: t("dashboard.dashboardCharts.newMessages", "New Messages"),
           data: barCounts,
           backgroundColor: (context) => {
             const ctx = context.chart.ctx;
@@ -135,7 +137,7 @@ export default function DashboardCharts({
       Approved: { bg: "rgba(16, 185, 129, 0.9)", border: "#10b981" },
       Rejected: { bg: "rgba(244, 63, 94, 0.9)", border: "#f43f5e" },
     };
-    const pl = { Approved: "Zatwierdzone", Rejected: "Odrzucone" };
+    const pl = { Approved: t("dashboard.dashboardCharts.approved", "Approved"), Rejected: t("dashboard.dashboardCharts.rejected", "Rejected") };
     return {
       labels: labels.map((k) => pl[k] || k),
       datasets: [
@@ -190,7 +192,7 @@ export default function DashboardCharts({
       <div className="p-4 pb-8 bg-white dark:bg-dark-panel  shadow rounded-xl ring-1 ring-black/5 dark:ring-gray-700 border border-gray-200 dark:border-gray-700 h-80 lg:col-span-2 transition-colors duration-300">
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-200 dark:text-white transition-colors duration-300">
-            Wystawione Auta
+            {t("dashboard.dashboardCharts.listedPets", "Listed Pets")}
           </h3>
         </div>
         <Line data={lineData} options={commonOptions} />
@@ -198,7 +200,7 @@ export default function DashboardCharts({
       <div className="p-4 pb-8 bg-white dark:bg-dark-panel shadow rounded-xl ring-1 ring-black/5 dark:ring-gray-700 border border-gray-200 dark:border-gray-700 h-80 transition-colors duration-300">
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-200 dark:text-white transition-colors duration-300">
-            Zatwierdzone
+            {t("dashboard.dashboardCharts.approved", "Approved")}
           </h3>
         </div>
         <Doughnut
@@ -214,7 +216,7 @@ export default function DashboardCharts({
       <div className="p-4 pb-8 bg-white dark:bg-dark-panel shadow rounded-xl ring-1 ring-black/5 dark:ring-gray-700 border border-gray-200 dark:border-gray-700 h-80 lg:col-span-3 transition-colors duration-300">
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-200 dark:text-white transition-colors duration-300">
-            Wiadomości Ostatnie 7 dni
+            {t("dashboard.dashboardCharts.messagesLast7Days", "Messages Last 7 Days")}
 
           </h3>
         </div>

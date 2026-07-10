@@ -32,7 +32,7 @@ const fmtUrl = (path, w = 1200) => {
 export default function PetDetailPage() {
   const { petId } = useParams();
   const router = useRouter();
-  const { user, token } = useAuth();
+  const { user, token, getToken: getAuthToken } = useAuth();
   const [pet, setPet] = useState(null);
   const [owner, setOwner] = useState(null);
   const [city, setCity] = useState("");
@@ -83,7 +83,7 @@ export default function PetDetailPage() {
   const startChat = async () => {
     if (!user) { router.push("/sign-in"); return; }
     try {
-      const authToken = token || localStorage.getItem("token");
+      const authToken = token || getAuthToken() || localStorage.getItem("token");
       const res = await fetch(`${API_BASE}/chat/create`, {
         method: "POST",
         headers: { "Content-Type": "application/json", ...(authToken ? { Authorization: `Bearer ${authToken}` } : {}) },
@@ -100,7 +100,7 @@ export default function PetDetailPage() {
   const submitApplication = async () => {
     if (!user) { router.push("/sign-in"); return; }
     try {
-      const authToken = token || localStorage.getItem("token");
+      const authToken = token || getAuthToken() || localStorage.getItem("token");
       // Step 1: create or retrieve the chat
       const res = await fetch(`${API_BASE}/chat/create`, {
         method: "POST",

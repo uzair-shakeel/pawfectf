@@ -11,11 +11,11 @@ import { useLanguage } from "../../../lib/i18n/LanguageContext";
 
 const ProfileComponent = () => {
   const { t } = useLanguage();
-  const { userId, updateUserState, changePassword } = useAuth();
+  const { userId, updateUserState, changePassword, token } = useAuth();
   const [user, setUser] = useState(null);
   const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "/api";
 
-  const getToken = () => localStorage.getItem("token");
+  const getToken = () => token || localStorage.getItem("token");
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -38,7 +38,7 @@ const ProfileComponent = () => {
 
   // Lazy load map component
   const [MapComponent, setMapComponent] = useState(null);
-  
+
   useEffect(() => {
     import("../../../components/dashboard/SimpleMapPlaceholder").then((mod) => {
       setMapComponent(() => mod.default);

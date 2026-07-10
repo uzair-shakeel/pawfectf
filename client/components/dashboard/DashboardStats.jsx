@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useAuth } from "../../lib/auth/AuthContext";
+import { useLanguage } from "../../lib/i18n/LanguageContext";
 import { getPetsByUserId } from "../../services/petService";
 import KPICard from "./KPICard";
 import { BsChatLeftDots } from "react-icons/bs";
@@ -12,6 +13,7 @@ import Link from "next/link";
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "/api";
 
 export default function DashboardStats({ user: userProp }) {
+  const { t } = useLanguage();
   const { user: contextUser, userId, getToken } = useAuth();
   const user = contextUser || userProp;
 
@@ -80,15 +82,15 @@ export default function DashboardStats({ user: userProp }) {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-extrabold text-gray-900 dark:text-gray-200 dark:text-dark-text-primary tracking-tight transition-colors">
-            Welcome back, {user?.firstName || "Friend"}! 👋
+            {t("dashboard.dashboardStats.welcome", "Welcome back")}, {user?.firstName || t("dashboard.dashboardStats.friend", "Friend")}! 👋
           </h1>
           <p className="text-dark-text-secondary dark:text-dark-text-secondary font-medium mt-1 transition-colors">
-            Here is a summary of your Rafraf account activity.
+            {t("dashboard.dashboardStats.summary", "Here is a summary of your Rafraf account activity.")}
           </p>
         </div>
         <div className="flex gap-3">
           <Link href="/dashboard/cars/add" className="inline-flex items-center gap-2 bg-blue-600 text-white font-bold px-6 py-3 rounded-xl hover:bg-blue-700 transition-all shadow-lg dark:shadow-blue-900/40 shadow-blue-200 hover:-translate-y-1">
-            <FaPaw /> List a Pet
+            <FaPaw /> {t("dashboard.dashboardStats.listPet", "List a Pet")}
           </Link>
         </div>
       </div>
@@ -102,7 +104,7 @@ export default function DashboardStats({ user: userProp }) {
             <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 rounded-2xl flex items-center justify-center mb-4 text-xl">
               <FaPaw />
             </div>
-            <h3 className="text-gray-500 dark:text-dark-text-muted font-bold uppercase text-xs tracking-wider mb-1">My Listings</h3>
+            <h3 className="text-gray-500 dark:text-dark-text-muted font-bold uppercase text-xs tracking-wider mb-1">{t("dashboard.dashboardStats.myListings", "My Listings")}</h3>
             <div className="text-4xl font-extrabold text-gray-900 dark:text-gray-200 dark:text-dark-text-primary">
               {loading ? (
                 <div className="h-10 w-16 bg-gray-200 dark:bg-dark-elevation-2 animate-pulse rounded-lg"></div>
@@ -111,7 +113,7 @@ export default function DashboardStats({ user: userProp }) {
               )}
             </div>
             <Link href="/dashboard/cars" className="inline-block mt-4 text-sm font-bold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">
-              Manage listings →
+              {t("dashboard.dashboardStats.manageListings", "Manage listings")} →
             </Link>
           </div>
         </div>
@@ -123,7 +125,7 @@ export default function DashboardStats({ user: userProp }) {
             <div className="w-12 h-12 bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 rounded-2xl flex items-center justify-center mb-4 text-xl">
               <BsChatLeftDots />
             </div>
-            <h3 className="text-gray-500 dark:text-dark-text-muted font-bold uppercase text-xs tracking-wider mb-1">Messages</h3>
+            <h3 className="text-gray-500 dark:text-dark-text-muted font-bold uppercase text-xs tracking-wider mb-1">{t("dashboard.dashboardStats.messages", "Messages")}</h3>
             <div className="text-4xl font-extrabold text-gray-900 dark:text-gray-200 dark:text-dark-text-primary">
               {loading ? (
                 <div className="h-10 w-16 bg-gray-200 dark:bg-dark-elevation-2 animate-pulse rounded-lg"></div>
@@ -132,7 +134,7 @@ export default function DashboardStats({ user: userProp }) {
               )}
             </div>
             <Link href="/dashboard/messages" className="inline-block mt-4 text-sm font-bold text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300">
-              Go to messages →
+              {t("dashboard.dashboardStats.goToMessages", "Go to messages")} →
             </Link>
           </div>
         </div>
@@ -144,14 +146,14 @@ export default function DashboardStats({ user: userProp }) {
             <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/50 text-purple-600 dark:text-purple-400 rounded-2xl flex items-center justify-center mb-4 text-xl">
               <HiOutlineUser />
             </div>
-            <h3 className="text-gray-500 dark:text-dark-text-muted font-bold uppercase text-xs tracking-wider mb-1">My Profile</h3>
+            <h3 className="text-gray-500 dark:text-dark-text-muted font-bold uppercase text-xs tracking-wider mb-1">{t("dashboard.dashboardStats.myProfile", "My Profile")}</h3>
             <div className="text-lg font-bold text-gray-900 dark:text-gray-200 dark:text-white truncate">
-              {user?.email || "No email"}
+              {user?.email || t("dashboard.dashboardStats.noEmail", "No email")}
             </div>
-            <p className="text-xs text-gray-400 dark:text-dark-text-muted font-medium mb-1">Account type: {user?.sellerType === 'company' ? 'Shelter / Org' : 'Private'}</p>
+            <p className="text-xs text-gray-400 dark:text-dark-text-muted font-medium mb-1">{t("dashboard.dashboardStats.accountType", "Account type")}: {user?.sellerType === 'company' ? t("dashboard.dashboardStats.shelterOrg", "Shelter / Org") : t("dashboard.dashboardStats.private", "Private")}</p>
 
             <Link href="/dashboard/profile" className="inline-block mt-3 text-sm font-bold text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300">
-              Edit profile →
+              {t("dashboard.dashboardStats.editProfile", "Edit profile")} →
             </Link>
           </div>
         </div>
