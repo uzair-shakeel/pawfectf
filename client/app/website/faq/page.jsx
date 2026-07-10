@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { ChevronDown, MessageCircle } from "lucide-react";
 import Link from "next/link";
-import { useLanguage } from "../../lib/i18n/LanguageContext";
+import { useLanguage } from "../../../lib/i18n/LanguageContext";
 
 export default function FAQPage() {
   const { t } = useLanguage();

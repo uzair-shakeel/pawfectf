@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { Mail, Phone, MapPin, Send } from "lucide-react";
-import { useLanguage } from "../../lib/i18n/LanguageContext";
+import { useLanguage } from "../../../lib/i18n/LanguageContext";
 
 export default function ContactPage() {
   const { t } = useLanguage();
