@@ -9,6 +9,7 @@ import { getPetById } from "../../../../../services/petService";
 import foodDonationService from "../../../../../services/foodDonationService";
 import { optimizeCloudinaryUrl } from "../../../../../lib/imageUtils";
 import { useAuth } from "../../../../../lib/auth/AuthContext";
+import { useLanguage } from "../../../../../lib/i18n/LanguageContext";
 import { toast } from "react-hot-toast";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
@@ -28,6 +29,7 @@ export default function DonatePage() {
     const { petId } = useParams();
     const router = useRouter();
     const { user, token } = useAuth();
+    const { t } = useLanguage();
 
     const [pet, setPet] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -135,9 +137,9 @@ export default function DonatePage() {
     if (!pet) {
         return (
             <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Pet not found</h2>
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">{t('foodDonation.petNotFound')}</h2>
                 <Link href="/website/food-donations" className="text-blue-600 hover:underline font-bold">
-                    ← Back to Food Donations
+                    ← {t('foodDonation.backToDonations')}
                 </Link>
             </div>
         );
@@ -207,7 +209,7 @@ export default function DonatePage() {
                         href="/website/food-donations"
                         className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-gray-900 dark:hover:text-white mb-8 transition-colors font-medium"
                     >
-                        <ChevronLeft className="w-4 h-4" /> Back to Food Donations
+                        <ChevronLeft className="w-4 h-4" /> {t('foodDonation.backToDonations')}
                     </Link>
 
                     <div className="grid lg:grid-cols-2 gap-8">
@@ -316,7 +318,7 @@ export default function DonatePage() {
 
                                 {pet.specialNeeds && (
                                     <div className="p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl">
-                                        <p className="font-bold text-blue-900 dark:text-blue-300 text-sm mb-1">Special Needs</p>
+                                        <p className="font-bold text-blue-900 dark:text-blue-300 text-sm mb-1">{t('foodDonation.specialNeeds')}</p>
                                         <p className="text-blue-800 dark:text-blue-400 text-sm">{pet.specialNeeds}</p>
                                     </div>
                                 )}
@@ -327,13 +329,13 @@ export default function DonatePage() {
                         <div className="space-y-4">
                             <div className="bg-white dark:bg-dark-card rounded-2xl border border-gray-100 dark:border-dark-divider p-6">
                                 <h2 className="text-2xl font-black text-gray-900 dark:text-white mb-6">
-                                    Make a Donation
+                                    {t('foodDonation.makeDonation')}
                                 </h2>
 
                                 {/* Amount */}
                                 <div className="mb-6">
                                     <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-3">
-                                        Donation Amount (zł)
+                                        {t('foodDonation.donationAmount')}
                                     </label>
                                     <div className="grid grid-cols-2 gap-3 mb-3">
                                         {predefinedAmounts.map((amount) => (
@@ -354,7 +356,7 @@ export default function DonatePage() {
                                     </div>
                                     <input
                                         type="number"
-                                        placeholder="Custom amount"
+                                        placeholder={t('foodDonation.customAmount')}
                                         value={customAmount}
                                         onChange={(e) => {
                                             setCustomAmount(e.target.value);
@@ -367,14 +369,14 @@ export default function DonatePage() {
                                 {/* Message */}
                                 <div className="mb-6">
                                     <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
-                                        Message for {name}{" "}
-                                        <span className="font-normal text-gray-400">(Optional)</span>
+                                        {t('foodDonation.messageFor')} {name}{" "}
+                                        <span className="font-normal text-gray-400">{t('foodDonation.optional')}</span>
                                     </label>
                                     <textarea
                                         rows={3}
                                         value={donorMessage}
                                         onChange={(e) => setDonorMessage(e.target.value)}
-                                        placeholder="Send a message of support..."
+                                        placeholder={t('foodDonation.messagePlaceholder')}
                                         className="w-full px-4 py-3 border border-gray-200 dark:border-dark-divider rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-dark-raised text-gray-900 dark:text-white text-sm resize-none"
                                     />
                                 </div>
@@ -389,7 +391,7 @@ export default function DonatePage() {
                                             className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
                                         />
                                         <span className="text-sm text-gray-700 dark:text-gray-300">
-                                            Donate anonymously
+                                            {t('foodDonation.donateAnonymously')}
                                         </span>
                                     </label>
                                 </div>
@@ -398,7 +400,7 @@ export default function DonatePage() {
                                 <div className="border-t border-gray-100 dark:border-dark-divider pt-6">
                                     <div className="flex justify-between items-center mb-5">
                                         <span className="text-lg font-bold text-gray-900 dark:text-white">
-                                            Total Amount:
+                                            {t('foodDonation.totalAmount')}
                                         </span>
                                         <span className="text-2xl font-black text-blue-600 dark:text-blue-400">
                                             {finalAmount} zł
@@ -413,19 +415,19 @@ export default function DonatePage() {
                                         {donating ? (
                                             <>
                                                 <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin" />
-                                                Processing...
+                                                {t('foodDonation.processing')}
                                             </>
                                         ) : (
                                             <>
                                                 <FaHeart />
-                                                Donate {finalAmount} zł
+                                                {t('foodDonation.donate')} {finalAmount} zł
                                             </>
                                         )}
                                     </button>
 
                                     <p className="text-xs text-gray-400 text-center mt-3 flex items-center justify-center gap-1">
                                         <CheckCircle className="w-3 h-3" />
-                                        Secure payment processing
+                                        {t('foodDonation.securePayment')}
                                     </p>
                                 </div>
                             </div>

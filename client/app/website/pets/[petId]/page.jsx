@@ -5,6 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { getPetById } from "../../../../services/petService";
 import { getPublicUserInfo } from "../../../../services/userService";
 import { useAuth } from "../../../../lib/auth/AuthContext";
+import { useLanguage } from "../../../../lib/i18n/LanguageContext";
 import { optimizeCloudinaryUrl } from "../../../../lib/imageUtils";
 import { ShieldCheck, MapPin, Heart, MessageCircle, Phone, ChevronLeft, ChevronRight } from "lucide-react";
 import { FaGlobe, FaFacebook, FaInstagram } from "react-icons/fa";
@@ -33,6 +34,7 @@ export default function PetDetailPage() {
   const { petId } = useParams();
   const router = useRouter();
   const { user, token, getToken: getAuthToken } = useAuth();
+  const { t } = useLanguage();
   const [pet, setPet] = useState(null);
   const [owner, setOwner] = useState(null);
   const [city, setCity] = useState("");
@@ -167,7 +169,7 @@ export default function PetDetailPage() {
       <div className="max-w-7xl mx-auto px-4 py-8 lg:py-12">
         {/* Back */}
         <button onClick={() => router.back()} className="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-900 dark:hover:text-gray-200 mb-6 transition-colors">
-          <ChevronLeft className="w-4 h-4" /> Back to listings
+          <ChevronLeft className="w-4 h-4" /> {t('petDetail.backToListings')}
         </button>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -211,7 +213,7 @@ export default function PetDetailPage() {
 
             {/* Description + AI sections */}
             <div className="bg-white dark:bg-dark-card rounded-2xl p-6 border border-gray-100 dark:border-dark-divider space-y-4">
-              <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">About {name}</h2>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">{t('petDetail.about')} {name}</h2>
               {pet.description && <p className="text-gray-700 dark:text-gray-300 leading-relaxed">{pet.description}</p>}
               {pet.aiSections?.length > 0 && pet.aiSections.map((s, i) => (
                 <div key={i}>
@@ -221,7 +223,7 @@ export default function PetDetailPage() {
               ))}
               {pet.personality?.length > 0 && (
                 <div>
-                  <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-2">Personality</h3>
+                  <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-2">{t('petDetail.personality')}</h3>
                   <div className="flex flex-wrap gap-2">
                     {pet.personality.map(p => <span key={p} className="px-3 py-1 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 rounded-full text-sm font-medium">{p}</span>)}
                   </div>
@@ -229,7 +231,7 @@ export default function PetDetailPage() {
               )}
               {pet.specialNeeds && (
                 <div className="p-3 bg-amber-50 dark:bg-amber-900/20 rounded-xl border border-amber-200 dark:border-amber-800">
-                  <p className="text-sm font-semibold text-amber-800 dark:text-amber-300">Special Needs</p>
+                  <p className="text-sm font-semibold text-amber-800 dark:text-amber-300">{t('petDetail.specialNeeds')}</p>
                   <p className="text-sm text-amber-700 dark:text-amber-400 mt-1">{pet.specialNeeds}</p>
                 </div>
               )}
@@ -237,11 +239,11 @@ export default function PetDetailPage() {
 
             {/* Specs table */}
             <div className="bg-white dark:bg-dark-card rounded-2xl p-6 border border-gray-100 dark:border-dark-divider">
-              <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">Details</h2>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">{t('petDetail.details')}</h2>
               <div className="grid grid-cols-2 gap-3">
                 {specs.map(s => (
                   <div key={s.label} className="flex flex-col gap-0.5 border-b border-gray-100 dark:border-dark-divider pb-2">
-                    <span className="text-xs text-gray-400 uppercase tracking-widest font-semibold">{s.label}</span>
+                    <span className="text-xs text-gray-400 uppercase tracking-widest font-semibold">{t(`petDetail.${s.label.toLowerCase().replace(/ /g, '')}`) || s.label}</span>
                     <span className="text-sm font-medium text-gray-900 dark:text-gray-100">{s.value}</span>
                   </div>
                 ))}
@@ -258,7 +260,7 @@ export default function PetDetailPage() {
                 {pet.breed && pet.species && <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">{pet.breed} · {pet.species}</p>}
                 <div className="mt-3 flex items-center gap-2">
                   <MapPin className="w-4 h-4 text-gray-400" />
-                  <span className="text-sm text-gray-500 dark:text-gray-400">{city || "Location not set"}</span>
+                  <span className="text-sm text-gray-500 dark:text-gray-400">{city || t('petDetail.locationNotSet')}</span>
                 </div>
               </div>
 
@@ -282,14 +284,14 @@ export default function PetDetailPage() {
               {/* CTA buttons */}
               <div className="space-y-2">
                 <button onClick={() => setIsModalOpen(true)} className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm transition-all shadow-lg shadow-blue-500/25 active:scale-[0.98]">
-                  <Heart className="w-4 h-4" /> Apply to Adopt
+                  <Heart className="w-4 h-4" /> {t('petDetail.applyToAdopt')}
                 </button>
                 <button onClick={startChat} className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl border border-gray-200 dark:border-dark-divider text-gray-700 dark:text-gray-200 font-bold text-sm hover:bg-gray-50 dark:hover:bg-dark-raised transition-all">
-                  <MessageCircle className="w-4 h-4" /> Message Shelter
+                  <MessageCircle className="w-4 h-4" /> {t('petDetail.messageShelter')}
                 </button>
                 {owner?.phoneNumbers?.length > 0 && (
                   <button onClick={() => setShowPhone(v => !v)} className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl border border-gray-200 dark:border-dark-divider text-gray-700 dark:text-gray-200 font-bold text-sm hover:bg-gray-50 dark:hover:bg-dark-raised transition-all">
-                    <Phone className="w-4 h-4" /> {showPhone ? owner.phoneNumbers[0] : "Show Phone"}
+                    <Phone className="w-4 h-4" /> {showPhone ? owner.phoneNumbers[0] : t('petDetail.showPhone')}
                   </button>
                 )}
               </div>
@@ -302,9 +304,9 @@ export default function PetDetailPage() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-bold text-gray-900 dark:text-gray-100 group-hover:text-blue-600 transition-colors truncate">{ownerName}</p>
-                    <p className="text-xs text-gray-400">{owner?.sellerType === "company" ? "Shelter" : "Private Owner"}</p>
+                    <p className="text-xs text-gray-400">{owner?.sellerType === "company" ? t('petDetail.shelter') : t('petDetail.privateOwner')}</p>
                   </div>
-                  <span className="text-xs text-blue-500 font-semibold opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0">View Profile →</span>
+                  <span className="text-xs text-blue-500 font-semibold opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0">{t('petDetail.viewProfile')}</span>
                 </Link>
 
                 {/* Social media links */}
@@ -323,26 +325,26 @@ export default function PetDetailPage() {
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
           <div className="bg-white dark:bg-dark-card w-full max-w-lg rounded-3xl p-6 shadow-2xl animate-in zoom-in-95 duration-200 border border-gray-100 dark:border-dark-divider">
-            <h2 className="text-2xl font-black mb-2 text-gray-900 dark:text-white">Adoption Application</h2>
-            <p className="text-gray-500 text-sm mb-6">Send an adoption request directly to the shelter to start the process for {name}.</p>
+            <h2 className="text-2xl font-black mb-2 text-gray-900 dark:text-white">{t('petDetail.adoptionApplication')}</h2>
+            <p className="text-gray-500 text-sm mb-6">{t('petDetail.applicationSubtitle')} {name}.</p>
 
             <div className="mb-6">
-              <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Message to Shelter</label>
+              <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">{t('petDetail.messageToShelter')}</label>
               <textarea
                 value={applicationText}
                 onChange={(e) => setApplicationText(e.target.value)}
                 rows={4}
                 className="w-full p-3 rounded-xl border border-gray-200 dark:border-dark-divider bg-gray-50 dark:bg-dark-raised focus:ring-2 focus:ring-blue-500 outline-none text-sm resize-none"
-                placeholder="Tell the shelter a bit about yourself..."
+                placeholder={t('petDetail.messagePlaceholder')}
               />
             </div>
 
             <div className="flex gap-3">
               <button onClick={() => setIsModalOpen(false)} className="flex-1 py-3 rounded-xl font-bold text-gray-600 bg-gray-100 hover:bg-gray-200 dark:bg-dark-raised dark:text-gray-300 dark:hover:bg-gray-800 transition-colors">
-                Cancel
+                {t('petDetail.cancel')}
               </button>
               <button onClick={submitApplication} className="flex-1 py-3 rounded-xl font-bold text-white bg-blue-600 hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 shadow-lg shadow-blue-500/25">
-                <Heart className="w-4 h-4" /> Submit Application
+                <Heart className="w-4 h-4" /> {t('petDetail.submitApplication')}
               </button>
             </div>
           </div>
