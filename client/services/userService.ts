@@ -132,7 +132,7 @@ export const getUserById = async (
       }
     }
 
-    const response = await axios.get(`${API_URL}/users/${userId}`, {
+    const response = await axios.get(`${API_URL}/api/users/${userId}`, {
       headers,
     });
     return response.data;

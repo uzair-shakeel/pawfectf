@@ -225,7 +225,7 @@ const ProfileComponent = () => {
             </div>
           </div>
 
-          <div className="bg-white dark:bg-dark-main p-4 sm:p-8 rounded-3xl border border-gray-100 dark:border-dark-divider shadow-sm">
+          {/* <div className="bg-white dark:bg-dark-main p-4 sm:p-8 rounded-3xl border border-gray-100 dark:border-dark-divider shadow-sm">
             <h2 className="text-lg font-bold text-gray-900 dark:text-white uppercase tracking-widest mb-6">{t("dashboard:profile.location", "Location")}</h2>
             <div className="rounded-2xl overflow-hidden border-2 border-gray-100 dark:border-dark-divider">
               {MapComponent ? (
@@ -234,7 +234,7 @@ const ProfileComponent = () => {
                 <div className="w-full h-96 bg-gray-100 dark:bg-dark-raised rounded-xl animate-pulse" />
               )}
             </div>
-          </div>
+          </div> */}
         </div>
 
         <div className="xl:col-span-1 space-y-8 animate-slideIn">
