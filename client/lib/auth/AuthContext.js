@@ -5,7 +5,7 @@ import { toast } from "react-hot-toast";
 
 // Match the same pattern as userService.ts
 const API_BASE = (process.env.NEXT_PUBLIC_API_BASE_URL || "").trim().replace(/\/$/, "");
-const API_URL = API_BASE ? `${API_BASE}` : "/";
+const API_URL = API_BASE ? `${API_BASE}/api` : "/api";
 
 const AuthContext = createContext();
 

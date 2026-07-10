@@ -10,7 +10,7 @@ import { FaPaw } from "react-icons/fa";
 import { HiOutlineUser } from "react-icons/hi";
 import Link from "next/link";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "/api";
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ? `${process.env.NEXT_PUBLIC_API_BASE_URL.replace(/\/$/, "")}/api` : "/api";
 
 export default function DashboardStats({ user: userProp }) {
   const { t } = useLanguage();

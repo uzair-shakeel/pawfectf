@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API_BASE = (process.env.NEXT_PUBLIC_API_BASE_URL || "").trim().replace(/\/$/, "");
-const API_URL = API_BASE ? `${API_BASE}` : "/";
+const API_URL = API_BASE ? `${API_BASE}/api` : "/api";
 
 // Install Axios interceptors for debugging profile update flows (once)
 try {
@@ -132,7 +132,7 @@ export const getUserById = async (
       }
     }
 
-    const response = await axios.get(`${API_URL}/api/users/${userId}`, {
+    const response = await axios.get(`${API_URL}/users/${userId}`, {
       headers,
     });
     return response.data;
