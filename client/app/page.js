@@ -51,7 +51,7 @@ function HomeContent() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative h-[400px] sm:h-[450px] md:h-[650px] w-[98%] mx-auto my-4 rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden shadow-2xl bg-gray-900 group">
+      <section className="relative h-[550px] sm:h-[450px] md:h-[650px] w-[98%] mx-auto my-4 rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden shadow-2xl bg-gray-900 group">
         <div className="absolute inset-0">
           <Image
             src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&q=80&w=2000"
@@ -66,10 +66,10 @@ function HomeContent() {
         </div>
 
         <div className="relative w-full z-10 h-full flex flex-col justify-center items-center text-center text-white px-3 sm:px-4 md:px-6">
-          <h1 className="text-xl sm:text-2xl md:text-5xl lg:text-7xl font-black mb-2 sm:mb-3 md:mb-6 tracking-tight drop-shadow-xl animate-in slide-in-from-bottom-8 duration-700">
+          <h1 className="text-3xl md:text-5xl lg:text-7xl font-black mb-2 sm:mb-3 md:mb-6 tracking-tight drop-shadow-xl animate-in slide-in-from-bottom-8 duration-700">
             {t('homepage.hero.title1')} <span className="text-blue-400">{t('homepage.hero.title2')}</span>
           </h1>
-          <p className="text-xs sm:text-sm md:text-lg lg:text-2xl font-medium mb-4 sm:mb-6 md:mb-12 max-w-2xl text-gray-200 drop-shadow-md animate-in slide-in-from-bottom-8 duration-1000 delay-150">
+          <p className="text-md md:text-lg lg:text-2xl font-medium mb-4 sm:mb-6 md:mb-12 max-w-2xl text-gray-200 drop-shadow-md animate-in slide-in-from-bottom-8 duration-1000 delay-150">
             {t('homepage.hero.subtitle')}
           </p>
 

@@ -227,7 +227,7 @@ const Navbar = () => {
             alt="Rafraf"
             width={150}
             height={40}
-            className="h-20 md:h-14 w-auto object-contain dark:hidden"
+            className="h-10 md:h-14 w-auto object-contain dark:hidden"
             priority
           />
           <Image
