@@ -72,7 +72,7 @@ export default function DonationSuccessPage() {
                             </button>
                             <Link
                                 href="/website/pets"
-                                className="inline-flex items-center gap-2 px-6 py-3 border-2 border-gray-300 dark:border-dark-divider text-gray-700 dark:text-gray-300 rounded-xl hover:bg-gray-50 dark:hover:bg-dark-raised transition-colors font-medium"
+                                className="inline-flex items-center gap-2 px-6 py-3 border-2 border-gray-300 dark:border-dark-divider text-gray-700 dark:text-gray-300 rounded-xl hover:bg-gray-50 dark:hover:bg-dark-card transition-colors font-medium"
                             >
                                 <Heart className="h-4 w-4" />
                                 Help Another Pet
@@ -84,7 +84,7 @@ export default function DonationSuccessPage() {
                             <div className="grid sm:grid-cols-2 gap-4">
                                 <Link
                                     href="/"
-                                    className="flex items-center justify-between p-4 bg-gray-50 dark:bg-dark-raised rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors group"
+                                    className="flex items-center justify-between p-4 bg-gray-50 dark:bg-dark-raised rounded-xl hover:bg-gray-100 dark:hover:bg-dark-card transition-colors group"
                                 >
                                     <div className="flex items-center gap-3">
                                         <Home className="h-5 w-5 text-gray-600 dark:text-gray-400" />
@@ -94,7 +94,7 @@ export default function DonationSuccessPage() {
                                 </Link>
                                 <Link
                                     href="/website/pets"
-                                    className="flex items-center justify-between p-4 bg-gray-50 dark:bg-dark-raised rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors group"
+                                    className="flex items-center justify-between p-4 bg-gray-50 dark:bg-dark-raised rounded-xl hover:bg-gray-100 dark:hover:bg-dark-card transition-colors group"
                                 >
                                     <div className="flex items-center gap-3">
                                         <Heart className="h-5 w-5 text-gray-600 dark:text-gray-400" />

@@ -785,7 +785,7 @@ const MessagesPage = () => {
                   key={chat._id}
                   className={`flex items-center gap-4 p-5 cursor-pointer transition-all border-b border-gray-100 dark:border-gray-700/50 ${selectedChat && selectedChat._id === chat._id
                     ? "bg-blue-50/50 dark:bg-blue-900/10 border-l-4 border-l-blue-500"
-                    : "bg-white dark:bg-dark-main hover:bg-gray-50 dark:hover:bg-gray-700/30"
+                    : "bg-white dark:bg-dark-main hover:bg-gray-50 dark:hover:bg-dark-card"
                     }`}
                   onClick={() => handleSelectChat(chat)}
                 >

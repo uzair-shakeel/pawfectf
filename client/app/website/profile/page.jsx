@@ -169,7 +169,7 @@ function ProfileContent({ sellerId }) {
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }} className="bg-white dark:bg-dark-main rounded-xl shadow-md p-2 mb-8">
                     <div className="flex gap-2">
                         {["listings", "contact", "location"].map((tab) => (
-                            <motion.button key={tab} onClick={() => setActiveTab(tab)} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className={`flex-1 py-3 px-4 text-sm font-medium rounded-lg transition-all duration-300 ${activeTab === tab ? "bg-gradient-to-r from-blue-500 to-blue-800 text-white shadow-lg" : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"}`}>
+                            <motion.button key={tab} onClick={() => setActiveTab(tab)} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className={`flex-1 py-3 px-4 text-sm font-medium rounded-lg transition-all duration-300 ${activeTab === tab ? "bg-gradient-to-r from-blue-500 to-blue-800 text-white shadow-lg" : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-dark-card"}`}>>
                                 {t(`profile.${tab}`)}
                             </motion.button>
                         ))}

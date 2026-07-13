@@ -51,7 +51,7 @@ function HomeContent() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative h-[650px] w-[98%] mx-auto my-4 rounded-[2.5rem] overflow-hidden shadow-2xl bg-gray-900 group">
+      <section className="relative h-[400px] sm:h-[450px] md:h-[650px] w-[98%] mx-auto my-4 rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden shadow-2xl bg-gray-900 group">
         <div className="absolute inset-0">
           <Image
             src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&q=80&w=2000"
@@ -65,38 +65,38 @@ function HomeContent() {
           <div className="absolute inset-0 bg-blue-900/20 mix-blend-multiply" />
         </div>
 
-        <div className="relative w-full z-10 h-full flex flex-col justify-center items-center text-center text-white px-6">
-          <h1 className="text-5xl md:text-7xl font-black mb-6 tracking-tight drop-shadow-xl animate-in slide-in-from-bottom-8 duration-700">
+        <div className="relative w-full z-10 h-full flex flex-col justify-center items-center text-center text-white px-3 sm:px-4 md:px-6">
+          <h1 className="text-xl sm:text-2xl md:text-5xl lg:text-7xl font-black mb-2 sm:mb-3 md:mb-6 tracking-tight drop-shadow-xl animate-in slide-in-from-bottom-8 duration-700">
             {t('homepage.hero.title1')} <span className="text-blue-400">{t('homepage.hero.title2')}</span>
           </h1>
-          <p className="text-lg md:text-2xl font-medium mb-12 max-w-2xl text-gray-200 drop-shadow-md animate-in slide-in-from-bottom-8 duration-1000 delay-150">
+          <p className="text-xs sm:text-sm md:text-lg lg:text-2xl font-medium mb-4 sm:mb-6 md:mb-12 max-w-2xl text-gray-200 drop-shadow-md animate-in slide-in-from-bottom-8 duration-1000 delay-150">
             {t('homepage.hero.subtitle')}
           </p>
 
-          <div className="w-full max-w-4xl bg-white/10 backdrop-blur-md p-3 md:p-4 rounded-2xl md:rounded-[2rem] border border-white/20 shadow-2xl flex flex-col md:flex-row gap-3 animate-in slide-in-from-bottom-8 duration-1000 delay-300">
+          <div className="w-full max-w-4xl bg-white/10 backdrop-blur-md p-3 sm:p-4 md:p-4 rounded-xl sm:rounded-2xl md:rounded-[2rem] border border-white/20 shadow-2xl flex flex-col md:flex-row gap-2 sm:gap-3 md:gap-3 animate-in slide-in-from-bottom-8 duration-1000 delay-300">
             <button
               onClick={() => router.push("/website/pets?species=Dog")}
-              className="flex-1 bg-white/10 hover:bg-white/20 transition-colors py-4 rounded-xl md:rounded-2xl font-bold flex flex-col items-center justify-center gap-2"
+              className="flex-1 bg-white/10 hover:bg-white/20 transition-colors py-2 sm:py-3 md:py-4 rounded-lg sm:rounded-xl md:rounded-2xl font-bold flex flex-col items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-base"
             >
-              <span className="text-3xl">🐶</span> {t('homepage.hero.dogs')}
+              <span className="text-xl sm:text-2xl md:text-3xl">🐶</span> {t('homepage.hero.dogs')}
             </button>
             <button
               onClick={() => router.push("/website/pets?species=Cat")}
-              className="flex-1 bg-white/10 hover:bg-white/20 transition-colors py-4 rounded-xl md:rounded-2xl font-bold flex flex-col items-center justify-center gap-2"
+              className="flex-1 bg-white/10 hover:bg-white/20 transition-colors py-2 sm:py-3 md:py-4 rounded-lg sm:rounded-xl md:rounded-2xl font-bold flex flex-col items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-base"
             >
-              <span className="text-3xl">🐱</span> {t('homepage.hero.cats')}
+              <span className="text-xl sm:text-2xl md:text-3xl">🐱</span> {t('homepage.hero.cats')}
             </button>
             <button
               onClick={() => router.push("/website/lost-found")}
-              className="flex-1 bg-white/10 hover:bg-white/20 transition-colors py-4 rounded-xl md:rounded-2xl font-bold flex flex-col items-center justify-center gap-2 text-white"
+              className="flex-1 bg-white/10 hover:bg-white/20 transition-colors py-2 sm:py-3 md:py-4 rounded-lg sm:rounded-xl md:rounded-2xl font-bold flex flex-col items-center justify-center gap-1 sm:gap-2 text-white text-xs sm:text-sm md:text-base"
             >
-              <span className="text-3xl">🔍</span> {t('homepage.hero.lostFound')}
+              <span className="text-xl sm:text-2xl md:text-3xl">🔍</span> {t('homepage.hero.lostFound')}
             </button>
             <button
               onClick={() => router.push("/website/pets")}
-              className="flex-1 bg-blue-600 hover:bg-blue-500 transition-colors py-4 rounded-xl md:rounded-2xl font-bold flex items-center justify-center gap-2 text-white shadow-lg shadow-blue-500/25"
+              className="flex-1 bg-blue-600 hover:bg-blue-500 transition-colors py-2 sm:py-3 md:py-4 rounded-lg sm:rounded-xl md:rounded-2xl font-bold flex items-center justify-center gap-1 sm:gap-2 text-white shadow-lg shadow-blue-500/25 text-xs sm:text-sm md:text-base"
             >
-              <Search className="w-5 h-5" /> {t('homepage.hero.allPets')}
+              <Search className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5" /> {t('homepage.hero.allPets')}
             </button>
           </div>
         </div>
@@ -278,7 +278,7 @@ function HomeContent() {
                 <Heart className="w-5 h-5" />
                 {t('homepage.feedPets.browseBtn')}
               </Link>
-              <Link href="/dashboard/food-pets/add" className="bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 dark:bg-dark-raised dark:border-dark-divider dark:text-gray-300 font-bold py-4 px-8 rounded-xl transition-transform hover:scale-105 active:scale-95">
+              <Link href="/dashboard/food-pets/add" className="bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 dark:bg-dark-raised dark:border-dark-divider dark:text-gray-300 dark:hover:bg-dark-card font-bold py-4 px-8 rounded-xl transition-transform hover:scale-105 active:scale-95">
                 {t('homepage.feedPets.listBtn')}
               </Link>
             </div>
@@ -392,7 +392,7 @@ function HomeContent() {
               <Link href="/website/lost-found" className="bg-blue-600 text-white hover:bg-blue-700 font-bold py-4 px-8 rounded-xl transition-transform hover:scale-105 active:scale-95 shadow-xl shadow-blue-600/25">
                 View All Lost & Found
               </Link>
-              <Link href="/dashboard/lost-found/new" className="bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 dark:bg-dark-raised dark:border-dark-divider dark:text-gray-300 font-bold py-4 px-8 rounded-xl transition-transform hover:scale-105 active:scale-95">
+              <Link href="/dashboard/lost-found/new" className="bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 dark:bg-dark-raised dark:border-dark-divider dark:text-gray-300 dark:hover:bg-dark-card font-bold py-4 px-8 rounded-xl transition-transform hover:scale-105 active:scale-95">
                 Report a Pet
               </Link>
             </div>
@@ -404,14 +404,14 @@ function HomeContent() {
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
           <div className="relative z-10 max-w-2xl mx-auto">
             <Heart className="w-16 h-16 mx-auto mb-6 text-pink-400 animate-pulse" />
-            <h2 className="text-4xl md:text-5xl font-black mb-6">Ready to change a life?</h2>
-            <p className="text-xl text-blue-100 mb-10 font-medium">Join thousands of people who have found their perfect companion through Rafraf.</p>
+            <h2 className="text-4xl md:text-5xl font-black mb-6">{t('homepage.cta.title')}</h2>
+            <p className="text-xl text-blue-100 mb-10 font-medium">{t('homepage.cta.subtitle')}</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/website/pets" className="bg-white text-blue-700 hover:bg-gray-50 font-bold py-4 px-8 rounded-xl transition-transform hover:scale-105 active:scale-95 shadow-xl">
-                Adopt a Pet
+              <Link href="/website/pets" className="bg-white text-blue-700 hover:bg-gray-50 dark:hover:bg-dark-card font-bold py-4 px-8 rounded-xl transition-transform hover:scale-105 active:scale-95 shadow-xl">
+                {t('homepage.cta.adoptBtn')}
               </Link>
               <Link href="/sign-up" className="bg-blue-800/50 hover:bg-blue-800 text-white font-bold py-4 px-8 rounded-xl transition-transform hover:scale-105 active:scale-95 backdrop-blur-sm border border-blue-500/30">
-                List a Pet
+                {t('homepage.cta.listBtn')}
               </Link>
             </div>
           </div>

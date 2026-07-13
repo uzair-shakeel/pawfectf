@@ -14,7 +14,7 @@ export default function NewLostFoundPage() {
     const [loading, setLoading] = useState(false);
     const [images, setImages] = useState([]);
     const [imagePreviews, setImagePreviews] = useState([]);
-    
+
     const [formData, setFormData] = useState({
         type: "Lost",
         title: "",
@@ -34,7 +34,7 @@ export default function NewLostFoundPage() {
     const handleImageChange = (e) => {
         const files = Array.from(e.target.files);
         setImages((prev) => [...prev, ...files]);
-        
+
         const previews = files.map(file => URL.createObjectURL(file));
         setImagePreviews((prev) => [...prev, ...previews]);
     };
@@ -58,7 +58,7 @@ export default function NewLostFoundPage() {
                 }
             });
             images.forEach(img => data.append('images', img));
-            
+
             await createLostFound(data, getToken);
             router.push('/dashboard/lost-found');
         } catch (error) {
@@ -72,9 +72,9 @@ export default function NewLostFoundPage() {
     return (
         <div className="max-w-4xl mx-auto p-4 sm:p-6 py-8">
             <h1 className="text-3xl font-black text-gray-900 dark:text-white mb-8">{t("dashboard:reportPet.title", "Report a Pet")}</h1>
-            
+
             <form onSubmit={handleSubmit} className="bg-white dark:bg-dark-card rounded-2xl shadow-sm border border-gray-100 dark:border-dark-divider p-6 sm:p-8 space-y-8">
-                
+
                 {/* Type Selection */}
                 <div>
                     <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">{t("dashboard:reportPet.whatReporting", "What are you reporting?")}</label>
@@ -129,28 +129,28 @@ export default function NewLostFoundPage() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"><FaMapMarkerAlt className="inline mr-2"/>{t("dashboard:reportPet.location", "Location (City/Area)")}</label>
+                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"><FaMapMarkerAlt className="inline mr-2" />{t("dashboard:reportPet.location", "Location (City/Area)")}</label>
                         <input required type="text" name="location" value={formData.location} onChange={handleChange} placeholder={t("dashboard:reportPet.locationPlaceholder", "e.g. Warsaw, Mokotów")} className="w-full bg-gray-50 dark:bg-dark-main border border-gray-200 dark:border-dark-divider rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white" />
                     </div>
                     <div>
-                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"><FaCalendarAlt className="inline mr-2"/>{t("dashboard:reportPet.date", "Date")}</label>
+                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"><FaCalendarAlt className="inline mr-2" />{t("dashboard:reportPet.date", "Date")}</label>
                         <input required type="date" name="dateLostOrFound" value={formData.dateLostOrFound} onChange={handleChange} className="w-full bg-gray-50 dark:bg-dark-main border border-gray-200 dark:border-dark-divider rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white" />
                     </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-gray-100 dark:border-dark-divider pt-6">
                     <div>
-                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"><FaPhoneAlt className="inline mr-2"/>{t("dashboard:reportPet.contactPhone", "Contact Phone")}</label>
+                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"><FaPhoneAlt className="inline mr-2" />{t("dashboard:reportPet.contactPhone", "Contact Phone")}</label>
                         <input type="tel" name="contactPhone" value={formData.contactPhone} onChange={handleChange} placeholder="e.g. +48 123 456 789" className="w-full bg-gray-50 dark:bg-dark-main border border-gray-200 dark:border-dark-divider rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white" />
                     </div>
                     <div>
-                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"><FaEnvelope className="inline mr-2"/>{t("dashboard:reportPet.contactEmail", "Contact Email")}</label>
+                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"><FaEnvelope className="inline mr-2" />{t("dashboard:reportPet.contactEmail", "Contact Email")}</label>
                         <input type="email" name="contactEmail" value={formData.contactEmail} onChange={handleChange} placeholder="your@email.com" className="w-full bg-gray-50 dark:bg-dark-main border border-gray-200 dark:border-dark-divider rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white" />
                     </div>
                 </div>
 
                 <div className="border-t border-gray-100 dark:border-dark-divider pt-6">
-                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"><FaCamera className="inline mr-2"/>{t("dashboard:reportPet.photos", "Photos")}</label>
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"><FaCamera className="inline mr-2" />{t("dashboard:reportPet.photos", "Photos")}</label>
                     <div className="flex flex-wrap gap-4 mb-4">
                         {imagePreviews.map((src, i) => (
                             <div key={i} className="relative w-24 h-24 rounded-xl overflow-hidden border border-gray-200 dark:border-dark-divider">
@@ -158,7 +158,7 @@ export default function NewLostFoundPage() {
                                 <button type="button" onClick={() => removeImage(i)} className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs">x</button>
                             </div>
                         ))}
-                        <label className="w-24 h-24 rounded-xl border-2 border-dashed border-gray-300 dark:border-dark-divider flex flex-col items-center justify-center text-gray-500 hover:bg-gray-50 dark:hover:bg-dark-raised cursor-pointer transition-colors">
+                        <label className="w-24 h-24 rounded-xl border-2 border-dashed border-gray-300 dark:border-dark-divider flex flex-col items-center justify-center text-gray-500 hover:bg-gray-50 dark:hover:bg-dark-card cursor-pointer transition-colors">
                             <span className="text-2xl">+</span>
                             <span className="text-xs">{t("dashboard:reportPet.addPhoto", "Add Photo")}</span>
                             <input type="file" multiple accept="image/*" onChange={handleImageChange} className="hidden" />

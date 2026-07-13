@@ -70,6 +70,12 @@
     "lostFound": {
       "title": "Zaginione i znalezione",
       "subtitle": "Pomóż zjednoczyć zagubione zwierzęta z ich rodzinami lub zgłoś znalezione zwierzę."
+    },
+    "cta": {
+      "title": "Gotowy zmienić życie?",
+      "subtitle": "Dołącz do tysięcy osób, które znalazły swojego idealnego towarzysza przez Rafraf.",
+      "adoptBtn": "Adoptuj zwierzaka",
+      "listBtn": "Wystaw zwierzaka"
     }
   },
   "terms": {

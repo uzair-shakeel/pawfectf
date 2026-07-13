@@ -67,7 +67,7 @@ export default function FoodDonationsPage() {
                             </p>
                             <Link
                                 href="/dashboard/food-pets/add"
-                                className="inline-block bg-white text-blue-700 hover:bg-gray-100 font-bold py-4 px-8 rounded-xl transition-all shadow-xl"
+                                className="inline-block bg-white text-blue-700 hover:bg-gray-100 dark:hover:bg-dark-card font-bold py-4 px-8 rounded-xl transition-all shadow-xl"
                             >
                                 {t('foodDonation.listings.listPet')}
                             </Link>
@@ -124,7 +124,7 @@ export default function FoodDonationsPage() {
                                 href={`/website/food-donations/donate/${pet._id}`}
                                 className="group bg-white dark:bg-dark-card rounded-2xl shadow-sm border border-gray-100 dark:border-dark-divider overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
                             >
-                                <div className="relative aspect-[4/3] overflow-hidden bg-gray-100 dark:bg-gray-800">
+                                <div className="relative aspect-[4/3] overflow-hidden bg-gray-100 dark:bg-dark-card">
                                     <img
                                         src={pet.images?.[0] || '/placeholder.jpg'}
                                         alt={pet.name}

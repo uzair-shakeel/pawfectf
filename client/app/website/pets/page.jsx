@@ -200,7 +200,7 @@ const PetsContent = () => {
               <div className="bg-white rounded-lg p-1 shadow-sm border flex gap-1">
                 {["grid", "list"].map((mode) => (
                   <button key={mode} type="button" onClick={() => setViewMode(mode)}
-                    className={`px-3 py-2 lg:px-4 lg:py-3 rounded-md text-sm font-medium transition-all duration-200 flex items-center justify-center ${viewMode === mode ? "bg-blue-500 text-white shadow-md" : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"}`}>
+                    className={`px-3 py-2 lg:px-4 lg:py-3 rounded-md text-sm font-medium transition-all duration-200 flex items-center justify-center ${viewMode === mode ? "bg-blue-500 text-white shadow-md" : "text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:hover:bg-dark-card"}`}>
                     {mode === "grid"
                       ? <svg className="w-4 h-4 lg:w-5 lg:h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
                       : <svg className="w-4 h-4 lg:w-5 lg:h-5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" /></svg>
@@ -258,7 +258,7 @@ const PetsContent = () => {
           )}
 
           {showMobileFilter && (
-            <div className="fixed inset-0 z-50 bg-white overflow-y-auto">
+            <div className="fixed inset-0 z-50 bg-white dark:bg-dark-main overflow-y-auto">
               <FilterSidebar onApplyFilters={handleApplyFilters} setShowMobileFilter={setShowMobileFilter} isVisible={showMobileFilter} />
             </div>
           )}

@@ -485,7 +485,7 @@ const AddFoodPetPage = () => {
             <button
               type="button"
               onClick={() => router.back()}
-              className="px-8 py-4 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors font-medium"
+              className="px-8 py-4 border border-gray-300 text-gray-700 dark:text-gray-200 rounded-xl hover:bg-gray-50 dark:hover:bg-dark-card transition-colors font-medium"
             >
               {t("dashboard:foodPets.cancel", "Cancel")}
             </button>

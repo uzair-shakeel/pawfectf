@@ -70,6 +70,12 @@
     "lostFound": {
       "title": "Lost & Found",
       "subtitle": "Help reunite lost pets with their families or report a found animal."
+    },
+    "cta": {
+      "title": "Ready to change a life?",
+      "subtitle": "Join thousands of people who have found their perfect companion through Rafraf.",
+      "adoptBtn": "Adopt a Pet",
+      "listBtn": "List a Pet"
     }
   },
   "terms": {

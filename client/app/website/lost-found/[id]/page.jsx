@@ -48,7 +48,7 @@ export default function LostFoundDetailPage() {
                         const r = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${coords[1]}&lon=${coords[0]}&format=json`);
                         const d = await r.json();
                         setCity(d.address?.city || d.address?.town || d.address?.village || "");
-                    } catch (e) {}
+                    } catch (e) { }
                 }
             } catch (err) {
                 console.error(err);
@@ -119,7 +119,7 @@ export default function LostFoundDetailPage() {
                                     {activeImg + 1} / {images.length}
                                 </div>
                             </div>
-                            
+
                             {images.length > 1 && (
                                 <div className="flex gap-2 overflow-x-auto scrollbar-hide mt-2 p-2">
                                     {images.map((img, i) => (
@@ -181,9 +181,9 @@ export default function LostFoundDetailPage() {
 
                             <div className="space-y-4">
                                 <h3 className="text-xs uppercase tracking-widest font-black text-gray-400">Contact Person</h3>
-                                
+
                                 {reporter && (
-                                    <Link href={`/website/profile?id=${entry.reporterId}`} className="flex items-center gap-3 p-3 rounded-2xl bg-gray-50 dark:bg-dark-raised hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors group cursor-pointer border border-transparent hover:border-gray-200 dark:hover:border-gray-700">
+                                    <Link href={`/website/profile?id=${entry.reporterId}`} className="flex items-center gap-3 p-3 rounded-2xl bg-gray-50 dark:bg-dark-raised hover:bg-gray-100 dark:hover:bg-dark-card transition-colors group cursor-pointer border border-transparent hover:border-gray-200 dark:hover:border-gray-700">
                                         <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-200 relative group-hover:ring-2 ring-blue-500 transition-all">
                                             {reporter.image ? <Image src={formatImageUrl(reporter.image)} alt={reporterName} fill className="object-cover" /> : <div className="w-full h-full flex items-center justify-center font-black text-gray-400">{reporterName[0]}</div>}
                                         </div>
@@ -201,7 +201,7 @@ export default function LostFoundDetailPage() {
                                         </a>
                                     )}
                                     {entry.contactEmail && (
-                                        <a href={`mailto:${entry.contactEmail}`} className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-dark-raised text-gray-700 dark:text-gray-200 font-bold text-sm transition-all active:scale-[0.98]">
+                                        <a href={`mailto:${entry.contactEmail}`} className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-dark-card text-gray-700 dark:text-gray-200 font-bold text-sm transition-all active:scale-[0.98]">
                                             <FaEnvelope /> Email Contact
                                         </a>
                                     )}

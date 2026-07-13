@@ -202,7 +202,7 @@ export default function EditCarPage() {
           <button
             type="button"
             onClick={() => router.push("/dashboard/cars")}
-            className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+            className="px-6 py-3 border border-gray-300 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-50 dark:hover:bg-dark-card"
           >
             Cancel
           </button>

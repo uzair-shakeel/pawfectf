@@ -62,7 +62,7 @@ export default function LostFoundPage() {
                             <button
                                 key={t}
                                 onClick={() => setFilter(t)}
-                                className={`flex-1 md:flex-none px-6 py-2 rounded-lg font-bold text-sm transition-all ${filter === t ? 'bg-blue-600 text-white shadow-md' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-dark-raised'}`}
+                                className={`flex-1 md:flex-none px-6 py-2 rounded-lg font-bold text-sm transition-all ${filter === t ? 'bg-blue-600 text-white shadow-md' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-dark-card'}`}
                             >
                                 {t}
                             </button>
@@ -102,7 +102,7 @@ export default function LostFoundPage() {
                     <div className="flex justify-center py-20"><div className="w-12 h-12 border-4 border-blue-600/20 border-t-blue-600 rounded-full animate-spin"></div></div>
                 ) : filteredEntries.length === 0 ? (
                     <div className="text-center py-20 bg-white dark:bg-dark-card rounded-3xl border border-gray-100 dark:border-dark-divider">
-                        <div className="w-20 h-20 bg-gray-100 dark:bg-dark-raised rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">🔍</div>
+                        <div className="w-20 h-20 bg-gray-100 dark:bg-dark-card rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">🔍</div>
                         <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">{t("dashboard.lostFound.noEntries", "No entries found")}</h3>
                         <p className="text-gray-500 dark:text-gray-400">{t("dashboard.lostFound.noEntriesDesc", "There are currently no {type} pet reports.").replace("{type}", filter.toLowerCase())}</p>
                     </div>

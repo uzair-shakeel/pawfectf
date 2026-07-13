@@ -286,11 +286,11 @@ export default function PetDetailPage() {
                 <button onClick={() => setIsModalOpen(true)} className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm transition-all shadow-lg shadow-blue-500/25 active:scale-[0.98]">
                   <Heart className="w-4 h-4" /> {t('petDetail.applyToAdopt')}
                 </button>
-                <button onClick={startChat} className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl border border-gray-200 dark:border-dark-divider text-gray-700 dark:text-gray-200 font-bold text-sm hover:bg-gray-50 dark:hover:bg-dark-raised transition-all">
+                <button onClick={startChat} className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl border border-gray-200 dark:border-dark-divider text-gray-700 dark:text-gray-200 font-bold text-sm hover:bg-gray-50 dark:hover:bg-dark-card transition-all">
                   <MessageCircle className="w-4 h-4" /> {t('petDetail.messageShelter')}
                 </button>
                 {owner?.phoneNumbers?.length > 0 && (
-                  <button onClick={() => setShowPhone(v => !v)} className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl border border-gray-200 dark:border-dark-divider text-gray-700 dark:text-gray-200 font-bold text-sm hover:bg-gray-50 dark:hover:bg-dark-raised transition-all">
+                  <button onClick={() => setShowPhone(v => !v)} className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl border border-gray-200 dark:border-dark-divider text-gray-700 dark:text-gray-200 font-bold text-sm hover:bg-gray-50 dark:hover:bg-dark-card transition-all">
                     <Phone className="w-4 h-4" /> {showPhone ? owner.phoneNumbers[0] : t('petDetail.showPhone')}
                   </button>
                 )}
@@ -312,7 +312,7 @@ export default function PetDetailPage() {
                 {/* Social media links */}
                 {owner?.socialMedia && (owner.socialMedia.facebook || owner.socialMedia.instagram || owner.socialMedia.website) && (
                   <div className="flex gap-2 pt-3 border-t border-gray-50 dark:border-dark-raised">
-                    {owner.socialMedia.website && <a href={owner.socialMedia.website.startsWith('http') ? owner.socialMedia.website : `https://${owner.socialMedia.website}`} target="_blank" rel="noopener noreferrer" title="Website" className="p-2 rounded-full bg-gray-100 dark:bg-dark-raised text-gray-600 hover:text-blue-500 hover:bg-gray-200 dark:hover:bg-gray-800 transition"><FaGlobe className="w-4 h-4" /></a>}
+                    {owner.socialMedia.website && <a href={owner.socialMedia.website.startsWith('http') ? owner.socialMedia.website : `https://${owner.socialMedia.website}`} target="_blank" rel="noopener noreferrer" title="Website" className="p-2 rounded-full bg-gray-100 dark:bg-dark-raised text-gray-600 hover:text-blue-500 hover:bg-gray-200 dark:hover:bg-dark-card transition"><FaGlobe className="w-4 h-4" /></a>}
                     {owner.socialMedia.facebook && <a href={owner.socialMedia.facebook.startsWith('http') ? owner.socialMedia.facebook : `https://${owner.socialMedia.facebook}`} target="_blank" rel="noopener noreferrer" title="Facebook" className="p-2 rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-600 hover:bg-blue-100 dark:hover:bg-blue-900/40 transition"><FaFacebook className="w-4 h-4" /></a>}
                     {owner.socialMedia.instagram && <a href={owner.socialMedia.instagram.startsWith('http') ? owner.socialMedia.instagram : `https://${owner.socialMedia.instagram}`} target="_blank" rel="noopener noreferrer" title="Instagram" className="p-2 rounded-full bg-pink-50 dark:bg-pink-900/20 text-pink-600 hover:bg-pink-100 dark:hover:bg-pink-900/40 transition"><FaInstagram className="w-4 h-4" /></a>}
                   </div>
@@ -340,7 +340,7 @@ export default function PetDetailPage() {
             </div>
 
             <div className="flex gap-3">
-              <button onClick={() => setIsModalOpen(false)} className="flex-1 py-3 rounded-xl font-bold text-gray-600 bg-gray-100 hover:bg-gray-200 dark:bg-dark-raised dark:text-gray-300 dark:hover:bg-gray-800 transition-colors">
+              <button onClick={() => setIsModalOpen(false)} className="flex-1 py-3 rounded-xl font-bold text-gray-600 bg-gray-100 hover:bg-gray-200 dark:bg-dark-raised dark:text-gray-300 dark:hover:bg-dark-card transition-colors">
                 {t('petDetail.cancel')}
               </button>
               <button onClick={submitApplication} className="flex-1 py-3 rounded-xl font-bold text-white bg-blue-600 hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 shadow-lg shadow-blue-500/25">

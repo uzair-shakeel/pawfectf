@@ -183,7 +183,7 @@ const ProfileComponent = () => {
           <h1 className="text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight">{t("dashboard:profile.yourProfile", "Your Profile")}</h1>
           <p className="text-gray-500 mt-2 font-medium">{t("dashboard:profile.subtitle", "Manage your personal details and account settings.")}</p>
         </div>
-        <button type="button" onClick={() => setIsCpOpen(true)} className="bg-white dark:bg-dark-main text-gray-700 dark:text-gray-200 font-bold border border-gray-200 dark:border-dark-divider px-6 py-3 rounded-xl hover:bg-gray-50 dark:hover:bg-dark-raised transition-all shadow-sm">
+        <button type="button" onClick={() => setIsCpOpen(true)} className="bg-white dark:bg-dark-main text-gray-700 dark:text-gray-200 font-bold border border-gray-200 dark:border-dark-divider px-6 py-3 rounded-xl hover:bg-gray-50 dark:hover:bg-dark-card transition-all shadow-sm">
           {t("dashboard:profile.changePassword", "Change Password")}
         </button>
       </div>
@@ -272,7 +272,7 @@ const ProfileComponent = () => {
                     </div>
                   ))}
                   {formData.phoneNumbers.length < 4 && (
-                    <button type="button" onClick={addPhoneNumber} className="w-full py-3 border-2 border-dashed border-gray-200 dark:border-dark-divider text-gray-500 rounded-xl font-bold hover:bg-gray-50 dark:hover:bg-dark-raised text-sm">{t("dashboard:profile.addNumber", "+ Add Number")}</button>
+                    <button type="button" onClick={addPhoneNumber} className="w-full py-3 border-2 border-dashed border-gray-200 dark:border-dark-divider text-gray-500 rounded-xl font-bold hover:bg-gray-50 dark:hover:bg-dark-card text-sm">{t("dashboard:profile.addNumber", "+ Add Number")}</button>
                   )}
                 </div>
               </div>
@@ -323,7 +323,7 @@ const ProfileComponent = () => {
                 <input type="password" value={cpConfirm} onChange={(e) => setCpConfirm(e.target.value)} minLength={6} className="w-full border-2 border-gray-100 dark:border-dark-divider p-4 rounded-xl focus:border-blue-500 bg-gray-50/50 dark:bg-dark-raised text-gray-900 dark:text-white" required />
               </div>
               <div className="flex justify-end gap-3 pt-4">
-                <button type="button" onClick={() => setIsCpOpen(false)} className="px-6 py-3 rounded-xl border border-gray-200 dark:border-dark-divider text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-50 dark:hover:bg-dark-raised">{t("dashboard:profile.cancel", "Cancel")}</button>
+                <button type="button" onClick={() => setIsCpOpen(false)} className="px-6 py-3 rounded-xl border border-gray-200 dark:border-dark-divider text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-50 dark:hover:bg-dark-card">{t("dashboard:profile.cancel", "Cancel")}</button>
                 <button type="submit" disabled={cpLoading} className="px-8 py-3 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-700 disabled:opacity-50">
                   {cpLoading ? t("dashboard:profile.updating", "Updating...") : t("dashboard:profile.updatePassword", "Update Password")}
                 </button>
