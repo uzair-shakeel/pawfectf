@@ -305,17 +305,18 @@ export default function PetDetailPage() {
 
               {/* CTA buttons */}
               <div className="space-y-2">
-                <button onClick={() => setIsModalOpen(true)} className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-md transition-all shadow-lg shadow-blue-500/25 active:scale-[0.98]">
-                  <Heart className="w-4 h-4" /> {t('petDetail.applyToAdopt')}
-                </button>
-                <button onClick={startChat} className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl border border-gray-200 dark:border-dark-divider text-gray-700 dark:text-gray-200 font-bold text-md hover:bg-gray-50 dark:hover:bg-dark-card transition-all">
-                  <MessageCircle className="w-4 h-4" /> {t('petDetail.messageShelter')}
-                </button>
-                {owner?.phoneNumbers?.length > 0 && (
-                  <button onClick={() => setShowPhone(v => !v)} className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl border border-gray-200 dark:border-dark-divider text-gray-700 dark:text-gray-200 font-bold text-md hover:bg-gray-50 dark:hover:bg-dark-card transition-all">
-                    <Phone className="w-4 h-4" /> {showPhone ? owner.phoneNumbers[0] : t('petDetail.showPhone')}
+                {owner?.phoneNumbers?.length > 0 ? (
+                  <a href={`tel:${owner.phoneNumbers[0]}`} className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-md transition-all shadow-lg shadow-blue-500/25 active:scale-[0.98]">
+                    <Phone className="w-4 h-4" /> {t('petDetail.callNow')}
+                  </a>
+                ) : (
+                  <button onClick={startChat} className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-md transition-all shadow-lg shadow-blue-500/25 active:scale-[0.98]">
+                    <MessageCircle className="w-4 h-4" /> {t('petDetail.messageShelter')}
                   </button>
                 )}
+                <button onClick={() => setIsModalOpen(true)} className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl border border-gray-200 dark:border-dark-divider text-gray-700 dark:text-gray-200 font-bold text-md hover:bg-gray-50 dark:hover:bg-dark-card transition-all">
+                  <Heart className="w-4 h-4" /> {t('petDetail.applyToAdopt')}
+                </button>
               </div>
 
               {/* Owner Info & Socials */}
