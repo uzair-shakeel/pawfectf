@@ -128,8 +128,8 @@ export default function AuthPage({ defaultTab = "login" }) {
           {/* Mobile logo */}
           <div className="flex lg:hidden justify-center mb-8">
             <Link href="/">
-              <Image src="/logo.png" alt="Rafraf" width={120} height={34} className="h-9 w-auto dark:hidden" />
-              <Image src="/logo-white.png" alt="Rafraf" width={120} height={34} className="h-9 w-auto hidden dark:block" />
+              <Image src="/logo.png" alt="Rafraf" width={120} height={30} className="h-9 w-auto dark:hidden" />
+              <Image src="/logo-white.png" alt="Rafraf" width={120} height={30} className="h-9 w-auto hidden dark:block" />
             </Link>
           </div>
 
