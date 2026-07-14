@@ -238,13 +238,13 @@ export default function PetDetailPage() {
             </div>
 
             {/* Specs table */}
-            <div className="bg-white dark:bg-dark-card rounded-2xl p-4 sm:p-6 border border-gray-100 dark:border-dark-divider">
-              <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-gray-100 mb-3 sm:mb-4">{t('petDetail.details')}</h2>
+            <div className="bg-white dark:bg-dark-card rounded-2xl p-6 sm:p-6 border border-gray-100 dark:border-dark-divider">
+              <h2 className="text-lg pb-2 sm:text-xl font-bold text-gray-900 dark:text-gray-100 mb-3 sm:mb-4">{t('petDetail.details')}</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {specs.map(s => (
                   <div key={s.label} className="flex md:flex-col justify-between gap-0.5 border-b border-gray-100 dark:border-dark-divider pb-2">
-                    <span className="text-sm text-gray-400 uppercase tracking-widest font-semibold">{t(`petDetail.${s.label.toLowerCase().replace(/ /g, '')}`) || s.label}</span>
-                    <span className="text-md font-medium text-gray-900 dark:text-gray-100">{s.value}</span>
+                    <span className="text-md sm:text-sm text-gray-400 uppercase tracking-widest font-semibold">{t(`petDetail.${s.label.toLowerCase().replace(/ /g, '')}`) || s.label}</span>
+                    <span className="text-lg sm:text-md font-medium text-gray-900 dark:text-gray-100">{s.value}</span>
                   </div>
                 ))}
               </div>
