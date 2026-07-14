@@ -261,15 +261,6 @@ export default function PetDetailPage() {
                   ))}
               </div>
 
-
-              {/* Full-width city (no label) */}
-              {specs.find((s) => s.label === "Location") && (
-                <div className="mt-4">
-                  <p className="text-lg font-medium text-center mx-auto w-full text-gray-900 dark:text-gray-100">
-                    {specs.find((s) => s.label === "Location")?.value}
-                  </p>
-                </div>
-              )}
             </div>
           </div>
 
