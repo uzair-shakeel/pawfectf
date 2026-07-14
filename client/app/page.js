@@ -51,10 +51,10 @@ function HomeContent() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative h-[550px] sm:h-[450px] md:h-[650px] w-[98%] mx-auto my-4 rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden shadow-2xl bg-gray-900 group">
+      <section className="relative h-[750px] sm:h-[450px] md:h-[650px] w-[98%] mx-auto my-4 rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden shadow-2xl bg-gray-900 group">
         <div className="absolute inset-0">
           <Image
-            src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&q=80&w=2000"
+            src="/bg.jpeg"
             alt="Adopt a pet"
             fill
             className="object-cover brightness-[0.6] group-hover:scale-105 transition-transform duration-700"
@@ -73,7 +73,7 @@ function HomeContent() {
             {t('homepage.hero.subtitle')}
           </p>
 
-          <div className="w-full max-w-4xl bg-white/10 backdrop-blur-md p-3 sm:p-4 md:p-4 rounded-xl sm:rounded-2xl md:rounded-[2rem] border border-white/20 shadow-2xl flex flex-col md:flex-row gap-2 sm:gap-3 md:gap-3 animate-in slide-in-from-bottom-8 duration-1000 delay-300">
+          <div className="w-full mt-60 md:mt-8 grid grid-cols-2 md:grid-cols-4 max-w-4xl bg-white/10 backdrop-blur-md p-3 sm:p-4 md:p-4 rounded-xl sm:rounded-2xl md:rounded-[2rem] border border-white/20 shadow-2xl gap-2 sm:gap-3 md:gap-3 animate-in slide-in-from-bottom-8 duration-1000 delay-300">
             <button
               onClick={() => router.push("/website/pets?species=Dog")}
               className="flex-1 bg-white/10 hover:bg-white/20 transition-colors py-2 sm:py-3 md:py-4 rounded-lg sm:rounded-xl md:rounded-2xl font-bold flex flex-col items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-base"
