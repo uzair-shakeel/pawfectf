@@ -117,20 +117,20 @@ function ProfileContent({ sellerId }) {
                             {displayName}
                         </h1>
 
-                        <p className="text-gray-600 dark:text-gray-300 font-medium text-sm md:text-base mb-6 max-w-2xl mx-auto md:mx-0 leading-relaxed">
+                        <p className="text-gray-600 dark:text-gray-300 font-medium text-md md:text-base mb-6 max-w-2xl mx-auto md:mx-0 leading-relaxed">
                             {bio || t('profile.defaultBio')}
                         </p>
 
                         <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 mb-6">
-                            <span className="flex items-center gap-2 text-sm font-bold text-gray-700 dark:text-gray-200 bg-gray-50 dark:bg-dark-raised px-4 py-2 rounded-xl border border-gray-100 dark:border-dark-divider">
+                            <span className="flex items-center gap-2 text-md font-bold text-gray-700 dark:text-gray-200 bg-gray-50 dark:bg-dark-raised px-4 py-2 rounded-xl border border-gray-100 dark:border-dark-divider">
                                 <FaPaw className="text-blue-600" /> {pets.length} {pets.length === 1 ? t('profile.pet') : t('profile.pets')}
                             </span>
                             {joinDate && (
-                                <span className="flex items-center gap-2 text-sm font-bold text-gray-700 dark:text-gray-200 bg-gray-50 dark:bg-dark-raised px-4 py-2 rounded-xl border border-gray-100 dark:border-dark-divider">
+                                <span className="flex items-center gap-2 text-md font-bold text-gray-700 dark:text-gray-200 bg-gray-50 dark:bg-dark-raised px-4 py-2 rounded-xl border border-gray-100 dark:border-dark-divider">
                                     <FaCalendar className="text-blue-600" /> {t('profile.joined')} {joinDate}
                                 </span>
                             )}
-                            <span className="flex items-center gap-2 text-sm font-bold text-gray-700 dark:text-gray-200 bg-gray-50 dark:bg-dark-raised px-4 py-2 rounded-xl border border-gray-100 dark:border-dark-divider">
+                            <span className="flex items-center gap-2 text-md font-bold text-gray-700 dark:text-gray-200 bg-gray-50 dark:bg-dark-raised px-4 py-2 rounded-xl border border-gray-100 dark:border-dark-divider">
                                 {sellerType === "company" ? "🏢 " + t('profile.shelterBreeder') : "👤 " + t('profile.privateSeller')}
                             </span>
                         </div>
@@ -138,7 +138,7 @@ function ProfileContent({ sellerId }) {
                         {uniqueSpecies.length > 0 && (
                             <div className="flex flex-wrap items-center justify-center md:justify-start gap-2">
                                 {uniqueSpecies.map((species) => (
-                                    <span key={species} className="text-xs font-bold uppercase tracking-widest text-blue-600 bg-blue-50 dark:bg-blue-900/20 px-3 py-1.5 rounded-lg border border-blue-100 dark:border-blue-900/50">
+                                    <span key={species} className="text-sm font-bold uppercase tracking-widest text-blue-600 bg-blue-50 dark:bg-blue-900/20 px-3 py-1.5 rounded-lg border border-blue-100 dark:border-blue-900/50">
                                         {species}
                                     </span>
                                 ))}
@@ -169,7 +169,7 @@ function ProfileContent({ sellerId }) {
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }} className="bg-white dark:bg-dark-main rounded-xl shadow-md p-2 mb-8">
                     <div className="flex gap-2">
                         {["listings", "contact", "location"].map((tab) => (
-                            <motion.button key={tab} onClick={() => setActiveTab(tab)} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className={`flex-1 py-3 px-4 text-sm font-medium rounded-lg transition-all duration-300 ${activeTab === tab ? "bg-gradient-to-r from-blue-500 to-blue-800 text-white shadow-lg" : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-dark-card"}`}>
+                            <motion.button key={tab} onClick={() => setActiveTab(tab)} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className={`flex-1 py-3 px-4 text-md font-medium rounded-lg transition-all duration-300 ${activeTab === tab ? "bg-gradient-to-r from-blue-500 to-blue-800 text-white shadow-lg" : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-dark-card"}`}>
                                 {t(`profile.${tab}`)}
                             </motion.button>
                         ))}
@@ -212,7 +212,7 @@ function ProfileContent({ sellerId }) {
                                             </motion.div>
                                             <div className="flex-1">
                                                 <p className="font-semibold text-gray-900 dark:text-gray-200 dark:text-white text-lg">{formatPhoneNumber(phone)}</p>
-                                                <p className="text-sm text-gray-500 dark:text-gray-400">{t('profile.clickToCall')}</p>
+                                                <p className="text-md text-gray-500 dark:text-gray-400">{t('profile.clickToCall')}</p>
                                             </div>
                                             <div className="text-green-500 opacity-0 group-hover:opacity-100 transition-opacity">→</div>
                                         </motion.a>
@@ -226,7 +226,7 @@ function ProfileContent({ sellerId }) {
                                         </motion.div>
                                         <div className="flex-1">
                                             <p className="font-semibold text-gray-900 dark:text-gray-200 dark:text-white text-lg">{user.email}</p>
-                                            <p className="text-sm text-gray-500 dark:text-gray-400">{t('profile.sendEmail')}</p>
+                                            <p className="text-md text-gray-500 dark:text-gray-400">{t('profile.sendEmail')}</p>
                                         </div>
                                         <div className="text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity">→</div>
                                     </motion.a>
@@ -234,9 +234,9 @@ function ProfileContent({ sellerId }) {
 
                                 {(socials?.website || socials?.instagram || socials?.facebook) && (
                                     <motion.div variants={itemVariants} className="grid grid-cols-3 gap-4 pt-4">
-                                        {socials?.website && <motion.a whileHover={{ scale: 1.05, y: -4 }} whileTap={{ scale: 0.95 }} href={socials.website.startsWith("http") ? socials.website : `https://${socials.website}`} target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-3 p-5 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700 rounded-xl hover:shadow-xl transition-all border-2 border-transparent hover:border-gray-300 dark:hover:border-gray-600"><div className="w-12 h-12 rounded-full bg-gray-600 flex items-center justify-center text-white"><FaGlobe className="text-xl" /></div><span className="text-sm font-semibold text-gray-700 dark:text-gray-300">{t('profile.website')}</span></motion.a>}
-                                        {socials?.instagram && <motion.a whileHover={{ scale: 1.05, y: -4 }} whileTap={{ scale: 0.95 }} href={socials.instagram.startsWith("http") ? socials.instagram : `https://${socials.instagram}`} target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-3 p-5 bg-gradient-to-br from-pink-50 to-purple-50 dark:from-pink-900/20 dark:to-purple-900/20 rounded-xl hover:shadow-xl transition-all border-2 border-transparent hover:border-pink-300 dark:hover:border-pink-600"><div className="w-12 h-12 rounded-full bg-gradient-to-br from-pink-500 to-purple-600 flex items-center justify-center text-white"><FaInstagram className="text-xl" /></div><span className="text-sm font-semibold text-pink-700 dark:text-pink-300">{t('profile.instagram')}</span></motion.a>}
-                                        {socials?.facebook && <motion.a whileHover={{ scale: 1.05, y: -4 }} whileTap={{ scale: 0.95 }} href={socials.facebook.startsWith("http") ? socials.facebook : `https://${socials.facebook}`} target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-3 p-5 bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-xl hover:shadow-xl transition-all border-2 border-transparent hover:border-blue-300 dark:hover:border-blue-600"><div className="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center text-white"><FaFacebook className="text-xl" /></div><span className="text-sm font-semibold text-blue-700 dark:text-blue-300">{t('profile.facebook')}</span></motion.a>}
+                                        {socials?.website && <motion.a whileHover={{ scale: 1.05, y: -4 }} whileTap={{ scale: 0.95 }} href={socials.website.startsWith("http") ? socials.website : `https://${socials.website}`} target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-3 p-5 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700 rounded-xl hover:shadow-xl transition-all border-2 border-transparent hover:border-gray-300 dark:hover:border-gray-600"><div className="w-12 h-12 rounded-full bg-gray-600 flex items-center justify-center text-white"><FaGlobe className="text-xl" /></div><span className="text-md font-semibold text-gray-700 dark:text-gray-300">{t('profile.website')}</span></motion.a>}
+                                        {socials?.instagram && <motion.a whileHover={{ scale: 1.05, y: -4 }} whileTap={{ scale: 0.95 }} href={socials.instagram.startsWith("http") ? socials.instagram : `https://${socials.instagram}`} target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-3 p-5 bg-gradient-to-br from-pink-50 to-purple-50 dark:from-pink-900/20 dark:to-purple-900/20 rounded-xl hover:shadow-xl transition-all border-2 border-transparent hover:border-pink-300 dark:hover:border-pink-600"><div className="w-12 h-12 rounded-full bg-gradient-to-br from-pink-500 to-purple-600 flex items-center justify-center text-white"><FaInstagram className="text-xl" /></div><span className="text-md font-semibold text-pink-700 dark:text-pink-300">{t('profile.instagram')}</span></motion.a>}
+                                        {socials?.facebook && <motion.a whileHover={{ scale: 1.05, y: -4 }} whileTap={{ scale: 0.95 }} href={socials.facebook.startsWith("http") ? socials.facebook : `https://${socials.facebook}`} target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-3 p-5 bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-xl hover:shadow-xl transition-all border-2 border-transparent hover:border-blue-300 dark:hover:border-blue-600"><div className="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center text-white"><FaFacebook className="text-xl" /></div><span className="text-md font-semibold text-blue-700 dark:text-blue-300">{t('profile.facebook')}</span></motion.a>}
                                     </motion.div>
                                 )}
                             </motion.div>

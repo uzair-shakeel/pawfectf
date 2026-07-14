@@ -53,7 +53,7 @@ export function FeaturedCars() {
           <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-gray-200 dark:text-dark-text-primary transition-colors duration-300 tracking-tight">
             Wyróżnione Oferty
           </h2>
-          <button className="px-6 py-2.5 bg-white dark:bg-dark-raised border border-gray-200 dark:border-dark-divider rounded-full text-sm font-bold text-gray-900 dark:text-gray-200 dark:text-dark-text-primary hover:bg-gray-50 dark:hover:bg-dark-elevation-1 hover:shadow-md transition-all duration-300 flex items-center gap-2">
+          <button className="px-6 py-2.5 bg-white dark:bg-dark-raised border border-gray-200 dark:border-dark-divider rounded-full text-md font-bold text-gray-900 dark:text-gray-200 dark:text-dark-text-primary hover:bg-gray-50 dark:hover:bg-dark-elevation-1 hover:shadow-md transition-all duration-300 flex items-center gap-2">
             Więcej <span className="text-lg">→</span>
           </button>
         </div>

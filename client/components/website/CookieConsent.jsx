@@ -119,7 +119,7 @@ const CookieConsent = () => {
                     }
                   </p>
 
-                  <p className="text-gray-600 text-sm mb-4">
+                  <p className="text-gray-600 text-md mb-4">
                     Do tych ciasteczek nie potrzebne jest mleko!
                     Używamy ciasteczek aby wzmocnić twoje doświadczenia podczas przeglądania, analizować ruch i dostarczać spersonalizowane treści. Klikając "Akceptuj Wszystkie", pozwalasz nam na swoje ciasteczka
 
@@ -150,13 +150,13 @@ const CookieConsent = () => {
                 <div className="px-4 pb-4">
                   <button
                     onClick={() => window.open("/website/terms", "_blank")}
-                    className="text-blue-600 text-sm font-medium hover:underline mr-4"
+                    className="text-blue-600 text-md font-medium hover:underline mr-4"
                   >
                     Warunki i Zasady
                   </button>
                   <button
                     onClick={() => window.open("/website/privacy", "_blank")}
-                    className="text-blue-600 text-sm font-medium hover:underline"
+                    className="text-blue-600 text-md font-medium hover:underline"
                   >
                     Polityka Prywatności
                   </button>

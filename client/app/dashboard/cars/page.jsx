@@ -77,7 +77,7 @@ export default function DashboardPetsPage() {
           </div>
           <div>
             <h4 className="font-bold">{t("dashboard:myPets.pendingApproval", "Pending Approval")}</h4>
-            <p className="text-sm mt-1 opacity-90">{t("dashboard:myPets.pendingDesc", "Some of your listings are being reviewed. They will be visible to adopters once approved by an administrator.")}</p>
+            <p className="text-md mt-1 opacity-90">{t("dashboard:myPets.pendingDesc", "Some of your listings are being reviewed. They will be visible to adopters once approved by an administrator.")}</p>
           </div>
         </motion.div>
       )}
@@ -95,7 +95,7 @@ export default function DashboardPetsPage() {
           </p>
           <Link
             href="/dashboard/cars/add"
-            className="inline-flex items-center px-8 py-4 text-sm font-bold rounded-xl shadow-lg text-white bg-blue-600 hover:bg-blue-700 transition-all hover:scale-105"
+            className="inline-flex items-center px-8 py-4 text-md font-bold rounded-xl shadow-lg text-white bg-blue-600 hover:bg-blue-700 transition-all hover:scale-105"
           >
             {t("dashboard:myPets.createFirst", "Create First Listing")}
           </Link>
@@ -117,15 +117,15 @@ export default function DashboardPetsPage() {
                 <div className="flex flex-col gap-1">
                   <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{t("dashboard:myPets.status", "Status")}</span>
                   {pet.status === "Approved" ? (
-                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400">
+                    <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-bold bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400">
                       <span className="w-1.5 h-1.5 rounded-full bg-green-500 mr-2"></span> {t("dashboard:myPets.active", "Active")}
                     </span>
                   ) : pet.status === "Pending" ? (
-                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400">
+                    <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-bold bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400">
                       <span className="w-1.5 h-1.5 rounded-full bg-yellow-500 mr-2 animate-pulse"></span> {t("dashboard:myPets.underReview", "Under Review")}
                     </span>
                   ) : (
-                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400">
+                    <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-bold bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400">
                       <span className="w-1.5 h-1.5 rounded-full bg-red-500 mr-2"></span> {t("dashboard:myPets.rejected", "Rejected")}
                     </span>
                   )}
@@ -133,7 +133,7 @@ export default function DashboardPetsPage() {
 
                 <button
                   onClick={() => handleDelete(pet._id)}
-                  className="px-4 py-2 rounded-lg text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 font-bold text-xs uppercase tracking-wider transition-all"
+                  className="px-4 py-2 rounded-lg text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 font-bold text-sm uppercase tracking-wider transition-all"
                 >
                   {t("dashboard:myPets.delete", "Delete")}
                 </button>

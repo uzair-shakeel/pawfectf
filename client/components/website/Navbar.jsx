@@ -268,14 +268,14 @@ const Navbar = () => {
               {openMsg && (
                 <div className="fixed md:absolute inset-x-4 md:inset-auto md:right-0 mt-2 md:w-80 bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-divider rounded-xl shadow-xl z-50 overflow-hidden transform md:translate-x-0">
                   <div className="flex items-center justify-between px-3 py-2 border-b border-gray-100 dark:border-dark-divider">
-                    <div className="text-sm font-semibold text-gray-900 dark:text-white">{t("dashboard.navbar.messages", "Wiadomości")}</div>
-                    <Link href="/dashboard/messages" onClick={() => setOpenMsg(false)} className="text-xs text-blue-600 hover:underline">{t("dashboard.navbar.openChat", "Otwórz czat")}</Link>
+                    <div className="text-md font-semibold text-gray-900 dark:text-white">{t("dashboard.navbar.messages", "Wiadomości")}</div>
+                    <Link href="/dashboard/messages" onClick={() => setOpenMsg(false)} className="text-sm text-blue-600 hover:underline">{t("dashboard.navbar.openChat", "Otwórz czat")}</Link>
                   </div>
                   <div className="max-h-96 overflow-auto">
                     {loadingMessages ? (
-                      <div className="px-3 py-4 text-sm text-gray-500">{t("dashboard.navbar.loading", "Ładowanie...")}</div>
+                      <div className="px-3 py-4 text-md text-gray-500">{t("dashboard.navbar.loading", "Ładowanie...")}</div>
                     ) : displayMessages.length === 0 ? (
-                      <div className="px-3 py-4 text-sm text-gray-500">{t("dashboard.navbar.noMessages", "Brak wiadomości")}</div>
+                      <div className="px-3 py-4 text-md text-gray-500">{t("dashboard.navbar.noMessages", "Brak wiadomości")}</div>
                     ) : (
                       <ul className="divide-y divide-gray-100 dark:divide-dark-divider">
                         {displayMessages.map((msg) => (
@@ -292,10 +292,10 @@ const Navbar = () => {
                           >
                             <Avatar src={msg.sender?.image} alt={msg.sender?.name} size={36} />
                             <div className="min-w-0 flex-1">
-                              <div className="text-sm font-bold text-gray-900 dark:text-white truncate">
+                              <div className="text-md font-bold text-gray-900 dark:text-white truncate">
                                 {msg.sender?.name || t("dashboard.navbar.user", "Użytkownik")}
                               </div>
-                              <div className="text-xs text-gray-500 dark:text-dark-text-muted line-clamp-1">
+                              <div className="text-sm text-gray-500 dark:text-dark-text-muted line-clamp-1">
                                 {msg.attachments?.length > 0
                                   ? `${msg.attachments.length} ${t("dashboard.navbar.attachment", "załącznik(i)")}`
                                   : msg.content || t("dashboard.navbar.newMessage", "Nowa wiadomość")}
@@ -313,7 +313,7 @@ const Navbar = () => {
                     )}
                   </div>
                   <div className="px-3 py-2 border-t border-gray-100 dark:border-dark-divider text-center">
-                    <Link href="/dashboard/messages" onClick={() => setOpenMsg(false)} className="text-xs font-bold text-blue-600 hover:underline uppercase tracking-widest">
+                    <Link href="/dashboard/messages" onClick={() => setOpenMsg(false)} className="text-sm font-bold text-blue-600 hover:underline uppercase tracking-widest">
                       {t("dashboard.navbar.seeAllMessages", "Zobacz wszystkie wiadomości")}
                     </Link>
                   </div>
@@ -337,16 +337,16 @@ const Navbar = () => {
               {openNotif && (
                 <div className="fixed md:absolute inset-x-4 md:inset-auto md:right-0 mt-2 md:w-80 bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-divider rounded-xl shadow-xl z-50 overflow-hidden transform md:translate-x-0">
                   <div className="flex items-center justify-between px-3 py-2 border-b border-gray-100 dark:border-gray-700">
-                    <div className="text-sm font-semibold text-gray-900 dark:text-gray-200 dark:text-white">{t("dashboard.navbar.notifications", "Powiadomienia")}</div>
+                    <div className="text-md font-semibold text-gray-900 dark:text-gray-200 dark:text-white">{t("dashboard.navbar.notifications", "Powiadomienia")}</div>
                     {markAll && (
-                      <button onClick={markAll} className="text-xs text-blue-600 hover:underline">
+                      <button onClick={markAll} className="text-sm text-blue-600 hover:underline">
                         {t("dashboard.navbar.markAllRead", "Oznacz wszystkie jako przeczytane")}
                       </button>
                     )}
                   </div>
                   <div className="max-h-96 overflow-auto">
                     {notificationsList.length === 0 ? (
-                      <div className="px-3 py-4 text-sm text-gray-500 dark:text-gray-400">{t("dashboard.navbar.noNotifications", "Brak powiadomień")}</div>
+                      <div className="px-3 py-4 text-md text-gray-500 dark:text-gray-400">{t("dashboard.navbar.noNotifications", "Brak powiadomień")}</div>
                     ) : (
                       <ul className="divide-y divide-gray-100 dark:divide-gray-700">
                         {notificationsList.slice(0, 8).map((n) => (
@@ -361,8 +361,8 @@ const Navbar = () => {
                             >
                               <div className={`mt-1 w-2 h-2 rounded-full ${n.read ? "bg-gray-300 dark:bg-gray-600" : "bg-blue-500"}`} />
                               <div className="min-w-0 flex-1">
-                                <div className="text-sm font-medium text-gray-900 dark:text-gray-200 dark:text-white truncate">{n.title}</div>
-                                {n.body && <div className="text-xs text-gray-600 dark:text-gray-300 line-clamp-2">{n.body}</div>}
+                                <div className="text-md font-medium text-gray-900 dark:text-gray-200 dark:text-white truncate">{n.title}</div>
+                                {n.body && <div className="text-sm text-gray-600 dark:text-gray-300 line-clamp-2">{n.body}</div>}
                                 <div className="text-[10px] text-gray-400 dark:text-gray-500 mt-1">{new Date(n.createdAt).toLocaleString()}</div>
                               </div>
                             </Link>
@@ -372,7 +372,7 @@ const Navbar = () => {
                     )}
                   </div>
                   <div className="px-3 py-2 border-t border-gray-100 dark:border-gray-700 text-right">
-                    <Link href="/dashboard/notifications" onClick={() => setOpenNotif(false)} className="text-sm text-blue-600 hover:underline">
+                    <Link href="/dashboard/notifications" onClick={() => setOpenNotif(false)} className="text-md text-blue-600 hover:underline">
                       {t("dashboard.navbar.seeAll", "Zobacz wszystkie powiadomienia")}
                     </Link>
                   </div>
@@ -389,7 +389,7 @@ const Navbar = () => {
           ) : (
             <button
               onClick={handleSignIn}
-              className="flex items-center gap-2 px-6 py-2 rounded-full bg-blue-600 text-white text-xs font-black uppercase tracking-widest hover:bg-blue-700 transition-all shadow-lg shadow-blue-500/25"
+              className="flex items-center gap-2 px-6 py-2 rounded-full bg-blue-600 text-white text-sm font-black uppercase tracking-widest hover:bg-blue-700 transition-all shadow-lg shadow-blue-500/25"
             >
               {t("dashboard.navbar.login", "Login")}
             </button>
@@ -448,7 +448,7 @@ const Navbar = () => {
                   <h3 className="text-lg font-black text-gray-900 dark:text-white truncate">
                     {user?.firstName || t("dashboard.navbar.user", "Użytkownik")}
                   </h3>
-                  <p className="text-xs text-gray-400 font-bold uppercase tracking-widest leading-none mt-1">
+                  <p className="text-sm text-gray-400 font-bold uppercase tracking-widest leading-none mt-1">
                     {user?.sellerType === 'company' ? 'Shelter Account' : 'Pet Owner'}
                   </p>
                 </div>
@@ -474,7 +474,7 @@ const Navbar = () => {
               <div className="pt-4">
                 <button
                   onClick={handleSignIn}
-                  className="w-full py-5 rounded-[2rem] bg-gradient-to-r from-blue-600 to-blue-500 text-white font-black uppercase tracking-widest text-xs shadow-xl shadow-blue-500/25 flex items-center justify-center gap-2 animate-slideUp"
+                  className="w-full py-5 rounded-[2rem] bg-gradient-to-r from-blue-600 to-blue-500 text-white font-black uppercase tracking-widest text-sm shadow-xl shadow-blue-500/25 flex items-center justify-center gap-2 animate-slideUp"
                 >
                   {t("dashboard.navbar.joinCommunity", "Join the Community")}
                 </button>
@@ -483,7 +483,7 @@ const Navbar = () => {
               <div className="pt-2">
                 <button
                   onClick={handleSignOut}
-                  className="w-full flex items-center justify-between px-6 py-4 rounded-2xl bg-red-50 dark:bg-red-900/10 text-sm font-black text-red-500 uppercase tracking-widest"
+                  className="w-full flex items-center justify-between px-6 py-4 rounded-2xl bg-red-50 dark:bg-red-900/10 text-md font-black text-red-500 uppercase tracking-widest"
                 >
                   <div className="flex items-center gap-4">
                     <FiLogOut size={20} />

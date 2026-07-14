@@ -137,7 +137,7 @@ const CVs = () => {
               .reduce((a, b) => a + b, 0)
               .toLocaleString()}
           </p>
-          <p className="text-sm text-slate-400 mt-1">All Time</p>
+          <p className="text-md text-slate-400 mt-1">All Time</p>
         </div>
         <div className="bg-slate-900 rounded-lg p-6 shadow-lg border border-slate-700">
           <h3 className="text-lg font-semibold text-emerald-400">
@@ -148,7 +148,7 @@ const CVs = () => {
               .reduce((a, b) => a + b, 0)
               .toLocaleString()}
           </p>
-          <p className="text-sm text-slate-400 mt-1">All Time</p>
+          <p className="text-md text-slate-400 mt-1">All Time</p>
         </div>
         <div className="bg-slate-900 rounded-lg p-6 shadow-lg border border-slate-700">
           <h3 className="text-lg font-semibold text-purple-400">
@@ -157,7 +157,7 @@ const CVs = () => {
           <p className="text-3xl font-bold text-purple-500 mt-2">
             {cvStats.popularTemplates[0].name}
           </p>
-          <p className="text-sm text-slate-400 mt-1">
+          <p className="text-md text-slate-400 mt-1">
             {cvStats.popularTemplates[0].usage.toLocaleString()} Uses
           </p>
         </div>
@@ -188,16 +188,16 @@ const CVs = () => {
           <table className="min-w-full table-auto">
             <thead>
               <tr className="bg-slate-800 border-b border-slate-700">
-                <th className="px-6 py-4 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">
+                <th className="px-6 py-4 text-left text-sm font-medium text-slate-400 uppercase tracking-wider">
                   Month
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">
+                <th className="px-6 py-4 text-left text-sm font-medium text-slate-400 uppercase tracking-wider">
                   Created
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">
+                <th className="px-6 py-4 text-left text-sm font-medium text-slate-400 uppercase tracking-wider">
                   Downloaded
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">
+                <th className="px-6 py-4 text-left text-sm font-medium text-slate-400 uppercase tracking-wider">
                   Growth Rate
                 </th>
               </tr>
@@ -208,27 +208,26 @@ const CVs = () => {
                   key={month}
                   className="bg-slate-900 hover:bg-slate-800 transition-colors"
                 >
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">
+                  <td className="px-6 py-4 whitespace-nowrap text-md text-slate-300">
                     {month}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">
+                  <td className="px-6 py-4 whitespace-nowrap text-md text-slate-300">
                     {cvStats.createdPerMonth[index].toLocaleString()}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">
+                  <td className="px-6 py-4 whitespace-nowrap text-md text-slate-300">
                     {cvStats.downloadedPerMonth[index].toLocaleString()}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm">
+                  <td className="px-6 py-4 whitespace-nowrap text-md">
                     {index === 0 ? (
                       <span className="text-slate-400">-</span>
                     ) : (
                       <span
-                        className={`${
-                          growthRates[index] > 0
-                            ? "text-emerald-400"
-                            : growthRates[index] < 0
+                        className={`${growthRates[index] > 0
+                          ? "text-emerald-400"
+                          : growthRates[index] < 0
                             ? "text-rose-400"
                             : "text-slate-400"
-                        }`}
+                          }`}
                       >
                         {growthRates[index] > 0 ? "+" : ""}
                         {growthRates[index].toFixed(1)}%

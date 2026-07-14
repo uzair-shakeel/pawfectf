@@ -223,7 +223,7 @@ export default function AuthTabs() {
 
             <form onSubmit={handleOTPSubmit} className="space-y-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-white mb-4 text-center transition-colors duration-300">
+                <label className="block text-md font-medium text-gray-700 dark:text-white mb-4 text-center transition-colors duration-300">
                   OTP Code
                 </label>
                 <div className="flex justify-center space-x-3 mb-4">
@@ -370,7 +370,7 @@ export default function AuthTabs() {
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <div>
-              <label htmlFor="firstName" className="block text-sm font-bold text-gray-200 mb-2 drop-shadow-sm">First Name</label>
+              <label htmlFor="firstName" className="block text-md font-bold text-gray-200 mb-2 drop-shadow-sm">First Name</label>
               <input
                 type="text"
                 id="firstName"
@@ -383,7 +383,7 @@ export default function AuthTabs() {
               />
             </div>
             <div>
-              <label htmlFor="lastName" className="block text-sm font-bold text-gray-200 mb-2 drop-shadow-sm">Last Name</label>
+              <label htmlFor="lastName" className="block text-md font-bold text-gray-200 mb-2 drop-shadow-sm">Last Name</label>
               <input
                 type="text"
                 id="lastName"
@@ -398,7 +398,7 @@ export default function AuthTabs() {
           </div>
 
           <div>
-            <label htmlFor={activeTab === "email" ? "email" : "phoneNumber"} className="block text-sm font-bold text-gray-200 mb-2 drop-shadow-sm">
+            <label htmlFor={activeTab === "email" ? "email" : "phoneNumber"} className="block text-md font-bold text-gray-200 mb-2 drop-shadow-sm">
               {activeTab === "email" ? "Email Address" : "Phone Number"}
             </label>
             <input
@@ -415,7 +415,7 @@ export default function AuthTabs() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <div>
-              <label htmlFor="password" className="block text-sm font-bold text-gray-200 mb-2 drop-shadow-sm">Password</label>
+              <label htmlFor="password" className="block text-md font-bold text-gray-200 mb-2 drop-shadow-sm">Password</label>
               <input
                 type="password"
                 id="password"
@@ -429,7 +429,7 @@ export default function AuthTabs() {
               />
             </div>
             <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-bold text-gray-200 mb-2 drop-shadow-sm">Confirm Password</label>
+              <label htmlFor="confirmPassword" className="block text-md font-bold text-gray-200 mb-2 drop-shadow-sm">Confirm Password</label>
               <input
                 type="password"
                 id="confirmPassword"
@@ -452,7 +452,7 @@ export default function AuthTabs() {
               onChange={(e) => setTermsAccepted(e.target.checked)}
               className="w-5 h-5 text-blue-500 border-white/30 rounded focus:ring-blue-400 focus:ring-offset-gray-900 bg-white/20"
             />
-            <label htmlFor="terms" className="ml-3 text-sm font-medium text-gray-300">
+            <label htmlFor="terms" className="ml-3 text-md font-medium text-gray-300">
               I agree to the <Link href="/terms" className="text-white font-bold hover:underline">Terms & Conditions</Link> and <Link href="/privacy" className="text-white font-bold hover:underline">Privacy Policy</Link>
             </label>
           </div>

@@ -179,7 +179,7 @@ const AddFoodPetPage = () => {
 
           <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 flex items-start gap-3">
             <AlertCircle className="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" />
-            <div className="text-sm text-blue-800">
+            <div className="text-md text-blue-800">
               <p className="font-medium mb-1">{t("dashboard:foodPets.approvalRequired", "Admin Approval Required")}</p>
               <p>{t("dashboard:foodPets.approvalDesc", "All pets must be approved by our admin team before appearing on the platform. We'll review your submission within 24 hours.")}</p>
             </div>
@@ -193,7 +193,7 @@ const AddFoodPetPage = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">{t("dashboard:foodPets.petName", "Pet Name *")}</label>
+                <label className="block text-md font-medium text-gray-700 mb-2">{t("dashboard:foodPets.petName", "Pet Name *")}</label>
                 <input
                   type="text"
                   required
@@ -205,7 +205,7 @@ const AddFoodPetPage = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">{t("dashboard:foodPets.species", "Species *")}</label>
+                <label className="block text-md font-medium text-gray-700 mb-2">{t("dashboard:foodPets.species", "Species *")}</label>
                 <select
                   required
                   className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent"
@@ -221,7 +221,7 @@ const AddFoodPetPage = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t("dashboard:foodPets.breed", "Breed")}</label>
+                <label className="block text-md font-medium text-gray-700 dark:text-gray-300 mb-2">{t("dashboard:foodPets.breed", "Breed")}</label>
                 <select
                   className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 dark:bg-dark-raised rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:text-white"
                   value={formData.breed}
@@ -241,7 +241,7 @@ const AddFoodPetPage = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">{t("dashboard:foodPets.age", "Age")}</label>
+                <label className="block text-md font-medium text-gray-700 mb-2">{t("dashboard:foodPets.age", "Age")}</label>
                 <input
                   type="text"
                   className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent"
@@ -252,7 +252,7 @@ const AddFoodPetPage = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">{t("dashboard:foodPets.gender", "Gender")}</label>
+                <label className="block text-md font-medium text-gray-700 mb-2">{t("dashboard:foodPets.gender", "Gender")}</label>
                 <select
                   className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                   value={formData.gender}
@@ -265,7 +265,7 @@ const AddFoodPetPage = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">{t("dashboard:foodPets.size", "Size")}</label>
+                <label className="block text-md font-medium text-gray-700 mb-2">{t("dashboard:foodPets.size", "Size")}</label>
                 <select
                   className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                   value={formData.size}
@@ -280,7 +280,7 @@ const AddFoodPetPage = () => {
             </div>
 
             <div className="mt-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2">{t("dashboard:foodPets.description", "Description *")}</label>
+              <label className="block text-md font-medium text-gray-700 mb-2">{t("dashboard:foodPets.description", "Description *")}</label>
               <textarea
                 required
                 rows="4"
@@ -298,7 +298,7 @@ const AddFoodPetPage = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">{t("dashboard:foodPets.urgencyLevel", "Urgency Level")}</label>
+                <label className="block text-md font-medium text-gray-700 mb-2">{t("dashboard:foodPets.urgencyLevel", "Urgency Level")}</label>
                 <select
                   className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                   value={formData.foodNeed.urgency}
@@ -312,7 +312,7 @@ const AddFoodPetPage = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">{t("dashboard:foodPets.estimatedCost", "Estimated Monthly Cost")}</label>
+                <label className="block text-md font-medium text-gray-700 mb-2">{t("dashboard:foodPets.estimatedCost", "Estimated Monthly Cost")}</label>
                 <input
                   type="number"
                   className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent"
@@ -324,7 +324,7 @@ const AddFoodPetPage = () => {
             </div>
 
             <div className="mt-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2">{t("dashboard:foodPets.specialDiet", "Special Dietary Requirements")}</label>
+              <label className="block text-md font-medium text-gray-700 mb-2">{t("dashboard:foodPets.specialDiet", "Special Dietary Requirements")}</label>
               <input
                 type="text"
                 className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent"
@@ -335,7 +335,7 @@ const AddFoodPetPage = () => {
             </div>
 
             <div className="mt-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2">{t("dashboard:foodPets.reasonForNeed", "Reason for Food Need")}</label>
+              <label className="block text-md font-medium text-gray-700 mb-2">{t("dashboard:foodPets.reasonForNeed", "Reason for Food Need")}</label>
               <textarea
                 rows="3"
                 className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent"
@@ -352,7 +352,7 @@ const AddFoodPetPage = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">{t("dashboard:foodPets.orgName", "Organization Name *")}</label>
+                <label className="block text-md font-medium text-gray-700 mb-2">{t("dashboard:foodPets.orgName", "Organization Name *")}</label>
                 <input
                   type="text"
                   required
@@ -364,7 +364,7 @@ const AddFoodPetPage = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">{t("dashboard:foodPets.licenseNumber", "License Number")}</label>
+                <label className="block text-md font-medium text-gray-700 mb-2">{t("dashboard:foodPets.licenseNumber", "License Number")}</label>
                 <input
                   type="text"
                   className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent"
@@ -375,7 +375,7 @@ const AddFoodPetPage = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">{t("dashboard:foodPets.contactPhone", "Contact Phone *")}</label>
+                <label className="block text-md font-medium text-gray-700 mb-2">{t("dashboard:foodPets.contactPhone", "Contact Phone *")}</label>
                 <input
                   type="tel"
                   required
@@ -387,7 +387,7 @@ const AddFoodPetPage = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">{t("dashboard:foodPets.contactEmail", "Contact Email *")}</label>
+                <label className="block text-md font-medium text-gray-700 mb-2">{t("dashboard:foodPets.contactEmail", "Contact Email *")}</label>
                 <input
                   type="email"
                   required
@@ -400,7 +400,7 @@ const AddFoodPetPage = () => {
             </div>
 
             <div className="mt-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2">{t("dashboard:foodPets.address", "Address *")}</label>
+              <label className="block text-md font-medium text-gray-700 mb-2">{t("dashboard:foodPets.address", "Address *")}</label>
               <input
                 type="text"
                 required
@@ -420,7 +420,7 @@ const AddFoodPetPage = () => {
             </h2>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">{t("dashboard:foodPets.city", "City *")}</label>
+              <label className="block text-md font-medium text-gray-700 mb-2">{t("dashboard:foodPets.city", "City *")}</label>
               <input
                 type="text"
                 required
@@ -443,10 +443,10 @@ const AddFoodPetPage = () => {
               <label className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-xl cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors">
                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
                   <Upload className="w-10 h-10 mb-3 text-gray-400" />
-                  <p className="mb-2 text-sm text-gray-500">
+                  <p className="mb-2 text-md text-gray-500">
                     <span className="font-semibold">{t("dashboard:foodPets.clickUpload", "Click to upload")}</span> {t("dashboard:foodPets.orDrag", "or drag and drop")}
                   </p>
-                  <p className="text-xs text-gray-500">PNG, JPG {t("dashboard:foodPets.or", "or")} JPEG (MAX. 5MB each)</p>
+                  <p className="text-sm text-gray-500">PNG, JPG {t("dashboard:foodPets.or", "or")} JPEG (MAX. 5MB each)</p>
                 </div>
                 <input
                   type="file"
@@ -470,7 +470,7 @@ const AddFoodPetPage = () => {
                     <button
                       type="button"
                       onClick={() => removeImage(index)}
-                      className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full text-xs hover:bg-red-600 transition-colors opacity-0 group-hover:opacity-100"
+                      className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full text-sm hover:bg-red-600 transition-colors opacity-0 group-hover:opacity-100"
                     >
                       ×
                     </button>

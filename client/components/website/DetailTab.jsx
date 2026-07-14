@@ -63,7 +63,7 @@ function AISectionCard({ section, index }) {
             className="overflow-hidden"
           >
             <div className={`px-5 py-4 border-t ${cfg.border} ${cfg.bg}`}>
-              <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line">
+              <p className="text-md text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line">
                 {section.content}
               </p>
             </div>
@@ -83,7 +83,7 @@ function PlainDescription({ description }) {
 
   if (!description?.trim()) {
     return (
-      <p className="text-sm text-gray-400 dark:text-gray-500 italic">
+      <p className="text-md text-gray-400 dark:text-gray-500 italic">
         Brak opisu dla tego ogłoszenia.
       </p>
     );
@@ -91,12 +91,12 @@ function PlainDescription({ description }) {
 
   return (
     <div>
-      <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed whitespace-pre-line transition-colors duration-300">
+      <p className="text-gray-700 dark:text-gray-300 text-md leading-relaxed whitespace-pre-line transition-colors duration-300">
         {showMore ? description : previewText}
       </p>
       {shouldTruncate && (
         <button
-          className="text-blue-500 dark:text-blue-400 mt-2 text-sm underline transition-colors duration-300"
+          className="text-blue-500 dark:text-blue-400 mt-2 text-md underline transition-colors duration-300"
           onClick={() => setShowMore(!showMore)}
         >
           {showMore ? "Pokaż mniej" : "Pokaż więcej"}
@@ -119,7 +119,7 @@ const DetailTab = ({ cardetails }) => {
           {/* AI-generated structured listing */}
           <div className="flex items-center gap-2 mb-4">
             <img src="/logooo.png" alt="Ojest AI" className="h-5 w-5 object-contain" />
-            <span className="text-xs font-semibold text-gray-500 dark:text-gray-400">
+            <span className="text-sm font-semibold text-gray-500 dark:text-gray-400">
               Opis wygenerowany przez Ojest AI
             </span>
           </div>
@@ -130,7 +130,7 @@ const DetailTab = ({ cardetails }) => {
       ) : (
         <>
           {/* Fallback: old plain text description */}
-          <p className="font-semibold text-sm text-gray-900 dark:text-white uppercase tracking-wide mb-2">
+          <p className="font-semibold text-md text-gray-900 dark:text-white uppercase tracking-wide mb-2">
             Opis
           </p>
           <PlainDescription description={cardetails?.description} />

@@ -21,8 +21,8 @@ export default function Step12_Publish({ formData, prevStep, handleSubmit, loadi
                 <Icon className="h-5 w-5 text-blue-500 dark:text-blue-400" />
             </div>
             <div>
-                <span className="block text-xs text-gray-400 font-medium uppercase tracking-wide">{label}</span>
-                <span className="block text-sm font-semibold text-gray-900 dark:text-white truncate max-w-[150px]">{value || "-"}</span>
+                <span className="block text-sm text-gray-400 font-medium uppercase tracking-wide">{label}</span>
+                <span className="block text-md font-semibold text-gray-900 dark:text-white truncate max-w-[150px]">{value || "-"}</span>
             </div>
         </div>
     );
@@ -73,7 +73,7 @@ export default function Step12_Publish({ formData, prevStep, handleSubmit, loadi
                             <>Publish Listing Now <Check className="h-5 w-5" /></>
                         )}
                     </button>
-                    <p className="mt-4 text-xs text-gray-400">
+                    <p className="mt-4 text-sm text-gray-400">
                         By publishing, you agree to our Terms of Service. Listing will be pending admin approval.
                     </p>
                 </div>

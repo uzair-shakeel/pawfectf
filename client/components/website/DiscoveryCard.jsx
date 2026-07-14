@@ -71,17 +71,17 @@ const DiscoveryCard = React.memo(function DiscoveryCard({ pet, onAction, active 
                         <div className="flex flex-wrap items-center gap-2 md:gap-3 text-gray-300 font-bold mb-4 md:mb-6">
                             <div className="flex items-center gap-1.5">
                                 <MapPin className="h-3 md:h-4 w-3 md:w-4 text-blue-400" />
-                                <span className="text-[10px] md:text-sm uppercase tracking-wider">{pet.location?.city || "Unknown"}</span>
+                                <span className="text-[10px] md:text-md uppercase tracking-wider">{pet.location?.city || "Unknown"}</span>
                             </div>
                             <span className="hidden md:block w-1.5 h-1.5 rounded-full bg-blue-400/50" />
-                            <span className="text-[10px] md:text-sm uppercase tracking-wider">{pet.ageMonths ? `${pet.ageMonths} months` : 'Age N/A'}</span>
+                            <span className="text-[10px] md:text-md uppercase tracking-wider">{pet.ageMonths ? `${pet.ageMonths} months` : 'Age N/A'}</span>
                         </div>
 
                         <div className="flex items-center justify-between">
                             <div className="flex flex-col">
                                 <span className="text-[8px] md:text-[10px] font-black uppercase tracking-widest text-blue-400 mb-0.5">Adoption Fee</span>
                                 <div className="text-2xl md:text-4xl font-black italic tracking-tighter leading-none">
-                                    {pet.adoptionFee?.toLocaleString('pl-PL') || "0"} <span className="text-[10px] md:text-sm align-super">zł</span>
+                                    {pet.adoptionFee?.toLocaleString('pl-PL') || "0"} <span className="text-[10px] md:text-md align-super">zł</span>
                                 </div>
                             </div>
 

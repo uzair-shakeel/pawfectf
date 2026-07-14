@@ -105,7 +105,7 @@ export default function FoodPetsPage() {
                     </div>
                     <div>
                         <h4 className="font-bold">{t("dashboard:foodDonations.pendingApproval", "Pending Approval")}</h4>
-                        <p className="text-sm mt-1 opacity-90">
+                        <p className="text-md mt-1 opacity-90">
                             {t("dashboard:foodDonations.pendingDesc", "Some pets are under review. They will be visible to donors once approved by an administrator.")}
                         </p>
                     </div>
@@ -123,7 +123,7 @@ export default function FoodPetsPage() {
                             <p className="text-xl font-bold text-gray-900 dark:text-white">
                                 {pets.filter((p) => p.status === "Approved").length}
                             </p>
-                            <p className="text-xs text-gray-500 dark:text-gray-400">{t("dashboard:foodDonations.approved", "Approved")}</p>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">{t("dashboard:foodDonations.approved", "Approved")}</p>
                         </div>
                     </div>
                 </div>
@@ -136,7 +136,7 @@ export default function FoodPetsPage() {
                             <p className="text-xl font-bold text-gray-900 dark:text-white">
                                 {pets.filter((p) => p.status === "Pending").length}
                             </p>
-                            <p className="text-xs text-gray-500 dark:text-gray-400">{t("dashboard:foodDonations.pending", "Pending")}</p>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">{t("dashboard:foodDonations.pending", "Pending")}</p>
                         </div>
                     </div>
                 </div>
@@ -149,7 +149,7 @@ export default function FoodPetsPage() {
                             <p className="text-xl font-bold text-gray-900 dark:text-white">
                                 {pets.filter((p) => p.status === "Rejected").length}
                             </p>
-                            <p className="text-xs text-gray-500 dark:text-gray-400">{t("dashboard:foodDonations.rejected", "Rejected")}</p>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">{t("dashboard:foodDonations.rejected", "Rejected")}</p>
                         </div>
                     </div>
                 </div>
@@ -160,7 +160,7 @@ export default function FoodPetsPage() {
                         </div>
                         <div>
                             <p className="text-xl font-bold text-gray-900 dark:text-white">{pets.length}</p>
-                            <p className="text-xs text-gray-500 dark:text-gray-400">{t("dashboard:foodDonations.totalListed", "Total Listed")}</p>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">{t("dashboard:foodDonations.totalListed", "Total Listed")}</p>
                         </div>
                     </div>
                 </div>
@@ -173,13 +173,13 @@ export default function FoodPetsPage() {
                     <input
                         type="text"
                         placeholder={t("dashboard:foodDonations.searchPlaceholder", "Search by pet name or species...")}
-                        className="pl-10 pr-4 py-2.5 border border-gray-200 dark:border-dark-divider dark:bg-dark-raised rounded-xl w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:text-white text-sm"
+                        className="pl-10 pr-4 py-2.5 border border-gray-200 dark:border-dark-divider dark:bg-dark-raised rounded-xl w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:text-white text-md"
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                     />
                 </div>
                 <select
-                    className="px-4 py-2.5 border border-gray-200 dark:border-dark-divider dark:bg-dark-raised rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:text-white text-sm"
+                    className="px-4 py-2.5 border border-gray-200 dark:border-dark-divider dark:bg-dark-raised rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:text-white text-md"
                     value={statusFilter}
                     onChange={(e) => setStatusFilter(e.target.value)}
                 >
@@ -204,7 +204,7 @@ export default function FoodPetsPage() {
                     </p>
                     <Link
                         href="/dashboard/food-pets/add"
-                        className="inline-flex items-center px-8 py-4 text-sm font-bold rounded-xl shadow-lg text-white bg-blue-600 hover:bg-blue-700 transition-all hover:scale-105"
+                        className="inline-flex items-center px-8 py-4 text-md font-bold rounded-xl shadow-lg text-white bg-blue-600 hover:bg-blue-700 transition-all hover:scale-105"
                     >
                         <Plus className="h-4 w-4 mr-2" />
                         {t("dashboard:foodDonations.addFirst", "Add Your First Pet")}
@@ -227,15 +227,15 @@ export default function FoodPetsPage() {
                                 />
                                 <div className="absolute top-3 left-3">
                                     {pet.status === "Approved" ? (
-                                        <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400">
+                                        <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-bold bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400">
                                             <span className="w-1.5 h-1.5 rounded-full bg-green-500 mr-2"></span>{t("dashboard:foodDonations.approved", "Approved")}
                                         </span>
                                     ) : pet.status === "Pending" ? (
-                                        <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400">
+                                        <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-bold bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400">
                                             <span className="w-1.5 h-1.5 rounded-full bg-yellow-500 mr-2 animate-pulse"></span>{t("dashboard:foodDonations.pending", "Pending")}
                                         </span>
                                     ) : (
-                                        <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400">
+                                        <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-bold bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400">
                                             <span className="w-1.5 h-1.5 rounded-full bg-red-500 mr-2"></span>{t("dashboard:foodDonations.rejected", "Rejected")}
                                         </span>
                                     )}
@@ -246,12 +246,12 @@ export default function FoodPetsPage() {
                                 <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">
                                     {pet.title}
                                 </h3>
-                                <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+                                <p className="text-md text-gray-500 dark:text-gray-400 mb-2">
                                     {pet.species}{pet.breed ? ` • ${pet.breed}` : ""}
                                     {pet.ageMonths ? ` • ${Math.floor(pet.ageMonths / 12)}y` : ""}
                                 </p>
                                 {pet.location?.city && (
-                                    <p className="text-xs text-gray-400 flex items-center gap-1 mb-3">
+                                    <p className="text-sm text-gray-400 flex items-center gap-1 mb-3">
                                         <MapPin className="h-3 w-3" />
                                         {pet.location.city}
                                     </p>
@@ -259,20 +259,20 @@ export default function FoodPetsPage() {
                             </div>
 
                             <div className="flex items-center justify-between pt-4 border-t border-gray-50 dark:border-dark-divider mt-auto">
-                                <p className="text-xs text-gray-400">
+                                <p className="text-sm text-gray-400">
                                     {new Date(pet.createdAt).toLocaleDateString()}
                                 </p>
                                 <div className="flex gap-2">
                                     <Link
                                         href={`/website/pets/${pet._id}`}
-                                        className="flex items-center gap-1 text-xs text-blue-600 dark:text-blue-400 hover:text-blue-700 font-bold px-3 py-1.5 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
+                                        className="flex items-center gap-1 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 font-bold px-3 py-1.5 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
                                     >
                                         <Eye className="h-3.5 w-3.5" />
                                         {t("dashboard:foodDonations.view", "View")}
                                     </Link>
                                     <button
                                         onClick={() => handleDelete(pet._id)}
-                                        className="text-xs text-red-500 hover:text-red-600 font-bold px-3 py-1.5 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                                        className="text-sm text-red-500 hover:text-red-600 font-bold px-3 py-1.5 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
                                     >
                                         {t("dashboard:foodDonations.delete", "Delete")}
                                     </button>

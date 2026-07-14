@@ -28,7 +28,7 @@ export default function Step10_History({ formData, updateFormData, nextStep, pre
                     >
                         <FileCheck className={`h-8 w-8 ${status === "attached" ? "text-green-500" : "text-gray-400"}`} />
                         <h3 className="font-semibold">I have a report</h3>
-                        <p className="text-xs text-gray-500">I can upload it or provide details.</p>
+                        <p className="text-sm text-gray-500">I can upload it or provide details.</p>
                     </button>
 
                     <button
@@ -40,7 +40,7 @@ export default function Step10_History({ formData, updateFormData, nextStep, pre
                     >
                         <FileSearch className={`h-8 w-8 ${status === "buyer_option" ? "text-blue-500" : "text-gray-400"}`} />
                         <h3 className="font-semibold">Buyer can check</h3>
-                        <p className="text-xs text-gray-500">I encourage buyers to check history themselves.</p>
+                        <p className="text-sm text-gray-500">I encourage buyers to check history themselves.</p>
                     </button>
 
                     <button
@@ -52,15 +52,15 @@ export default function Step10_History({ formData, updateFormData, nextStep, pre
                     >
                         <HelpCircle className={`h-8 w-8 ${status === "not_checked" ? "text-gray-600 dark:text-gray-400" : "text-gray-400"}`} />
                         <h3 className="font-semibold">I don't know</h3>
-                        <p className="text-xs text-gray-500">I haven't checked the history personally.</p>
+                        <p className="text-sm text-gray-500">I haven't checked the history personally.</p>
                     </button>
                 </div>
 
                 {status === "attached" && (
                     <div className="mt-6 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg border border-gray-200 dark:border-gray-700 animate-in fade-in slide-in-from-top-4">
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Upload Report (PDF/Image)</label>
+                        <label className="block text-md font-medium text-gray-700 dark:text-gray-300 mb-2">Upload Report (PDF/Image)</label>
                         <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center cursor-pointer hover:border-blue-400 transition-colors bg-white dark:bg-dark-bg">
-                            <span className="text-sm text-gray-500">Click to upload or drag and drop</span>
+                            <span className="text-md text-gray-500">Click to upload or drag and drop</span>
                         </div>
                     </div>
                 )}

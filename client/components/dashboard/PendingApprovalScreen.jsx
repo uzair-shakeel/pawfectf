@@ -169,11 +169,11 @@ const PendingApprovalScreen = ({ user }) => {
           <div className="space-y-4">
             <div className="flex items-start space-x-3">
               <div className="w-6 h-6 bg-blue-500/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                <span className="text-blue-400 text-sm font-medium">1</span>
+                <span className="text-blue-400 text-md font-medium">1</span>
               </div>
               <div>
                 <p className="text-slate-200 font-medium">Account Review</p>
-                <p className="text-slate-400 text-sm">
+                <p className="text-slate-400 text-md">
                   Our admin team reviews your profile and information
                 </p>
               </div>
@@ -181,11 +181,11 @@ const PendingApprovalScreen = ({ user }) => {
 
             <div className="flex items-start space-x-3">
               <div className="w-6 h-6 bg-blue-500/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                <span className="text-blue-400 text-sm font-medium">2</span>
+                <span className="text-blue-400 text-md font-medium">2</span>
               </div>
               <div>
                 <p className="text-slate-200 font-medium">Approval Decision</p>
-                <p className="text-slate-400 text-sm">
+                <p className="text-slate-400 text-md">
                   You'll receive an email with the decision
                 </p>
               </div>
@@ -193,11 +193,11 @@ const PendingApprovalScreen = ({ user }) => {
 
             <div className="flex items-start space-x-3">
               <div className="w-6 h-6 bg-blue-500/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                <span className="text-blue-400 text-sm font-medium">3</span>
+                <span className="text-blue-400 text-md font-medium">3</span>
               </div>
               <div>
                 <p className="text-slate-200 font-medium">Full Access</p>
-                <p className="text-slate-400 text-sm">
+                <p className="text-slate-400 text-md">
                   Once approved, you'll have full access to all features
                 </p>
               </div>

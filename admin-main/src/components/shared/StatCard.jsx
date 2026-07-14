@@ -7,7 +7,7 @@ const StatCard = ({ name, icon: Icon, value, color }) => {
       whileHover={{ y: -5, boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)" }}
     >
       <div className="px-4 py-5 sm:p-6">
-        <span className="flex items-center text-sm font-medium text-slate-400">
+        <span className="flex items-center text-md font-medium text-slate-400">
           <Icon size={20} className="mr-2" style={{ color }} />
           {name}
         </span>

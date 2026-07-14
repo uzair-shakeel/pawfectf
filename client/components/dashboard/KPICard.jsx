@@ -17,7 +17,7 @@ export default function KPICard({
           {icon}
         </div>
         <div className="flex flex-col">
-          <span className="text-sm text-gray-500 dark:text-gray-400">
+          <span className="text-md text-gray-500 dark:text-gray-400">
             {title}
           </span>
           <span className="text-2xl font-semibold text-gray-900 dark:text-gray-200 dark:text-white">

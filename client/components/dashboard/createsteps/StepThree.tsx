@@ -42,14 +42,14 @@ export default function StepThree({ nextStep, prevStep, updateFormData, formData
     <div className="bg-white dark:bg-dark-main rounded-lg w-full transition-colors">
       <div className="mb-8">
         <h2 className="text-xl font-bold text-gray-900 dark:text-gray-200 dark:text-white">Krok 4: Stan Auta</h2>
-        <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">Określ stan wizualny i techniczny swojego pojazdu.</p>
+        <p className="text-gray-500 dark:text-gray-400 text-md mt-1">Określ stan wizualny i techniczny swojego pojazdu.</p>
       </div>
 
       <div className="grid grid-cols-2 gap-8">
         {!isNewCar && (
           <>
             <div className="col-span-2 md:col-span-1">
-              <label className="block text-sm font-semibold mb-2 uppercase tracking-wider text-gray-700 dark:text-gray-300">Stan Wnętrza</label>
+              <label className="block text-md font-semibold mb-2 uppercase tracking-wider text-gray-700 dark:text-gray-300">Stan Wnętrza</label>
               <select
                 className="border-2 border-gray-100 dark:border-gray-700 p-4 w-full rounded-xl h-14 focus:border-blue-500 transition-all font-semibold bg-transparent dark:bg-dark-main dark:text-white"
                 value={localData.interior}
@@ -63,7 +63,7 @@ export default function StepThree({ nextStep, prevStep, updateFormData, formData
             </div>
 
             <div className="col-span-2 md:col-span-1">
-              <label className="block text-sm font-semibold mb-2 uppercase tracking-wider text-gray-700 dark:text-gray-300">Stan Mechaniczny</label>
+              <label className="block text-md font-semibold mb-2 uppercase tracking-wider text-gray-700 dark:text-gray-300">Stan Mechaniczny</label>
               <select
                 className="border-2 border-gray-100 dark:border-gray-700 p-4 w-full rounded-xl h-14 focus:border-blue-500 transition-all font-semibold bg-transparent dark:bg-dark-main dark:text-white"
                 value={localData.mechanical}
@@ -77,7 +77,7 @@ export default function StepThree({ nextStep, prevStep, updateFormData, formData
             </div>
 
             <div className="col-span-2 md:col-span-1">
-              <label className="block text-sm font-semibold mb-2 uppercase tracking-wider text-gray-700 dark:text-gray-300">Stan Lakieru i Karoserii</label>
+              <label className="block text-md font-semibold mb-2 uppercase tracking-wider text-gray-700 dark:text-gray-300">Stan Lakieru i Karoserii</label>
               <select
                 className="border-2 border-gray-100 dark:border-gray-700 p-4 w-full rounded-xl h-14 focus:border-blue-500 transition-all font-semibold bg-transparent dark:bg-dark-main dark:text-white"
                 value={localData.paintandBody}
@@ -91,7 +91,7 @@ export default function StepThree({ nextStep, prevStep, updateFormData, formData
             </div>
 
             <div className="col-span-2 md:col-span-1">
-              <label className="block text-sm font-semibold mb-2 uppercase tracking-wider text-gray-700 dark:text-gray-300">Stan Ramy i Podwozia</label>
+              <label className="block text-md font-semibold mb-2 uppercase tracking-wider text-gray-700 dark:text-gray-300">Stan Ramy i Podwozia</label>
               <select
                 className="border-2 border-gray-100 dark:border-gray-700 p-4 w-full rounded-xl h-14 focus:border-blue-500 transition-all font-semibold bg-transparent dark:bg-dark-main dark:text-white"
                 value={localData.frameandUnderbody}
@@ -105,7 +105,7 @@ export default function StepThree({ nextStep, prevStep, updateFormData, formData
             </div>
 
             <div className="col-span-2">
-              <label className="block text-sm font-semibold mb-2 uppercase tracking-wider text-gray-700 dark:text-gray-300">Stan Ogólny</label>
+              <label className="block text-md font-semibold mb-2 uppercase tracking-wider text-gray-700 dark:text-gray-300">Stan Ogólny</label>
               <select
                 className="border-2 border-gray-100 dark:border-gray-700 p-4 w-full rounded-xl h-14 focus:border-blue-500 transition-all font-semibold bg-transparent dark:bg-dark-main dark:text-white"
                 value={localData.overall}
@@ -123,14 +123,14 @@ export default function StepThree({ nextStep, prevStep, updateFormData, formData
         {(isNewCar || localData.overall === "New") && (
           <div className="col-span-2 mt-8 p-8 bg-blue-50/30 dark:bg-blue-900/10 rounded-3xl border border-blue-100/50 dark:border-blue-800">
             <h3 className="text-xl font-bold text-gray-900 dark:text-gray-200 dark:text-white mb-2">Gwarancja (dla nowych aut)</h3>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mb-8 max-w-2xl">
+            <p className="text-md text-gray-500 dark:text-gray-400 mb-8 max-w-2xl">
               Dodaj opcje gwarancji doliczane do ceny podstawowej.
             </p>
             <div className="space-y-6">
               {warranties.map((w, index) => (
                 <div key={index} className="grid grid-cols-1 md:grid-cols-4 gap-6 items-end bg-white dark:bg-dark-main border border-gray-100 dark:border-gray-700 rounded-2xl p-6 shadow-sm relative group">
                   <div className="md:col-span-2">
-                    <label className="block text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2">Lata</label>
+                    <label className="block text-sm font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2">Lata</label>
                     <select
                       className="border-2 border-gray-50 dark:border-gray-700 p-3 w-full rounded-xl h-12 bg-gray-50/50 dark:bg-dark-card focus:border-blue-400 transition-all font-semibold dark:text-white"
                       value={w.years || ""}
@@ -148,7 +148,7 @@ export default function StepThree({ nextStep, prevStep, updateFormData, formData
                     </select>
                   </div>
                   <div className="md:col-span-2">
-                    <label className="block text-xs font-bold text-gray-400 dark:text-gray-500 mb-2 uppercase tracking-widest">Limit (KM)</label>
+                    <label className="block text-sm font-bold text-gray-400 dark:text-gray-500 mb-2 uppercase tracking-widest">Limit (KM)</label>
                     <input
                       type="number"
                       placeholder="Np. 100000"
@@ -163,7 +163,7 @@ export default function StepThree({ nextStep, prevStep, updateFormData, formData
                     />
                   </div>
                   <div className="md:col-span-4">
-                    <label className="block text-xs font-bold text-gray-400 dark:text-gray-500 mb-2 uppercase tracking-widest">Opis</label>
+                    <label className="block text-sm font-bold text-gray-400 dark:text-gray-500 mb-2 uppercase tracking-widest">Opis</label>
                     <textarea
                       placeholder="Szczegóły gwarancji..."
                       className="border-2 border-gray-50 dark:border-gray-700 p-4 w-full rounded-xl min-h-[100px] bg-gray-50/50 dark:bg-dark-card focus:border-blue-400 transition-all dark:text-white"

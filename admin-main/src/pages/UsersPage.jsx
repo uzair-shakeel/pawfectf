@@ -163,7 +163,7 @@ const UsersPage = () => {
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium mb-1">Name</label>
+                  <label className="block text-md font-medium mb-1">Name</label>
                   <input
                     type="text"
                     value={formData.name}
@@ -175,7 +175,7 @@ const UsersPage = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">
+                  <label className="block text-md font-medium mb-1">
                     Email
                   </label>
                   <input
@@ -189,7 +189,7 @@ const UsersPage = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">
+                  <label className="block text-md font-medium mb-1">
                     System Role
                   </label>
                   <div className="relative">
@@ -214,7 +214,7 @@ const UsersPage = () => {
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">
+                  <label className="block text-md font-medium mb-1">
                     Ship Role
                   </label>
                   <div className="relative">
@@ -240,7 +240,7 @@ const UsersPage = () => {
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">
+                  <label className="block text-md font-medium mb-1">
                     Assigned Ship
                   </label>
                   <div className="relative">
@@ -267,7 +267,7 @@ const UsersPage = () => {
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">
+                  <label className="block text-md font-medium mb-1">
                     Status
                   </label>
                   <div className="relative">
@@ -324,25 +324,25 @@ const UsersPage = () => {
           <table className="w-full">
             <thead>
               <tr className="bg-gray-700">
-                <th className="px-6 py-3 text-left text-sm font-semibold">
+                <th className="px-6 py-3 text-left text-md font-semibold">
                   Name
                 </th>
-                <th className="px-6 py-3 text-left text-sm font-semibold">
+                <th className="px-6 py-3 text-left text-md font-semibold">
                   Email
                 </th>
-                <th className="px-6 py-3 text-left text-sm font-semibold">
+                <th className="px-6 py-3 text-left text-md font-semibold">
                   System Role
                 </th>
-                <th className="px-6 py-3 text-left text-sm font-semibold">
+                <th className="px-6 py-3 text-left text-md font-semibold">
                   Ship Role
                 </th>
-                <th className="px-6 py-3 text-left text-sm font-semibold">
+                <th className="px-6 py-3 text-left text-md font-semibold">
                   Assigned Ship
                 </th>
-                <th className="px-6 py-3 text-left text-sm font-semibold">
+                <th className="px-6 py-3 text-left text-md font-semibold">
                   Status
                 </th>
-                <th className="px-6 py-3 text-left text-sm font-semibold">
+                <th className="px-6 py-3 text-left text-md font-semibold">
                   Actions
                 </th>
               </tr>
@@ -354,13 +354,12 @@ const UsersPage = () => {
                   <td className="px-6 py-4">{user.email}</td>
                   <td className="px-6 py-4">
                     <span
-                      className={`px-2 py-1 rounded-full text-xs ${
-                        user.role === "admin"
-                          ? "bg-purple-500/20 text-purple-500"
-                          : user.role === "seller"
+                      className={`px-2 py-1 rounded-full text-sm ${user.role === "admin"
+                        ? "bg-purple-500/20 text-purple-500"
+                        : user.role === "seller"
                           ? "bg-green-500/20 text-green-500"
                           : "bg-blue-500/20 text-blue-500"
-                      }`}
+                        }`}
                     >
                       {user.role}
                     </span>
@@ -369,11 +368,10 @@ const UsersPage = () => {
                   <td className="px-6 py-4">{user.assignedShip}</td>
                   <td className="px-6 py-4">
                     <span
-                      className={`px-2 py-1 rounded-full text-xs ${
-                        user.status === "active"
-                          ? "bg-green-500/20 text-green-500"
-                          : "bg-yellow-500/20 text-yellow-500"
-                      }`}
+                      className={`px-2 py-1 rounded-full text-sm ${user.status === "active"
+                        ? "bg-green-500/20 text-green-500"
+                        : "bg-yellow-500/20 text-yellow-500"
+                        }`}
                     >
                       {user.status}
                     </span>

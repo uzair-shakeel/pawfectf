@@ -32,7 +32,7 @@ export default function RecentChats({ chats = [] }) {
       </div>
       <div className="grid gap-3">
         {items.length === 0 && (
-          <div className="text-sm text-gray-500 dark:text-gray-400 transition-colors duration-300">
+          <div className="text-md text-gray-500 dark:text-gray-400 transition-colors duration-300">
             Brak Wiadomości
           </div>
         )}
@@ -65,11 +65,11 @@ export default function RecentChats({ chats = [] }) {
                 <div className="truncate font-medium text-gray-900 dark:text-gray-200 dark:text-white transition-colors duration-300">
                   {name}
                 </div>
-                <div className="text-xs text-gray-500 dark:text-gray-400 truncate transition-colors duration-300">
+                <div className="text-sm text-gray-500 dark:text-gray-400 truncate transition-colors duration-300">
                   {preview}
                 </div>
               </div>
-              <div className="text-xs text-gray-400 dark:text-gray-500 whitespace-nowrap transition-colors duration-300">
+              <div className="text-sm text-gray-400 dark:text-gray-500 whitespace-nowrap transition-colors duration-300">
                 {time}
               </div>
             </div>

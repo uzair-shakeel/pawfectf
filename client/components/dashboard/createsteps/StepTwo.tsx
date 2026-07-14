@@ -6,7 +6,7 @@ import { Sparkles } from "lucide-react";
 const FieldWrapper = ({ label, auto, children }: { label: string, auto: boolean, children: React.ReactNode }) => {
   return (
     <div className="col-span-2 md:col-span-1">
-      <label className={`flex items-center gap-1.5 text-sm font-semibold mb-2 uppercase tracking-wider ${auto ? 'text-blue-600' : 'text-gray-700'}`}>
+      <label className={`flex items-center gap-1.5 text-md font-semibold mb-2 uppercase tracking-wider ${auto ? 'text-blue-600' : 'text-gray-700'}`}>
         {label}
         {auto && <Sparkles size={14} className="text-blue-500" />}
       </label>
@@ -71,7 +71,7 @@ export default function StepTwo({
       <div className="flex items-center justify-between mb-8">
         <h2 className="text-xl font-bold">Krok 4: Szczegóły Techniczne</h2>
         {formData.vinFields?.length > 0 && (
-          <div className="flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-700 rounded-xl text-xs font-bold border border-blue-100 shadow-sm">
+          <div className="flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-700 rounded-xl text-sm font-bold border border-blue-100 shadow-sm">
             <Sparkles size={14} />
             <span>{formData.vinFields.length} Danych pobranych z VIN</span>
           </div>

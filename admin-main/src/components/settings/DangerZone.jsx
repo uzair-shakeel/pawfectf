@@ -8,7 +8,7 @@ const DangerZone = ({ onLogout }) => {
         <div className="flex sm:flex-row flex-col gap-4 sm:items-center justify-between">
           <div>
             <h3 className="text-white font-medium">Logout</h3>
-            <p className="text-gray-400 text-sm mt-1">
+            <p className="text-gray-400 text-md mt-1">
               End your current session and return to login
             </p>
           </div>

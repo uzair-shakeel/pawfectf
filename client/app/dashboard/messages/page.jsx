@@ -768,10 +768,10 @@ const MessagesPage = () => {
           <div className="p-6 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center shrink-0">
             <div>
               <h2 className="font-extrabold text-2xl text-gray-900 dark:text-gray-200 dark:text-white tracking-tight">Wiadomości</h2>
-              <p className="text-xs text-dark-text-secondary font-bold uppercase tracking-widest mt-1">Twoje konwersacje</p>
+              <p className="text-sm text-dark-text-secondary font-bold uppercase tracking-widest mt-1">Twoje konwersacje</p>
             </div>
             {totalUnread > 0 && (
-              <div className="bg-red-500 text-white rounded-xl px-3 py-1 text-xs font-bold shadow-red-200 shadow-md">
+              <div className="bg-red-500 text-white rounded-xl px-3 py-1 text-sm font-bold shadow-red-200 shadow-md">
                 {totalUnread} nowych
               </div>
             )}
@@ -801,7 +801,7 @@ const MessagesPage = () => {
 
                   <div className="flex-grow min-w-0">
                     <div className="flex justify-between items-center mb-0.5">
-                      <div className={`text-sm truncate ${chat.unreadCount > 0 ? "font-black text-gray-900 dark:text-white" : "font-bold text-gray-700 dark:text-gray-300"}`}>
+                      <div className={`text-md truncate ${chat.unreadCount > 0 ? "font-black text-gray-900 dark:text-white" : "font-bold text-gray-700 dark:text-gray-300"}`}>
                         {getParticipantName(chat)}
                       </div>
                       {chat.lastMessage && (
@@ -810,7 +810,7 @@ const MessagesPage = () => {
                         </span>
                       )}
                     </div>
-                    <div className={`truncate w-full text-xs ${chat.unreadCount > 0 ? "text-gray-900 dark:text-white font-bold" : "text-gray-500 dark:text-gray-400 font-medium"}`}>
+                    <div className={`truncate w-full text-sm ${chat.unreadCount > 0 ? "text-gray-900 dark:text-white font-bold" : "text-gray-500 dark:text-gray-400 font-medium"}`}>
                       {chat.lastMessage ? (
                         <>
                           <span className="mr-1 text-gray-400 dark:text-gray-600">
@@ -830,7 +830,7 @@ const MessagesPage = () => {
                 <div className="w-16 h-16 bg-gray-100 dark:bg-dark-card rounded-full flex items-center justify-center mx-auto mb-4 text-gray-400 dark:text-gray-500">
                   <FaEnvelope size={24} />
                 </div>
-                <p className="text-gray-500 dark:text-gray-400 font-medium text-sm">Brak wiadomości</p>
+                <p className="text-gray-500 dark:text-gray-400 font-medium text-md">Brak wiadomości</p>
               </div>
             )}
           </div>
@@ -864,7 +864,7 @@ const MessagesPage = () => {
                       {getParticipantName(selectedChat)}
                     </div>
                     {selectedChat.carId && (
-                      <div className="text-xs font-bold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 px-2 py-0.5 rounded-lg inline-block mt-1">
+                      <div className="text-sm font-bold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 px-2 py-0.5 rounded-lg inline-block mt-1">
                         AUTO: {selectedChat.carId.title || "Nieznane"}
                       </div>
                     )}
@@ -894,7 +894,7 @@ const MessagesPage = () => {
                       <React.Fragment key={message._id || message.tempId}>
                         {showDateSeparator && (
                           <div className="flex justify-center my-4">
-                            <span className="px-4 py-1.5 bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 text-xs font-medium rounded-full">
+                            <span className="px-4 py-1.5 bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 text-sm font-medium rounded-full">
                               {fmtDateSeparator(message.createdAt)}
                             </span>
                           </div>
@@ -907,7 +907,7 @@ const MessagesPage = () => {
                             {/* <Avatar src={isMe ? user?.image : getParticipantImage(selectedChat)} size={32} imgClassName="rounded-lg self-end" /> */}
 
                             <div
-                              className={`px-6 py-4 rounded-2xl shadow-sm text-sm whitespace-pre-line relative transition-all duration-200 ${isMe
+                              className={`px-6 py-4 rounded-2xl shadow-sm text-md whitespace-pre-line relative transition-all duration-200 ${isMe
                                 ? "bg-blue-600 text-white rounded-br-none shadow-blue-900/20"
                                 : "bg-white dark:bg-dark-card text-gray-800 dark:text-gray-100 rounded-bl-none shadow-black/5"
                                 } ${message.pending ? "opacity-80" : "opacity-100"}`}
@@ -929,7 +929,7 @@ const MessagesPage = () => {
                                     return (
                                       <div key={attIdx} className="flex items-center gap-2 p-2 bg-white/20 rounded-lg opacity-60">
                                         {type.startsWith('image/') ? <FaFileImage className="text-lg" /> : <FaFileAlt className="text-lg" />}
-                                        <span className="text-xs truncate max-w-[150px]">{name}</span>
+                                        <span className="text-sm truncate max-w-[150px]">{name}</span>
                                         {message.pending && <span className="animate-pulse ml-1">●</span>}
                                       </div>
                                     );
@@ -952,7 +952,7 @@ const MessagesPage = () => {
                                           />
                                           <div style={{ display: 'none' }} className="flex items-center gap-2 p-2 bg-white/20 rounded-lg">
                                             <FaFileAlt className="text-lg" />
-                                            <span className="text-xs underline">{name}</span>
+                                            <span className="text-sm underline">{name}</span>
                                           </div>
                                         </a>
                                       ) : (
@@ -964,7 +964,7 @@ const MessagesPage = () => {
                                           className="flex items-center gap-2 p-2 bg-white/20 rounded-lg hover:bg-white/30 transition-colors w-full text-left"
                                         >
                                           <FaFileAlt className="text-lg" />
-                                          <span className="text-xs truncate max-w-[150px] underline">{name}</span>
+                                          <span className="text-sm truncate max-w-[150px] underline">{name}</span>
                                         </button>
                                       )}
                                     </div>
@@ -1027,7 +1027,7 @@ const MessagesPage = () => {
               {attachments.length > 0 && (
                 <div className="flex flex-wrap gap-2 mb-3 px-1">
                   {attachments.map((file, idx) => (
-                    <div key={idx} className="flex items-center gap-2 px-3 py-1.5 bg-gray-100 dark:bg-gray-700 rounded-lg text-xs">
+                    <div key={idx} className="flex items-center gap-2 px-3 py-1.5 bg-gray-100 dark:bg-gray-700 rounded-lg text-sm">
                       {file.type.startsWith('image/') ? <FaFileImage /> : <FaFileAlt />}
                       <span className="truncate max-w-[100px]">{file.name}</span>
                       <button
@@ -1072,7 +1072,7 @@ const MessagesPage = () => {
                   type="text"
                   value={newMessage}
                   onChange={handleTyping}
-                  className="flex-1 bg-transparent outline-none border-none focus:ring-0 p-2.5 pl-2 text-sm font-bold text-gray-800 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
+                  className="flex-1 bg-transparent outline-none border-none focus:ring-0 p-2.5 pl-2 text-md font-bold text-gray-800 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
                   placeholder="Napisz wiadomość..."
                   onKeyDown={(e) => {
                     if (e.key === "Enter" && !e.shiftKey) {

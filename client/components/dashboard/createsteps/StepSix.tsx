@@ -115,7 +115,7 @@ export default function StepSix({ nextStep, prevStep, formData, updateFormData }
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-50 dark:bg-blue-900/30 rounded-full mb-4">
                     <Sparkles className="text-blue-600 dark:text-blue-400 w-8 h-8" />
                 </div>
-                <h3 className="text-blue-600 dark:text-blue-400 font-bold text-sm uppercase tracking-widest mb-2">Krok 6</h3>
+                <h3 className="text-blue-600 dark:text-blue-400 font-bold text-md uppercase tracking-widest mb-2">Krok 6</h3>
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-200 dark:text-white">Twój profesjonalny opis</h2>
                 <p className="text-gray-500 dark:text-gray-400 mt-2">
                     Wygenerowaliśmy czytelny i rzeczowy opis Twojego auta.
@@ -127,7 +127,7 @@ export default function StepSix({ nextStep, prevStep, formData, updateFormData }
                     <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/80 dark:bg-dark-main/80 backdrop-blur-sm rounded-2xl z-10">
                         <Loader2 className="w-12 h-12 text-blue-600 animate-spin mb-4" />
                         <p className="text-gray-900 dark:text-gray-200 dark:text-white font-bold text-lg">Generowanie opisu...</p>
-                        <p className="text-gray-500 dark:text-gray-400 text-sm mt-2">To może potrwać kilka sekund</p>
+                        <p className="text-gray-500 dark:text-gray-400 text-md mt-2">To może potrwać kilka sekund</p>
                     </div>
                 ) : null}
 
@@ -147,7 +147,7 @@ export default function StepSix({ nextStep, prevStep, formData, updateFormData }
                 <button
                     onClick={handleGenerateListing}
                     disabled={isGenerating}
-                    className="flex items-center justify-center gap-2 text-blue-600 dark:text-blue-400 font-bold text-sm hover:underline disabled:opacity-50"
+                    className="flex items-center justify-center gap-2 text-blue-600 dark:text-blue-400 font-bold text-md hover:underline disabled:opacity-50"
                 >
                     <Sparkles className="w-4 h-4" />
                     Wygeneruj ponownie
@@ -163,7 +163,7 @@ export default function StepSix({ nextStep, prevStep, formData, updateFormData }
                     <button
                         onClick={nextStep}
                         disabled={!generatedListing || isGenerating}
-                        className="bg-blue-600 text-white font-bold px-12 py-4 rounded-xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-100 dark:shadow-none flex items-center gap-2 disabled:bg-gray-300 disabled:cursor-not-allowed uppercase tracking-widest text-sm"
+                        className="bg-blue-600 text-white font-bold px-12 py-4 rounded-xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-100 dark:shadow-none flex items-center gap-2 disabled:bg-gray-300 disabled:cursor-not-allowed uppercase tracking-widest text-md"
                     >
                         <span>Dalej</span>
                         <ChevronRight className="w-5 h-5" />

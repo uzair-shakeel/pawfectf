@@ -23,13 +23,13 @@ export default function SimpleMapPlaceholder({ location, setLocation }) {
     <div className="w-full h-96 bg-gray-100 dark:bg-dark-raised rounded-xl flex flex-col items-center justify-center p-8 border-2 border-dashed border-gray-300 dark:border-dark-divider">
       <MapPin className="w-16 h-16 text-blue-500 mb-4" />
       <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Location Coordinates</h3>
-      <p className="text-sm text-gray-500 mb-6 text-center">
+      <p className="text-md text-gray-500 mb-6 text-center">
         Enter your location coordinates or get them from Google Maps
       </p>
-      
+
       <div className="w-full max-w-md space-y-4">
         <div>
-          <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Latitude</label>
+          <label className="block text-sm font-bold text-gray-500 uppercase mb-2">Latitude</label>
           <input
             type="number"
             step="0.000001"
@@ -39,9 +39,9 @@ export default function SimpleMapPlaceholder({ location, setLocation }) {
             placeholder="51.5074"
           />
         </div>
-        
+
         <div>
-          <label className="block text-xs font-bold text-gray-500 uppercase mb-2">Longitude</label>
+          <label className="block text-sm font-bold text-gray-500 uppercase mb-2">Longitude</label>
           <input
             type="number"
             step="0.000001"
@@ -51,7 +51,7 @@ export default function SimpleMapPlaceholder({ location, setLocation }) {
             placeholder="-0.1278"
           />
         </div>
-        
+
         <button
           type="button"
           onClick={handleUpdate}
@@ -60,8 +60,8 @@ export default function SimpleMapPlaceholder({ location, setLocation }) {
           <Search className="w-4 h-4" />
           Update Location
         </button>
-        
-        <p className="text-xs text-gray-400 text-center">
+
+        <p className="text-sm text-gray-400 text-center">
           Get coordinates from{" "}
           <a
             href="https://www.google.com/maps"

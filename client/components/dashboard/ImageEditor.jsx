@@ -267,7 +267,7 @@ export default function ImageEditor({
         <label className="block text-gray-700">
           Upload Images (1-{maxImages})
         </label>
-        <div className="text-xs text-blue-500">
+        <div className="text-sm text-blue-500">
           Upload images and enhance them with our built-in editor
         </div>
       </div>
@@ -277,7 +277,7 @@ export default function ImageEditor({
         multiple
         accept="image/*"
         onChange={handleImageUpload}
-        className="text-base text-gray-500 file:mr-4 file:py-2 file:px-7 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-gray-700 file:text-white hover:file:bg-gray-600 file:duration-300 border border-gray-300 p-1 w-auto rounded-md"
+        className="text-base text-gray-500 file:mr-4 file:py-2 file:px-7 file:rounded-lg file:border-0 file:text-md file:font-semibold file:bg-gray-700 file:text-white hover:file:bg-gray-600 file:duration-300 border border-gray-300 p-1 w-auto rounded-md"
       />
 
       {imagePreviews?.length > 0 && (
@@ -405,7 +405,7 @@ export default function ImageEditor({
             )}
             {/* Blur Plate Error */}
             {plateBlurError && (
-              <div className="mt-4 text-red-500 text-sm">{plateBlurError}</div>
+              <div className="mt-4 text-red-500 text-md">{plateBlurError}</div>
             )}
           </div>
         </div>
@@ -413,4 +413,3 @@ export default function ImageEditor({
     </div>
   );
 }
- 

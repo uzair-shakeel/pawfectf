@@ -46,7 +46,7 @@ const Sidebar = () => {
       <div className="p-6 border-b border-slate-700/50">
         <div className="flex items-center space-x-2">
           <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-            <span className="text-white font-bold text-sm">P</span>
+            <span className="text-white font-bold text-md">P</span>
           </div>
           <span className="text-xl font-bold text-slate-200">Rafraf Admin</span>
         </div>
@@ -78,13 +78,13 @@ const Sidebar = () => {
       <div className="p-4 border-t border-slate-700/50">
         <div className="flex items-center space-x-3 mb-4">
           <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-            <span className="text-white font-bold text-sm">A</span>
+            <span className="text-white font-bold text-md">A</span>
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-slate-200 truncate">
+            <p className="text-md font-medium text-slate-200 truncate">
               {adminUser.name || "Admin User"}
             </p>
-            <p className="text-xs text-slate-400 truncate">
+            <p className="text-sm text-slate-400 truncate">
               {adminUser.email || "admin@pawfect.com"}
             </p>
           </div>

@@ -48,13 +48,13 @@ export default function WizardLayout({
                                 <h1 className="text-lg font-bold text-gray-900 dark:text-white leading-none mb-1">
                                     AI Car Listing Assistant
                                 </h1>
-                                <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">
+                                <p className="text-md text-gray-500 dark:text-gray-400 font-medium">
                                     Step {currentStep} of {totalSteps}: <span className="text-blue-600 dark:text-blue-400">{stepTitles[currentStep - 1]}</span>
                                 </p>
                             </div>
                         </div>
                         <div className="flex flex-col items-end">
-                            <div className="text-sm font-bold text-gray-900 dark:text-white mb-1">
+                            <div className="text-md font-bold text-gray-900 dark:text-white mb-1">
                                 {Math.round(progress)}% Complete
                             </div>
                         </div>

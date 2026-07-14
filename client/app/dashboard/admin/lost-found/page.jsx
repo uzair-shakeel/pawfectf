@@ -64,7 +64,7 @@ export default function AdminLostFoundPage() {
                 <p>Loading...</p>
             ) : (
                 <div className="bg-white dark:bg-dark-card rounded-xl shadow-sm border border-gray-100 dark:border-dark-divider overflow-x-auto">
-                    <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400">
+                    <table className="w-full text-left text-md text-gray-500 dark:text-gray-400">
                         <thead className="bg-gray-50 dark:bg-dark-raised text-gray-700 dark:text-gray-300">
                             <tr>
                                 <th className="px-6 py-4">Title</th>
@@ -80,14 +80,14 @@ export default function AdminLostFoundPage() {
                                 <tr key={e._id} className="border-b border-gray-100 dark:border-dark-divider">
                                     <td className="px-6 py-4 font-bold text-gray-900 dark:text-white truncate max-w-xs">{e.title}</td>
                                     <td className="px-6 py-4">
-                                        <span className={`px-2 py-1 rounded-full text-xs font-bold text-white ${e.type === 'Lost' ? 'bg-red-500' : 'bg-green-500'}`}>{e.type}</span>
+                                        <span className={`px-2 py-1 rounded-full text-sm font-bold text-white ${e.type === 'Lost' ? 'bg-red-500' : 'bg-green-500'}`}>{e.type}</span>
                                     </td>
                                     <td className="px-6 py-4">{e.reporterId?.email || e.reporterId?.firstName || 'Unknown'}</td>
                                     <td className="px-6 py-4">
-                                        <select 
-                                            value={e.status} 
+                                        <select
+                                            value={e.status}
                                             onChange={(ev) => handleStatus(e._id, ev.target.value)}
-                                            className="bg-gray-100 dark:bg-dark-raised border-none rounded-lg px-2 py-1 text-xs"
+                                            className="bg-gray-100 dark:bg-dark-raised border-none rounded-lg px-2 py-1 text-sm"
                                         >
                                             <option value="Active">Active</option>
                                             <option value="Resolved">Resolved</option>

@@ -113,26 +113,25 @@ const BuyerRequestDetailPage = ({ params }) => {
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center">
             <span
-              className={`text-xs px-3 py-1.5 rounded-full font-medium border ${
-                request.status === "Active"
-                  ? "bg-green-100 text-green-800 border-green-200"
-                  : request.status === "Fulfilled"
+              className={`text-sm px-3 py-1.5 rounded-full font-medium border ${request.status === "Active"
+                ? "bg-green-100 text-green-800 border-green-200"
+                : request.status === "Fulfilled"
                   ? "bg-blue-100 text-blue-800 border-blue-200"
                   : request.status === "Expired"
-                  ? "bg-orange-100 text-orange-800 border-orange-200"
-                  : "bg-red-100 text-red-800 border-red-200"
-              }`}
+                    ? "bg-orange-100 text-orange-800 border-orange-200"
+                    : "bg-red-100 text-red-800 border-red-200"
+                }`}
             >
               {request.status}
             </span>
             {request.status === "Active" && (
-              <span className="ml-3 text-sm text-gray-600 flex items-center">
+              <span className="ml-3 text-md text-gray-600 flex items-center">
                 <FiClock className="mr-1" />
                 {calculateDaysLeft(request.expiryDate)} days left
               </span>
             )}
           </div>
-          <span className="text-sm text-gray-500">
+          <span className="text-md text-gray-500">
             Posted {formatDate(request.createdAt)}
           </span>
         </div>
@@ -145,7 +144,7 @@ const BuyerRequestDetailPage = ({ params }) => {
           <div className="flex items-center">
             <FiDollarSign className="text-gray-400 mr-3 text-xl" />
             <div>
-              <p className="text-sm text-gray-500">Budget</p>
+              <p className="text-md text-gray-500">Budget</p>
               <p className="font-semibold text-green-600">
                 {request.budgetMin
                   ? `$${request.budgetMin.toLocaleString()} - $${request.budgetMax.toLocaleString()}`
@@ -158,7 +157,7 @@ const BuyerRequestDetailPage = ({ params }) => {
             <div className="flex items-center">
               <TbCar className="text-gray-400 mr-3 text-xl" />
               <div>
-                <p className="text-sm text-gray-500">Vehicle</p>
+                <p className="text-md text-gray-500">Vehicle</p>
                 <p className="font-semibold">
                   {request.make} {request.model}
                 </p>
@@ -170,7 +169,7 @@ const BuyerRequestDetailPage = ({ params }) => {
             <div className="flex items-center">
               <FiTag className="text-gray-400 mr-3 text-xl" />
               <div>
-                <p className="text-sm text-gray-500">Vehicle Type</p>
+                <p className="text-md text-gray-500">Vehicle Type</p>
                 <p className="font-semibold">{request.type}</p>
               </div>
             </div>
@@ -195,7 +194,7 @@ const BuyerRequestDetailPage = ({ params }) => {
                   <div className="flex items-start">
                     <FiInfo className="mr-3 mt-0.5 text-gray-400" />
                     <div>
-                      <p className="text-sm text-gray-500">
+                      <p className="text-md text-gray-500">
                         Preferred Condition
                       </p>
                       <p className="font-medium">
@@ -212,7 +211,7 @@ const BuyerRequestDetailPage = ({ params }) => {
               Preferred Features
             </h2>
             {request.preferredFeatures &&
-            request.preferredFeatures.length > 0 ? (
+              request.preferredFeatures.length > 0 ? (
               <div className="grid grid-cols-2 gap-2">
                 {request.preferredFeatures.map((feature, index) => (
                   <div key={index} className="flex items-center">

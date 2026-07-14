@@ -132,7 +132,7 @@ export function BrowseLocations() {
                     />
                   </div>
                   <div className="text-center py-4 px-2 bg-transparent dark:bg-transparent">
-                    <h3 className="font-medium text-sm tracking-wide text-dark-text-secondary transition-colors duration-300">
+                    <h3 className="font-medium text-md tracking-wide text-dark-text-secondary transition-colors duration-300">
                       {t(`homepage.browseLocations.types.${type.nameKey}`)}
                     </h3>
                   </div>

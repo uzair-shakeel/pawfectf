@@ -147,10 +147,10 @@ const FoodDonationWidget = () => {
                 <div className={`p-2 rounded-lg ${stat.color}`}>
                   <stat.icon className="h-4 w-4" />
                 </div>
-                <span className="text-xs text-green-600 font-medium">{stat.change}</span>
+                <span className="text-sm text-green-600 font-medium">{stat.change}</span>
               </div>
               <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
-              <p className="text-sm text-gray-600">{stat.title}</p>
+              <p className="text-md text-gray-600">{stat.title}</p>
             </div>
           ))}
         </div>
@@ -159,7 +159,7 @@ const FoodDonationWidget = () => {
         <div>
           <div className="flex items-center justify-between mb-4">
             <h4 className="font-medium text-gray-900">Recent Donations</h4>
-            <button className="text-sm text-blue-600 hover:text-blue-700">View All</button>
+            <button className="text-md text-blue-600 hover:text-blue-700">View All</button>
           </div>
 
           <div className="space-y-3">
@@ -173,12 +173,12 @@ const FoodDonationWidget = () => {
                     <p className="font-medium text-gray-900">
                       {formatAmount(donation.amount)} for {donation.petName}
                     </p>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-md text-gray-600">
                       by {donation.donorName} • {donation.time}
                     </p>
                   </div>
                 </div>
-                <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(donation.status)}`}>
+                <span className={`px-2 py-1 rounded-full text-sm font-medium ${getStatusColor(donation.status)}`}>
                   {donation.status}
                 </span>
               </div>

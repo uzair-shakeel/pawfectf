@@ -55,7 +55,7 @@ export default function Step08_Warranty({ formData, updateFormData, nextStep, pr
                             >
                                 <div className="pt-4 border-t border-gray-100 dark:border-gray-800 grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Warranty Type</label>
+                                        <label className="block text-md font-medium text-gray-700 dark:text-gray-300 mb-2">Warranty Type</label>
                                         <select
                                             value={formData.warranty?.type || "Factory"}
                                             onChange={(e) => updateFormData({
@@ -70,7 +70,7 @@ export default function Step08_Warranty({ formData, updateFormData, nextStep, pr
                                     </div>
 
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Valid Until (Date)</label>
+                                        <label className="block text-md font-medium text-gray-700 dark:text-gray-300 mb-2">Valid Until (Date)</label>
                                         <div className="relative">
                                             <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
                                             <input
@@ -85,7 +85,7 @@ export default function Step08_Warranty({ formData, updateFormData, nextStep, pr
                                     </div>
 
                                     <div className="col-span-1 md:col-span-2">
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Mileage Limit (km)</label>
+                                        <label className="block text-md font-medium text-gray-700 dark:text-gray-300 mb-2">Mileage Limit (km)</label>
                                         <div className="relative">
                                             <Gauge className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
                                             <input
@@ -98,7 +98,7 @@ export default function Step08_Warranty({ formData, updateFormData, nextStep, pr
                                                 className="w-full pl-10 pr-4 py-3 bg-white dark:bg-dark-bg border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-green-500 outline-none"
                                             />
                                         </div>
-                                        <p className="text-xs text-gray-500 mt-1 ml-1">Leave empty if unlimited kilometers.</p>
+                                        <p className="text-sm text-gray-500 mt-1 ml-1">Leave empty if unlimited kilometers.</p>
                                     </div>
                                 </div>
                             </motion.div>

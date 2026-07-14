@@ -77,7 +77,7 @@ export default function NewLostFoundPage() {
 
                 {/* Type Selection */}
                 <div>
-                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">{t("dashboard:reportPet.whatReporting", "What are you reporting?")}</label>
+                    <label className="block text-md font-semibold text-gray-700 dark:text-gray-300 mb-3">{t("dashboard:reportPet.whatReporting", "What are you reporting?")}</label>
                     <div className="flex gap-4">
                         <label className={`flex-1 cursor-pointer rounded-xl border-2 p-4 flex items-center gap-3 transition-all ${formData.type === 'Lost' ? 'border-red-500 bg-red-50 dark:bg-red-900/10' : 'border-gray-200 dark:border-dark-divider'}`}>
                             <input type="radio" name="type" value="Lost" checked={formData.type === 'Lost'} onChange={handleChange} className="hidden" />
@@ -98,18 +98,18 @@ export default function NewLostFoundPage() {
 
                 <div className="space-y-4">
                     <div>
-                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">{t("dashboard:reportPet.titleLabel", "Title")}</label>
+                        <label className="block text-md font-semibold text-gray-700 dark:text-gray-300 mb-2">{t("dashboard:reportPet.titleLabel", "Title")}</label>
                         <input required type="text" name="title" value={formData.title} onChange={handleChange} placeholder={t("dashboard:reportPet.titlePlaceholder", "e.g. Small white poodle found near City Center")} className="w-full bg-gray-50 dark:bg-dark-main border border-gray-200 dark:border-dark-divider rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white" />
                     </div>
                     <div>
-                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">{t("dashboard:reportPet.descriptionLabel", "Description")}</label>
+                        <label className="block text-md font-semibold text-gray-700 dark:text-gray-300 mb-2">{t("dashboard:reportPet.descriptionLabel", "Description")}</label>
                         <textarea required name="description" value={formData.description} onChange={handleChange} rows={4} placeholder={t("dashboard:reportPet.descriptionPlaceholder", "Provide details about the pet, collar, behaviors, exact location...")} className="w-full bg-gray-50 dark:bg-dark-main border border-gray-200 dark:border-dark-divider rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white" />
                     </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">{t("dashboard:reportPet.species", "Species")}</label>
+                        <label className="block text-md font-semibold text-gray-700 dark:text-gray-300 mb-2">{t("dashboard:reportPet.species", "Species")}</label>
                         <select name="species" value={formData.species} onChange={handleChange} className="w-full bg-gray-50 dark:bg-dark-main border border-gray-200 dark:border-dark-divider rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white">
                             <option value="Dog">{t("dashboard:reportPet.dog", "Dog")}</option>
                             <option value="Cat">{t("dashboard:reportPet.cat", "Cat")}</option>
@@ -118,7 +118,7 @@ export default function NewLostFoundPage() {
                         </select>
                     </div>
                     <div>
-                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">{t("dashboard:reportPet.gender", "Gender")}</label>
+                        <label className="block text-md font-semibold text-gray-700 dark:text-gray-300 mb-2">{t("dashboard:reportPet.gender", "Gender")}</label>
                         <select name="gender" value={formData.gender} onChange={handleChange} className="w-full bg-gray-50 dark:bg-dark-main border border-gray-200 dark:border-dark-divider rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white">
                             <option value="Male">{t("dashboard:reportPet.male", "Male")}</option>
                             <option value="Female">{t("dashboard:reportPet.female", "Female")}</option>
@@ -129,38 +129,38 @@ export default function NewLostFoundPage() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
-                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"><FaMapMarkerAlt className="inline mr-2" />{t("dashboard:reportPet.location", "Location (City/Area)")}</label>
+                        <label className="block text-md font-semibold text-gray-700 dark:text-gray-300 mb-2"><FaMapMarkerAlt className="inline mr-2" />{t("dashboard:reportPet.location", "Location (City/Area)")}</label>
                         <input required type="text" name="location" value={formData.location} onChange={handleChange} placeholder={t("dashboard:reportPet.locationPlaceholder", "e.g. Warsaw, Mokotów")} className="w-full bg-gray-50 dark:bg-dark-main border border-gray-200 dark:border-dark-divider rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white" />
                     </div>
                     <div>
-                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"><FaCalendarAlt className="inline mr-2" />{t("dashboard:reportPet.date", "Date")}</label>
+                        <label className="block text-md font-semibold text-gray-700 dark:text-gray-300 mb-2"><FaCalendarAlt className="inline mr-2" />{t("dashboard:reportPet.date", "Date")}</label>
                         <input required type="date" name="dateLostOrFound" value={formData.dateLostOrFound} onChange={handleChange} className="w-full bg-gray-50 dark:bg-dark-main border border-gray-200 dark:border-dark-divider rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white" />
                     </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-gray-100 dark:border-dark-divider pt-6">
                     <div>
-                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"><FaPhoneAlt className="inline mr-2" />{t("dashboard:reportPet.contactPhone", "Contact Phone")}</label>
+                        <label className="block text-md font-semibold text-gray-700 dark:text-gray-300 mb-2"><FaPhoneAlt className="inline mr-2" />{t("dashboard:reportPet.contactPhone", "Contact Phone")}</label>
                         <input type="tel" name="contactPhone" value={formData.contactPhone} onChange={handleChange} placeholder="e.g. +48 123 456 789" className="w-full bg-gray-50 dark:bg-dark-main border border-gray-200 dark:border-dark-divider rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white" />
                     </div>
                     <div>
-                        <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"><FaEnvelope className="inline mr-2" />{t("dashboard:reportPet.contactEmail", "Contact Email")}</label>
+                        <label className="block text-md font-semibold text-gray-700 dark:text-gray-300 mb-2"><FaEnvelope className="inline mr-2" />{t("dashboard:reportPet.contactEmail", "Contact Email")}</label>
                         <input type="email" name="contactEmail" value={formData.contactEmail} onChange={handleChange} placeholder="your@email.com" className="w-full bg-gray-50 dark:bg-dark-main border border-gray-200 dark:border-dark-divider rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white" />
                     </div>
                 </div>
 
                 <div className="border-t border-gray-100 dark:border-dark-divider pt-6">
-                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2"><FaCamera className="inline mr-2" />{t("dashboard:reportPet.photos", "Photos")}</label>
+                    <label className="block text-md font-semibold text-gray-700 dark:text-gray-300 mb-2"><FaCamera className="inline mr-2" />{t("dashboard:reportPet.photos", "Photos")}</label>
                     <div className="flex flex-wrap gap-4 mb-4">
                         {imagePreviews.map((src, i) => (
                             <div key={i} className="relative w-24 h-24 rounded-xl overflow-hidden border border-gray-200 dark:border-dark-divider">
                                 <Image src={src} alt="Preview" fill className="object-cover" />
-                                <button type="button" onClick={() => removeImage(i)} className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs">x</button>
+                                <button type="button" onClick={() => removeImage(i)} className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm">x</button>
                             </div>
                         ))}
                         <label className="w-24 h-24 rounded-xl border-2 border-dashed border-gray-300 dark:border-dark-divider flex flex-col items-center justify-center text-gray-500 hover:bg-gray-50 dark:hover:bg-dark-card cursor-pointer transition-colors">
                             <span className="text-2xl">+</span>
-                            <span className="text-xs">{t("dashboard:reportPet.addPhoto", "Add Photo")}</span>
+                            <span className="text-sm">{t("dashboard:reportPet.addPhoto", "Add Photo")}</span>
                             <input type="file" multiple accept="image/*" onChange={handleImageChange} className="hidden" />
                         </label>
                     </div>

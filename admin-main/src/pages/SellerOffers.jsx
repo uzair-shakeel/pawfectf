@@ -149,7 +149,7 @@ const SellerOffers = () => {
     >
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-slate-400 text-sm font-medium">{title}</p>
+          <p className="text-slate-400 text-md font-medium">{title}</p>
           <p className="text-2xl font-bold text-slate-200 mt-1">{value}</p>
         </div>
         <div
@@ -271,12 +271,12 @@ const SellerOffers = () => {
                 <h3 className="text-lg font-semibold text-slate-200">
                   Offer #{offer._id.slice(-6).toUpperCase()}
                 </h3>
-                <p className="text-slate-400 text-sm">
+                <p className="text-slate-400 text-md">
                   {offer.requestId?.make} {offer.requestId?.model}
                 </p>
               </div>
               <div
-                className={`px-2 py-1 rounded-full text-xs font-medium border flex items-center space-x-1 ${getStatusColor(
+                className={`px-2 py-1 rounded-full text-sm font-medium border flex items-center space-x-1 ${getStatusColor(
                   offer.status
                 )}`}
               >
@@ -287,14 +287,14 @@ const SellerOffers = () => {
 
             {/* Offer Price */}
             <div className="mb-4 p-3 bg-slate-800/30 rounded-lg">
-              <p className="text-slate-400 text-sm">Offer Price</p>
+              <p className="text-slate-400 text-md">Offer Price</p>
               <p className="text-2xl font-bold text-green-400">
                 {formatPrice(offer.price)}
               </p>
             </div>
 
             {/* Vehicle Details */}
-            <div className="space-y-2 mb-4 text-sm">
+            <div className="space-y-2 mb-4 text-md">
               <div className="flex justify-between">
                 <span className="text-slate-400">Year:</span>
                 <span className="text-slate-200">{offer.year || "N/A"}</span>
@@ -315,21 +315,21 @@ const SellerOffers = () => {
 
             {/* Seller Info */}
             <div className="mb-4 p-3 bg-slate-800/30 rounded-lg">
-              <p className="text-slate-400 text-xs">Seller</p>
-              <p className="text-slate-200 text-sm font-medium">
+              <p className="text-slate-400 text-sm">Seller</p>
+              <p className="text-slate-200 text-md font-medium">
                 {offer.sellerId?.firstName} {offer.sellerId?.lastName}
               </p>
-              <p className="text-slate-400 text-xs">{offer.sellerId?.email}</p>
+              <p className="text-slate-400 text-sm">{offer.sellerId?.email}</p>
             </div>
 
             {/* Buyer Request Info */}
             <div className="mb-4 p-3 bg-slate-700/30 rounded-lg">
-              <p className="text-slate-400 text-xs">Buyer Request</p>
-              <p className="text-slate-200 text-sm">
+              <p className="text-slate-400 text-sm">Buyer Request</p>
+              <p className="text-slate-200 text-md">
                 Budget: {formatPrice(offer.requestId?.budgetMin)} -{" "}
                 {formatPrice(offer.requestId?.budgetMax)}
               </p>
-              <p className="text-slate-400 text-xs">
+              <p className="text-slate-400 text-sm">
                 By: {offer.requestId?.buyerId?.firstName}{" "}
                 {offer.requestId?.buyerId?.lastName}
               </p>
@@ -340,7 +340,7 @@ const SellerOffers = () => {
               <select
                 value={offer.status}
                 onChange={(e) => handleStatusChange(offer._id, e.target.value)}
-                className="text-xs bg-slate-800 border border-slate-600 rounded px-2 py-1 text-slate-200 focus:outline-none focus:border-blue-500"
+                className="text-sm bg-slate-800 border border-slate-600 rounded px-2 py-1 text-slate-200 focus:outline-none focus:border-blue-500"
               >
                 <option value="pending">Pending</option>
                 <option value="accepted">Accepted</option>
@@ -371,7 +371,7 @@ const SellerOffers = () => {
 
             {/* Date */}
             <div className="mt-3 pt-3 border-t border-slate-700/50">
-              <p className="text-slate-400 text-xs">
+              <p className="text-slate-400 text-sm">
                 Created: {new Date(offer.createdAt).toLocaleDateString()}
               </p>
             </div>
@@ -397,11 +397,10 @@ const SellerOffers = () => {
                 <button
                   key={pageNum}
                   onClick={() => setCurrentPage(pageNum)}
-                  className={`px-3 py-2 rounded-lg transition-colors ${
-                    currentPage === pageNum
-                      ? "bg-blue-500 text-white"
-                      : "bg-slate-800 text-slate-200 hover:bg-slate-700"
-                  }`}
+                  className={`px-3 py-2 rounded-lg transition-colors ${currentPage === pageNum
+                    ? "bg-blue-500 text-white"
+                    : "bg-slate-800 text-slate-200 hover:bg-slate-700"
+                    }`}
                 >
                   {pageNum}
                 </button>
@@ -442,7 +441,7 @@ const SellerOffers = () => {
                       Delete Offer
                     </h3>
                     <div className="mt-2">
-                      <p className="text-sm text-slate-400">
+                      <p className="text-md text-slate-400">
                         Are you sure you want to delete this seller offer of{" "}
                         {formatPrice(offerToDelete?.price)}? This action cannot
                         be undone.
@@ -454,7 +453,7 @@ const SellerOffers = () => {
               <div className="bg-slate-700/50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                 <button
                   onClick={handleDeleteOffer}
-                  className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
+                  className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-md"
                 >
                   Delete
                 </button>
@@ -463,7 +462,7 @@ const SellerOffers = () => {
                     setShowDeleteModal(false);
                     setOfferToDelete(null);
                   }}
-                  className="mt-3 w-full inline-flex justify-center rounded-md border border-slate-600 shadow-sm px-4 py-2 bg-slate-800 text-base font-medium text-slate-200 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                  className="mt-3 w-full inline-flex justify-center rounded-md border border-slate-600 shadow-sm px-4 py-2 bg-slate-800 text-base font-medium text-slate-200 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-md"
                 >
                   Cancel
                 </button>
@@ -490,7 +489,7 @@ const SellerOffers = () => {
                     Offer Details #{selectedOffer._id.slice(-6).toUpperCase()}
                   </h3>
                   <div
-                    className={`px-3 py-1 rounded-full text-sm font-medium border flex items-center space-x-1 ${getStatusColor(
+                    className={`px-3 py-1 rounded-full text-md font-medium border flex items-center space-x-1 ${getStatusColor(
                       selectedOffer.status
                     )}`}
                   >
@@ -507,7 +506,7 @@ const SellerOffers = () => {
                     </h4>
 
                     <div className="p-4 bg-slate-700/30 rounded-lg">
-                      <label className="block text-sm font-medium text-slate-400">
+                      <label className="block text-md font-medium text-slate-400">
                         Offer Price
                       </label>
                       <p className="text-2xl font-bold text-green-400">
@@ -517,7 +516,7 @@ const SellerOffers = () => {
 
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-slate-400">
+                        <label className="block text-md font-medium text-slate-400">
                           Year
                         </label>
                         <p className="text-slate-200">
@@ -525,7 +524,7 @@ const SellerOffers = () => {
                         </p>
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-slate-400">
+                        <label className="block text-md font-medium text-slate-400">
                           Mileage
                         </label>
                         <p className="text-slate-200">
@@ -533,7 +532,7 @@ const SellerOffers = () => {
                         </p>
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-slate-400">
+                        <label className="block text-md font-medium text-slate-400">
                           Condition
                         </label>
                         <p className="text-slate-200">
@@ -541,7 +540,7 @@ const SellerOffers = () => {
                         </p>
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-slate-400">
+                        <label className="block text-md font-medium text-slate-400">
                           Fuel Type
                         </label>
                         <p className="text-slate-200">
@@ -551,16 +550,16 @@ const SellerOffers = () => {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-slate-400">
+                      <label className="block text-md font-medium text-slate-400">
                         Description
                       </label>
-                      <p className="text-slate-200 text-sm">
+                      <p className="text-slate-200 text-md">
                         {selectedOffer.description || "No description provided"}
                       </p>
                     </div>
 
                     <div className="p-4 bg-slate-700/30 rounded-lg">
-                      <label className="block text-sm font-medium text-slate-400">
+                      <label className="block text-md font-medium text-slate-400">
                         Seller Information
                       </label>
                       <p className="text-slate-200 font-semibold">
@@ -570,7 +569,7 @@ const SellerOffers = () => {
                       <p className="text-slate-400">
                         {selectedOffer.sellerId?.email}
                       </p>
-                      <p className="text-slate-400 text-sm">
+                      <p className="text-slate-400 text-md">
                         Seller Type:{" "}
                         {selectedOffer.sellerId?.sellerType || "Individual"}
                       </p>
@@ -584,7 +583,7 @@ const SellerOffers = () => {
                     </h4>
 
                     <div className="p-4 bg-slate-700/30 rounded-lg">
-                      <label className="block text-sm font-medium text-slate-400">
+                      <label className="block text-md font-medium text-slate-400">
                         Requested Vehicle
                       </label>
                       <p className="text-slate-200 font-semibold">
@@ -597,7 +596,7 @@ const SellerOffers = () => {
                     </div>
 
                     <div className="p-4 bg-slate-700/30 rounded-lg">
-                      <label className="block text-sm font-medium text-slate-400">
+                      <label className="block text-md font-medium text-slate-400">
                         Buyer Budget
                       </label>
                       <p className="text-slate-200 font-semibold">
@@ -607,7 +606,7 @@ const SellerOffers = () => {
                     </div>
 
                     <div className="p-4 bg-slate-700/30 rounded-lg">
-                      <label className="block text-sm font-medium text-slate-400">
+                      <label className="block text-md font-medium text-slate-400">
                         Buyer Information
                       </label>
                       <p className="text-slate-200 font-semibold">
@@ -621,7 +620,7 @@ const SellerOffers = () => {
 
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-slate-400">
+                        <label className="block text-md font-medium text-slate-400">
                           Offer Created
                         </label>
                         <p className="text-slate-200">
@@ -631,7 +630,7 @@ const SellerOffers = () => {
                         </p>
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-slate-400">
+                        <label className="block text-md font-medium text-slate-400">
                           Last Updated
                         </label>
                         <p className="text-slate-200">
@@ -644,10 +643,10 @@ const SellerOffers = () => {
 
                     {selectedOffer.rejectionReason && (
                       <div className="p-4 bg-red-500/20 border border-red-500/30 rounded-lg">
-                        <label className="block text-sm font-medium text-red-400">
+                        <label className="block text-md font-medium text-red-400">
                           Rejection Reason
                         </label>
-                        <p className="text-red-300 text-sm">
+                        <p className="text-red-300 text-md">
                           {selectedOffer.rejectionReason}
                         </p>
                       </div>
@@ -661,7 +660,7 @@ const SellerOffers = () => {
                     setShowOfferModal(false);
                     setSelectedOffer(null);
                   }}
-                  className="w-full inline-flex justify-center rounded-md border border-slate-600 shadow-sm px-4 py-2 bg-slate-800 text-base font-medium text-slate-200 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:w-auto sm:text-sm"
+                  className="w-full inline-flex justify-center rounded-md border border-slate-600 shadow-sm px-4 py-2 bg-slate-800 text-base font-medium text-slate-200 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:w-auto sm:text-md"
                 >
                   Close
                 </button>

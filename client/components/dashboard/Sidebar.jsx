@@ -209,7 +209,7 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
                     <h3 className="text-lg font-black text-gray-900 dark:text-white truncate">
                       {userData?.firstName || "User"}
                     </h3>
-                    <p className="text-xs text-gray-400 font-bold uppercase tracking-widest leading-none mt-1">
+                    <p className="text-sm text-gray-400 font-bold uppercase tracking-widest leading-none mt-1">
                       {sellerType === 'company' ? t("dashboard:sidebar.shelterAccount", 'Shelter Account') : t("dashboard:sidebar.petOwner", 'Pet Owner')}
                     </p>
                   </div>
@@ -236,7 +236,7 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
                     if (logoutItem?.action) await logoutItem.action();
                     toggleSidebar();
                   }}
-                  className="w-full flex items-center justify-between px-6 py-4 rounded-2xl bg-red-50 dark:bg-red-900/10 text-sm font-black text-red-500 uppercase tracking-widest"
+                  className="w-full flex items-center justify-between px-6 py-4 rounded-2xl bg-red-50 dark:bg-red-900/10 text-md font-black text-red-500 uppercase tracking-widest"
                 >
                   <div className="flex items-center gap-4">
                     <FiLogOut className="w-5 h-5" />
@@ -274,8 +274,8 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
               <div className="absolute top-0 right-0 w-16 h-16 bg-blue-500/10 rounded-bl-full -mr-4 -mt-4 transition-transform group-hover:scale-110"></div>
               <Avatar src={profileImage} alt="User" size={40} />
               <div className="min-w-0 flex-1 relative z-10">
-                <h3 className="text-sm font-bold text-white truncate">{userData?.firstName || "User"}</h3>
-                <p className="text-xs text-gray-400 truncate font-medium">{sellerType === 'company' ? t("dashboard:sidebar.shelterAccount", 'Shelter Account') : t("dashboard:sidebar.petOwner", 'Pet Owner')}</p>
+                <h3 className="text-md font-bold text-white truncate">{userData?.firstName || "User"}</h3>
+                <p className="text-sm text-gray-400 truncate font-medium">{sellerType === 'company' ? t("dashboard:sidebar.shelterAccount", 'Shelter Account') : t("dashboard:sidebar.petOwner", 'Pet Owner')}</p>
               </div>
             </div>
           )}
@@ -298,7 +298,7 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
                   onClick={() => {
                     if (window.innerWidth < 768) toggleSidebar();
                   }}
-                  className={`relative flex items-center gap-3 px-4 py-3 text-sm font-bold rounded-xl transition-all group
+                  className={`relative flex items-center gap-3 px-4 py-3 text-md font-bold rounded-xl transition-all group
                     ${active ? "bg-blue-600 text-white shadow-lg shadow-blue-900/50" : "text-gray-400 hover:bg-white/5 hover:text-white"}
                   `}
                 >
@@ -322,7 +322,7 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
               await logoutItem.action();
               if (window.innerWidth < 768) toggleSidebar();
             }}
-            className="w-full flex items-center gap-3 px-4 py-3 text-sm font-bold text-red-500/80 rounded-xl hover:bg-red-500/10 hover:text-red-500 transition-all group"
+            className="w-full flex items-center gap-3 px-4 py-3 text-md font-bold text-red-500/80 rounded-xl hover:bg-red-500/10 hover:text-red-500 transition-all group"
           >
             <span className="group-hover:scale-110 transition-transform">{logoutItem.icon}</span>
             <span>{logoutItem.label}</span>

@@ -23,7 +23,7 @@ export default function Step09_SellerNotes({ formData, updateFormData, nextStep,
                         <MessageSquare className="h-5 w-5 text-blue-500" />
                         <h3 className="font-bold text-gray-900 dark:text-white">Additional Seller Notes</h3>
                     </div>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+                    <p className="text-md text-gray-500 dark:text-gray-400 mb-4">
                         Mention things like: service history details, recent repairs, non-smoker, garaged, or specific selling points you want to highlight.
                     </p>
                     <textarea
@@ -58,7 +58,7 @@ export default function Step09_SellerNotes({ formData, updateFormData, nextStep,
                                         <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${formData.isFeatured ? "left-7" : "left-1"}`} />
                                     </div>
                                 </div>
-                                <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
+                                <p className="text-md text-gray-500 dark:text-gray-400 leading-relaxed">
                                     Boost your car to the top of search results and homepage. Featured cars get <span className="text-blue-600 dark:text-blue-400 font-bold">3x more engagement</span> from serious buyers.
                                 </p>
                             </div>

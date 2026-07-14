@@ -65,13 +65,13 @@ export default function Step07_FuelSpecific({ formData, updateFormData, nextStep
                             <Fuel className="h-5 w-5 text-blue-500 mt-0.5" />
                             <div>
                                 <h4 className="font-semibold text-blue-900 dark:text-blue-100">Gas Installation</h4>
-                                <p className="text-sm text-blue-700 dark:text-blue-300">Buyers need to know if the system is valid and safe.</p>
+                                <p className="text-md text-blue-700 dark:text-blue-300">Buyers need to know if the system is valid and safe.</p>
                             </div>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Installation Type</label>
+                                <label className="block text-md font-medium text-gray-700 dark:text-gray-300 mb-2">Installation Type</label>
                                 <select
                                     value={formData.fuelSpecific?.lpg?.factory ? "Factory" : "Aftermarket"}
                                     onChange={(e) => updateFormData({
@@ -88,7 +88,7 @@ export default function Step07_FuelSpecific({ formData, updateFormData, nextStep
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Installation Year</label>
+                                <label className="block text-md font-medium text-gray-700 dark:text-gray-300 mb-2">Installation Year</label>
                                 <div className="relative">
                                     <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
                                     <input
@@ -130,13 +130,13 @@ export default function Step07_FuelSpecific({ formData, updateFormData, nextStep
                             <Zap className="h-5 w-5 text-green-500 mt-0.5" />
                             <div>
                                 <h4 className="font-semibold text-green-900 dark:text-green-100">Electric System</h4>
-                                <p className="text-sm text-green-700 dark:text-green-300">Battery health is the #1 concern for EV buyers.</p>
+                                <p className="text-md text-green-700 dark:text-green-300">Battery health is the #1 concern for EV buyers.</p>
                             </div>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Battery Capacity (kWh)</label>
+                                <label className="block text-md font-medium text-gray-700 dark:text-gray-300 mb-2">Battery Capacity (kWh)</label>
                                 <div className="relative">
                                     <Battery className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
                                     <input
@@ -155,7 +155,7 @@ export default function Step07_FuelSpecific({ formData, updateFormData, nextStep
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Real Range (km)</label>
+                                <label className="block text-md font-medium text-gray-700 dark:text-gray-300 mb-2">Real Range (km)</label>
                                 <div className="relative">
                                     <Info className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
                                     <input
@@ -175,7 +175,7 @@ export default function Step07_FuelSpecific({ formData, updateFormData, nextStep
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Inlcuded Cables</label>
+                            <label className="block text-md font-medium text-gray-700 dark:text-gray-300 mb-2">Inlcuded Cables</label>
                             <div className="flex gap-4">
                                 {['Type 2', 'CCS', 'Home Charger (230V)'].map(cable => {
                                     const current = formData.fuelSpecific?.ev?.cables || [];
@@ -192,7 +192,7 @@ export default function Step07_FuelSpecific({ formData, updateFormData, nextStep
                                                     }
                                                 });
                                             }}
-                                            className={`px-4 py-2 rounded-lg border text-sm font-medium transition-colors ${isSelected
+                                            className={`px-4 py-2 rounded-lg border text-md font-medium transition-colors ${isSelected
                                                 ? "bg-green-100 dark:bg-green-900/30 border-green-500 text-green-700 dark:text-green-300"
                                                 : "bg-white dark:bg-dark-bg border-gray-200 dark:border-gray-700"
                                                 }`}

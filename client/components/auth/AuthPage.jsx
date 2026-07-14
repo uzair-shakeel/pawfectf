@@ -78,8 +78,8 @@ export default function AuthPage({ defaultTab = "login" }) {
     } catch { toast.error("Verification failed"); }
   };
 
-  const input = "w-full px-4 py-3.5 bg-gray-50 dark:bg-dark-raised border border-gray-200 dark:border-dark-divider rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 dark:text-white placeholder-gray-400 transition-all text-sm";
-  const label = "block text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-1.5";
+  const input = "w-full px-4 py-3.5 bg-gray-50 dark:bg-dark-raised border border-gray-200 dark:border-dark-divider rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 dark:text-white placeholder-gray-400 transition-all text-md";
+  const label = "block text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-1.5";
 
   return (
     <div className="min-h-screen flex">
@@ -107,7 +107,7 @@ export default function AuthPage({ defaultTab = "login" }) {
           <div className="pb-4">
             <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 mb-6">
               <span className="text-lg">🐾</span>
-              <span className="text-white/80 text-sm font-semibold">{t('auth.leftPanel.trustedBy')}</span>
+              <span className="text-white/80 text-md font-semibold">{t('auth.leftPanel.trustedBy')}</span>
             </div>
             <h2 className="text-4xl xl:text-5xl font-black text-white leading-tight mb-4">
               {t('auth.leftPanel.findYour')}<br />
@@ -141,7 +141,7 @@ export default function AuthPage({ defaultTab = "login" }) {
                   <span className="text-2xl">📧</span>
                 </div>
                 <h1 className="text-3xl font-black text-gray-900 dark:text-white mb-2">{t('auth.otp.checkEmail')}</h1>
-                <p className="text-gray-500 dark:text-gray-400 text-sm">
+                <p className="text-gray-500 dark:text-gray-400 text-md">
                   {t('auth.otp.sentCode')} <span className="font-bold text-gray-700 dark:text-gray-300">{regData.email}</span>
                 </p>
               </div>
@@ -165,11 +165,11 @@ export default function AuthPage({ defaultTab = "login" }) {
                   {loading ? t('auth.otp.verifying') : t('auth.otp.verifyButton')}
                 </button>
                 <div className="text-center space-y-2">
-                  <button type="button" onClick={() => resendOTP(tempUserId).then(() => toast.success("Code resent!"))} className="text-blue-600 hover:text-blue-700 text-sm font-semibold">
+                  <button type="button" onClick={() => resendOTP(tempUserId).then(() => toast.success("Code resent!"))} className="text-blue-600 hover:text-blue-700 text-md font-semibold">
                     {t('auth.otp.resendCode')}
                   </button>
                   <div>
-                    <button type="button" onClick={() => setStep("form")} className="text-gray-400 hover:text-gray-600 text-xs">{t('auth.otp.backToSignup')}</button>
+                    <button type="button" onClick={() => setStep("form")} className="text-gray-400 hover:text-gray-600 text-sm">{t('auth.otp.backToSignup')}</button>
                   </div>
                 </div>
               </form>
@@ -181,7 +181,7 @@ export default function AuthPage({ defaultTab = "login" }) {
                 <h1 className="text-3xl font-black text-gray-900 dark:text-white mb-1">
                   {tab === "login" ? t('auth.login.title') : t('auth.register.title')}
                 </h1>
-                <p className="text-gray-500 dark:text-gray-400 text-sm">
+                <p className="text-gray-500 dark:text-gray-400 text-md">
                   {tab === "login"
                     ? t('auth.login.subtitle')
                     : t('auth.register.subtitle')}
@@ -193,7 +193,7 @@ export default function AuthPage({ defaultTab = "login" }) {
                 <button
                   type="button"
                   onClick={() => setTab("login")}
-                  className={`flex-1 py-2.5 rounded-lg text-sm font-bold transition-all ${tab === "login"
+                  className={`flex-1 py-2.5 rounded-lg text-md font-bold transition-all ${tab === "login"
                     ? "bg-white dark:bg-dark-card text-blue-600 shadow-sm"
                     : "text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
                     }`}
@@ -203,7 +203,7 @@ export default function AuthPage({ defaultTab = "login" }) {
                 <button
                   type="button"
                   onClick={() => setTab("register")}
-                  className={`flex-1 py-2.5 rounded-lg text-sm font-bold transition-all ${tab === "register"
+                  className={`flex-1 py-2.5 rounded-lg text-md font-bold transition-all ${tab === "register"
                     ? "bg-white dark:bg-dark-card text-blue-600 shadow-sm"
                     : "text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
                     }`}
@@ -224,7 +224,7 @@ export default function AuthPage({ defaultTab = "login" }) {
                   <div>
                     <div className="flex justify-between items-center mb-1.5">
                       <label className={label} style={{ marginBottom: 0 }}>{t('auth.login.password')}</label>
-                      <Link href="/forgot-password" className="text-xs text-blue-600 hover:text-blue-700 font-semibold">
+                      <Link href="/forgot-password" className="text-sm text-blue-600 hover:text-blue-700 font-semibold">
                         {t('auth.login.forgotPassword')}
                       </Link>
                     </div>
@@ -233,10 +233,10 @@ export default function AuthPage({ defaultTab = "login" }) {
                       className={input} placeholder="••••••••" />
                   </div>
                   <button type="submit" disabled={loginLoading}
-                    className="w-full py-4 mt-2 rounded-xl bg-blue-600 text-white font-black text-sm hover:bg-blue-700 active:scale-[0.98] transition-all disabled:opacity-60 shadow-lg shadow-blue-500/25">
+                    className="w-full py-4 mt-2 rounded-xl bg-blue-600 text-white font-black text-md hover:bg-blue-700 active:scale-[0.98] transition-all disabled:opacity-60 shadow-lg shadow-blue-500/25">
                     {loginLoading ? t('auth.login.signingIn') : t('auth.login.signInButton')}
                   </button>
-                  <p className="text-center text-gray-500 text-sm pt-1">
+                  <p className="text-center text-gray-500 text-md pt-1">
                     {t('auth.login.newToRafraf')}{" "}
                     <button type="button" onClick={() => setTab("register")} className="text-blue-600 font-bold hover:underline">
                       {t('auth.login.createAccount')}
@@ -286,7 +286,7 @@ export default function AuthPage({ defaultTab = "login" }) {
                     <input id="terms" type="checkbox" checked={termsAccepted}
                       onChange={e => setTermsAccepted(e.target.checked)}
                       className="w-4 h-4 mt-0.5 rounded border-gray-300 accent-blue-600 flex-shrink-0" />
-                    <label htmlFor="terms" className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
+                    <label htmlFor="terms" className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
                       {t('auth.register.terms')}{" "}
                       <Link href="/terms" className="text-blue-600 font-semibold hover:underline">{t('auth.register.termsLink')}</Link>
                       {" "}{t('auth.register.and')}{" "}
@@ -294,10 +294,10 @@ export default function AuthPage({ defaultTab = "login" }) {
                     </label>
                   </div>
                   <button type="submit" disabled={loading}
-                    className="w-full py-4 rounded-xl bg-blue-600 text-white font-black text-sm hover:bg-blue-700 active:scale-[0.98] transition-all disabled:opacity-60 shadow-lg shadow-blue-500/25">
+                    className="w-full py-4 rounded-xl bg-blue-600 text-white font-black text-md hover:bg-blue-700 active:scale-[0.98] transition-all disabled:opacity-60 shadow-lg shadow-blue-500/25">
                     {loading ? t('auth.register.creating') : t('auth.register.createButton')}
                   </button>
-                  <p className="text-center text-gray-500 text-sm pt-1">
+                  <p className="text-center text-gray-500 text-md pt-1">
                     {t('auth.register.alreadyHaveAccount')}{" "}
                     <button type="button" onClick={() => setTab("login")} className="text-blue-600 font-bold hover:underline">
                       {t('auth.register.signIn')}

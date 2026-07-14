@@ -83,12 +83,12 @@ export default function StepFour({ nextStep, prevStep, updateFormData, formData 
     <div className="bg-white dark:bg-dark-main rounded-lg w-full transition-colors">
       <div className="mb-8">
         <h2 className="text-xl font-bold text-gray-900 dark:text-gray-200 dark:text-white">Krok 5: Finansowe Informacje</h2>
-        <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">Skonfiguruj cenę i opcje sprzedaży swojego pojazdu.</p>
+        <p className="text-gray-500 dark:text-gray-400 text-md mt-1">Skonfiguruj cenę i opcje sprzedaży swojego pojazdu.</p>
       </div>
 
       <div className="space-y-8">
         <div className="bg-gray-50/50 dark:bg-dark-main p-6 rounded-2xl border border-gray-100 dark:border-gray-700">
-          <label className="block text-sm font-semibold mb-4 uppercase tracking-wider text-gray-700 dark:text-gray-300">
+          <label className="block text-md font-semibold mb-4 uppercase tracking-wider text-gray-700 dark:text-gray-300">
             Opcje Sprzedaży
           </label>
           <div className="grid grid-cols-2 gap-3">
@@ -103,14 +103,14 @@ export default function StepFour({ nextStep, prevStep, updateFormData, formData 
                   onChange={() => handleCheckboxChange("sellOptions", option.value)}
                   className="w-5 h-5 rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500 bg-white dark:bg-dark-card"
                 />
-                <span className={`text-sm font-bold ${localData.sellOptions.includes(option.value) ? 'text-blue-700 dark:text-blue-400' : 'text-gray-600 dark:text-gray-300'}`}>{option.label}</span>
+                <span className={`text-md font-bold ${localData.sellOptions.includes(option.value) ? 'text-blue-700 dark:text-blue-400' : 'text-gray-600 dark:text-gray-300'}`}>{option.label}</span>
               </label>
             ))}
           </div>
         </div>
 
         <div className="bg-gray-50/50 dark:bg-dark-main p-6 rounded-2xl border border-gray-100 dark:border-gray-700">
-          <label className="block text-sm font-semibold mb-4 uppercase tracking-wider text-gray-700 dark:text-gray-300">
+          <label className="block text-md font-semibold mb-4 uppercase tracking-wider text-gray-700 dark:text-gray-300">
             Sposób Sprzedaży
           </label>
           <div className="grid grid-cols-2 gap-3">
@@ -125,7 +125,7 @@ export default function StepFour({ nextStep, prevStep, updateFormData, formData 
                   onChange={() => handleCheckboxChange("invoiceOptions", option.value)}
                   className="w-5 h-5 rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500 bg-white dark:bg-dark-card"
                 />
-                <span className={`text-sm font-bold ${localData.invoiceOptions.includes(option.value) ? 'text-blue-700 dark:text-blue-400' : 'text-gray-600 dark:text-gray-300'}`}>{option.label}</span>
+                <span className={`text-md font-bold ${localData.invoiceOptions.includes(option.value) ? 'text-blue-700 dark:text-blue-400' : 'text-gray-600 dark:text-gray-300'}`}>{option.label}</span>
               </label>
             ))}
           </div>
@@ -135,7 +135,7 @@ export default function StepFour({ nextStep, prevStep, updateFormData, formData 
           {localData.invoiceOptions.includes("Invoice VAT") ? (
             <div className="grid grid-cols-2 gap-8">
               <div className="col-span-2">
-                <label className="block text-sm font-semibold mb-2 uppercase tracking-wider text-gray-700 dark:text-gray-300">Cena (Netto)</label>
+                <label className="block text-md font-semibold mb-2 uppercase tracking-wider text-gray-700 dark:text-gray-300">Cena (Netto)</label>
                 <div className="relative group">
                   <input
                     type="number"
@@ -148,12 +148,12 @@ export default function StepFour({ nextStep, prevStep, updateFormData, formData 
                   />
                   <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold">€</div>
                 </div>
-                <p className="text-xs text-gray-400 mt-2 font-medium italic">* Cena brutto zostanie obliczona automatycznie w ogłoszeniu</p>
+                <p className="text-sm text-gray-400 mt-2 font-medium italic">* Cena brutto zostanie obliczona automatycznie w ogłoszeniu</p>
               </div>
             </div>
           ) : (
             <div>
-              <label className="block text-sm font-semibold mb-2 uppercase tracking-wider text-gray-700 dark:text-gray-300">Cena</label>
+              <label className="block text-md font-semibold mb-2 uppercase tracking-wider text-gray-700 dark:text-gray-300">Cena</label>
               <div className="relative group">
                 <input
                   type="number"
@@ -183,7 +183,7 @@ export default function StepFour({ nextStep, prevStep, updateFormData, formData 
             </div>
             <label htmlFor="isFeatured" className="cursor-pointer">
               <span className="block text-gray-900 dark:text-gray-200 dark:text-white font-bold mb-1">Oznacz jako polecany samochód</span>
-              <span className="block text-sm text-gray-500 dark:text-gray-400 leading-relaxed font-medium">
+              <span className="block text-md text-gray-500 dark:text-gray-400 leading-relaxed font-medium">
                 Polecane samochody zostaną wyróżnione i wyeksponowane na stronie głównej oraz w wynikach wyszukiwania.
               </span>
             </label>

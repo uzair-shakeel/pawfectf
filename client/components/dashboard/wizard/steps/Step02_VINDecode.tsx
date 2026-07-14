@@ -99,7 +99,7 @@ export default function Step02_VINDecode({ formData, updateFormData, nextStep, p
 
     const renderField = (label: string, value: string, field: string, options: string[] = [], required = false) => (
         <div className="col-span-1">
-            <label className="block text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">
+            <label className="block text-md font-medium text-gray-500 dark:text-gray-400 mb-1">
                 {label} {required && <span className="text-red-500">*</span>}
             </label>
             {isEditing ? (

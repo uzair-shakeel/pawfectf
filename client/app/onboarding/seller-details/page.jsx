@@ -246,7 +246,7 @@ const SellerDetailsPage = () => {
         <div className="bg-white/80 dark:bg-dark-main backdrop-blur-sm  rounded-2xl shadow ring-1 ring-black/5 p-6">
           {/* Progress */}
           <div className="mb-6">
-            <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-800 mb-2 transition-colors duration-300">
+            <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-800 mb-2 transition-colors duration-300">
               <span>
                 Step {stepIndex + 1} of {steps.length}
               </span>
@@ -286,7 +286,7 @@ const SellerDetailsPage = () => {
                   Private adopter
                 </div>
                 <div
-                  className={`text-xs mt-1 transition-colors
+                  className={`text-sm mt-1 transition-colors
         ${sellerType === "private"
                       ? "text-gray-600 dark:text-gray-300"
                       : "text-gray-600 dark:text-gray-400"
@@ -316,7 +316,7 @@ const SellerDetailsPage = () => {
                   Shelter / Organization
                 </div>
                 <div
-                  className={`text-xs mt-1 transition-colors
+                  className={`text-sm mt-1 transition-colors
         ${sellerType === "company"
                       ? "text-gray-600 dark:text-gray-300"
                       : "text-gray-600 dark:text-gray-400"
@@ -341,12 +341,12 @@ const SellerDetailsPage = () => {
                       className="w-full h-full object-cover"
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-xs text-gray-400">
+                    <div className="w-full h-full flex items-center justify-center text-sm text-gray-400">
                       No photo
                     </div>
                   )}
                 </div>
-                <label className="px-3 py-2 rounded-md bg-gray-900 text-white text-sm cursor-pointer">
+                <label className="px-3 py-2 rounded-md bg-gray-900 text-white text-md cursor-pointer">
                   Choose file
                   <input
                     type="file"
@@ -362,13 +362,13 @@ const SellerDetailsPage = () => {
                       setPreviewUrl(null);
                       setValue("image", null);
                     }}
-                    className="text-sm text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:text-gray-200 dark:hover:text-white transition-colors duration-300"
+                    className="text-md text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:text-gray-200 dark:hover:text-white transition-colors duration-300"
                   >
                     Remove
                   </button>
                 )}
               </div>
-              <p className="text-xs text-gray-500  transition-colors duration-300">
+              <p className="text-sm text-gray-500  transition-colors duration-300">
                 You can skip this and add a photo later.
               </p>
             </div>
@@ -421,7 +421,7 @@ const SellerDetailsPage = () => {
                 placeholder="Phone number"
                 className="w-full dark:bg-gray-900 dark:text-white border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               />
-              <p className="text-xs text-gray-500 mt-2 transition-colors duration-300">
+              <p className="text-sm text-gray-500 mt-2 transition-colors duration-300">
                 Optional. You can add more later in your profile.
               </p>
             </div>
@@ -457,7 +457,7 @@ const SellerDetailsPage = () => {
           )}
 
           {error && (
-            <div className="mt-4 p-3 rounded-md bg-red-50 text-red-600 text-sm">
+            <div className="mt-4 p-3 rounded-md bg-red-50 text-red-600 text-md">
               {error}
             </div>
           )}

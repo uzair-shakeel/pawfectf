@@ -172,7 +172,7 @@ const FoodPetApprovals = () => {
             </div>
             <div>
               <p className="text-2xl font-bold text-white">{pets.length}</p>
-              <p className="text-sm text-gray-400">Pending Approval</p>
+              <p className="text-md text-gray-400">Pending Approval</p>
             </div>
           </div>
         </div>
@@ -184,7 +184,7 @@ const FoodPetApprovals = () => {
             </div>
             <div>
               <p className="text-2xl font-bold text-white">{pets.filter(p => p.urgency === 'critical' || p.urgency === 'high').length}</p>
-              <p className="text-sm text-gray-400">Urgent Cases</p>
+              <p className="text-md text-gray-400">Urgent Cases</p>
             </div>
           </div>
         </div>
@@ -196,7 +196,7 @@ const FoodPetApprovals = () => {
             </div>
             <div>
               <p className="text-2xl font-bold text-white">24h</p>
-              <p className="text-sm text-gray-400">Avg Review Time</p>
+              <p className="text-md text-gray-400">Avg Review Time</p>
             </div>
           </div>
         </div>
@@ -224,16 +224,16 @@ const FoodPetApprovals = () => {
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-2">
                         <h3 className="text-lg font-semibold text-white">{pet.name}</h3>
-                        <span className={`px-3 py-1 rounded-full text-xs font-medium ${getUrgencyColor(pet.urgency)}`}>
+                        <span className={`px-3 py-1 rounded-full text-sm font-medium ${getUrgencyColor(pet.urgency)}`}>
                           {pet.urgency} priority
                         </span>
                       </div>
 
-                      <p className="text-sm text-gray-400 mb-2">
+                      <p className="text-md text-gray-400 mb-2">
                         {pet.breed} • {pet.species} • {pet.age} • {pet.gender}
                       </p>
 
-                      <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-3">
+                      <div className="flex items-center gap-4 text-md text-gray-500 dark:text-gray-400 mb-3">
                         <span className="flex items-center gap-1">
                           <MapPin className="h-4 w-4" />
                           {pet.shelter.name}, {pet.location.city}
@@ -245,13 +245,13 @@ const FoodPetApprovals = () => {
                         <span>Submitted {formatDate(pet.createdAt)}</span>
                       </div>
 
-                      <p className="text-sm text-gray-300 line-clamp-2 mb-2">{pet.description}</p>
+                      <p className="text-md text-gray-300 line-clamp-2 mb-2">{pet.description}</p>
 
                       <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3">
-                        <p className="text-sm text-blue-800 dark:text-blue-200">
+                        <p className="text-md text-blue-800 dark:text-blue-200">
                           <span className="font-medium">Food Need:</span> {pet.foodNeed.reason}
                         </p>
-                        <p className="text-sm text-blue-700 dark:text-blue-300 mt-1">
+                        <p className="text-md text-blue-700 dark:text-blue-300 mt-1">
                           Estimated cost: ₹{pet.foodNeed.estimatedCost} •
                           {pet.foodNeed.specialDiet && ` Special diet: ${pet.foodNeed.specialDiet}`}
                         </p>
@@ -312,7 +312,7 @@ const FoodPetApprovals = () => {
 
                 <div>
                   <h4 className="font-semibold text-white mb-3">Pet Details</h4>
-                  <div className="grid grid-cols-2 gap-3 text-sm text-gray-300">
+                  <div className="grid grid-cols-2 gap-3 text-md text-gray-300">
                     <div><span className="font-medium">Name:</span> {selectedPet.name}</div>
                     <div><span className="font-medium">Species:</span> {selectedPet.species}</div>
                     <div><span className="font-medium">Breed:</span> {selectedPet.breed}</div>
@@ -324,7 +324,7 @@ const FoodPetApprovals = () => {
 
                 <div>
                   <h5 className="font-medium text-white mb-2">Description</h5>
-                  <p className="text-sm text-gray-300">{selectedPet.description}</p>
+                  <p className="text-md text-gray-300">{selectedPet.description}</p>
                 </div>
               </div>
 
@@ -336,7 +336,7 @@ const FoodPetApprovals = () => {
                     <div className="dark:text-gray-200"><span className="font-medium">Reason:</span> {selectedPet.foodNeed.reason}</div>
                     <div className="dark:text-gray-200"><span className="font-medium">Estimated Cost:</span> ₹{selectedPet.foodNeed.estimatedCost}</div>
                     <div className="dark:text-gray-200"><span className="font-medium">Priority:</span>
-                      <span className={`ml-2 px-2 py-1 rounded-full text-xs ${getUrgencyColor(selectedPet.urgency)}`}>
+                      <span className={`ml-2 px-2 py-1 rounded-full text-sm ${getUrgencyColor(selectedPet.urgency)}`}>
                         {selectedPet.urgency}
                       </span>
                     </div>
@@ -349,7 +349,7 @@ const FoodPetApprovals = () => {
 
                 <div>
                   <h4 className="font-semibold text-white mb-3">Shelter Information</h4>
-                  <div className="space-y-2 text-sm text-gray-300">
+                  <div className="space-y-2 text-md text-gray-300">
                     <div><span className="font-medium">Name:</span> {selectedPet.shelter.name}</div>
                     <div><span className="font-medium">Address:</span> {selectedPet.shelter.address}</div>
                     <div><span className="font-medium">License:</span> {selectedPet.shelter.licenseNumber}</div>
@@ -366,7 +366,7 @@ const FoodPetApprovals = () => {
 
                 <div>
                   <h4 className="font-semibold text-white mb-3">Submitted By</h4>
-                  <div className="space-y-2 text-sm text-gray-300">
+                  <div className="space-y-2 text-md text-gray-300">
                     <div><span className="font-medium">Name:</span> {selectedPet.submittedBy.name}</div>
                     <div><span className="font-medium">Email:</span> {selectedPet.submittedBy.email}</div>
                     <div><span className="font-medium">Phone:</span> {selectedPet.submittedBy.phone}</div>
@@ -377,7 +377,7 @@ const FoodPetApprovals = () => {
                 {selectedPet.submissionNotes && (
                   <div>
                     <h5 className="font-medium text-white mb-2">Submission Notes</h5>
-                    <p className="text-sm text-gray-300 bg-gray-700 p-3 rounded-lg">{selectedPet.submissionNotes}</p>
+                    <p className="text-md text-gray-300 bg-gray-700 p-3 rounded-lg">{selectedPet.submissionNotes}</p>
                   </div>
                 )}
               </div>
@@ -386,7 +386,7 @@ const FoodPetApprovals = () => {
             {/* Actions */}
             <div className="p-6 border-t border-gray-700">
               <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-300 mb-2">
+                <label className="block text-md font-medium text-gray-300 mb-2">
                   Rejection Reason (if rejecting)
                 </label>
                 <textarea

@@ -144,7 +144,7 @@ const CustomMap = ({ location, setLocation }) => {
                     {locationDetails.city}
                     {locationDetails.state ? `, ${locationDetails.state}` : ""}
                   </p>
-                  <p className="text-xs text-gray-500">
+                  <p className="text-sm text-gray-500">
                     Click elsewhere on the map to change location
                   </p>
                 </div>

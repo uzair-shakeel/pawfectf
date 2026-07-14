@@ -96,8 +96,8 @@ const FoodDonationStats = () => {
                   <div className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
                     {typeof stat.value === 'string' ? stat.value : formatNumber(stat.value)}
                   </div>
-                  <div className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">{stat.label}</div>
-                  <div className="text-xs text-gray-500 dark:text-gray-400">{stat.description}</div>
+                  <div className="text-md font-semibold text-gray-700 dark:text-gray-300 mb-1">{stat.label}</div>
+                  <div className="text-sm text-gray-500 dark:text-gray-400">{stat.description}</div>
                 </>
               )}
             </div>
@@ -119,10 +119,10 @@ const FoodDonationStats = () => {
                 </div>
                 <div>
                   <p className="font-medium text-gray-900 dark:text-white">150 zł donated</p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">2 minutes ago</p>
+                  <p className="text-md text-gray-500 dark:text-gray-400">2 minutes ago</p>
                 </div>
               </div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Anonymous user sponsored food for Luna in Warsaw</p>
+              <p className="text-md text-gray-600 dark:text-gray-400">Anonymous user sponsored food for Luna in Warsaw</p>
             </div>
 
             <div className="bg-white dark:bg-dark-card rounded-lg p-4 shadow-sm border border-gray-100 dark:border-dark-divider">
@@ -132,10 +132,10 @@ const FoodDonationStats = () => {
                 </div>
                 <div>
                   <p className="font-medium text-gray-900 dark:text-white">New shelter joined</p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">15 minutes ago</p>
+                  <p className="text-md text-gray-500 dark:text-gray-400">15 minutes ago</p>
                 </div>
               </div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Happy Paws Shelter in Gdansk joined our network</p>
+              <p className="text-md text-gray-600 dark:text-gray-400">Happy Paws Shelter in Gdansk joined our network</p>
             </div>
 
             <div className="bg-white dark:bg-dark-card rounded-lg p-4 shadow-sm border border-gray-100 dark:border-dark-divider">
@@ -145,10 +145,10 @@ const FoodDonationStats = () => {
                 </div>
                 <div>
                   <p className="font-medium text-gray-900 dark:text-white">Goal reached!</p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">1 hour ago</p>
+                  <p className="text-md text-gray-500 dark:text-gray-400">1 hour ago</p>
                 </div>
               </div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Max the German Shepherd reached his food goal</p>
+              <p className="text-md text-gray-600 dark:text-gray-400">Max the German Shepherd reached his food goal</p>
             </div>
           </div>
         </div>

@@ -29,7 +29,7 @@ const ThemeToggle = ({ className = "", size = 24, showText = false }) => {
         <MdLightMode size={size} className="text-yellow-500" />
       )}
       {showText && (
-        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+        <span className="text-md font-medium text-gray-700 dark:text-gray-300">
           {theme === "light" ? "Dark" : "Light"}
         </span>
       )}

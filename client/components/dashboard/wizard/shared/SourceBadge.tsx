@@ -44,7 +44,7 @@ export default function SourceBadge({ source, className = "" }: SourceBadgeProps
     }
 
     return (
-        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold border ${badgeClasses} ${className}`}>
+        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-sm font-semibold border ${badgeClasses} ${className}`}>
             <Icon className="w-3.5 h-3.5" />
             {text}
         </span>

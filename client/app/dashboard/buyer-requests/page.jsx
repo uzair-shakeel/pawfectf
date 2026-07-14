@@ -240,7 +240,7 @@ const AdoptionRequestsDashboard = () => {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`px-5 py-2.5 rounded-xl text-sm font-bold transition-all ${activeTab === tab.id
+              className={`px-5 py-2.5 rounded-xl text-md font-bold transition-all ${activeTab === tab.id
                 ? "bg-blue-600 text-white shadow-md"
                 : "text-gray-500 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-dark-card"
                 }`}
@@ -278,7 +278,7 @@ const AdoptionRequestsDashboard = () => {
                         <div className="w-full h-full flex items-center justify-center text-gray-400"><FaPaw className="w-12 h-12 opacity-50" /></div>
                       )}
                       <div className="absolute top-3 right-3">
-                        <span className="px-3 py-1 rounded-lg text-xs font-bold uppercase shadow-sm bg-white/90 text-gray-900">{offer.status}</span>
+                        <span className="px-3 py-1 rounded-lg text-sm font-bold uppercase shadow-sm bg-white/90 text-gray-900">{offer.status}</span>
                       </div>
                       <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
                         <p className="text-white font-bold text-xl">{offer.price ? `${offer.price} PLN` : "Free Adoption"}</p>
@@ -287,11 +287,11 @@ const AdoptionRequestsDashboard = () => {
                     <div className="p-5 flex-1 flex flex-col">
                       <div className="mb-4">
                         <h3 className="font-bold text-gray-900 dark:text-white text-lg line-clamp-1">{offer.title}</h3>
-                        <p className="text-xs text-gray-500 mt-1">For request: {offer.requestTitle}</p>
+                        <p className="text-sm text-gray-500 mt-1">For request: {offer.requestTitle}</p>
                       </div>
                       <div className="mt-auto grid grid-cols-2 gap-2 pt-4 border-t border-gray-50 dark:border-dark-divider">
-                        <button onClick={() => handleAcceptOffer(offer._id)} className="py-2.5 bg-green-500 text-white rounded-xl font-bold text-sm">Accept</button>
-                        <button onClick={() => handleRejectOffer(offer._id)} className="py-2.5 bg-gray-100 dark:bg-dark-raised text-gray-700 dark:text-gray-300 rounded-xl font-bold text-sm">Reject</button>
+                        <button onClick={() => handleAcceptOffer(offer._id)} className="py-2.5 bg-green-500 text-white rounded-xl font-bold text-md">Accept</button>
+                        <button onClick={() => handleRejectOffer(offer._id)} className="py-2.5 bg-gray-100 dark:bg-dark-raised text-gray-700 dark:text-gray-300 rounded-xl font-bold text-md">Reject</button>
                       </div>
                     </div>
                   </div>
@@ -315,23 +315,23 @@ const AdoptionRequestsDashboard = () => {
               requests.map((request) => (
                 <div key={request._id} className="bg-white dark:bg-dark-card rounded-3xl shadow-sm border border-gray-100 dark:border-dark-divider overflow-hidden hover:shadow-md transition-all flex flex-col">
                   <div className="bg-gray-50 dark:bg-dark-raised border-b border-gray-100 dark:border-dark-divider px-6 py-4 flex justify-between items-center">
-                    <span className="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider bg-blue-100 text-blue-700">{request.status}</span>
-                    {request.status === "Active" && <span className="text-xs font-bold text-gray-400 flex items-center"><FiClock className="mr-1" /> {calculateDaysLeft(request.expiryDate)} days left</span>}
+                    <span className="px-3 py-1 rounded-lg text-sm font-bold uppercase tracking-wider bg-blue-100 text-blue-700">{request.status}</span>
+                    {request.status === "Active" && <span className="text-sm font-bold text-gray-400 flex items-center"><FiClock className="mr-1" /> {calculateDaysLeft(request.expiryDate)} days left</span>}
                   </div>
                   <div className="p-6 flex-1 flex flex-col">
                     <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 line-clamp-1">{request.title}</h3>
                     <div className="grid grid-cols-2 gap-y-4 gap-x-2 mb-6 mt-2">
                       <div>
-                        <p className="text-xs text-gray-400 font-bold uppercase mb-1">Preferences</p>
-                        <div className="flex items-center gap-1.5 text-sm font-bold text-gray-800 dark:text-gray-200"><FaPaw className="text-gray-400" /> {request.make || "Any"} {request.model || ""}</div>
+                        <p className="text-sm text-gray-400 font-bold uppercase mb-1">Preferences</p>
+                        <div className="flex items-center gap-1.5 text-md font-bold text-gray-800 dark:text-gray-200"><FaPaw className="text-gray-400" /> {request.make || "Any"} {request.model || ""}</div>
                       </div>
                       <div>
-                        <p className="text-xs text-gray-400 font-bold uppercase mb-1">Budget</p>
-                        <div className="flex items-center gap-1.5 text-sm font-bold text-green-600 dark:text-green-400"><FiDollarSign className="text-green-500" /> &lt; {request.budgetMax || 0} PLN</div>
+                        <p className="text-sm text-gray-400 font-bold uppercase mb-1">Budget</p>
+                        <div className="flex items-center gap-1.5 text-md font-bold text-green-600 dark:text-green-400"><FiDollarSign className="text-green-500" /> &lt; {request.budgetMax || 0} PLN</div>
                       </div>
                     </div>
                     <div className="flex gap-2 mt-auto">
-                      <button onClick={() => toggleRequestExpanded(request._id)} className="flex-1 py-2.5 bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400 rounded-xl font-bold text-sm">
+                      <button onClick={() => toggleRequestExpanded(request._id)} className="flex-1 py-2.5 bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400 rounded-xl font-bold text-md">
                         View Matches ({requestOffers[request._id]?.length || 0})
                       </button>
                       <button onClick={() => handleDeleteRequest(request._id)} className="p-2.5 bg-red-50 text-red-500 rounded-xl hover:bg-red-100"><FiTrash2 className="w-5 h-5" /></button>
@@ -344,8 +344,8 @@ const AdoptionRequestsDashboard = () => {
                             {requestOffers[request._id].map(offer => (
                               <div key={offer._id} className="bg-gray-50 dark:bg-dark-raised rounded-xl p-3 flex gap-3 items-center">
                                 <div className="flex-1 min-w-0">
-                                  <h5 className="font-bold text-gray-800 dark:text-white text-xs truncate">{offer.title}</h5>
-                                  <p className="text-xs text-blue-600 font-bold">{offer.price ? `${offer.price} PLN` : "Free"}</p>
+                                  <h5 className="font-bold text-gray-800 dark:text-white text-sm truncate">{offer.title}</h5>
+                                  <p className="text-sm text-blue-600 font-bold">{offer.price ? `${offer.price} PLN` : "Free"}</p>
                                 </div>
                                 <div className="flex gap-1">
                                   <button onClick={() => handleAcceptOffer(offer._id)} className="p-1.5 bg-green-100 text-green-600 rounded-lg">✓</button>
@@ -354,7 +354,7 @@ const AdoptionRequestsDashboard = () => {
                               </div>
                             ))}
                           </div>
-                        ) : <p className="text-center text-xs text-gray-500">No matches yet</p>}
+                        ) : <p className="text-center text-sm text-gray-500">No matches yet</p>}
                       </div>
                     )}
                   </div>

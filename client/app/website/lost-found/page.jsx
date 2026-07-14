@@ -62,7 +62,7 @@ export default function LostFoundPage() {
                             <button
                                 key={t}
                                 onClick={() => setFilter(t)}
-                                className={`flex-1 md:flex-none px-6 py-2 rounded-lg font-bold text-sm transition-all ${filter === t ? 'bg-blue-600 text-white shadow-md' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-dark-card'}`}
+                                className={`flex-1 md:flex-none px-6 py-2 rounded-lg font-bold text-md transition-all ${filter === t ? 'bg-blue-600 text-white shadow-md' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-dark-card'}`}
                             >
                                 {t}
                             </button>
@@ -74,7 +74,7 @@ export default function LostFoundPage() {
                             <select
                                 value={speciesFilter}
                                 onChange={(e) => setSpeciesFilter(e.target.value)}
-                                className="w-full bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-divider rounded-xl p-2.5 px-4 text-sm font-semibold text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-blue-500 outline-none appearance-none shadow-sm cursor-pointer"
+                                className="w-full bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-divider rounded-xl p-2.5 px-4 text-md font-semibold text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-blue-500 outline-none appearance-none shadow-sm cursor-pointer"
                             >
                                 {uniqueSpecies.map(s => (
                                     <option key={s} value={s}>{s === "All" ? t("dashboard.lostFound.allSpecies", "All Species") : s}</option>
@@ -92,7 +92,7 @@ export default function LostFoundPage() {
                                 placeholder={t("dashboard.lostFound.searchCity", "Search city...")}
                                 value={locationFilter}
                                 onChange={(e) => setLocationFilter(e.target.value)}
-                                className="w-full bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-divider rounded-xl py-2.5 pl-10 pr-4 text-sm font-semibold text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-blue-500 outline-none shadow-sm"
+                                className="w-full bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-divider rounded-xl py-2.5 pl-10 pr-4 text-md font-semibold text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-blue-500 outline-none shadow-sm"
                             />
                         </div>
                     </div>

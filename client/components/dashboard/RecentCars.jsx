@@ -28,7 +28,7 @@ export default function RecentCars({ cars = [] }) {
       </div>
       <div className="divide-y">
         {items.length === 0 && (
-          <div className="text-sm text-gray-500 dark:text-gray-400 transition-colors duration-300">
+          <div className="text-md text-gray-500 dark:text-gray-400 transition-colors duration-300">
             {t("dashboard.recentCars.noPetsAdded", "No pets added")}
           </div>
         )}
@@ -58,13 +58,13 @@ export default function RecentCars({ cars = [] }) {
                 <div className="truncate font-medium text-gray-900 dark:text-gray-200 dark:text-white transition-colors duration-300">
                   {title}
                 </div>
-                <div className="text-xs text-gray-500 dark:text-gray-400 truncate transition-colors duration-300">
+                <div className="text-sm text-gray-500 dark:text-gray-400 truncate transition-colors duration-300">
                   {car?.year || ""} {car?.trim || ""}
                 </div>
               </div>
               {String(status).toLowerCase() !== "pending" && (
                 <span
-                  className={`text-xs px-2 py-1 rounded-md ring-1 ${getStatusClasses(
+                  className={`text-sm px-2 py-1 rounded-md ring-1 ${getStatusClasses(
                     status
                   )}`}
                 >

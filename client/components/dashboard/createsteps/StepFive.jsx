@@ -131,7 +131,7 @@ export default function StepFive({
         {/* Basic Info Section */}
         <div className="bg-gray-50/50 dark:bg-dark-main rounded-2xl border border-gray-100 dark:border-gray-700 overflow-hidden">
           <div className="px-6 py-4 bg-gray-100/50 dark:bg-dark-main border-b border-gray-100 dark:border-gray-700">
-            <h3 className="font-bold text-gray-900 dark:text-gray-200 dark:text-gray-100 uppercase tracking-widest text-xs">Informacje Podstawowe</h3>
+            <h3 className="font-bold text-gray-900 dark:text-gray-200 dark:text-gray-100 uppercase tracking-widest text-sm">Informacje Podstawowe</h3>
           </div>
           <div className="p-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
@@ -154,7 +154,7 @@ export default function StepFive({
               {formData.generatedListing && (
                 <div className="col-span-2 mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl border border-blue-100 dark:border-blue-800">
                   <p className="text-[10px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest mb-2">Wygenerowany Opis Ojest</p>
-                  <div className="text-sm text-gray-700 dark:text-gray-300 line-clamp-6 whitespace-pre-line font-medium">
+                  <div className="text-md text-gray-700 dark:text-gray-300 line-clamp-6 whitespace-pre-line font-medium">
                     {formData.generatedListing}
                   </div>
                 </div>
@@ -166,7 +166,7 @@ export default function StepFive({
         {/* Condition Section */}
         <div className="bg-gray-50/50 dark:bg-dark-main rounded-2xl border border-gray-100 dark:border-gray-700 overflow-hidden">
           <div className="px-6 py-4 bg-gray-100/50 dark:bg-dark-main border-b border-gray-100 dark:border-gray-700">
-            <h3 className="font-bold text-gray-900 dark:text-gray-200 dark:text-gray-100 uppercase tracking-widest text-xs">Stan Pojazdu</h3>
+            <h3 className="font-bold text-gray-900 dark:text-gray-200 dark:text-gray-100 uppercase tracking-widest text-sm">Stan Pojazdu</h3>
           </div>
           <div className="p-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
@@ -184,7 +184,7 @@ export default function StepFive({
         {/* Financial Info Section */}
         <div className="bg-gray-50/50 dark:bg-dark-main rounded-2xl border border-gray-100 dark:border-gray-700 overflow-hidden">
           <div className="px-6 py-4 bg-gray-100/50 dark:bg-dark-main border-b border-gray-100 dark:border-gray-700">
-            <h3 className="font-bold text-gray-900 dark:text-gray-200 dark:text-gray-100 uppercase tracking-widest text-xs">Finanse i Sprzedaż</h3>
+            <h3 className="font-bold text-gray-900 dark:text-gray-200 dark:text-gray-100 uppercase tracking-widest text-sm">Finanse i Sprzedaż</h3>
           </div>
           <div className="p-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
@@ -206,7 +206,7 @@ export default function StepFive({
         {/* Location Section */}
         <div className="bg-gray-50/50 dark:bg-dark-main rounded-2xl border border-gray-100 dark:border-gray-700 overflow-hidden">
           <div className="px-6 py-4 bg-gray-100/50 dark:bg-dark-main border-b border-gray-100 dark:border-gray-700">
-            <h3 className="font-bold text-gray-900 dark:text-gray-200 dark:text-gray-100 uppercase tracking-widest text-xs">Lokalizacja</h3>
+            <h3 className="font-bold text-gray-900 dark:text-gray-200 dark:text-gray-100 uppercase tracking-widest text-sm">Lokalizacja</h3>
           </div>
           <div className="p-6">
             {locationDetails.city && (
@@ -215,8 +215,8 @@ export default function StepFive({
                   <FaMapMarkerAlt className="text-white" size={16} />
                 </div>
                 <div>
-                  <p className="text-sm font-bold text-gray-900 dark:text-gray-200 dark:text-white leading-none">{locationDetails.city}</p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{locationDetails.state || "Polska"}</p>
+                  <p className="text-md font-bold text-gray-900 dark:text-gray-200 dark:text-white leading-none">{locationDetails.city}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{locationDetails.state || "Polska"}</p>
                 </div>
               </div>
             )}
@@ -278,7 +278,7 @@ export default function StepFive({
           <div className="bg-white dark:bg-dark-main p-6 rounded-xl shadow-2xl flex flex-col items-center text-gray-900 dark:text-gray-200 dark:text-white">
             <div className="w-16 h-16 border-4 border-blue-100 border-t-blue-600 rounded-full animate-spin mb-4"></div>
             <h3 className="text-xl font-bold mb-2">Tworzenie Twojego Ogłoszenia</h3>
-            <p className="text-sm text-gray-500 dark:text-gray-400">Przetwarzanie zdjęć i danych...</p>
+            <p className="text-md text-gray-500 dark:text-gray-400">Przetwarzanie zdjęć i danych...</p>
           </div>
         </div>
       )}

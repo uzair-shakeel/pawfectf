@@ -124,7 +124,7 @@ export default function AddPetPage() {
   };
 
   const inputClass = "w-full p-3 rounded-xl border border-gray-200 dark:border-dark-divider bg-gray-50 dark:bg-dark-raised focus:ring-2 focus:ring-blue-500 focus:outline-none dark:text-white transition-all";
-  const labelClass = "block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2";
+  const labelClass = "block text-md font-bold text-gray-700 dark:text-gray-300 mb-2";
 
   return (
     <div className="max-w-4xl mx-auto p-4 md:p-8">
@@ -145,10 +145,10 @@ export default function AddPetPage() {
         <div className="flex items-center justify-between mb-8">
           {[1, 2, 3].map(s => (
             <div key={s} className="flex flex-col items-center relative z-10 w-1/3">
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm mb-2 transition-colors ${step >= s ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-400 dark:bg-dark-raised'}`}>
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-md mb-2 transition-colors ${step >= s ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-400 dark:bg-dark-raised'}`}>
                 {s}
               </div>
-              <span className={`text-xs font-bold ${step >= s ? 'text-blue-600' : 'text-gray-400'}`}>
+              <span className={`text-sm font-bold ${step >= s ? 'text-blue-600' : 'text-gray-400'}`}>
                 {s === 1 ? t("dashboard:addPet.steps.photos", "Photos") : s === 2 ? t("dashboard:addPet.steps.details", "Details") : t("dashboard:addPet.steps.healthBio", "Health & Bio")}
               </span>
               {s < 3 && <div className={`absolute top-5 left-1/2 w-full h-1 ${step > s ? 'bg-blue-600' : 'bg-gray-100 dark:bg-dark-raised'} -z-10`} />}
@@ -167,7 +167,7 @@ export default function AddPetPage() {
               {/* Upload Button */}
               <label className="aspect-square flex flex-col items-center justify-center border-2 border-dashed border-blue-300 dark:border-blue-800 bg-blue-50 dark:bg-blue-900/10 rounded-2xl cursor-pointer hover:bg-blue-100 dark:hover:bg-blue-900/20 transition-colors text-blue-600 dark:text-blue-400">
                 <UploadCloud className="w-8 h-8 mb-2" />
-                <span className="text-xs font-semibold text-center">
+                <span className="text-sm font-semibold text-center">
                   {t("dashboard:addPet.addPhoto", "Add Photo")}
                 </span>
 
@@ -284,7 +284,7 @@ export default function AddPetPage() {
               </div>
               <div className="flex flex-wrap gap-2">
                 {formData.healthStatus.map((h, i) => (
-                  <span key={i} className="px-3 py-1 bg-green-50 text-green-700 rounded-full text-sm flex items-center gap-1 border border-green-200">
+                  <span key={i} className="px-3 py-1 bg-green-50 text-green-700 rounded-full text-md flex items-center gap-1 border border-green-200">
                     {h} <X className="w-3 h-3 cursor-pointer" onClick={() => removeItem('healthStatus', i)} />
                   </span>
                 ))}
@@ -299,7 +299,7 @@ export default function AddPetPage() {
               </div>
               <div className="flex flex-wrap gap-2">
                 {formData.personality.map((p, i) => (
-                  <span key={i} className="px-3 py-1 bg-purple-50 text-purple-700 rounded-full text-sm flex items-center gap-1 border border-purple-200">
+                  <span key={i} className="px-3 py-1 bg-purple-50 text-purple-700 rounded-full text-md flex items-center gap-1 border border-purple-200">
                     {p} <X className="w-3 h-3 cursor-pointer" onClick={() => removeItem('personality', i)} />
                   </span>
                 ))}

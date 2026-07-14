@@ -28,23 +28,23 @@ const CarCard = () => {
         />
         {/* Tags */}
         <div className="absolute top-2 left-2 flex gap-2">
-          <span className="bg-black bg-opacity-60 text-white text-xs flex items-center px-2 py-1 rounded-lg">
+          <span className="bg-black bg-opacity-60 text-white text-sm flex items-center px-2 py-1 rounded-lg">
             <FaRegImage className="mr-1" />
             6
           </span>
         </div>
-        <span className="absolute top-2 right-2 bg-blue-500 text-white text-xs font-semibold px-3 py-1 rounded-lg">
+        <span className="absolute top-2 right-2 bg-blue-500 text-white text-sm font-semibold px-3 py-1 rounded-lg">
           2024
         </span>
       </div>
 
       {/* Car Details */}
       <div className="p-4">
-        <span className="text-blue-500 text-sm font-medium">Sedan</span>
+        <span className="text-blue-500 text-md font-medium">Sedan</span>
         <h2 className="text-lg font-semibold mt-1">2017 BMW X1 xDrive 20d xLine</h2>
 
         {/* Car Specs */}
-        <div className="flex items-center text-gray-600 text-sm gap-4 mt-2">
+        <div className="flex items-center text-gray-600 text-md gap-4 mt-2">
           <div className="flex items-center">
             <PiEngineBold className="mr-1 text-gray-500" />
             1.8 L

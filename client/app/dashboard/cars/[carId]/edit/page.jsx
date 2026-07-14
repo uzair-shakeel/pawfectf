@@ -101,7 +101,7 @@ export default function EditCarPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Title *</label>
+              <label className="block text-md font-medium text-gray-700 mb-1">Title *</label>
               <input
                 type="text"
                 required
@@ -112,7 +112,7 @@ export default function EditCarPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Make *</label>
+              <label className="block text-md font-medium text-gray-700 mb-1">Make *</label>
               <input
                 type="text"
                 required
@@ -123,7 +123,7 @@ export default function EditCarPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Model *</label>
+              <label className="block text-md font-medium text-gray-700 mb-1">Model *</label>
               <input
                 type="text"
                 required
@@ -134,7 +134,7 @@ export default function EditCarPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Year</label>
+              <label className="block text-md font-medium text-gray-700 mb-1">Year</label>
               <input
                 type="text"
                 className="w-full p-3 border border-gray-300 rounded-lg"
@@ -144,7 +144,7 @@ export default function EditCarPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Price *</label>
+              <label className="block text-md font-medium text-gray-700 mb-1">Price *</label>
               <input
                 type="number"
                 required
@@ -158,7 +158,7 @@ export default function EditCarPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Mileage</label>
+              <label className="block text-md font-medium text-gray-700 mb-1">Mileage</label>
               <input
                 type="text"
                 className="w-full p-3 border border-gray-300 rounded-lg"
@@ -169,7 +169,7 @@ export default function EditCarPage() {
           </div>
 
           <div className="mt-4">
-            <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+            <label className="block text-md font-medium text-gray-700 mb-1">Description</label>
             <textarea
               rows={4}
               className="w-full p-3 border border-gray-300 rounded-lg"
@@ -188,11 +188,11 @@ export default function EditCarPage() {
                 checked={formData.isFeatured}
                 onChange={(e) => setFormData({ ...formData, isFeatured: e.target.checked })}
               />
-              <label htmlFor="isFeatured" className="text-sm font-medium text-gray-700">
+              <label htmlFor="isFeatured" className="text-md font-medium text-gray-700">
                 Mark as Featured Car
               </label>
             </div>
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="text-sm text-gray-500 mt-1">
               Featured cars will be highlighted and shown prominently on the website
             </p>
           </div>

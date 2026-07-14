@@ -70,7 +70,7 @@ export default function UserAccountDropdown() {
                     className="ring-2 ring-transparent group-hover:ring-blue-500/30 transition-all"
                 />
                 <div className="hidden md:flex flex-col items-start pr-1 max-w-[120px]">
-                    <span className="text-xs font-black leading-tight text-gray-900 dark:text-dark-text-primary truncate w-full text-left">
+                    <span className="text-sm font-black leading-tight text-gray-900 dark:text-dark-text-primary truncate w-full text-left">
                         {user?.firstName || t("dashboard.navbar.user", "User")}
                     </span>
                     <span className="text-[10px] text-gray-400 font-bold uppercase tracking-tighter">{t("dashboard.userDropdown.account", "Account")}</span>
@@ -97,10 +97,10 @@ export default function UserAccountDropdown() {
                                     size={36}
                                 />
                                 <div className="min-w-0">
-                                    <p className="text-sm font-bold text-gray-900 dark:text-dark-text-primary truncate">
+                                    <p className="text-md font-bold text-gray-900 dark:text-dark-text-primary truncate">
                                         {user?.firstName} {user?.lastName}
                                     </p>
-                                    <p className="text-xs text-gray-500 dark:text-dark-text-muted truncate">{user?.email}</p>
+                                    <p className="text-sm text-gray-500 dark:text-dark-text-muted truncate">{user?.email}</p>
                                 </div>
                             </div>
                         </div>
@@ -142,7 +142,7 @@ export default function UserAccountDropdown() {
                         <div className="p-2 border-t border-gray-100 dark:border-dark-divider bg-gray-50/30 dark:bg-dark-card/30">
                             <button
                                 onClick={handleLogout}
-                                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-bold text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/10 transition-all group"
+                                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-md font-bold text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/10 transition-all group"
                             >
                                 <div className="p-1.5 rounded-lg bg-red-100 dark:bg-red-900/20 group-hover:bg-red-600 group-hover:text-white transition-colors">
                                     <FiLogOut className="w-4 h-4" />
@@ -161,7 +161,7 @@ function DropdownItem({ icon, label, onClick, isPrimary = false }) {
     return (
         <button
             onClick={onClick}
-            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-bold text-gray-700 dark:text-dark-text-secondary hover:bg-blue-600 transition-all group"
+            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-md font-bold text-gray-700 dark:text-dark-text-secondary hover:bg-blue-600 transition-all group"
         >
             <div className={`p-1.5 rounded-lg transition-colors ${isPrimary ? "bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400" : "bg-gray-100 dark:bg-dark-card text-gray-500 dark:text-gray-400"
                 } group-hover:bg-white/20 group-hover:text-white`}>

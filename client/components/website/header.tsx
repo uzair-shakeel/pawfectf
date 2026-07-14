@@ -87,10 +87,9 @@ export function Header() {
           shadow-md
           p-1 z-50 relative min-w-0
           transition-all duration-700 ease-in-out
-          ${
-            isSmallDevice || isScrolled
-              ? "max-w-[600px] scale-95 rounded-full bg-white/80 backdrop-blur-sm"
-              : "max-w-6xl scale-100 rounded-full bg-white"
+          ${isSmallDevice || isScrolled
+            ? "max-w-[600px] scale-95 rounded-full bg-white/80 backdrop-blur-sm"
+            : "max-w-6xl scale-100 rounded-full bg-white"
           }
         `}
       >
@@ -115,12 +114,11 @@ export function Header() {
                 key={link}
                 href={`#${link.toLowerCase()}`}
                 className={`
-                  px-5 py-2 font-medium text-sm
+                  px-5 py-2 font-medium text-md
                   transition-all duration-300 ease-in-out rounded-[50px]
-                  ${
-                    activeSection === link.toLowerCase()
-                      ? "bg-blue-600 text-white"
-                      : "text-gray-600 hover:text-blue-600"
+                  ${activeSection === link.toLowerCase()
+                    ? "bg-blue-600 text-white"
+                    : "text-gray-600 hover:text-blue-600"
                   }
                 `}
               >
@@ -133,17 +131,16 @@ export function Header() {
           <div className="flex items-center gap-2">
             {/* Theme Toggle */}
             <ThemeToggle size={20} />
-            
+
             {isSignedIn ? (
               <>
                 <button
                   onClick={() => router.push("/dashboard/home")}
                   className={`
                     transition-all duration-300 ease-in-out
-                    ${
-                      isSmallDevice || isScrolled
-                        ? "bg-blue-600 text-white px-4 py-2 rounded-full"
-                        : "text-blue-600 border border-blue-600 px-4 py-2 rounded-md hover:bg-blue-600 hover:text-white"
+                    ${isSmallDevice || isScrolled
+                      ? "bg-blue-600 text-white px-4 py-2 rounded-full"
+                      : "text-blue-600 border border-blue-600 px-4 py-2 rounded-md hover:bg-blue-600 hover:text-white"
                     }
                   `}
                 >
@@ -156,10 +153,9 @@ export function Header() {
                   }}
                   className={`
                     transition-all duration-300 ease-in-out
-                    ${
-                      isSmallDevice || isScrolled
-                        ? "bg-gray-800 text-white px-4 py-2 rounded-full"
-                        : "text-gray-700 border border-gray-300 px-4 py-2 rounded-md hover:bg-gray-800 hover:text-white"
+                    ${isSmallDevice || isScrolled
+                      ? "bg-gray-800 text-white px-4 py-2 rounded-full"
+                      : "text-gray-700 border border-gray-300 px-4 py-2 rounded-md hover:bg-gray-800 hover:text-white"
                     }
                   `}
                 >
@@ -171,10 +167,9 @@ export function Header() {
                 href="/login"
                 className={`
                   transition-all duration-300 ease-in-out
-                  ${
-                    isSmallDevice || isScrolled
-                      ? "bg-blue-600 text-white p-[10px] rounded-full flex items-center justify-center"
-                      : "text-blue-600 border border-blue-600 px-4 py-2 rounded-md hover:bg-blue-600 hover:text-white"
+                  ${isSmallDevice || isScrolled
+                    ? "bg-blue-600 text-white p-[10px] rounded-full flex items-center justify-center"
+                    : "text-blue-600 border border-blue-600 px-4 py-2 rounded-md hover:bg-blue-600 hover:text-white"
                   }
                 `}
               >

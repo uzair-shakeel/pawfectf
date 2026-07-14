@@ -76,25 +76,25 @@ function HomeContent() {
           <div className="w-full mt-60 md:mt-8 grid grid-cols-2 md:grid-cols-4 max-w-4xl bg-white/10 backdrop-blur-md p-3 sm:p-4 md:p-4 rounded-xl sm:rounded-2xl md:rounded-[2rem] border border-white/20 shadow-2xl gap-2 sm:gap-3 md:gap-3 animate-in slide-in-from-bottom-8 duration-1000 delay-300">
             <button
               onClick={() => router.push("/website/pets?species=Dog")}
-              className="flex-1 bg-white/10 hover:bg-white/20 transition-colors py-2 sm:py-3 md:py-4 rounded-lg sm:rounded-xl md:rounded-2xl font-bold flex flex-col items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-base"
+              className="flex-1 bg-white/10 hover:bg-white/20 transition-colors py-2 sm:py-3 md:py-4 rounded-lg sm:rounded-xl md:rounded-2xl font-bold flex flex-col items-center justify-center gap-1 sm:gap-2 text-sm sm:text-md md:text-base"
             >
               <span className="text-xl sm:text-2xl md:text-3xl">🐶</span> {t('homepage.hero.dogs')}
             </button>
             <button
               onClick={() => router.push("/website/pets?species=Cat")}
-              className="flex-1 bg-white/10 hover:bg-white/20 transition-colors py-2 sm:py-3 md:py-4 rounded-lg sm:rounded-xl md:rounded-2xl font-bold flex flex-col items-center justify-center gap-1 sm:gap-2 text-xs sm:text-sm md:text-base"
+              className="flex-1 bg-white/10 hover:bg-white/20 transition-colors py-2 sm:py-3 md:py-4 rounded-lg sm:rounded-xl md:rounded-2xl font-bold flex flex-col items-center justify-center gap-1 sm:gap-2 text-sm sm:text-md md:text-base"
             >
               <span className="text-xl sm:text-2xl md:text-3xl">🐱</span> {t('homepage.hero.cats')}
             </button>
             <button
               onClick={() => router.push("/website/lost-found")}
-              className="flex-1 bg-white/10 hover:bg-white/20 transition-colors py-2 sm:py-3 md:py-4 rounded-lg sm:rounded-xl md:rounded-2xl font-bold flex flex-col items-center justify-center gap-1 sm:gap-2 text-white text-xs sm:text-sm md:text-base"
+              className="flex-1 bg-white/10 hover:bg-white/20 transition-colors py-2 sm:py-3 md:py-4 rounded-lg sm:rounded-xl md:rounded-2xl font-bold flex flex-col items-center justify-center gap-1 sm:gap-2 text-white text-sm sm:text-md md:text-base"
             >
               <span className="text-xl sm:text-2xl md:text-3xl">🔍</span> {t('homepage.hero.lostFound')}
             </button>
             <button
               onClick={() => router.push("/website/pets")}
-              className="flex-1 bg-blue-600 hover:bg-blue-500 transition-colors py-2 sm:py-3 md:py-4 rounded-lg sm:rounded-xl md:rounded-2xl font-bold flex items-center justify-center gap-1 sm:gap-2 text-white shadow-lg shadow-blue-500/25 text-xs sm:text-sm md:text-base"
+              className="flex-1 bg-blue-600 hover:bg-blue-500 transition-colors py-2 sm:py-3 md:py-4 rounded-lg sm:rounded-xl md:rounded-2xl font-bold flex items-center justify-center gap-1 sm:gap-2 text-white shadow-lg shadow-blue-500/25 text-sm sm:text-md md:text-base"
             >
               <Search className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5" /> {t('homepage.hero.allPets')}
             </button>
@@ -138,8 +138,8 @@ function HomeContent() {
                   </div>
                   <div className="p-4">
                     <h3 className="font-bold text-lg">{pet.name || pet.species || "Pet"}</h3>
-                    <p className="text-sm text-gray-500 mb-2">{pet.breed || pet.species}</p>
-                    <div className="flex items-center justify-between text-sm">
+                    <p className="text-md text-gray-500 mb-2">{pet.breed || pet.species}</p>
+                    <div className="flex items-center justify-between text-md">
                       {/* Fee display removed per user request */}
                       {/* <span className="font-semibold text-blue-600">{pet.adoptionFee ? `${pet.adoptionFee} PLN` : "Free"}</span> */}
                       <span className="text-gray-400">{pet.location?.city || "Available"}</span>
@@ -156,7 +156,7 @@ function HomeContent() {
           <section className="bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-dark-card dark:via-dark-card dark:to-dark-card rounded-[2.5rem] p-8 md:p-12 border border-gray-100 dark:border-dark-divider shadow-lg">
             <div className="flex justify-between items-end mb-8">
               <div>
-                <div className="inline-flex items-center gap-2 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-400 px-3 py-1.5 rounded-full text-xs font-bold mb-3">
+                <div className="inline-flex items-center gap-2 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-400 px-3 py-1.5 rounded-full text-sm font-bold mb-3">
                   <Heart className="h-3.5 w-3.5" />
                   {t('homepage.petsNeedingFood.badge')}
                 </div>
@@ -182,7 +182,7 @@ function HomeContent() {
                       quality={60}
                     />
                     {pet.isUrgent && (
-                      <div className="absolute top-3 left-3 bg-red-500 text-white px-3 py-1.5 rounded-full text-xs font-bold animate-pulse shadow-lg">
+                      <div className="absolute top-3 left-3 bg-red-500 text-white px-3 py-1.5 rounded-full text-sm font-bold animate-pulse shadow-lg">
                         🚨 URGENT
                       </div>
                     )}
@@ -193,13 +193,13 @@ function HomeContent() {
                       <h3 className="font-bold text-lg text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{pet.name || pet.species || "Pet"}</h3>
                       <Heart className="h-5 w-5 text-gray-400 group-hover:text-red-500 group-hover:fill-red-500 transition-all" />
                     </div>
-                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">{pet.breed || pet.species}</p>
+                    <p className="text-md text-gray-600 dark:text-gray-400 mb-3">{pet.breed || pet.species}</p>
                     <div className="flex items-center justify-between pt-3 border-t border-gray-100 dark:border-dark-divider">
-                      <div className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
+                      <div className="flex items-center gap-1 text-sm text-gray-500 dark:text-gray-400">
                         <MapPin className="h-3.5 w-3.5" />
                         {pet.location?.city || "Available"}
                       </div>
-                      <span className="text-sm font-bold text-blue-600 dark:text-blue-400 group-hover:translate-x-1 transition-transform">
+                      <span className="text-md font-bold text-blue-600 dark:text-blue-400 group-hover:translate-x-1 transition-transform">
                         {t('homepage.petsNeedingFood.donate')} →
                       </span>
                     </div>
@@ -261,15 +261,15 @@ function HomeContent() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
               <div className="text-center">
                 <div className="text-3xl font-black text-blue-600">450+</div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">{t('homepage.feedPets.stat1')}</div>
+                <div className="text-md text-gray-600 dark:text-gray-400">{t('homepage.feedPets.stat1')}</div>
               </div>
               <div className="text-center">
                 <div className="text-3xl font-black text-blue-600">25</div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">{t('homepage.feedPets.stat2')}</div>
+                <div className="text-md text-gray-600 dark:text-gray-400">{t('homepage.feedPets.stat2')}</div>
               </div>
               <div className="text-center">
                 <div className="text-3xl font-black text-blue-600">15k zł</div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">{t('homepage.feedPets.stat3')}</div>
+                <div className="text-md text-gray-600 dark:text-gray-400">{t('homepage.feedPets.stat3')}</div>
               </div>
             </div>
 
@@ -378,7 +378,7 @@ function HomeContent() {
                     </div>
                     <div className="p-4">
                       <h3 className="font-bold text-gray-900 dark:text-white line-clamp-1">{entry.title}</h3>
-                      <div className="flex items-center gap-1 mt-2 text-xs text-gray-500">
+                      <div className="flex items-center gap-1 mt-2 text-sm text-gray-500">
                         <MapPin className="w-3 h-3 text-blue-500" />
                         <span className="truncate">{entry.location?.city || "Unknown"}</span>
                       </div>

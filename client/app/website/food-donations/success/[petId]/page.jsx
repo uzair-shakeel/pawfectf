@@ -113,7 +113,7 @@ export default function DonationSuccessPage() {
                             Thanks to donors like you, we've provided over <span className="font-bold text-blue-600 dark:text-blue-400">45,000 PLN</span> worth of food
                             to <span className="font-bold text-blue-600 dark:text-blue-400">1,247 pets</span> in need across Poland.
                         </p>
-                        <div className="flex justify-center items-center gap-8 text-sm text-gray-600 dark:text-gray-400">
+                        <div className="flex justify-center items-center gap-8 text-md text-gray-600 dark:text-gray-400">
                             <div className="text-center">
                                 <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">89</div>
                                 <div>Partner Shelters</div>

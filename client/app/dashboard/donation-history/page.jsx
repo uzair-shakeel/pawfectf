@@ -141,7 +141,7 @@ export default function DonationHistoryPage() {
                             <p className="text-xl font-bold text-gray-900 dark:text-white">
                                 {donations.length}
                             </p>
-                            <p className="text-xs text-gray-500 dark:text-gray-400">{t("dashboard:donationHistory.totalDonations", "Total Donations")}</p>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">{t("dashboard:donationHistory.totalDonations", "Total Donations")}</p>
                         </div>
                     </div>
                 </div>
@@ -152,20 +152,20 @@ export default function DonationHistoryPage() {
                         </div>
                         <div>
                             <p className="text-xl font-bold text-gray-900 dark:text-white">{donations.length}</p>
-                            <p className="text-xs text-gray-500 dark:text-gray-400">{t("dashboard:donationHistory.petsHelped", "Pets Helped")}</p>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">{t("dashboard:donationHistory.petsHelped", "Pets Helped")}</p>
                         </div>
                     </div>
                 </div>
                 <div className="bg-white dark:bg-dark-card rounded-2xl border border-gray-100 dark:border-dark-divider p-5">
                     <div className="flex items-center gap-3">
                         <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-xl flex items-center justify-center">
-                            <span className="text-blue-600 dark:text-blue-400 font-bold text-sm">zł</span>
+                            <span className="text-blue-600 dark:text-blue-400 font-bold text-md">zł</span>
                         </div>
                         <div>
                             <p className="text-xl font-bold text-gray-900 dark:text-white">
                                 {donations.reduce((sum, d) => sum + (d.payment?.amount || 0), 0)}
                             </p>
-                            <p className="text-xs text-gray-500 dark:text-gray-400">{t("dashboard:donationHistory.totalDonated", "Total Donated")}</p>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">{t("dashboard:donationHistory.totalDonated", "Total Donated")}</p>
                         </div>
                     </div>
                 </div>
@@ -185,7 +185,7 @@ export default function DonationHistoryPage() {
                     </p>
                     <Link
                         href="/website/food-donations"
-                        className="inline-flex items-center px-8 py-4 text-sm font-bold rounded-xl shadow-lg text-white bg-blue-600 hover:bg-blue-700 transition-all hover:scale-105"
+                        className="inline-flex items-center px-8 py-4 text-md font-bold rounded-xl shadow-lg text-white bg-blue-600 hover:bg-blue-700 transition-all hover:scale-105"
                     >
                         <Heart className="h-4 w-4 mr-2" />
                         {t("dashboard:donationHistory.browsePets", "Browse Pets to Help")}
@@ -213,7 +213,7 @@ export default function DonationHistoryPage() {
                                             unoptimized={isLocalUrl}
                                         />
                                         <div className="absolute top-3 left-3">
-                                            <span className="px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider text-white shadow-md bg-green-500">
+                                            <span className="px-3 py-1 rounded-full text-sm font-black uppercase tracking-wider text-white shadow-md bg-green-500">
                                                 {t("dashboard:donationHistory.donated", "Donated")}
                                             </span>
                                         </div>
@@ -225,7 +225,7 @@ export default function DonationHistoryPage() {
                                                 <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">
                                                     {pet?.title || "Pet"}
                                                 </h3>
-                                                <p className="text-sm text-gray-500 dark:text-gray-400">
+                                                <p className="text-md text-gray-500 dark:text-gray-400">
                                                     {pet?.species} • {pet?.breed || "Mixed"}
                                                 </p>
                                             </div>
@@ -237,7 +237,7 @@ export default function DonationHistoryPage() {
                                         </div>
 
                                         {pet?.location?.city && (
-                                            <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 mb-3">
+                                            <div className="flex items-center gap-2 text-md text-gray-600 dark:text-gray-400 mb-3">
                                                 <MapPin className="h-4 w-4" />
                                                 <span>{pet.location.city}</span>
                                             </div>
@@ -245,19 +245,19 @@ export default function DonationHistoryPage() {
 
                                         {donation.donorMessage && (
                                             <div className="mb-3 p-3 bg-gray-50 dark:bg-dark-raised rounded-lg">
-                                                <p className="text-sm text-gray-600 dark:text-gray-400 italic">
+                                                <p className="text-md text-gray-600 dark:text-gray-400 italic">
                                                     "{donation.donorMessage}"
                                                 </p>
                                             </div>
                                         )}
 
                                         <div className="flex items-center justify-between pt-3 border-t border-gray-100 dark:border-dark-divider">
-                                            <p className="text-xs text-gray-400">
+                                            <p className="text-sm text-gray-400">
                                                 {new Date(donation.createdAt).toLocaleDateString()}
                                             </p>
                                             <Link
                                                 href={`/website/pets/${pet?._id}`}
-                                                className="flex items-center gap-1 text-xs text-blue-600 dark:text-blue-400 hover:text-blue-700 font-bold"
+                                                className="flex items-center gap-1 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 font-bold"
                                             >
                                                 {t("dashboard:donationHistory.viewPet", "View Pet")}
                                                 <ArrowRight className="h-3 w-3" />

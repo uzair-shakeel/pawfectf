@@ -76,21 +76,21 @@ export default function UserLostFoundPage() {
                                     <div className="w-full h-full flex items-center justify-center text-gray-400">{t("dashboard.lostFoundDashboard.noImage", "No Image")}</div>
                                 )}
                                 <div className="absolute top-3 left-3">
-                                    <span className={`px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider text-white shadow-md ${entry.type === 'Lost' ? 'bg-red-500' : 'bg-green-500'}`}>
+                                    <span className={`px-3 py-1 rounded-full text-sm font-black uppercase tracking-wider text-white shadow-md ${entry.type === 'Lost' ? 'bg-red-500' : 'bg-green-500'}`}>
                                         {entry.type}
                                     </span>
                                 </div>
-                                <div className="absolute top-3 right-3 bg-white/90 dark:bg-dark-card/90 backdrop-blur-sm text-xs font-bold px-2.5 py-1 rounded-lg">
+                                <div className="absolute top-3 right-3 bg-white/90 dark:bg-dark-card/90 backdrop-blur-sm text-sm font-bold px-2.5 py-1 rounded-lg">
                                     {entry.status}
                                 </div>
                             </div>
 
                             <div className="p-5 flex-1 flex flex-col">
                                 <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-1 truncate">{entry.title}</h2>
-                                <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">{new Date(entry.dateLostOrFound).toLocaleDateString()}</p>
+                                <p className="text-md text-gray-500 dark:text-gray-400 mb-4">{new Date(entry.dateLostOrFound).toLocaleDateString()}</p>
 
                                 <div className="mt-auto pt-4 border-t border-gray-100 dark:border-dark-divider flex justify-between items-center">
-                                    <Link href={`/website/lost-found`} className="text-sm text-blue-600 font-bold hover:underline">{t("dashboard:lostFound.viewPublic", "View Public")}</Link>
+                                    <Link href={`/website/lost-found`} className="text-md text-blue-600 font-bold hover:underline">{t("dashboard:lostFound.viewPublic", "View Public")}</Link>
                                     <button onClick={() => handleDelete(entry._id)} className="text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 p-2 rounded-lg transition-colors">
                                         <FaTrash />
                                     </button>

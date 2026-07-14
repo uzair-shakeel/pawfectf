@@ -43,16 +43,16 @@ const HowItWorksSection = () => {
           {steps.map((step, index) => (
             <div key={index} className="relative text-center">
               {/* Step Number */}
-              <div className="absolute -top-3 -left-3 w-8 h-8 bg-orange-600 text-white rounded-full flex items-center justify-center text-sm font-bold z-10">
+              <div className="absolute -top-3 -left-3 w-8 h-8 bg-orange-600 text-white rounded-full flex items-center justify-center text-md font-bold z-10">
                 {index + 1}
               </div>
-              
+
               {/* Card */}
               <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-200 h-full">
                 <div className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl border ${step.color} mb-6`}>
                   <step.icon className="h-8 w-8" />
                 </div>
-                
+
                 <h3 className="text-xl font-semibold text-gray-900 mb-4">{step.title}</h3>
                 <p className="text-gray-600">{step.description}</p>
               </div>

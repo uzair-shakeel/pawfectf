@@ -205,7 +205,7 @@ export function DiscoveryPromo() {
                         >
                             <Link
                                 href="/discovery"
-                                className="inline-flex items-center justify-center px-10 py-5 bg-blue-600 text-white rounded-2xl font-black text-xs uppercase tracking-[0.3em] shadow-2xl shadow-blue-500/30 hover:shadow-blue-500/50 hover:scale-105 active:scale-95 transition-all group"
+                                className="inline-flex items-center justify-center px-10 py-5 bg-blue-600 text-white rounded-2xl font-black text-sm uppercase tracking-[0.3em] shadow-2xl shadow-blue-500/30 hover:shadow-blue-500/50 hover:scale-105 active:scale-95 transition-all group"
                             >
                                 Zacznij Teraz <ArrowRight className="ml-3 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                             </Link>

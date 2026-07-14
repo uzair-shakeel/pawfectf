@@ -24,7 +24,7 @@ const LocationTab = ({ location }) => {
         <div className="text-center p-6">
           <MapPin className="w-16 h-16 text-blue-500 mx-auto mb-4" />
           <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Location</h3>
-          <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+          <p className="text-md text-gray-600 dark:text-gray-400 mb-4">
             Latitude: {lat?.toFixed(6)}<br />
             Longitude: {lng?.toFixed(6)}
           </p>
@@ -32,7 +32,7 @@ const LocationTab = ({ location }) => {
             href={`https://www.google.com/maps?q=${lat},${lng}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
+            className="inline-flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors text-md font-medium"
           >
             <MapPin className="w-4 h-4" />
             View on Google Maps

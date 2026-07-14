@@ -75,10 +75,10 @@ export default function AdminCarsPage() {
       value === "Approved"
         ? "bg-green-50 text-green-700 border-green-200"
         : value === "Pending"
-        ? "bg-yellow-50 text-yellow-700 border-yellow-200"
-        : "bg-red-50 text-red-700 border-red-200";
+          ? "bg-yellow-50 text-yellow-700 border-yellow-200"
+          : "bg-red-50 text-red-700 border-red-200";
     return (
-      <span className={`inline-flex items-center px-2 py-1 rounded-md border text-sm ${style}`}>
+      <span className={`inline-flex items-center px-2 py-1 rounded-md border text-md ${style}`}>
         {value}
       </span>
     );
@@ -125,7 +125,7 @@ export default function AdminCarsPage() {
         <div>Loading...</div>
       ) : (
         <div className="overflow-x-auto border rounded">
-          <table className="min-w-full text-sm">
+          <table className="min-w-full text-md">
             <thead>
               <tr className="bg-gray-50">
                 <th className="text-left px-3 py-2">Car</th>
@@ -170,7 +170,7 @@ export default function AdminCarsPage() {
       )}
 
       <div className="flex items-center justify-between mt-4">
-        <div className="text-sm text-gray-600">Page {page} of {totalPages}</div>
+        <div className="text-md text-gray-600">Page {page} of {totalPages}</div>
         <div className="space-x-2">
           <button
             onClick={() => setPage((p) => Math.max(1, p - 1))}

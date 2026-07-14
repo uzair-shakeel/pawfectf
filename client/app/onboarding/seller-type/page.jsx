@@ -98,7 +98,7 @@ const SellerTypePage = () => {
               Perfect for animal shelters, rescue organizations, and breeders.
               Get access to bulk listings, analytics, and adoption management tools.
             </p>
-            <ul className="space-y-2 text-sm text-gray-500">
+            <ul className="space-y-2 text-md text-gray-500">
               <li className="flex items-center">
                 <span className="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
                 Bulk pet listing management
@@ -138,7 +138,7 @@ const SellerTypePage = () => {
               Ideal for individuals looking to adopt or re-home a pet. Simple
               and straightforward process with all essential features.
             </p>
-            <ul className="space-y-2 text-sm text-gray-500">
+            <ul className="space-y-2 text-md text-gray-500">
               <li className="flex items-center">
                 <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
                 Easy pet listing creation

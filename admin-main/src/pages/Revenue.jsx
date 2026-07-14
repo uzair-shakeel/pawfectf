@@ -172,7 +172,7 @@ const Revenue = () => {
           <p className="text-3xl font-bold text-yellow-500 mt-2">
             {formatCurrency(revenueStats.totalRevenue)}
           </p>
-          <p className="text-sm text-slate-400 mt-1">All Time</p>
+          <p className="text-md text-slate-400 mt-1">All Time</p>
         </div>
         <div className="bg-slate-900 rounded-lg p-6 shadow-lg border border-slate-700">
           <h3 className="text-lg font-semibold text-emerald-400">
@@ -183,18 +183,18 @@ const Revenue = () => {
               revenueStats.monthlyRevenue.reduce((a, b) => a + b, 0) / 12
             )}
           </p>
-          <p className="text-sm text-slate-400 mt-1">Per Month</p>
+          <p className="text-md text-slate-400 mt-1">Per Month</p>
         </div>
         <div className="bg-slate-900 rounded-lg p-6 shadow-lg border border-slate-700">
           <h3 className="text-lg font-semibold text-blue-400">Latest Month</h3>
           <p className="text-3xl font-bold text-blue-500 mt-2">
             {formatCurrency(
               revenueStats.monthlyRevenue[
-                revenueStats.monthlyRevenue.length - 1
+              revenueStats.monthlyRevenue.length - 1
               ]
             )}
           </p>
-          <p className="text-sm text-slate-400 mt-1">Current Period</p>
+          <p className="text-md text-slate-400 mt-1">Current Period</p>
         </div>
       </div>
 
@@ -225,13 +225,13 @@ const Revenue = () => {
           <table className="min-w-full table-auto">
             <thead>
               <tr className="bg-slate-800 border-b border-slate-700">
-                <th className="px-6 py-4 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">
+                <th className="px-6 py-4 text-left text-sm font-medium text-slate-400 uppercase tracking-wider">
                   Month
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">
+                <th className="px-6 py-4 text-left text-sm font-medium text-slate-400 uppercase tracking-wider">
                   Revenue
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">
+                <th className="px-6 py-4 text-left text-sm font-medium text-slate-400 uppercase tracking-wider">
                   Growth
                 </th>
               </tr>
@@ -242,26 +242,25 @@ const Revenue = () => {
                   key={month}
                   className="bg-slate-900 hover:bg-slate-800 transition-colors"
                 >
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">
+                  <td className="px-6 py-4 whitespace-nowrap text-md text-slate-300">
                     {month}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">
+                  <td className="px-6 py-4 whitespace-nowrap text-md text-slate-300">
                     {formatCurrency(revenueStats.monthlyRevenue[index])}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm">
+                  <td className="px-6 py-4 whitespace-nowrap text-md">
                     {index === 0 ? (
                       <span className="text-slate-400">-</span>
                     ) : (
                       <span
-                        className={`${
-                          ((revenueStats.monthlyRevenue[index] -
-                            revenueStats.monthlyRevenue[index - 1]) /
-                            revenueStats.monthlyRevenue[index - 1]) *
-                            100 >
+                        className={`${((revenueStats.monthlyRevenue[index] -
+                          revenueStats.monthlyRevenue[index - 1]) /
+                          revenueStats.monthlyRevenue[index - 1]) *
+                          100 >
                           0
-                            ? "text-emerald-400"
-                            : "text-rose-400"
-                        }`}
+                          ? "text-emerald-400"
+                          : "text-rose-400"
+                          }`}
                       >
                         {(
                           ((revenueStats.monthlyRevenue[index] -

@@ -110,7 +110,7 @@ export default function PetCard({ pet, viewMode = "grid" }) {
 
             {/* Fee overlay - REMOVED per user request */}
             {/* <div className="absolute bottom-3 left-3 bg-gray-900/90 backdrop-blur-md px-3 py-1.5 rounded-xl shadow-lg border border-white/10">
-              <div className="text-sm font-semibold text-white">{feeLabel}</div>
+              <div className="text-md font-semibold text-white">{feeLabel}</div>
             </div> */}
 
             {/* Featured badge */}
@@ -176,10 +176,10 @@ export default function PetCard({ pet, viewMode = "grid" }) {
 
         <div className="flex-1 p-3 xs:p-4 md:p-8 flex flex-col justify-center bg-transparent min-w-0">
           <div className="flex flex-col gap-1 md:gap-3">
-            <h3 className="text-sm xs:text-base sm:text-lg md:text-3xl font-bold text-gray-900 dark:text-gray-200 group-hover:text-blue-600 transition-colors leading-tight truncate">
+            <h3 className="text-md xs:text-base sm:text-lg md:text-3xl font-bold text-gray-900 dark:text-gray-200 group-hover:text-blue-600 transition-colors leading-tight truncate">
               {displayName}
             </h3>
-            <p className="text-[10px] xs:text-xs md:text-[17px] text-gray-600 dark:text-dark-text-secondary line-clamp-2 leading-snug">
+            <p className="text-[10px] xs:text-sm md:text-[17px] text-gray-600 dark:text-dark-text-secondary line-clamp-2 leading-snug">
               {subtitle || "Looking for a loving home"}
               {pet?.healthStatus?.length > 0 && ` · ${pet.healthStatus.slice(0, 2).join(", ")}`}
             </p>
@@ -189,7 +189,7 @@ export default function PetCard({ pet, viewMode = "grid" }) {
                 {locationDetails.city || "Location TBD"}
               </div>
               {/* Fee display removed per user request */}
-              {/* <div className="text-sm xs:text-base sm:text-xl md:text-2xl font-black text-gray-900 dark:text-gray-200 tracking-tighter">
+              {/* <div className="text-md xs:text-base sm:text-xl md:text-2xl font-black text-gray-900 dark:text-gray-200 tracking-tighter">
                 {feeLabel}
               </div> */}
             </div>

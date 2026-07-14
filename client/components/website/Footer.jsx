@@ -107,7 +107,7 @@ export function Footer() {
                 />
               </div>
             </Link>
-            <p className="text-gray-400 text-sm mt-2">
+            <p className="text-gray-400 text-md mt-2">
               All rights reserved © {new Date().getFullYear()} Rafraf.
               Wszelkie prawa zastrzeżone.
             </p>

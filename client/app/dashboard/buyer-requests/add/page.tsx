@@ -139,7 +139,7 @@ const AddBuyerRequestPage = () => {
           <div>
             <label
               htmlFor="title"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-md font-medium text-gray-700 mb-1"
             >
               Request Title *
             </label>
@@ -151,7 +151,7 @@ const AddBuyerRequestPage = () => {
               placeholder="E.g., Looking for a family SUV in good condition"
             />
             {errors.title && (
-              <p className="text-red-500 text-sm mt-1">
+              <p className="text-red-500 text-md mt-1">
                 {errors.title.message}
               </p>
             )}
@@ -161,7 +161,7 @@ const AddBuyerRequestPage = () => {
           <div>
             <label
               htmlFor="description"
-              className="block text-sm font-medium text-gray-700 mb-1"
+              className="block text-md font-medium text-gray-700 mb-1"
             >
               Detailed Description *
             </label>
@@ -175,7 +175,7 @@ const AddBuyerRequestPage = () => {
               placeholder="Describe what you're looking for in detail. Include any specific requirements or preferences."
             />
             {errors.description && (
-              <p className="text-red-500 text-sm mt-1">
+              <p className="text-red-500 text-md mt-1">
                 {errors.description.message}
               </p>
             )}
@@ -187,7 +187,7 @@ const AddBuyerRequestPage = () => {
             <div>
               <label
                 htmlFor="make"
-                className="block text-sm font-medium text-gray-700 mb-1"
+                className="block text-md font-medium text-gray-700 mb-1"
               >
                 Make (Optional)
               </label>
@@ -209,7 +209,7 @@ const AddBuyerRequestPage = () => {
             <div>
               <label
                 htmlFor="model"
-                className="block text-sm font-medium text-gray-700 mb-1"
+                className="block text-md font-medium text-gray-700 mb-1"
               >
                 Model (Optional)
               </label>
@@ -232,7 +232,7 @@ const AddBuyerRequestPage = () => {
             <div>
               <label
                 htmlFor="type"
-                className="block text-sm font-medium text-gray-700 mb-1"
+                className="block text-md font-medium text-gray-700 mb-1"
               >
                 Vehicle Type (Optional)
               </label>
@@ -254,7 +254,7 @@ const AddBuyerRequestPage = () => {
             <div>
               <label
                 htmlFor="budgetMin"
-                className="block text-sm font-medium text-gray-700 mb-1"
+                className="block text-md font-medium text-gray-700 mb-1"
               >
                 Budget Min (Optional)
               </label>
@@ -268,7 +268,7 @@ const AddBuyerRequestPage = () => {
                 placeholder="Minimum budget"
               />
               {errors.budgetMin && (
-                <p className="text-red-500 text-sm mt-1">
+                <p className="text-red-500 text-md mt-1">
                   {errors.budgetMin.message}
                 </p>
               )}
@@ -277,7 +277,7 @@ const AddBuyerRequestPage = () => {
             <div>
               <label
                 htmlFor="budgetMax"
-                className="block text-sm font-medium text-gray-700 mb-1"
+                className="block text-md font-medium text-gray-700 mb-1"
               >
                 Budget Max *
               </label>
@@ -292,7 +292,7 @@ const AddBuyerRequestPage = () => {
                 placeholder="Maximum budget"
               />
               {errors.budgetMax && (
-                <p className="text-red-500 text-sm mt-1">
+                <p className="text-red-500 text-md mt-1">
                   {errors.budgetMax.message}
                 </p>
               )}
@@ -302,7 +302,7 @@ const AddBuyerRequestPage = () => {
             <div>
               <label
                 htmlFor="preferredCondition"
-                className="block text-sm font-medium text-gray-700 mb-1"
+                className="block text-md font-medium text-gray-700 mb-1"
               >
                 Preferred Condition (Optional)
               </label>
@@ -321,7 +321,7 @@ const AddBuyerRequestPage = () => {
 
             {/* Preferred Features */}
             <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-md font-medium text-gray-700 mb-1">
                 Preferred Features (Optional)
               </label>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
@@ -336,7 +336,7 @@ const AddBuyerRequestPage = () => {
                     />
                     <label
                       htmlFor={`feature-${feature}`}
-                      className="text-sm text-gray-700"
+                      className="text-md text-gray-700"
                     >
                       {feature}
                     </label>

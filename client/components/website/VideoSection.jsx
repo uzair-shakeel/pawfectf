@@ -269,7 +269,7 @@ const VideoSection = () => {
           {/* Left side - Heading */}
           <div className="flex-1 max-w-3xl lg:max-w-3xl w-full">
             <div className="inline-block mb-6">
-              <span className="text-sm font-semibold bg-blue-50 dark:bg-blue-900/30 px-3 py-2 rounded-full shadow-sm text-blue-600 dark:text-blue-400 tracking-wider uppercase transition-colors duration-300">
+              <span className="text-md font-semibold bg-blue-50 dark:bg-blue-900/30 px-3 py-2 rounded-full shadow-sm text-blue-600 dark:text-blue-400 tracking-wider uppercase transition-colors duration-300">
                 Rewolucyjna platforma
               </span>
             </div>
@@ -462,7 +462,7 @@ const VideoSection = () => {
                   {/* Video Status Indicator */}
                   {activeCard !== card.id && (
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="bg-blue-600/80 text-white px-4 py-2 rounded-full text-sm font-medium backdrop-blur-sm">
+                      <div className="bg-blue-600/80 text-white px-4 py-2 rounded-full text-md font-medium backdrop-blur-sm">
                         Sprawdź
                       </div>
                     </div>

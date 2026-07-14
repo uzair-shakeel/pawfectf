@@ -44,7 +44,7 @@ const BlogPost = ({ params }) => {
               <h1 className="text-xl font-extrabold pt-24 md:pt-0 text-white sm:text-4xl">
                 {post.title}
               </h1>
-              <div className="mt-4 flex items-center justify-center text-white text-sm space-x-4">
+              <div className="mt-4 flex items-center justify-center text-white text-md space-x-4">
                 <span>{post.date}</span>
                 <span>•</span>
                 <span>{post.readTime}</span>
@@ -67,7 +67,7 @@ const BlogPost = ({ params }) => {
               className="object-cover"
             />
             <div className="absolute top-4 left-4">
-              <span className="bg-blue-600 text-white text-sm px-3 py-1 rounded-full">
+              <span className="bg-blue-600 text-white text-md px-3 py-1 rounded-full">
                 {post.category}
               </span>
             </div>
@@ -94,7 +94,7 @@ const BlogPost = ({ params }) => {
                 <h3 className="text-lg font-medium text-gray-900 dark:text-gray-200">
                   {post.author}
                 </h3>
-                <p className="text-sm text-gray-500">Author</p>
+                <p className="text-md text-gray-500">Author</p>
               </div>
             </div>
           </div>
@@ -123,7 +123,7 @@ const BlogPost = ({ params }) => {
                       className="object-cover"
                     />
                     <div className="absolute top-4 left-4">
-                      <span className="bg-blue-600 text-white text-sm px-3 py-1 rounded-full">
+                      <span className="bg-blue-600 text-white text-md px-3 py-1 rounded-full">
                         {relatedPost.category}
                       </span>
                     </div>

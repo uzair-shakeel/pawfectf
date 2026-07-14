@@ -243,7 +243,7 @@ function CountryCard({ country, className = "" }) {
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent" />
 
         {/* Top-left flag chip */}
-        <div className="absolute top-3 left-3 flex items-center gap-2 px-3 py-1 rounded-full bg-white/90 dark:bg-dark-card backdrop-blur text-sm shadow">
+        <div className="absolute top-3 left-3 flex items-center gap-2 px-3 py-1 rounded-full bg-white/90 dark:bg-dark-card backdrop-blur text-md shadow">
           <img src={flag} alt="" width={18} height={12} className="rounded-sm" />
           <span className="font-medium text-gray-800">{name}</span>
         </div>
@@ -252,7 +252,7 @@ function CountryCard({ country, className = "" }) {
         <div className="absolute bottom-0  right-0 p-4">
           {/* <div className="text-white">
             <div className="text-xl md:text-2xl font-bold drop-shadow-sm">{name}</div>
-            {tagline && <div className="text-sm opacity-90">{tagline}</div>}
+            {tagline && <div className="text-md opacity-90">{tagline}</div>}
           </div> */}
 
           <div className="mt-3 hidden md:inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/95 text-gray-900 dark:text-gray-200 font-medium shadow translate-x-[200px] group-hover:translate-x-[-12px] transition-transform">

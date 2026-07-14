@@ -54,14 +54,14 @@ export default function NotificationsWidget() {
     <div className="p-4 bg-white dark:bg-dark-panel shadow rounded-xl ring-1 ring-black/5 dark:ring-gray-700 border border-gray-200 dark:border-gray-700 transition-colors duration-300">
       <div className="flex items-center justify-between mb-3">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-200 dark:text-white">Notifications</h3>
-        <Link href="/dashboard/notifications" className="text-sm text-blue-600 hover:underline">See all</Link>
+        <Link href="/dashboard/notifications" className="text-md text-blue-600 hover:underline">See all</Link>
       </div>
       {unreadCount > 0 && (
-        <div className="mb-2 text-xs text-gray-500">Unread: {unreadCount}</div>
+        <div className="mb-2 text-sm text-gray-500">Unread: {unreadCount}</div>
       )}
       <div className="grid gap-3">
         {items.length === 0 && (
-          <div className="text-sm text-dark-text-secondary">No notifications</div>
+          <div className="text-md text-dark-text-secondary">No notifications</div>
         )}
         {items.map((n) => (
           <Link
@@ -72,11 +72,11 @@ export default function NotificationsWidget() {
             <div className="pt-0.5"><TypeBadge type={n.type} /></div>
             <div className="min-w-0 flex-1">
               <div className="truncate font-medium text-gray-900 dark:text-gray-200 dark:text-white">{n.title}</div>
-              {n.body && <div className="text-xs text-gray-600 dark:text-gray-300 truncate">{n.body}</div>}
+              {n.body && <div className="text-sm text-gray-600 dark:text-gray-300 truncate">{n.body}</div>}
               <div className="text-[10px] text-gray-400 mt-1">{fmt(n.createdAt)}</div>
             </div>
             {!n.read && (
-              <button onClick={(e) => handleMarkReadClick(e, n)} className="text-xs text-blue-600 hover:underline">Mark as read</button>
+              <button onClick={(e) => handleMarkReadClick(e, n)} className="text-sm text-blue-600 hover:underline">Mark as read</button>
             )}
           </Link>
         ))}

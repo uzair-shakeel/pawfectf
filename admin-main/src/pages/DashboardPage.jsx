@@ -79,52 +79,52 @@ const DashboardPage = () => {
         // Create chart data based on actual ship data in live mode
         const charts = isMockMode
           ? {
-              shipTypes: {
-                labels: [
-                  "Cargo Ships",
-                  "Tankers",
-                  "Container Ships",
-                  "Bulk Carriers",
-                ],
-                datasets: [
-                  {
-                    data: [35, 25, 20, 20],
-                    backgroundColor: [
-                      "rgba(99, 102, 241, 0.8)",
-                      "rgba(139, 92, 246, 0.8)",
-                      "rgba(236, 72, 153, 0.8)",
-                      "rgba(16, 185, 129, 0.8)",
-                    ],
-                    borderColor: "rgba(255, 255, 255, 0.1)",
-                  },
-                ],
-              },
-              monthlyCargoVolume: {
-                labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-                datasets: [
-                  {
-                    label: "Cargo Volume (tons)",
-                    data: [45000, 52000, 49000, 47000, 53000, 51000],
-                    backgroundColor: "rgba(99, 102, 241, 0.8)",
-                    borderColor: "rgba(99, 102, 241, 1)",
-                    borderWidth: 2,
-                  },
-                ],
-              },
-              fuelEfficiency: {
-                labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-                datasets: [
-                  {
-                    label: "Fuel Efficiency (nm/ton)",
-                    data: [12.5, 12.8, 12.3, 12.9, 12.6, 12.7],
-                    borderColor: "rgba(236, 72, 153, 1)",
-                    backgroundColor: "rgba(236, 72, 153, 0.1)",
-                    tension: 0.4,
-                    fill: true,
-                  },
-                ],
-              },
-            }
+            shipTypes: {
+              labels: [
+                "Cargo Ships",
+                "Tankers",
+                "Container Ships",
+                "Bulk Carriers",
+              ],
+              datasets: [
+                {
+                  data: [35, 25, 20, 20],
+                  backgroundColor: [
+                    "rgba(99, 102, 241, 0.8)",
+                    "rgba(139, 92, 246, 0.8)",
+                    "rgba(236, 72, 153, 0.8)",
+                    "rgba(16, 185, 129, 0.8)",
+                  ],
+                  borderColor: "rgba(255, 255, 255, 0.1)",
+                },
+              ],
+            },
+            monthlyCargoVolume: {
+              labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+              datasets: [
+                {
+                  label: "Cargo Volume (tons)",
+                  data: [45000, 52000, 49000, 47000, 53000, 51000],
+                  backgroundColor: "rgba(99, 102, 241, 0.8)",
+                  borderColor: "rgba(99, 102, 241, 1)",
+                  borderWidth: 2,
+                },
+              ],
+            },
+            fuelEfficiency: {
+              labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+              datasets: [
+                {
+                  label: "Fuel Efficiency (nm/ton)",
+                  data: [12.5, 12.8, 12.3, 12.9, 12.6, 12.7],
+                  borderColor: "rgba(236, 72, 153, 1)",
+                  backgroundColor: "rgba(236, 72, 153, 0.1)",
+                  tension: 0.4,
+                  fill: true,
+                },
+              ],
+            },
+          }
           : generateChartsFromApiData(shipsData);
 
         setShips(shipsData);
@@ -302,14 +302,14 @@ const DashboardPage = () => {
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-4">
           <h1 className="text-3xl font-bold">Ships Dashboard</h1>
           <div className="flex flex-col md:flex-row items-center gap-2 mt-4 md:mt-0">
-            <span className="text-sm text-white">Date Range:</span>
+            <span className="text-md text-white">Date Range:</span>
             <DatePicker
               selected={startDate}
               onChange={handleDateRangeChange}
               startDate={startDate}
               endDate={endDate}
               selectsRange
-              className="bg-gray-700 text-white text-sm rounded-md px-2 py-1"
+              className="bg-gray-700 text-white text-md rounded-md px-2 py-1"
               placeholderText="Select date range"
               dateFormat="MMM d, yyyy"
             />

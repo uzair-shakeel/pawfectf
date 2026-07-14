@@ -357,7 +357,7 @@ export default function ImageCategorizationModal({
               <button
                 key={cat}
                 onClick={() => handleCategoryClick(cat)}
-                className={`text-base md:text-sm font-medium pb-1.5 relative transition-colors whitespace-nowrap flex-shrink-0 ${currentCategory === cat
+                className={`text-base md:text-md font-medium pb-1.5 relative transition-colors whitespace-nowrap flex-shrink-0 ${currentCategory === cat
                   ? "text-gray-900 dark:text-white underline underline-offset-2"
                   : "text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
                   }`}
@@ -424,7 +424,7 @@ export default function ImageCategorizationModal({
         {isProcessing && (
           <div className="mb-5 text-center text-white">
             <div className="inline-block w-10 h-10 border-4 border-gray-600 border-t-white rounded-full animate-spin mb-2"></div>
-            <p className="text-sm">
+            <p className="text-md">
               Processing image {processingStatus.current} of {processingStatus.total}...
             </p>
           </div>
@@ -433,7 +433,7 @@ export default function ImageCategorizationModal({
         {!showSlider && (
           <>
             <div className="flex justify-end mb-4 px-2">
-              <span className="text-gray-600 dark:text-gray-400 text-sm bg-gray-100 dark:bg-gray-900/50 px-3 py-1 rounded-full">
+              <span className="text-gray-600 dark:text-gray-400 text-md bg-gray-100 dark:bg-gray-900/50 px-3 py-1 rounded-full">
                 {currentCategory === "all"
                   ? `Total: ${currentImages.length}`
                   : `${capitalizeWord(currentCategory)}: ${currentImages.length}`}

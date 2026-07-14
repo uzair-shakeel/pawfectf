@@ -62,7 +62,7 @@ function CarImageSwiper({ images = [], carId = "default" }) {
             {index === 3 && (
               <div className="absolute inset-0 bg-black/40 backdrop-blur-sm flex flex-col items-center justify-center text-white">
                 <Plus className="h-6 w-6 mb-1" />
-                <span className="text-sm font-medium">See More</span>
+                <span className="text-md font-medium">See More</span>
               </div>
             )}
           </SwiperSlide>
@@ -74,18 +74,16 @@ function CarImageSwiper({ images = [], carId = "default" }) {
 
       {/* Navigation arrows - only visible on hover */}
       <div
-        className={`swiper-button-prev-${carId} absolute left-2 top-1/2 z-10 -translate-y-1/2 transition-opacity duration-200 ${
-          isHovered ? "opacity-100" : "opacity-0"
-        }`}
+        className={`swiper-button-prev-${carId} absolute left-2 top-1/2 z-10 -translate-y-1/2 transition-opacity duration-200 ${isHovered ? "opacity-100" : "opacity-0"
+          }`}
       >
         <button className="h-8 w-8 bg-white/80 hidden md:flex items-center justify-center hover:bg-white rounded-full">
           <ChevronLeft className="h-4 w-4" />
         </button>
       </div>
       <div
-        className={`swiper-button-next-${carId} absolute right-2 top-1/2 z-10 -translate-y-1/2 transition-opacity duration-200 ${
-          isHovered && !isSeeMoreSlide ? "opacity-100" : "opacity-0"
-        }`}
+        className={`swiper-button-next-${carId} absolute right-2 top-1/2 z-10 -translate-y-1/2 transition-opacity duration-200 ${isHovered && !isSeeMoreSlide ? "opacity-100" : "opacity-0"
+          }`}
       >
         <button className="h-8 w-8 bg-white/80 hidden md:flex items-center justify-center hover:bg-white rounded-full">
           <ChevronRight className="h-4 w-4" />

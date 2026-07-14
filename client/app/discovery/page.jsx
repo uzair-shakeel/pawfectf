@@ -129,7 +129,7 @@ export default function DiscoveryPage() {
                                     <div className="w-16 h-16 border-4 border-blue-600/20 border-t-blue-600 rounded-full animate-spin" />
                                     <img src="/logooo.png" alt="Rafraf" className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-6 w-6" />
                                 </div>
-                                <p className="mt-8 font-black text-gray-900 dark:text-white uppercase tracking-widest text-xs">Curating your feed...</p>
+                                <p className="mt-8 font-black text-gray-900 dark:text-white uppercase tracking-widest text-sm">Curating your feed...</p>
                             </motion.div>
                         ) : error ? (
                             <motion.div
@@ -140,10 +140,10 @@ export default function DiscoveryPage() {
                             >
                                 <AlertCircle className="h-12 w-12 text-red-500 mb-6" />
                                 <h3 className="text-2xl font-black text-gray-900 dark:text-white mb-2">Connection stalled</h3>
-                                <p className="text-gray-500 font-medium mb-8 text-sm">{error}</p>
+                                <p className="text-gray-500 font-medium mb-8 text-md">{error}</p>
                                 <button
                                     onClick={loadPets}
-                                    className="px-8 py-4 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-2xl font-bold flex items-center gap-2 text-sm"
+                                    className="px-8 py-4 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-2xl font-bold flex items-center gap-2 text-md"
                                 >
                                     <RefreshCw className="h-4 w-4" /> Try Again
                                 </button>
@@ -159,12 +159,12 @@ export default function DiscoveryPage() {
                                     <img src="/logooo.png" alt="Rafraf" className="h-10 w-10" />
                                 </div>
                                 <h3 className="text-3xl font-black text-gray-900 dark:text-white mb-4 uppercase italic leading-none">That's all for now!</h3>
-                                <p className="text-gray-500 font-bold mb-10 leading-relaxed text-sm">
+                                <p className="text-gray-500 font-bold mb-10 leading-relaxed text-md">
                                     You've explored all available pets.
                                     We update our listings every hour!
                                 </p>
                                 <div className="flex flex-col w-full max-w-xs mx-auto gap-3">
-                                    <Link href="/wishlist" className="w-full py-4 bg-blue-600 text-white rounded-2xl font-black shadow-lg shadow-blue-500/25 active:scale-95 transition-transform uppercase tracking-wider text-xs flex items-center justify-center gap-2">
+                                    <Link href="/wishlist" className="w-full py-4 bg-blue-600 text-white rounded-2xl font-black shadow-lg shadow-blue-500/25 active:scale-95 transition-transform uppercase tracking-wider text-sm flex items-center justify-center gap-2">
                                         <Heart className="h-4 w-4 fill-white" /> View Wishlist
                                     </Link>
                                     <button onClick={async () => {
@@ -175,7 +175,7 @@ export default function DiscoveryPage() {
                                         }
                                         loadPets();
                                         setCurrentIndex(0);
-                                    }} className="w-full py-4 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white rounded-2xl font-black active:scale-95 transition-transform uppercase tracking-wider text-xs flex items-center justify-center gap-2">
+                                    }} className="w-full py-4 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white rounded-2xl font-black active:scale-95 transition-transform uppercase tracking-wider text-sm flex items-center justify-center gap-2">
                                         <RefreshCw className="h-4 w-4" /> Reset Discovery
                                     </button>
                                 </div>

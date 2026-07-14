@@ -151,7 +151,7 @@ function SectionCard({ section, index }: { section: ListingSection; index: numbe
                         className="overflow-hidden"
                     >
                         <div className={`px-5 py-4 border-t border-gray-100 dark:border-gray-800 ${config.bg} ${config.darkBg}`}>
-                            <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line">
+                            <p className="text-md text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line">
                                 {section.content}
                             </p>
                         </div>
@@ -284,7 +284,7 @@ export default function Step11_AIPreview({ formData, updateFormData, nextStep, p
                         <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
                             Analysing your listing...
                         </h3>
-                        <p className="text-gray-500 dark:text-gray-400 max-w-xs text-sm leading-relaxed">
+                        <p className="text-gray-500 dark:text-gray-400 max-w-xs text-md leading-relaxed">
                             We're reviewing your car's specs, condition, and equipment to prepare a complete listing.
                         </p>
                         <div className="mt-6 flex gap-1.5">
@@ -304,7 +304,7 @@ export default function Step11_AIPreview({ formData, updateFormData, nextStep, p
                             <AlertCircle className="h-8 w-8 text-red-500" />
                         </div>
                         <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Something went wrong</h3>
-                        <p className="text-sm text-red-500 dark:text-red-400 mb-6 max-w-sm">{error}</p>
+                        <p className="text-md text-red-500 dark:text-red-400 mb-6 max-w-sm">{error}</p>
                         <button
                             onClick={generateListing}
                             className="px-6 py-2.5 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-colors flex items-center gap-2"

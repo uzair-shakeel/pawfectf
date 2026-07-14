@@ -32,7 +32,7 @@ export default function ResetPassword() {
         <h1 className="text-2xl font-semibold mb-4">{t('resetPassword.title')}</h1>
         <form onSubmit={onSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">{t('resetPassword.newPassword')}</label>
+            <label className="block text-md font-medium text-gray-700 mb-2">{t('resetPassword.newPassword')}</label>
             <input
               type="password"
               value={password}
@@ -44,7 +44,7 @@ export default function ResetPassword() {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">{t('resetPassword.confirmPassword')}</label>
+            <label className="block text-md font-medium text-gray-700 mb-2">{t('resetPassword.confirmPassword')}</label>
             <input
               type="password"
               value={confirm}

@@ -99,19 +99,19 @@ const FoodDonations = () => {
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
         <div className="bg-gray-800 border border-gray-700 rounded-lg p-4">
-          <p className="text-gray-400 text-sm">Total Donations</p>
+          <p className="text-gray-400 text-md">Total Donations</p>
           <p className="text-2xl font-bold text-white">{donations.length}</p>
         </div>
         <div className="bg-gray-800 border border-gray-700 rounded-lg p-4">
-          <p className="text-gray-400 text-sm">Pending</p>
+          <p className="text-gray-400 text-md">Pending</p>
           <p className="text-2xl font-bold text-yellow-400">{donations.filter(d => d.status === 'pending').length}</p>
         </div>
         <div className="bg-gray-800 border border-gray-700 rounded-lg p-4">
-          <p className="text-gray-400 text-sm">Confirmed</p>
+          <p className="text-gray-400 text-md">Confirmed</p>
           <p className="text-2xl font-bold text-blue-400">{donations.filter(d => d.status === 'confirmed').length}</p>
         </div>
         <div className="bg-gray-800 border border-gray-700 rounded-lg p-4">
-          <p className="text-gray-400 text-sm">Delivered</p>
+          <p className="text-gray-400 text-md">Delivered</p>
           <p className="text-2xl font-bold text-green-400">{donations.filter(d => d.status === 'delivered' || d.status === 'completed').length}</p>
         </div>
       </div>
@@ -181,15 +181,15 @@ const FoodDonations = () => {
                         <div className="flex items-center gap-2 mb-1">
                           <h3 className="font-semibold text-white">{petName}</h3>
                           {donation.isUrgent && (
-                            <span className="px-2 py-1 bg-red-900/30 text-red-400 text-xs font-medium rounded-full border border-red-800">
+                            <span className="px-2 py-1 bg-red-900/30 text-red-400 text-sm font-medium rounded-full border border-red-800">
                               Urgent
                             </span>
                           )}
                         </div>
-                        <p className="text-sm text-gray-400">
+                        <p className="text-md text-gray-400">
                           {donation.petId?.breed} • {donation.petId?.species}
                         </p>
-                        <p className="text-sm text-gray-400">
+                        <p className="text-md text-gray-400">
                           Donated by {donorName} • ₹{donation.payment?.amount || donation.foodPackage?.amount || 0}
                         </p>
                       </div>
@@ -197,11 +197,11 @@ const FoodDonations = () => {
 
                     <div className="flex items-center gap-4">
                       <div className="text-right">
-                        <div className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium border ${statusConfig.color}`}>
+                        <div className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-md font-medium border ${statusConfig.color}`}>
                           <statusConfig.icon className="h-4 w-4" />
                           {statusConfig.label}
                         </div>
-                        <p className="text-sm text-gray-400 mt-1">
+                        <p className="text-md text-gray-400 mt-1">
                           {formatDate(donation.createdAt)}
                         </p>
                       </div>
@@ -220,7 +220,7 @@ const FoodDonations = () => {
                         {donation.status === 'pending' && (
                           <button
                             onClick={() => handleStatusUpdate(donation._id, 'confirmed')}
-                            className="px-3 py-1 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors"
+                            className="px-3 py-1 bg-blue-600 text-white text-md rounded-lg hover:bg-blue-700 transition-colors"
                           >
                             Confirm
                           </button>
@@ -229,7 +229,7 @@ const FoodDonations = () => {
                         {donation.status === 'confirmed' && (
                           <button
                             onClick={() => handleStatusUpdate(donation._id, 'preparing')}
-                            className="px-3 py-1 bg-purple-600 text-white text-sm rounded-lg hover:bg-purple-700 transition-colors"
+                            className="px-3 py-1 bg-purple-600 text-white text-md rounded-lg hover:bg-purple-700 transition-colors"
                           >
                             Preparing
                           </button>
@@ -238,7 +238,7 @@ const FoodDonations = () => {
                         {donation.status === 'preparing' && (
                           <button
                             onClick={() => handleStatusUpdate(donation._id, 'delivered')}
-                            className="px-3 py-1 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700 transition-colors"
+                            className="px-3 py-1 bg-green-600 text-white text-md rounded-lg hover:bg-green-700 transition-colors"
                           >
                             Delivered
                           </button>
@@ -300,21 +300,21 @@ const FoodDonations = () => {
                 <h4 className="font-semibold text-white mb-3">Donation Details</h4>
                 <div className="grid grid-cols-2 gap-4 text-gray-300">
                   <div>
-                    <label className="text-sm text-gray-400">Amount</label>
+                    <label className="text-md text-gray-400">Amount</label>
                     <p className="text-lg font-semibold">₹{selectedDonation.payment?.amount || selectedDonation.foodPackage?.amount || 0}</p>
                   </div>
                   <div>
-                    <label className="text-sm text-gray-400">Status</label>
-                    <div className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-sm border ${getStatusConfig(selectedDonation.status).color}`}>
+                    <label className="text-md text-gray-400">Status</label>
+                    <div className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-md border ${getStatusConfig(selectedDonation.status).color}`}>
                       {getStatusConfig(selectedDonation.status).label}
                     </div>
                   </div>
                   <div>
-                    <label className="text-sm text-gray-400">Package Type</label>
+                    <label className="text-md text-gray-400">Package Type</label>
                     <p className="capitalize">{selectedDonation.foodPackage?.type || 'Standard'}</p>
                   </div>
                   <div>
-                    <label className="text-sm text-gray-400">Duration</label>
+                    <label className="text-md text-gray-400">Duration</label>
                     <p className="capitalize">{selectedDonation.foodPackage?.duration?.replace('_', ' ') || 'N/A'}</p>
                   </div>
                 </div>

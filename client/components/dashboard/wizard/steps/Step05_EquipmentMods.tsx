@@ -43,7 +43,7 @@ export default function Step05_EquipmentMods({ formData, updateFormData, nextSte
                         </div>
                         <Sparkles className={`h-10 w-10 mb-4 transition-colors ${!isModified && isModified !== undefined ? "text-blue-500" : "text-gray-400 dark:text-gray-500"}`} />
                         <h3 className="font-bold text-xl text-gray-900 dark:text-white">Original Condition</h3>
-                        <p className="text-sm text-gray-500 dark:text-gray-400 mt-2 leading-relaxed">
+                        <p className="text-md text-gray-500 dark:text-gray-400 mt-2 leading-relaxed">
                             No cosmetic or performance changes. Just how it left the factory.
                         </p>
                     </button>
@@ -61,7 +61,7 @@ export default function Step05_EquipmentMods({ formData, updateFormData, nextSte
                         </div>
                         <Wrench className={`h-10 w-10 mb-4 transition-colors ${isModified ? "text-blue-500" : "text-gray-400 dark:text-gray-500"}`} />
                         <h3 className="font-bold text-xl text-gray-900 dark:text-white">Modified</h3>
-                        <p className="text-sm text-gray-500 dark:text-gray-400 mt-2 leading-relaxed">
+                        <p className="text-md text-gray-500 dark:text-gray-400 mt-2 leading-relaxed">
                             Includes aftermarket parts, custom tuning, wraps, or special upgrades.
                         </p>
                     </button>
@@ -75,7 +75,7 @@ export default function Step05_EquipmentMods({ formData, updateFormData, nextSte
                             exit={{ opacity: 0, height: 0 }}
                             className="overflow-hidden"
                         >
-                            <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-3 ml-1">
+                            <label className="block text-md font-bold text-gray-700 dark:text-gray-300 mb-3 ml-1">
                                 Describe the modifications
                             </label>
                             <textarea
@@ -85,7 +85,7 @@ export default function Step05_EquipmentMods({ formData, updateFormData, nextSte
                                 rows={5}
                                 className="w-full px-4 py-4 bg-white dark:bg-dark-bg border border-gray-300 dark:border-gray-600 rounded-2xl focus:ring-2 focus:ring-blue-500 outline-none transition-all resize-none shadow-sm"
                             />
-                            <p className="mt-2 text-xs text-gray-400 italic ml-1">
+                            <p className="mt-2 text-sm text-gray-400 italic ml-1">
                                 * The AI will use this description to highlight your car's unique features.
                             </p>
                         </motion.div>

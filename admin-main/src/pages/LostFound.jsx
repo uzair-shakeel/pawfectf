@@ -66,7 +66,7 @@ const LostFound = () => {
         ) : (
           <div className="flex-1 overflow-auto">
             <table className="w-full text-left">
-              <thead className="bg-slate-800/50 sticky top-0 z-10 text-xs uppercase text-slate-400 font-semibold">
+              <thead className="bg-slate-800/50 sticky top-0 z-10 text-sm uppercase text-slate-400 font-semibold">
                 <tr>
                   <th className="p-4">Title</th>
                   <th className="p-4">Type</th>
@@ -86,18 +86,18 @@ const LostFound = () => {
                 ) : (
                   entries.map((entry) => (
                     <tr key={entry._id} className="hover:bg-slate-800/20 transition-colors">
-                      <td className="p-4 text-sm text-white font-medium">{entry.title}</td>
+                      <td className="p-4 text-md text-white font-medium">{entry.title}</td>
                       <td className="p-4">
-                        <span className={`px-2 py-1 rounded text-xs font-medium ${entry.type === 'Lost' ? 'bg-red-500/20 text-red-400' : 'bg-green-500/20 text-green-400'}`}>
+                        <span className={`px-2 py-1 rounded text-sm font-medium ${entry.type === 'Lost' ? 'bg-red-500/20 text-red-400' : 'bg-green-500/20 text-green-400'}`}>
                           {entry.type}
                         </span>
                       </td>
-                      <td className="p-4 text-sm text-slate-300">
+                      <td className="p-4 text-md text-slate-300">
                         {entry.reporterId?.email || 'Unknown'}
                       </td>
                       <td className="p-4">
                         <select
-                          className="bg-slate-800 border border-slate-700 text-sm rounded px-2 py-1 text-slate-300 focus:outline-none focus:border-indigo-500"
+                          className="bg-slate-800 border border-slate-700 text-md rounded px-2 py-1 text-slate-300 focus:outline-none focus:border-indigo-500"
                           value={entry.status}
                           onChange={(e) => handleStatusChange(entry._id, e.target.value)}
                         >
@@ -106,7 +106,7 @@ const LostFound = () => {
                           <option value="Archived">Archived</option>
                         </select>
                       </td>
-                      <td className="p-4 text-sm text-slate-400">
+                      <td className="p-4 text-md text-slate-400">
                         {new Date(entry.createdAt).toLocaleDateString()}
                       </td>
                       <td className="p-4">
@@ -125,24 +125,24 @@ const LostFound = () => {
             </table>
           </div>
         )}
-        
+
         {/* Pagination */}
         <div className="p-4 border-t border-slate-800 flex justify-between items-center bg-slate-900">
-          <p className="text-sm text-slate-400">
+          <p className="text-md text-slate-400">
             Page {page} of {totalPages}
           </p>
           <div className="flex gap-2">
             <button
               onClick={() => fetchEntries(page - 1)}
               disabled={page === 1 || loading}
-              className="px-3 py-1 bg-slate-800 text-slate-300 rounded text-sm disabled:opacity-50 hover:bg-slate-700 transition-colors"
+              className="px-3 py-1 bg-slate-800 text-slate-300 rounded text-md disabled:opacity-50 hover:bg-slate-700 transition-colors"
             >
               Previous
             </button>
             <button
               onClick={() => fetchEntries(page + 1)}
               disabled={page === totalPages || loading}
-              className="px-3 py-1 bg-slate-800 text-slate-300 rounded text-sm disabled:opacity-50 hover:bg-slate-700 transition-colors"
+              className="px-3 py-1 bg-slate-800 text-slate-300 rounded text-md disabled:opacity-50 hover:bg-slate-700 transition-colors"
             >
               Next
             </button>

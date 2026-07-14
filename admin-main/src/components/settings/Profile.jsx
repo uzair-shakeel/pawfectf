@@ -164,7 +164,7 @@ const Profile = () => {
       ) : (
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium mb-1">Name</label>
+            <label className="block text-md font-medium mb-1">Name</label>
             <input
               type="text"
               value={formData.name}
@@ -177,7 +177,7 @@ const Profile = () => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Email</label>
+            <label className="block text-md font-medium mb-1">Email</label>
             <input
               type="email"
               value={formData.email}
@@ -193,14 +193,14 @@ const Profile = () => {
             <button
               type="button"
               onClick={() => setIsChangingPassword(true)}
-              className="text-indigo-400 hover:text-indigo-300 text-sm underline"
+              className="text-indigo-400 hover:text-indigo-300 text-md underline"
             >
               Change Password
             </button>
           ) : (
             <>
               <div>
-                <label className="block text-sm font-medium mb-1">
+                <label className="block text-md font-medium mb-1">
                   New Password
                 </label>
                 <input
@@ -215,7 +215,7 @@ const Profile = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">
+                <label className="block text-md font-medium mb-1">
                   Confirm New Password
                 </label>
                 <input
@@ -242,7 +242,7 @@ const Profile = () => {
                     confirmPassword: "",
                   }));
                 }}
-                className="text-red-400 hover:text-red-300 text-sm underline"
+                className="text-red-400 hover:text-red-300 text-md underline"
               >
                 Cancel Password Change
               </button>
@@ -253,9 +253,8 @@ const Profile = () => {
             <button
               type="submit"
               disabled={isLoading}
-              className={`bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded transition duration-200 ${
-                isLoading ? "opacity-50 cursor-not-allowed" : ""
-              }`}
+              className={`bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded transition duration-200 ${isLoading ? "opacity-50 cursor-not-allowed" : ""
+                }`}
             >
               {isLoading ? "Saving..." : "Save Changes"}
             </button>

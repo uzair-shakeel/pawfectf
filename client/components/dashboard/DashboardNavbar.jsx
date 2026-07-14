@@ -129,14 +129,14 @@ export default function DashboardNavbar({ isOpen, toggleSidebar }) {
           {openMsg && (
             <div className="fixed md:absolute inset-x-4 md:inset-auto md:right-0 mt-2 md:w-80 bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-divider rounded-xl shadow-xl z-50 overflow-hidden transform md:translate-x-0">
               <div className="flex items-center justify-between px-3 py-2 border-b border-gray-100 dark:border-dark-divider">
-                <div className="text-sm font-semibold text-gray-900 dark:text-white">{t("dashboard:navbar.messages", "Messages")}</div>
-                <Link href="/dashboard/messages" onClick={() => setOpenMsg(false)} className="text-xs text-blue-600 hover:underline">{t("dashboard:navbar.openChat", "Open chat")}</Link>
+                <div className="text-md font-semibold text-gray-900 dark:text-white">{t("dashboard:navbar.messages", "Messages")}</div>
+                <Link href="/dashboard/messages" onClick={() => setOpenMsg(false)} className="text-sm text-blue-600 hover:underline">{t("dashboard:navbar.openChat", "Open chat")}</Link>
               </div>
               <div className="max-h-96 overflow-auto">
                 {loadingMessages ? (
-                  <div className="px-3 py-4 text-sm text-gray-500">{t("dashboard:navbar.loading", "Loading...")}</div>
+                  <div className="px-3 py-4 text-md text-gray-500">{t("dashboard:navbar.loading", "Loading...")}</div>
                 ) : displayMessages.length === 0 ? (
-                  <div className="px-3 py-4 text-sm text-gray-500">{t("dashboard:navbar.noMessages", "No messages")}</div>
+                  <div className="px-3 py-4 text-md text-gray-500">{t("dashboard:navbar.noMessages", "No messages")}</div>
                 ) : (
                   <ul className="divide-y divide-gray-100 dark:divide-dark-divider">
                     {displayMessages.map((msg) => (
@@ -153,10 +153,10 @@ export default function DashboardNavbar({ isOpen, toggleSidebar }) {
                       >
                         <Avatar src={msg.sender?.image} alt={msg.sender?.name} size={36} />
                         <div className="min-w-0 flex-1">
-                          <div className="text-sm font-bold text-gray-900 dark:text-white truncate">
+                          <div className="text-md font-bold text-gray-900 dark:text-white truncate">
                             {msg.sender?.name || t("dashboard:navbar.user", "User")}
                           </div>
-                          <div className="text-xs text-gray-500 dark:text-dark-text-muted line-clamp-1">
+                          <div className="text-sm text-gray-500 dark:text-dark-text-muted line-clamp-1">
                             {msg.attachments?.length > 0
                               ? `${msg.attachments.length} ${t("dashboard:navbar.attachment", "attachment(s)")}`
                               : msg.content || t("dashboard:navbar.newMessage", "New message")}
@@ -174,7 +174,7 @@ export default function DashboardNavbar({ isOpen, toggleSidebar }) {
                 )}
               </div>
               <div className="px-3 py-2 border-t border-gray-100 dark:border-dark-divider text-center">
-                <Link href="/dashboard/messages" onClick={() => setOpenMsg(false)} className="text-xs font-bold text-blue-600 hover:underline uppercase tracking-widest">
+                <Link href="/dashboard/messages" onClick={() => setOpenMsg(false)} className="text-sm font-bold text-blue-600 hover:underline uppercase tracking-widest">
                   {t("dashboard:navbar.seeAllMessages", "See all messages")}
                 </Link>
               </div>
@@ -198,12 +198,12 @@ export default function DashboardNavbar({ isOpen, toggleSidebar }) {
           {openNotif && (
             <div className="fixed md:absolute inset-x-4 md:inset-auto md:right-0 mt-2 md:w-80 bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-divider rounded-xl shadow-xl z-50 overflow-hidden transform md:translate-x-0">
               <div className="flex items-center justify-between px-3 py-2 border-b border-gray-100 dark:border-dark-divider">
-                <div className="text-sm font-semibold text-gray-900 dark:text-gray-200 dark:text-white">{t("dashboard:navbar.notifications", "Notifications")}</div>
-                <button onClick={markAll} className="text-xs text-blue-600 hover:underline">{t("dashboard:navbar.markAllRead", "Mark all as read")}</button>
+                <div className="text-md font-semibold text-gray-900 dark:text-gray-200 dark:text-white">{t("dashboard:navbar.notifications", "Notifications")}</div>
+                <button onClick={markAll} className="text-sm text-blue-600 hover:underline">{t("dashboard:navbar.markAllRead", "Mark all as read")}</button>
               </div>
               <div className="max-h-96 overflow-auto">
                 {(notifications || []).length === 0 ? (
-                  <div className="px-3 py-4 text-sm text-gray-500">{t("dashboard:navbar.noNotifications", "No notifications")}</div>
+                  <div className="px-3 py-4 text-md text-gray-500">{t("dashboard:navbar.noNotifications", "No notifications")}</div>
                 ) : (
                   <ul className="divide-y divide-gray-100 dark:divide-dark-divider">
                     {(notifications || []).slice(0, 8).map((n) => (
@@ -214,8 +214,8 @@ export default function DashboardNavbar({ isOpen, toggleSidebar }) {
                       >
                         <div className={`mt-1 w-2 h-2 rounded-full ${n.read ? "bg-gray-300" : "bg-blue-500"}`} />
                         <div className="min-w-0 flex-1">
-                          <div className="text-sm font-medium text-gray-900 dark:text-gray-200 dark:text-dark-text-primary truncate">{n.title}</div>
-                          {n.body && <div className="text-xs text-gray-600 dark:text-dark-text-muted truncate">{n.body}</div>}
+                          <div className="text-md font-medium text-gray-900 dark:text-gray-200 dark:text-dark-text-primary truncate">{n.title}</div>
+                          {n.body && <div className="text-sm text-gray-600 dark:text-dark-text-muted truncate">{n.body}</div>}
                           <div className="text-[10px] text-gray-400 mt-1">{new Date(n.createdAt).toLocaleString()}</div>
                         </div>
                       </li>
@@ -224,7 +224,7 @@ export default function DashboardNavbar({ isOpen, toggleSidebar }) {
                 )}
               </div>
               <div className="px-3 py-2 border-t border-gray-100 dark:border-dark-divider text-right">
-                <Link href="/dashboard/notifications" onClick={() => setOpenNotif(false)} className="text-sm text-blue-600 hover:underline">
+                <Link href="/dashboard/notifications" onClick={() => setOpenNotif(false)} className="text-md text-blue-600 hover:underline">
                   {t("dashboard:navbar.seeAll", "See all")}
                 </Link>
               </div>

@@ -143,7 +143,7 @@ const AdoptionRequests = () => {
     >
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-slate-400 text-sm font-medium">{title}</p>
+          <p className="text-slate-400 text-md font-medium">{title}</p>
           <p className="text-2xl font-bold text-slate-200 mt-1">{value}</p>
         </div>
         <div className={`w-12 h-12 bg-${color}-500/20 rounded-lg flex items-center justify-center`}>
@@ -268,9 +268,9 @@ const AdoptionRequests = () => {
                 <h3 className="text-lg font-semibold text-slate-200">
                   {request.preferredSpecies || 'Any Species'} {request.preferredBreed && `- ${request.preferredBreed}`}
                 </h3>
-                <p className="text-slate-400 text-sm">{request.preferredAgeGroup || 'Any Age'}</p>
+                <p className="text-slate-400 text-md">{request.preferredAgeGroup || 'Any Age'}</p>
               </div>
-              <div className={`px-2 py-1 rounded-full text-xs font-medium border flex items-center space-x-1 ${getStatusColor(request.status)}`}>
+              <div className={`px-2 py-1 rounded-full text-sm font-medium border flex items-center space-x-1 ${getStatusColor(request.status)}`}>
                 {getStatusIcon(request.status)}
                 <span>{request.status}</span>
               </div>
@@ -278,14 +278,14 @@ const AdoptionRequests = () => {
 
             {/* Budget */}
             <div className="mb-4">
-              <p className="text-slate-400 text-sm">Budget Range</p>
+              <p className="text-slate-400 text-md">Budget Range</p>
               <p className="text-slate-200 font-semibold">
                 {formatPrice(request.minAdoptionFee)} - {formatPrice(request.maxAdoptionFee)}
               </p>
             </div>
 
             {/* Details */}
-            <div className="space-y-2 mb-4 text-sm">
+            <div className="space-y-2 mb-4 text-md">
               <div className="flex justify-between">
                 <span className="text-slate-400">Preferred Size:</span>
                 <span className="text-slate-200">{request.preferredSize || 'Any'}</span>
@@ -294,11 +294,11 @@ const AdoptionRequests = () => {
 
             {/* Adopter Info */}
             <div className="mb-4 p-3 bg-slate-800/30 rounded-lg">
-              <p className="text-slate-400 text-xs">Adopter</p>
-              <p className="text-slate-200 text-sm font-medium">
+              <p className="text-slate-400 text-sm">Adopter</p>
+              <p className="text-slate-200 text-md font-medium">
                 {request.adopterId?.firstName} {request.adopterId?.lastName}
               </p>
-              <p className="text-slate-400 text-xs">{request.adopterId?.email}</p>
+              <p className="text-slate-400 text-sm">{request.adopterId?.email}</p>
             </div>
 
             {/* Actions */}
@@ -306,7 +306,7 @@ const AdoptionRequests = () => {
               <select
                 value={request.status || 'Active'}
                 onChange={(e) => handleStatusChange(request._id, e.target.value)}
-                className="text-xs bg-slate-800 border border-slate-600 rounded px-2 py-1 text-slate-200 focus:outline-none focus:border-blue-500"
+                className="text-sm bg-slate-800 border border-slate-600 rounded px-2 py-1 text-slate-200 focus:outline-none focus:border-blue-500"
               >
                 <option value="Active">Active</option>
                 <option value="Fulfilled">Fulfilled</option>
@@ -337,7 +337,7 @@ const AdoptionRequests = () => {
 
             {/* Date */}
             <div className="mt-3 pt-3 border-t border-slate-700/50">
-              <p className="text-slate-400 text-xs">
+              <p className="text-slate-400 text-sm">
                 Created: {new Date(request.createdAt).toLocaleDateString()}
               </p>
             </div>
@@ -355,7 +355,7 @@ const AdoptionRequests = () => {
           >
             Previous
           </button>
-          
+
           <div className="flex space-x-1">
             {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
               const pageNum = i + 1;
@@ -363,11 +363,10 @@ const AdoptionRequests = () => {
                 <button
                   key={pageNum}
                   onClick={() => setCurrentPage(pageNum)}
-                  className={`px-3 py-2 rounded-lg transition-colors ${
-                    currentPage === pageNum
-                      ? 'bg-blue-500 text-white'
-                      : 'bg-slate-800 text-slate-200 hover:bg-slate-700'
-                  }`}
+                  className={`px-3 py-2 rounded-lg transition-colors ${currentPage === pageNum
+                    ? 'bg-blue-500 text-white'
+                    : 'bg-slate-800 text-slate-200 hover:bg-slate-700'
+                    }`}
                 >
                   {pageNum}
                 </button>
@@ -401,7 +400,7 @@ const AdoptionRequests = () => {
                   <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                     <h3 className="text-lg leading-6 font-medium text-slate-200">Delete Request</h3>
                     <div className="mt-2">
-                      <p className="text-sm text-slate-400">
+                      <p className="text-md text-slate-400">
                         Are you sure you want to delete this adoption request for {requestToDelete?.preferredSpecies} {requestToDelete?.preferredBreed}? This action cannot be undone.
                       </p>
                     </div>
@@ -411,7 +410,7 @@ const AdoptionRequests = () => {
               <div className="bg-slate-700/50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                 <button
                   onClick={handleDeleteRequest}
-                  className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
+                  className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-md"
                 >
                   Delete
                 </button>
@@ -420,7 +419,7 @@ const AdoptionRequests = () => {
                     setShowDeleteModal(false);
                     setRequestToDelete(null);
                   }}
-                  className="mt-3 w-full inline-flex justify-center rounded-md border border-slate-600 shadow-sm px-4 py-2 bg-slate-800 text-base font-medium text-slate-200 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                  className="mt-3 w-full inline-flex justify-center rounded-md border border-slate-600 shadow-sm px-4 py-2 bg-slate-800 text-base font-medium text-slate-200 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-md"
                 >
                   Cancel
                 </button>
@@ -443,66 +442,66 @@ const AdoptionRequests = () => {
                   <h3 className="text-xl leading-6 font-bold text-slate-200">
                     Request Details: {selectedRequest.preferredSpecies} {selectedRequest.preferredBreed}
                   </h3>
-                  <div className={`px-3 py-1 rounded-full text-sm font-medium border flex items-center space-x-1 ${getStatusColor(selectedRequest.status)}`}>
+                  <div className={`px-3 py-1 rounded-full text-md font-medium border flex items-center space-x-1 ${getStatusColor(selectedRequest.status)}`}>
                     {getStatusIcon(selectedRequest.status)}
                     <span>{selectedRequest.status}</span>
                   </div>
                 </div>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {/* Pet Details */}
                   <div className="space-y-4">
                     <h4 className="text-lg font-semibold text-slate-200">Pet Requirements</h4>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-slate-400">Species</label>
+                        <label className="block text-md font-medium text-slate-400">Species</label>
                         <p className="text-slate-200">{selectedRequest.preferredSpecies || 'Any'}</p>
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-slate-400">Breed</label>
+                        <label className="block text-md font-medium text-slate-400">Breed</label>
                         <p className="text-slate-200">{selectedRequest.preferredBreed || 'Any'}</p>
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-slate-400">Age Group</label>
+                        <label className="block text-md font-medium text-slate-400">Age Group</label>
                         <p className="text-slate-200">{selectedRequest.preferredAgeGroup || 'Any'}</p>
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-slate-400">Size</label>
+                        <label className="block text-md font-medium text-slate-400">Size</label>
                         <p className="text-slate-200">{selectedRequest.preferredSize || 'Any'}</p>
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-slate-400">Description</label>
-                      <p className="text-slate-200 text-sm">{selectedRequest.description || 'No specific requirements'}</p>
+                      <label className="block text-md font-medium text-slate-400">Description</label>
+                      <p className="text-slate-200 text-md">{selectedRequest.description || 'No specific requirements'}</p>
                     </div>
                   </div>
 
                   {/* Budget & Adopter Info */}
                   <div className="space-y-4">
                     <h4 className="text-lg font-semibold text-slate-200">Budget & Contact</h4>
-                    
+
                     <div className="p-4 bg-slate-700/30 rounded-lg">
-                      <label className="block text-sm font-medium text-slate-400">Budget Range</label>
+                      <label className="block text-md font-medium text-slate-400">Budget Range</label>
                       <p className="text-lg font-bold text-green-400">
                         {formatPrice(selectedRequest.minAdoptionFee)} - {formatPrice(selectedRequest.maxAdoptionFee)}
                       </p>
                     </div>
 
                     <div className="p-4 bg-slate-700/30 rounded-lg">
-                      <label className="block text-sm font-medium text-slate-400">Adopter Information</label>
+                      <label className="block text-md font-medium text-slate-400">Adopter Information</label>
                       <p className="text-slate-200 font-semibold">
                         {selectedRequest.adopterId?.firstName} {selectedRequest.adopterId?.lastName}
                       </p>
                       <p className="text-slate-400">{selectedRequest.adopterId?.email}</p>
-                      <p className="text-slate-400 text-sm">
+                      <p className="text-slate-400 text-md">
                         Member since: {new Date(selectedRequest.adopterId?.createdAt).toLocaleDateString()}
                       </p>
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-slate-400">Created</label>
+                        <label className="block text-md font-medium text-slate-400">Created</label>
                         <p className="text-slate-200">{new Date(selectedRequest.createdAt).toLocaleDateString()}</p>
                       </div>
                     </div>
@@ -515,7 +514,7 @@ const AdoptionRequests = () => {
                     setShowRequestModal(false);
                     setSelectedRequest(null);
                   }}
-                  className="w-full inline-flex justify-center rounded-md border border-slate-600 shadow-sm px-4 py-2 bg-slate-800 text-base font-medium text-slate-200 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:w-auto sm:text-sm"
+                  className="w-full inline-flex justify-center rounded-md border border-slate-600 shadow-sm px-4 py-2 bg-slate-800 text-base font-medium text-slate-200 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:w-auto sm:text-md"
                 >
                   Close
                 </button>

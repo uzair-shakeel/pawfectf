@@ -23,7 +23,7 @@ export default function ChangePasswordPage() {
         <h1 className="text-2xl font-semibold mb-4">Change password</h1>
         <form onSubmit={onSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Current password</label>
+            <label className="block text-md font-medium text-gray-700 mb-2">Current password</label>
             <input
               type="password"
               value={currentPassword}
@@ -33,7 +33,7 @@ export default function ChangePasswordPage() {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">New password</label>
+            <label className="block text-md font-medium text-gray-700 mb-2">New password</label>
             <input
               type="password"
               value={newPassword}
@@ -44,7 +44,7 @@ export default function ChangePasswordPage() {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Confirm new password</label>
+            <label className="block text-md font-medium text-gray-700 mb-2">Confirm new password</label>
             <input
               type="password"
               value={confirm}

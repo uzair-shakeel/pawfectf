@@ -30,7 +30,7 @@ export default function Step03_RequiredBasics({ formData, updateFormData, nextSt
 
                     {/* Mileage */}
                     <div className="col-span-1 space-y-2">
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        <label className="block text-md font-medium text-gray-700 dark:text-gray-300">
                             Mileage (km) *
                         </label>
                         <div className="relative">
@@ -52,7 +52,7 @@ export default function Step03_RequiredBasics({ formData, updateFormData, nextSt
 
                     {/* Price field hidden per user request */}
                     {/* <div className="col-span-1 space-y-2">
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        <label className="block text-md font-medium text-gray-700 dark:text-gray-300">
                             Asking Price *
                         </label>
                         <div className="flex gap-2">
@@ -86,7 +86,7 @@ export default function Step03_RequiredBasics({ formData, updateFormData, nextSt
                     {/* If Transmission/Drivetrain missing from Step 2, ask here */}
                     {!formData.transmission && (
                         <div className="col-span-1 space-y-2 animate-in fade-in slide-in-from-top-4">
-                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Transmission</label>
+                            <label className="block text-md font-medium text-gray-700 dark:text-gray-300">Transmission</label>
                             <select
                                 value={formData.transmission || ""}
                                 onChange={(e) => updateFormData({ transmission: e.target.value })}
@@ -103,7 +103,7 @@ export default function Step03_RequiredBasics({ formData, updateFormData, nextSt
 
                     {!formData.drivetrain && (
                         <div className="col-span-1 space-y-2 animate-in fade-in slide-in-from-top-4">
-                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Drivetrain</label>
+                            <label className="block text-md font-medium text-gray-700 dark:text-gray-300">Drivetrain</label>
                             <select
                                 value={formData.drivetrain || ""}
                                 onChange={(e) => updateFormData({ drivetrain: e.target.value })}
@@ -119,7 +119,7 @@ export default function Step03_RequiredBasics({ formData, updateFormData, nextSt
 
                     {/* Registration Status */}
                     <div className="col-span-1 space-y-2">
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        <label className="block text-md font-medium text-gray-700 dark:text-gray-300">
                             Registration Status *
                         </label>
                         <div className="relative">
@@ -140,7 +140,7 @@ export default function Step03_RequiredBasics({ formData, updateFormData, nextSt
 
                     {/* Sale Documents */}
                     <div className="col-span-1 space-y-2">
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        <label className="block text-md font-medium text-gray-700 dark:text-gray-300">
                             Sale Document Type *
                         </label>
                         <div className="relative">

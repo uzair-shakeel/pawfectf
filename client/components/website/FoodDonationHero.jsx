@@ -11,7 +11,7 @@ const FoodDonationHero = () => {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left Content */}
           <div className="text-center lg:text-left">
-            <div className="inline-flex items-center gap-2 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-400 px-4 py-2 rounded-full text-sm font-medium mb-4">
+            <div className="inline-flex items-center gap-2 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-400 px-4 py-2 rounded-full text-md font-medium mb-4">
               <Heart className="h-4 w-4" />
               New Feature
             </div>
@@ -45,15 +45,15 @@ const FoodDonationHero = () => {
             <div className="grid grid-cols-3 gap-6 text-center lg:text-left">
               <div>
                 <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">1,247</div>
-                <div className="text-sm text-gray-500 dark:text-gray-400">Pets Fed</div>
+                <div className="text-md text-gray-500 dark:text-gray-400">Pets Fed</div>
               </div>
               <div>
                 <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">89</div>
-                <div className="text-sm text-gray-500 dark:text-gray-400">Shelters</div>
+                <div className="text-md text-gray-500 dark:text-gray-400">Shelters</div>
               </div>
               <div>
                 <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">45k zł</div>
-                <div className="text-sm text-gray-500 dark:text-gray-400">Donated</div>
+                <div className="text-md text-gray-500 dark:text-gray-400">Donated</div>
               </div>
             </div>
           </div>
@@ -67,14 +67,14 @@ const FoodDonationHero = () => {
                     <Heart className="h-6 w-6 text-blue-600 dark:text-blue-400" />
                   </div>
                   <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Direct Impact</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Your donation goes directly to feeding specific pets</p>
+                  <p className="text-md text-gray-600 dark:text-gray-400">Your donation goes directly to feeding specific pets</p>
                 </div>
                 <div className="bg-white dark:bg-dark-card rounded-2xl p-6 shadow-lg border border-purple-100 dark:border-dark-divider">
                   <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center mb-4">
                     <Award className="h-6 w-6 text-purple-600 dark:text-purple-400" />
                   </div>
                   <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Verified Shelters</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">All shelters are verified and trusted partners</p>
+                  <p className="text-md text-gray-600 dark:text-gray-400">All shelters are verified and trusted partners</p>
                 </div>
               </div>
               <div className="space-y-4 lg:space-y-6 pt-8">
@@ -83,14 +83,14 @@ const FoodDonationHero = () => {
                     <Users className="h-6 w-6 text-green-600 dark:text-green-400" />
                   </div>
                   <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Community Driven</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Join thousands of pet lovers making a difference</p>
+                  <p className="text-md text-gray-600 dark:text-gray-400">Join thousands of pet lovers making a difference</p>
                 </div>
                 <div className="bg-white dark:bg-dark-card rounded-2xl p-6 shadow-lg border border-pink-100 dark:border-dark-divider">
                   <div className="w-12 h-12 bg-pink-100 dark:bg-pink-900/30 rounded-lg flex items-center justify-center mb-4">
                     <TrendingUp className="h-6 w-6 text-pink-600 dark:text-pink-400" />
                   </div>
                   <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Real-time Updates</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Track your donation impact with live updates</p>
+                  <p className="text-md text-gray-600 dark:text-gray-400">Track your donation impact with live updates</p>
                 </div>
               </div>
             </div>

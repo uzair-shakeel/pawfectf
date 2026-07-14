@@ -243,11 +243,11 @@ const Dashboard = () => {
     >
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-slate-400 text-sm font-medium">{title}</p>
+          <p className="text-slate-400 text-md font-medium">{title}</p>
           <p className="text-2xl font-bold text-slate-200 mt-1">{value}</p>
           {trend && (
             <p
-              className={`text-sm mt-1 ${trend > 0 ? 'text-green-400' : 'text-red-400'
+              className={`text-md mt-1 ${trend > 0 ? 'text-green-400' : 'text-red-400'
                 }`}
             >
               {trend > 0 ? '+' : ''}

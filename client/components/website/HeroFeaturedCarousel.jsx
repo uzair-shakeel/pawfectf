@@ -153,7 +153,7 @@ export default function HeroFeaturedCarousel() {
                     {/* Bottom left price (if available) */}
                     {typeof s.price === "number" && (
                       <div className="absolute bottom-2 left-2 bg-white/95 backdrop-blur-sm px-2 py-1 rounded-md shadow-lg hover:shadow-xl transition-all duration-300">
-                        <div className="text-xs font-bold text-gray-900 dark:text-gray-200">
+                        <div className="text-sm font-bold text-gray-900 dark:text-gray-200">
                           {new Intl.NumberFormat("pl-PL").format(s.price)} zł
                         </div>
                       </div>

@@ -120,7 +120,7 @@ const CoverLetters = () => {
           <p className="text-3xl font-bold text-purple-500 mt-2">
             {coverLetterStats.conversionRate}%
           </p>
-          <p className="text-sm text-slate-400 mt-1">
+          <p className="text-md text-slate-400 mt-1">
             Created to Downloaded Ratio
           </p>
         </div>
@@ -129,7 +129,7 @@ const CoverLetters = () => {
           <p className="text-3xl font-bold text-pink-500 mt-2">
             {coverLetterStats.createdPerMonth.reduce((a, b) => a + b, 0)}
           </p>
-          <p className="text-sm text-slate-400 mt-1">All Time</p>
+          <p className="text-md text-slate-400 mt-1">All Time</p>
         </div>
         <div className="bg-slate-900 rounded-lg p-6 shadow-lg border border-slate-700">
           <h3 className="text-lg font-semibold text-indigo-400">
@@ -138,7 +138,7 @@ const CoverLetters = () => {
           <p className="text-3xl font-bold text-indigo-500 mt-2">
             {coverLetterStats.downloadedPerMonth.reduce((a, b) => a + b, 0)}
           </p>
-          <p className="text-sm text-slate-400 mt-1">All Time</p>
+          <p className="text-md text-slate-400 mt-1">All Time</p>
         </div>
       </div>
 
@@ -167,16 +167,16 @@ const CoverLetters = () => {
           <table className="min-w-full table-auto">
             <thead>
               <tr className="bg-slate-800 border-b border-slate-700">
-                <th className="px-6 py-4 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">
+                <th className="px-6 py-4 text-left text-sm font-medium text-slate-400 uppercase tracking-wider">
                   Month
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">
+                <th className="px-6 py-4 text-left text-sm font-medium text-slate-400 uppercase tracking-wider">
                   Created
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">
+                <th className="px-6 py-4 text-left text-sm font-medium text-slate-400 uppercase tracking-wider">
                   Downloaded
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">
+                <th className="px-6 py-4 text-left text-sm font-medium text-slate-400 uppercase tracking-wider">
                   Conversion Rate
                 </th>
               </tr>
@@ -187,25 +187,24 @@ const CoverLetters = () => {
                   key={month}
                   className="bg-slate-900 hover:bg-slate-800 transition-colors"
                 >
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">
+                  <td className="px-6 py-4 whitespace-nowrap text-md text-slate-300">
                     {month}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">
+                  <td className="px-6 py-4 whitespace-nowrap text-md text-slate-300">
                     {coverLetterStats.createdPerMonth[index]}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-300">
+                  <td className="px-6 py-4 whitespace-nowrap text-md text-slate-300">
                     {coverLetterStats.downloadedPerMonth[index]}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm">
+                  <td className="px-6 py-4 whitespace-nowrap text-md">
                     <span
-                      className={`${
-                        (coverLetterStats.downloadedPerMonth[index] /
-                          coverLetterStats.createdPerMonth[index]) *
-                          100 >=
+                      className={`${(coverLetterStats.downloadedPerMonth[index] /
+                        coverLetterStats.createdPerMonth[index]) *
+                        100 >=
                         coverLetterStats.conversionRate
-                          ? "text-emerald-400"
-                          : "text-rose-400"
-                      }`}
+                        ? "text-emerald-400"
+                        : "text-rose-400"
+                        }`}
                     >
                       {(
                         (coverLetterStats.downloadedPerMonth[index] /

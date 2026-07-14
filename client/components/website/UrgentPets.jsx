@@ -87,7 +87,7 @@ const UrgentPets = () => {
     <section className="py-16 bg-gray-50 dark:bg-dark-main">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-400 px-4 py-2 rounded-full text-sm font-medium mb-4">
+          <div className="inline-flex items-center gap-2 bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-400 px-4 py-2 rounded-full text-md font-medium mb-4">
             <Zap className="h-4 w-4" />
             Urgent
           </div>
@@ -106,7 +106,7 @@ const UrgentPets = () => {
                   alt={pet.name}
                   className="w-full h-48 object-cover"
                 />
-                <div className={`absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-medium border ${getUrgencyColor(pet.daysLeft)}`}>
+                <div className={`absolute top-4 left-4 px-3 py-1 rounded-full text-sm font-medium border ${getUrgencyColor(pet.daysLeft)}`}>
                   <Clock className="h-3 w-3 inline mr-1" />
                   {pet.daysLeft} day{pet.daysLeft !== 1 ? 's' : ''} left
                 </div>
@@ -119,20 +119,20 @@ const UrgentPets = () => {
                 <div className="flex items-start justify-between mb-3">
                   <div>
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{pet.name}</h3>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">{pet.breed} • {pet.species}</p>
+                    <p className="text-md text-gray-500 dark:text-gray-400">{pet.breed} • {pet.species}</p>
                   </div>
-                  <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                  <div className="flex items-center text-md text-gray-500 dark:text-gray-400">
                     <MapPin className="h-4 w-4 mr-1" />
                     {pet.location.city}
                   </div>
                 </div>
 
                 <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-3 mb-4">
-                  <p className="text-sm text-red-700 dark:text-red-400 font-medium">{pet.urgentNeed}</p>
+                  <p className="text-md text-red-700 dark:text-red-400 font-medium">{pet.urgentNeed}</p>
                 </div>
 
                 <div className="mb-4">
-                  <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400 mb-2">
+                  <div className="flex justify-between text-md text-gray-600 dark:text-gray-400 mb-2">
                     <span>{pet.raisedAmount} zł raised</span>
                     <span>{pet.goalAmount} zł goal</span>
                   </div>
@@ -142,7 +142,7 @@ const UrgentPets = () => {
                       style={{ width: `${getProgressPercentage(pet.raisedAmount, pet.goalAmount)}%` }}
                     ></div>
                   </div>
-                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                     {Math.round(getProgressPercentage(pet.raisedAmount, pet.goalAmount))}% funded
                   </p>
                 </div>

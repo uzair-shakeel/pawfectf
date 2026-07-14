@@ -32,7 +32,7 @@ const DashboardMap = ({
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-4">
         <h2 className="text-xl font-semibold">Ship Locations & Routes</h2>
         {startDate && endDate && (
-          <div className="text-sm text-gray-300 mt-1 md:mt-0">
+          <div className="text-md text-gray-300 mt-1 md:mt-0">
             Showing data from {formatDate(startDate)} to {formatDate(endDate)}
           </div>
         )}

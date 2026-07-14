@@ -159,7 +159,7 @@ const Users = () => {
     >
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-slate-400 text-sm font-medium">{title}</p>
+          <p className="text-slate-400 text-md font-medium">{title}</p>
           <p className="text-2xl font-bold text-slate-200 mt-1">{value}</p>
         </div>
         <div
@@ -306,25 +306,25 @@ const Users = () => {
           <table className="w-full">
             <thead className="bg-slate-800/50">
               <tr>
-                <th className="px-6 py-4 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">
+                <th className="px-6 py-4 text-left text-sm font-medium text-slate-400 uppercase tracking-wider">
                   User
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">
+                <th className="px-6 py-4 text-left text-sm font-medium text-slate-400 uppercase tracking-wider">
                   Role
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">
+                <th className="px-6 py-4 text-left text-sm font-medium text-slate-400 uppercase tracking-wider">
                   Account Type
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">
+                <th className="px-6 py-4 text-left text-sm font-medium text-slate-400 uppercase tracking-wider">
                   Status
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">
+                <th className="px-6 py-4 text-left text-sm font-medium text-slate-400 uppercase tracking-wider">
                   Approval Status
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">
+                <th className="px-6 py-4 text-left text-sm font-medium text-slate-400 uppercase tracking-wider">
                   Joined
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-medium text-slate-400 uppercase tracking-wider">
+                <th className="px-6 py-4 text-left text-sm font-medium text-slate-400 uppercase tracking-wider">
                   Actions
                 </th>
               </tr>
@@ -340,10 +340,10 @@ const Users = () => {
                         </span>
                       </div>
                       <div className="ml-4">
-                        <div className="text-sm font-medium text-slate-200">
+                        <div className="text-md font-medium text-slate-200">
                           {user.firstName} {user.lastName}
                         </div>
-                        <div className="text-sm text-slate-400">
+                        <div className="text-md text-slate-400">
                           {user.email}
                         </div>
                       </div>
@@ -355,7 +355,7 @@ const Users = () => {
                       onChange={(e) =>
                         handleRoleChange(user._id, e.target.value)
                       }
-                      className="text-sm bg-slate-800 border border-slate-600 rounded px-2 py-1 text-slate-200 focus:outline-none focus:border-blue-500"
+                      className="text-md bg-slate-800 border border-slate-600 rounded px-2 py-1 text-slate-200 focus:outline-none focus:border-blue-500"
                       disabled={user.role === "admin"}
                     >
                       <option value="user">User</option>
@@ -363,39 +363,37 @@ const Users = () => {
                     </select>
                   </td>
                   <td className="px-6 py-4">
-                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">
+                    <span className="px-2 inline-flex text-sm leading-5 font-semibold rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">
                       {user.sellerType || "N/A"}
                     </span>
                   </td>
                   <td className="px-6 py-4">
                     <span
-                      className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full border ${
-                        user.blocked
-                          ? "bg-red-500/20 text-red-400 border-red-500/30"
-                          : "bg-green-500/20 text-green-400 border-green-500/30"
-                      }`}
+                      className={`px-2 inline-flex text-sm leading-5 font-semibold rounded-full border ${user.blocked
+                        ? "bg-red-500/20 text-red-400 border-red-500/30"
+                        : "bg-green-500/20 text-green-400 border-green-500/30"
+                        }`}
                     >
                       {user.blocked ? "Blocked" : "Active"}
                     </span>
                   </td>
                   <td className="px-6 py-4">
                     <span
-                      className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full border ${
-                        user.approvalStatus === "approved"
-                          ? "bg-green-500/20 text-green-400 border-green-500/30"
-                          : user.approvalStatus === "rejected"
+                      className={`px-2 inline-flex text-sm leading-5 font-semibold rounded-full border ${user.approvalStatus === "approved"
+                        ? "bg-green-500/20 text-green-400 border-green-500/30"
+                        : user.approvalStatus === "rejected"
                           ? "bg-red-500/20 text-red-400 border-red-500/30"
                           : "bg-yellow-500/20 text-yellow-400 border-yellow-500/30"
-                      }`}
+                        }`}
                     >
                       {user.approvalStatus === "approved"
                         ? "Approved"
                         : user.approvalStatus === "rejected"
-                        ? "Rejected"
-                        : "Pending"}
+                          ? "Rejected"
+                          : "Pending"}
                     </span>
                   </td>
-                  <td className="px-6 py-4 text-slate-400 text-sm">
+                  <td className="px-6 py-4 text-slate-400 text-md">
                     {new Date(user.createdAt).toLocaleDateString()}
                   </td>
                   <td className="px-6 py-4">
@@ -409,11 +407,10 @@ const Users = () => {
                       </button>
                       <button
                         onClick={() => handleToggleBlock(user._id)}
-                        className={`p-2 transition-colors ${
-                          user.blocked
-                            ? "text-slate-400 hover:text-green-400"
-                            : "text-slate-400 hover:text-red-400"
-                        }`}
+                        className={`p-2 transition-colors ${user.blocked
+                          ? "text-slate-400 hover:text-green-400"
+                          : "text-slate-400 hover:text-red-400"
+                          }`}
                         title={user.blocked ? "Unblock User" : "Block User"}
                         disabled={user.role === "admin"}
                       >
@@ -488,11 +485,10 @@ const Users = () => {
                   <button
                     key={pageNum}
                     onClick={() => setCurrentPage(pageNum)}
-                    className={`px-3 py-2 rounded-lg transition-colors ${
-                      currentPage === pageNum
-                        ? "bg-blue-500 text-white"
-                        : "bg-slate-800 text-slate-200 hover:bg-slate-700"
-                    }`}
+                    className={`px-3 py-2 rounded-lg transition-colors ${currentPage === pageNum
+                      ? "bg-blue-500 text-white"
+                      : "bg-slate-800 text-slate-200 hover:bg-slate-700"
+                      }`}
                   >
                     {pageNum}
                   </button>
@@ -534,7 +530,7 @@ const Users = () => {
                       Delete User
                     </h3>
                     <div className="mt-2">
-                      <p className="text-sm text-slate-400">
+                      <p className="text-md text-slate-400">
                         Are you sure you want to delete{" "}
                         {userToDelete?.firstName} {userToDelete?.lastName}? This
                         action cannot be undone.
@@ -546,7 +542,7 @@ const Users = () => {
               <div className="bg-slate-700/50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                 <button
                   onClick={handleDeleteUser}
-                  className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
+                  className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-md"
                 >
                   Delete
                 </button>
@@ -555,7 +551,7 @@ const Users = () => {
                     setShowDeleteModal(false);
                     setUserToDelete(null);
                   }}
-                  className="mt-3 w-full inline-flex justify-center rounded-md border border-slate-600 shadow-sm px-4 py-2 bg-slate-800 text-base font-medium text-slate-200 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                  className="mt-3 w-full inline-flex justify-center rounded-md border border-slate-600 shadow-sm px-4 py-2 bg-slate-800 text-base font-medium text-slate-200 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-md"
                 >
                   Cancel
                 </button>
@@ -584,68 +580,68 @@ const Users = () => {
                     </h3>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-slate-400">
+                        <label className="block text-md font-medium text-slate-400">
                           Name
                         </label>
-                        <p className="mt-1 text-sm text-slate-200">
+                        <p className="mt-1 text-md text-slate-200">
                           {selectedUser.firstName} {selectedUser.lastName}
                         </p>
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-slate-400">
+                        <label className="block text-md font-medium text-slate-400">
                           Email
                         </label>
-                        <p className="mt-1 text-sm text-slate-200">
+                        <p className="mt-1 text-md text-slate-200">
                           {selectedUser.email}
                         </p>
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-slate-400">
+                        <label className="block text-md font-medium text-slate-400">
                           Role
                         </label>
-                        <p className="mt-1 text-sm text-slate-200">
+                        <p className="mt-1 text-md text-slate-200">
                           {selectedUser.role}
                         </p>
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-slate-400">
+                        <label className="block text-md font-medium text-slate-400">
                           Account Type
                         </label>
-                        <p className="mt-1 text-sm text-slate-200">
+                        <p className="mt-1 text-md text-slate-200">
                           {selectedUser.sellerType === "company" ? "Shelter/Org" : "Private"}
                         </p>
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-slate-400">
+                        <label className="block text-md font-medium text-slate-400">
                           Company
                         </label>
-                        <p className="mt-1 text-sm text-slate-200">
+                        <p className="mt-1 text-md text-slate-200">
                           {selectedUser.companyName || "N/A"}
                         </p>
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-slate-400">
+                        <label className="block text-md font-medium text-slate-400">
                           Status
                         </label>
-                        <p className="mt-1 text-sm text-slate-200">
+                        <p className="mt-1 text-md text-slate-200">
                           {selectedUser.blocked ? "Blocked" : "Active"}
                         </p>
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-slate-400">
+                        <label className="block text-md font-medium text-slate-400">
                           Joined
                         </label>
-                        <p className="mt-1 text-sm text-slate-200">
+                        <p className="mt-1 text-md text-slate-200">
                           {new Date(
                             selectedUser.createdAt
                           ).toLocaleDateString()}
                         </p>
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-slate-400">
+                        <label className="block text-md font-medium text-slate-400">
                           Last Updated
                         </label>
-                        <p className="mt-1 text-sm text-slate-200">
+                        <p className="mt-1 text-md text-slate-200">
                           {new Date(
                             selectedUser.updatedAt
                           ).toLocaleDateString()}
@@ -661,7 +657,7 @@ const Users = () => {
                     setShowUserModal(false);
                     setSelectedUser(null);
                   }}
-                  className="w-full inline-flex justify-center rounded-md border border-slate-600 shadow-sm px-4 py-2 bg-slate-800 text-base font-medium text-slate-200 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:w-auto sm:text-sm"
+                  className="w-full inline-flex justify-center rounded-md border border-slate-600 shadow-sm px-4 py-2 bg-slate-800 text-base font-medium text-slate-200 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:w-auto sm:text-md"
                 >
                   Close
                 </button>

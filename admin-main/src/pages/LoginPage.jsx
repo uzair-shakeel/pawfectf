@@ -111,7 +111,7 @@ const LoginPage = () => {
 
           <form onSubmit={handleLogin} className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">
+              <label className="block text-md font-medium text-slate-300 mb-2">
                 Email Address
               </label>
               <div className="relative">
@@ -128,7 +128,7 @@ const LoginPage = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">
+              <label className="block text-md font-medium text-slate-300 mb-2">
                 Password
               </label>
               <div className="relative">
@@ -158,7 +158,7 @@ const LoginPage = () => {
           </form>
 
           <div className="mt-6 text-center">
-            <p className="text-sm text-slate-500">
+            <p className="text-md text-slate-500">
               Demo Credentials:<br />
               Email: admin@pawfect.com<br />
               Password: admin123

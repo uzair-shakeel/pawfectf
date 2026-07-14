@@ -139,7 +139,7 @@ export default function SignInTabs() {
           {/* <div className="flex mb-6 bg-gray-100 rounded-lg p-1">
             <button
               onClick={() => handleTabChange("email")}
-              className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
+              className={`flex-1 py-2 px-4 rounded-md text-md font-medium transition-colors ${
                 activeTab === "email"
                   ? "bg-white text-blue-600 shadow-sm"
                   : "text-gray-600 hover:text-gray-900 dark:text-gray-200"
@@ -149,7 +149,7 @@ export default function SignInTabs() {
             </button>
             <button
               onClick={() => handleTabChange("phone")}
-              className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
+              className={`flex-1 py-2 px-4 rounded-md text-md font-medium transition-colors ${
                 activeTab === "phone"
                   ? "bg-white text-blue-600 shadow-sm"
                   : "text-gray-600 hover:text-gray-900 dark:text-gray-200"
@@ -163,7 +163,7 @@ export default function SignInTabs() {
             <div>
               <label
                 htmlFor={activeTab === "email" ? "email" : "phoneNumber"}
-                className="block text-sm font-medium text-gray-700 mb-2"
+                className="block text-md font-medium text-gray-700 mb-2"
               >
                 {activeTab === "email" ? "Email" : "Phone Number"}
               </label>
@@ -188,7 +188,7 @@ export default function SignInTabs() {
             <div>
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-gray-700 mb-2"
+                className="block text-md font-medium text-gray-700 mb-2"
               >
                 Password
               </label>
@@ -216,7 +216,7 @@ export default function SignInTabs() {
           <div className="mt-3 text-center">
             <Link
               href="/forgot-password"
-              className="text-sm font-medium tracking-wide text-blue-600 hover:text-blue-700 hover:underline"
+              className="text-md font-medium tracking-wide text-blue-600 hover:text-blue-700 hover:underline"
             >
               Forgot Password?
             </Link>
@@ -227,7 +227,7 @@ export default function SignInTabs() {
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full border-t border-gray-300" />
               </div>
-              <div className="relative flex justify-center text-sm">
+              <div className="relative flex justify-center text-md">
                 <span className="px-4 bg-white text-gray-500">
                   Or continue with
                 </span>

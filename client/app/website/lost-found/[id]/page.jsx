@@ -89,12 +89,12 @@ export default function LostFoundDetailPage() {
                         <Image src={images[activeImg]} alt={entry.title} fill className="object-contain" sizes="100vw" priority unoptimized />
                     </div>
                     {images.length > 1 && <button onClick={(e) => { e.stopPropagation(); setActiveImg(i => (i + 1) % images.length); }} className="absolute right-4 text-white bg-black/50 hover:bg-black/80 transition-colors rounded-full p-3"><ChevronRight className="w-6 h-6" /></button>}
-                    <div className="absolute bottom-4 text-white text-sm font-semibold">{activeImg + 1} / {images.length}</div>
+                    <div className="absolute bottom-4 text-white text-md font-semibold">{activeImg + 1} / {images.length}</div>
                 </div>
             )}
 
             <div className="max-w-6xl mx-auto">
-                <button onClick={() => router.back()} className="flex items-center gap-2 text-sm font-semibold text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 mb-8 transition-colors">
+                <button onClick={() => router.back()} className="flex items-center gap-2 text-md font-semibold text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 mb-8 transition-colors">
                     <ChevronLeft className="w-4 h-4" /> Back to List
                 </button>
 
@@ -111,11 +111,11 @@ export default function LostFoundDetailPage() {
                                     </>
                                 )}
                                 <div className="absolute top-4 left-4">
-                                    <span className={`px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-wider text-white shadow-lg ${entry.type === 'Lost' ? 'bg-red-500' : 'bg-green-500'}`}>
+                                    <span className={`px-4 py-1.5 rounded-full text-sm font-black uppercase tracking-wider text-white shadow-lg ${entry.type === 'Lost' ? 'bg-red-500' : 'bg-green-500'}`}>
                                         {entry.type}
                                     </span>
                                 </div>
-                                <div className="absolute bottom-4 right-4 bg-black/60 backdrop-blur-md text-white px-3 py-1.5 rounded-xl text-xs font-semibold shadow-lg">
+                                <div className="absolute bottom-4 right-4 bg-black/60 backdrop-blur-md text-white px-3 py-1.5 rounded-xl text-sm font-semibold shadow-lg">
                                     {activeImg + 1} / {images.length}
                                 </div>
                             </div>
@@ -141,37 +141,37 @@ export default function LostFoundDetailPage() {
                     <div className="space-y-6">
                         <div className="bg-white dark:bg-dark-card rounded-3xl p-8 border border-gray-100 dark:border-dark-divider shadow-sm sticky top-8">
                             <h1 className="text-3xl font-black text-gray-900 dark:text-white mb-2">{entry.title}</h1>
-                            <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mb-6 font-medium bg-gray-50 dark:bg-dark-raised p-3 rounded-xl">
+                            <div className="flex items-center gap-2 text-md text-gray-500 dark:text-gray-400 mb-6 font-medium bg-gray-50 dark:bg-dark-raised p-3 rounded-xl">
                                 <FaCalendarAlt className="text-blue-500" /> Date: {new Date(entry.dateLostOrFound).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
                             </div>
 
                             <div className="space-y-4 mb-8 border-t border-b border-gray-100 dark:border-dark-divider py-6">
-                                <h3 className="text-xs uppercase tracking-widest font-black text-gray-400 mb-4">Details</h3>
+                                <h3 className="text-sm uppercase tracking-widest font-black text-gray-400 mb-4">Details</h3>
                                 <div className="grid grid-cols-2 gap-y-4 gap-x-2">
                                     <div>
-                                        <p className="text-xs text-gray-500 dark:text-gray-400 uppercase font-semibold">Species</p>
+                                        <p className="text-sm text-gray-500 dark:text-gray-400 uppercase font-semibold">Species</p>
                                         <p className="font-bold text-gray-900 dark:text-gray-200">{entry.species}</p>
                                     </div>
                                     {entry.breed && (
                                         <div>
-                                            <p className="text-xs text-gray-500 dark:text-gray-400 uppercase font-semibold">Breed</p>
+                                            <p className="text-sm text-gray-500 dark:text-gray-400 uppercase font-semibold">Breed</p>
                                             <p className="font-bold text-gray-900 dark:text-gray-200">{entry.breed}</p>
                                         </div>
                                     )}
                                     {entry.gender && entry.gender !== "Unknown" && (
                                         <div>
-                                            <p className="text-xs text-gray-500 dark:text-gray-400 uppercase font-semibold">Gender</p>
+                                            <p className="text-sm text-gray-500 dark:text-gray-400 uppercase font-semibold">Gender</p>
                                             <p className="font-bold text-gray-900 dark:text-gray-200">{entry.gender}</p>
                                         </div>
                                     )}
                                     {entry.color && (
                                         <div>
-                                            <p className="text-xs text-gray-500 dark:text-gray-400 uppercase font-semibold">Color</p>
+                                            <p className="text-sm text-gray-500 dark:text-gray-400 uppercase font-semibold">Color</p>
                                             <p className="font-bold text-gray-900 dark:text-gray-200">{entry.color}</p>
                                         </div>
                                     )}
                                     <div className="col-span-2">
-                                        <p className="text-xs text-gray-500 dark:text-gray-400 uppercase font-semibold">Location</p>
+                                        <p className="text-sm text-gray-500 dark:text-gray-400 uppercase font-semibold">Location</p>
                                         <p className="font-bold text-gray-900 dark:text-gray-200 flex items-center gap-1 mt-1">
                                             <FaMapMarkerAlt className="text-red-500" /> {city || "Unknown Location"}
                                         </p>
@@ -180,7 +180,7 @@ export default function LostFoundDetailPage() {
                             </div>
 
                             <div className="space-y-4">
-                                <h3 className="text-xs uppercase tracking-widest font-black text-gray-400">Contact Person</h3>
+                                <h3 className="text-sm uppercase tracking-widest font-black text-gray-400">Contact Person</h3>
 
                                 {reporter && (
                                     <Link href={`/website/profile?id=${entry.reporterId}`} className="flex items-center gap-3 p-3 rounded-2xl bg-gray-50 dark:bg-dark-raised hover:bg-gray-100 dark:hover:bg-dark-card transition-colors group cursor-pointer border border-transparent hover:border-gray-200 dark:hover:border-gray-700">
@@ -189,19 +189,19 @@ export default function LostFoundDetailPage() {
                                         </div>
                                         <div>
                                             <p className="font-bold text-gray-900 dark:text-gray-100 group-hover:text-blue-600 transition-colors">{reporterName}</p>
-                                            <p className="text-xs text-gray-500 dark:text-gray-400">View Profile</p>
+                                            <p className="text-sm text-gray-500 dark:text-gray-400">View Profile</p>
                                         </div>
                                     </Link>
                                 )}
 
                                 <div className="flex flex-col gap-3 mt-4">
                                     {entry.contactPhone && (
-                                        <a href={`tel:${entry.contactPhone}`} className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl bg-green-600 hover:bg-green-700 text-white font-bold text-sm transition-all shadow-lg shadow-green-600/25 active:scale-[0.98]">
+                                        <a href={`tel:${entry.contactPhone}`} className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl bg-green-600 hover:bg-green-700 text-white font-bold text-md transition-all shadow-lg shadow-green-600/25 active:scale-[0.98]">
                                             <FaPhoneAlt /> Call {entry.contactPhone}
                                         </a>
                                     )}
                                     {entry.contactEmail && (
-                                        <a href={`mailto:${entry.contactEmail}`} className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-dark-card text-gray-700 dark:text-gray-200 font-bold text-sm transition-all active:scale-[0.98]">
+                                        <a href={`mailto:${entry.contactEmail}`} className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-dark-card text-gray-700 dark:text-gray-200 font-bold text-md transition-all active:scale-[0.98]">
                                             <FaEnvelope /> Email Contact
                                         </a>
                                     )}

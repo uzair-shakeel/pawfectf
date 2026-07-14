@@ -134,7 +134,7 @@ const Pets = () => {
     >
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-slate-400 text-sm font-medium">{title}</p>
+          <p className="text-slate-400 text-md font-medium">{title}</p>
           <p className="text-2xl font-bold text-slate-200 mt-1">{value}</p>
         </div>
         <div
@@ -290,7 +290,7 @@ const Pets = () => {
               {/* Status Badge */}
               <div className="absolute top-3 right-3">
                 <span
-                  className={`px-2 py-1 rounded-full text-xs font-medium border ${getStatusColor(
+                  className={`px-2 py-1 rounded-full text-sm font-medium border ${getStatusColor(
                     pet.status
                   )}`}
                 >
@@ -300,7 +300,7 @@ const Pets = () => {
 
               {/* Price Badge */}
               <div className="absolute bottom-3 left-3">
-                <span className="px-2 py-1 bg-slate-900/80 text-slate-200 rounded-lg text-sm font-bold">
+                <span className="px-2 py-1 bg-slate-900/80 text-slate-200 rounded-lg text-md font-bold">
                   {formatPrice(pet.financialInfo?.priceNetto)}
                 </span>
               </div>
@@ -311,14 +311,14 @@ const Pets = () => {
               <h3 className="text-lg font-semibold text-slate-200 mb-1">
                 {pet.make} {pet.model}
               </h3>
-              <p className="text-slate-400 text-sm mb-2">{pet.year}</p>
+              <p className="text-slate-400 text-md mb-2">{pet.year}</p>
 
-              <div className="flex items-center justify-between text-xs text-slate-400 mb-3">
+              <div className="flex items-center justify-between text-sm text-slate-400 mb-3">
                 <span>{pet.petCondition?.overall || "N/A"}</span>
                 <span>{pet.mileage || "N/A"} km</span>
               </div>
 
-              <div className="text-xs text-slate-400 mb-4">
+              <div className="text-sm text-slate-400 mb-4">
                 <p>
                   Owner: {pet.createdBy?.firstName} {pet.createdBy?.lastName}
                 </p>
@@ -330,7 +330,7 @@ const Pets = () => {
                 <select
                   value={pet.status}
                   onChange={(e) => handleStatusChange(pet._id, e.target.value)}
-                  className="text-xs bg-slate-800 border border-slate-600 rounded px-2 py-1 text-slate-200 focus:outline-none focus:border-blue-500"
+                  className="text-sm bg-slate-800 border border-slate-600 rounded px-2 py-1 text-slate-200 focus:outline-none focus:border-blue-500"
                 >
                   <option value="Approved">Approved</option>
                   <option value="Pending">Pending</option>
@@ -380,11 +380,10 @@ const Pets = () => {
                 <button
                   key={pageNum}
                   onClick={() => setCurrentPage(pageNum)}
-                  className={`px-3 py-2 rounded-lg transition-colors ${
-                    currentPage === pageNum
-                      ? "bg-blue-500 text-white"
-                      : "bg-slate-800 text-slate-200 hover:bg-slate-700"
-                  }`}
+                  className={`px-3 py-2 rounded-lg transition-colors ${currentPage === pageNum
+                    ? "bg-blue-500 text-white"
+                    : "bg-slate-800 text-slate-200 hover:bg-slate-700"
+                    }`}
                 >
                   {pageNum}
                 </button>
@@ -425,7 +424,7 @@ const Pets = () => {
                       Delete Pet
                     </h3>
                     <div className="mt-2">
-                      <p className="text-sm text-slate-400">
+                      <p className="text-md text-slate-400">
                         Are you sure you want to delete {petToDelete?.make}{" "}
                         {petToDelete?.model} ({petToDelete?.year})? This action
                         cannot be undone.
@@ -437,16 +436,16 @@ const Pets = () => {
               <div className="bg-slate-700/50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                 <button
                   onClick={handleDeletePet}
-                  className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
+                  className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-md"
                 >
                   Delete
                 </button>
-                  <button
+                <button
                   onClick={() => {
                     setShowDeleteModal(false);
                     setPetToDelete(null);
                   }}
-                  className="mt-3 w-full inline-flex justify-center rounded-md border border-slate-600 shadow-sm px-4 py-2 bg-slate-800 text-base font-medium text-slate-200 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                  className="mt-3 w-full inline-flex justify-center rounded-md border border-slate-600 shadow-sm px-4 py-2 bg-slate-800 text-base font-medium text-slate-200 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-md"
                 >
                   Cancel
                 </button>
@@ -473,7 +472,7 @@ const Pets = () => {
                     {selectedPet.make} {selectedPet.model} ({selectedPet.year})
                   </h3>
                   <div
-                    className={`px-3 py-1 rounded-full text-sm font-medium border ${getStatusColor(
+                    className={`px-3 py-1 rounded-full text-md font-medium border ${getStatusColor(
                       selectedPet.status
                     )}`}
                   >
@@ -517,7 +516,7 @@ const Pets = () => {
                   <div className="space-y-4">
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-slate-400">
+                        <label className="block text-md font-medium text-slate-400">
                           Price
                         </label>
                         <p className="text-lg font-bold text-green-400">
@@ -525,7 +524,7 @@ const Pets = () => {
                         </p>
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-slate-400">
+                        <label className="block text-md font-medium text-slate-400">
                           Condition
                         </label>
                         <p className="text-slate-200">
@@ -533,7 +532,7 @@ const Pets = () => {
                         </p>
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-slate-400">
+                        <label className="block text-md font-medium text-slate-400">
                           Mileage
                         </label>
                         <p className="text-slate-200">
@@ -541,7 +540,7 @@ const Pets = () => {
                         </p>
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-slate-400">
+                        <label className="block text-md font-medium text-slate-400">
                           VIN
                         </label>
                         <p className="text-slate-200">
@@ -549,7 +548,7 @@ const Pets = () => {
                         </p>
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-slate-400">
+                        <label className="block text-md font-medium text-slate-400">
                           Fuel Type
                         </label>
                         <p className="text-slate-200">
@@ -557,7 +556,7 @@ const Pets = () => {
                         </p>
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-slate-400">
+                        <label className="block text-md font-medium text-slate-400">
                           Transmission
                         </label>
                         <p className="text-slate-200">
@@ -567,29 +566,29 @@ const Pets = () => {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-slate-400">
+                      <label className="block text-md font-medium text-slate-400">
                         Owner
                       </label>
                       <p className="text-slate-200">
                         {selectedPet.createdBy?.firstName}{" "}
                         {selectedPet.createdBy?.lastName}
                       </p>
-                      <p className="text-slate-400 text-sm">
+                      <p className="text-slate-400 text-md">
                         {selectedPet.createdBy?.email}
                       </p>
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-slate-400">
+                      <label className="block text-md font-medium text-slate-400">
                         Description
                       </label>
-                      <p className="text-slate-200 text-sm">
+                      <p className="text-slate-200 text-md">
                         {selectedPet.description || "No description available"}
                       </p>
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-slate-400">
+                      <label className="block text-md font-medium text-slate-400">
                         Added
                       </label>
                       <p className="text-slate-200">
@@ -605,7 +604,7 @@ const Pets = () => {
                     setShowPetModal(false);
                     setSelectedPet(null);
                   }}
-                  className="w-full inline-flex justify-center rounded-md border border-slate-600 shadow-sm px-4 py-2 bg-slate-800 text-base font-medium text-slate-200 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:w-auto sm:text-sm"
+                  className="w-full inline-flex justify-center rounded-md border border-slate-600 shadow-sm px-4 py-2 bg-slate-800 text-base font-medium text-slate-200 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:w-auto sm:text-md"
                 >
                   Close
                 </button>

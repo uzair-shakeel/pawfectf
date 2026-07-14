@@ -213,7 +213,7 @@ export default function CarCard({ car, viewMode = 'grid' }) {
 
             {/* Price overlay */}
             <div className="absolute bottom-3 left-3 bg-gray-900/90 backdrop-blur-md px-3 py-1.5 rounded-xl shadow-lg border border-white/10">
-              <div className="text-sm font-semibold  text-white">
+              <div className="text-md font-semibold  text-white">
                 {car.financialInfo?.priceNetto
                   ? `${car.financialInfo.priceNetto.toLocaleString('pl-PL')} zł`
                   : 'Cena do negocjacji'}
@@ -356,11 +356,11 @@ export default function CarCard({ car, viewMode = 'grid' }) {
         {/* Content Section */}
         <div className="flex-1 p-3 xs:p-4 md:p-8 flex flex-col justify-center bg-transparent min-w-0">
           <div className="flex flex-col gap-1 md:gap-3">
-            <h3 className="text-sm xs:text-base sm:text-lg md:text-3xl font-bold text-gray-900 dark:text-gray-200 dark:text-dark-text-primary group-hover:text-blue-600 transition-colors leading-tight truncate">
+            <h3 className="text-md xs:text-base sm:text-lg md:text-3xl font-bold text-gray-900 dark:text-gray-200 dark:text-dark-text-primary group-hover:text-blue-600 transition-colors leading-tight truncate">
               {car.year} {car.make} {car.model}
             </h3>
 
-            <p className="text-[10px] xs:text-xs md:text-[17px] text-gray-600 dark:text-dark-text-secondary line-clamp-2 md:line-clamp-none leading-snug">
+            <p className="text-[10px] xs:text-sm md:text-[17px] text-gray-600 dark:text-dark-text-secondary line-clamp-2 md:line-clamp-none leading-snug">
               {[
                 car.mileage ? `${car.mileage.toLocaleString('pl-PL')} km` : null,
                 translateTransmission(car.transmission),
@@ -374,7 +374,7 @@ export default function CarCard({ car, viewMode = 'grid' }) {
                 {locationDetails.city || 'POLSKA'}
               </div>
 
-              <div className="text-sm xs:text-base sm:text-xl md:text-4xl font-black text-gray-900 dark:text-gray-200 dark:text-dark-text-primary tracking-tighter">
+              <div className="text-md xs:text-base sm:text-xl md:text-4xl font-black text-gray-900 dark:text-gray-200 dark:text-dark-text-primary tracking-tighter">
                 {car.financialInfo?.priceNetto
                   ? `${car.financialInfo.priceNetto.toLocaleString('pl-PL')} zł`
                   : 'Cena do negocjacji'}

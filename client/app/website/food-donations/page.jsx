@@ -81,15 +81,15 @@ export default function FoodDonationsPage() {
                 <div className="grid grid-cols-3 gap-4 mb-10">
                     <div className="bg-white dark:bg-dark-card rounded-2xl p-6 border border-gray-100 dark:border-dark-divider shadow-sm text-center">
                         <div className="text-3xl font-black text-blue-600 dark:text-blue-400 mb-1">450+</div>
-                        <div className="text-sm text-gray-600 dark:text-gray-400">{t('foodDonation.listings.petsFed')}</div>
+                        <div className="text-md text-gray-600 dark:text-gray-400">{t('foodDonation.listings.petsFed')}</div>
                     </div>
                     <div className="bg-white dark:bg-dark-card rounded-2xl p-6 border border-gray-100 dark:border-dark-divider shadow-sm text-center">
                         <div className="text-3xl font-black text-blue-600 dark:text-blue-400 mb-1">25</div>
-                        <div className="text-sm text-gray-600 dark:text-gray-400">{t('foodDonation.listings.shelters')}</div>
+                        <div className="text-md text-gray-600 dark:text-gray-400">{t('foodDonation.listings.shelters')}</div>
                     </div>
                     <div className="bg-white dark:bg-dark-card rounded-2xl p-6 border border-gray-100 dark:border-dark-divider shadow-sm text-center">
                         <div className="text-3xl font-black text-blue-600 dark:text-blue-400 mb-1">15k zł</div>
-                        <div className="text-sm text-gray-600 dark:text-gray-400">{t('foodDonation.listings.donated')}</div>
+                        <div className="text-md text-gray-600 dark:text-gray-400">{t('foodDonation.listings.donated')}</div>
                     </div>
                 </div>
 
@@ -131,7 +131,7 @@ export default function FoodDonationsPage() {
                                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                     />
                                     {pet.isUrgent && (
-                                        <div className="absolute top-3 left-3 bg-red-500 text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-lg">
+                                        <div className="absolute top-3 left-3 bg-red-500 text-white px-3 py-1.5 rounded-full text-sm font-bold shadow-lg">
                                             🚨 {t('foodDonation.listings.urgent')}
                                         </div>
                                     )}
@@ -146,11 +146,11 @@ export default function FoodDonationsPage() {
                                         <Heart className="h-5 w-5 text-gray-400 group-hover:text-red-500 group-hover:fill-red-500 transition-all flex-shrink-0" />
                                     </div>
 
-                                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                                    <p className="text-md text-gray-600 dark:text-gray-400 mb-4">
                                         {pet.breed || pet.species} • {pet.species}
                                     </p>
 
-                                    <div className="flex items-center gap-4 mb-4 text-xs text-gray-500 dark:text-gray-400">
+                                    <div className="flex items-center gap-4 mb-4 text-sm text-gray-500 dark:text-gray-400">
                                         <div className="flex items-center gap-1">
                                             <MapPin className="h-3.5 w-3.5 flex-shrink-0" />
                                             <span>{pet.location?.city || 'Unknown'}</span>
@@ -162,13 +162,13 @@ export default function FoodDonationsPage() {
                                     </div>
 
                                     {pet.foodNeed && typeof pet.foodNeed === 'string' && (
-                                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
+                                        <p className="text-md text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
                                             {pet.foodNeed}
                                         </p>
                                     )}
 
                                     <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-dark-divider">
-                                        <span className="text-sm font-semibold text-blue-600 dark:text-blue-400">
+                                        <span className="text-md font-semibold text-blue-600 dark:text-blue-400">
                                             {t('foodDonation.listings.donateFood')}
                                         </span>
                                         <ArrowRight className="h-4 w-4 text-blue-600 dark:text-blue-400 group-hover:translate-x-1 transition-transform" />

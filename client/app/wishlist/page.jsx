@@ -80,7 +80,7 @@ export default function WishlistPage() {
                     </div>
 
                     <div className="flex items-center gap-4">
-                        <p className="text-gray-500 font-bold uppercase text-xs tracking-widest">
+                        <p className="text-gray-500 font-bold uppercase text-sm tracking-widest">
                             {wishlist.length} Items Saved
                         </p>
                     </div>

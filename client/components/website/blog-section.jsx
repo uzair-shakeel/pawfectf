@@ -60,12 +60,12 @@ export function BlogSection() {
                     fill
                     className="object-cover group-hover:scale-110 transition-transform duration-500"
                   />
-                  <div className="absolute top-4 left-4 text-xs font-bold px-3 py-1.5 rounded-full bg-white/90 dark:bg-dark-elevation-4 backdrop-blur text-gray-900 dark:text-gray-200 dark:text-white shadow-lg">
+                  <div className="absolute top-4 left-4 text-sm font-bold px-3 py-1.5 rounded-full bg-white/90 dark:bg-dark-elevation-4 backdrop-blur text-gray-900 dark:text-gray-200 dark:text-white shadow-lg">
                     {t(`homepage.blogSection.categories.${post.categoryKey}`)}
                   </div>
                 </div>
                 <div className="p-6 flex flex-col flex-1">
-                  <p className="text-xs font-bold text-blue-600 dark:text-blue-400 mb-2 uppercase tracking-wide">
+                  <p className="text-sm font-bold text-blue-600 dark:text-blue-400 mb-2 uppercase tracking-wide">
                     {t(`homepage.blogSection.dates.${post.dateKey}`)}
                   </p>
                   <h3 className="text-xl font-bold text-gray-900 dark:text-gray-200 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300 leading-tight mb-2">
@@ -78,7 +78,7 @@ export function BlogSection() {
         </div>
 
         <div className="text-center">
-          <button className="px-8 py-3 bg-white dark:bg-dark-main border border-gray-200 dark:border-gray-600 rounded-full text-sm font-bold text-gray-900 dark:text-gray-200 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 inline-flex items-center gap-2">
+          <button className="px-8 py-3 bg-white dark:bg-dark-main border border-gray-200 dark:border-gray-600 rounded-full text-md font-bold text-gray-900 dark:text-gray-200 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-700 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 inline-flex items-center gap-2">
             {t("homepage.blogSection.viewAll")} <span className="text-lg">→</span>
           </button>
         </div>

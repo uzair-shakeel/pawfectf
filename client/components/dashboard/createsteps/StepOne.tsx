@@ -13,7 +13,7 @@ import { Sparkles } from "lucide-react";
 const FieldWrapper = ({ label, auto, children }: { label: string, auto: boolean, children: React.ReactNode }) => {
   return (
     <div className="col-span-2 md:col-span-1">
-      <label className={`flex items-center gap-1.5 text-sm font-semibold mb-2 uppercase tracking-wider ${auto ? 'text-blue-600 dark:text-blue-400' : 'text-gray-700 dark:text-gray-300'}`}>
+      <label className={`flex items-center gap-1.5 text-md font-semibold mb-2 uppercase tracking-wider ${auto ? 'text-blue-600 dark:text-blue-400' : 'text-gray-700 dark:text-gray-300'}`}>
         {label}
         {auto && <Sparkles size={14} className="text-blue-500" />}
       </label>
@@ -127,7 +127,7 @@ export default function StepOne({ nextStep, prevStep, updateFormData, formData, 
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-xl font-bold text-gray-900 dark:text-gray-200 dark:text-white">Krok 2: Szczegóły Pojazdu</h2>
         {formData.vinFields?.length > 0 && (
-          <div className="flex items-center gap-2 px-4 py-2 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-xl text-xs font-bold border border-blue-100 dark:border-blue-800 shadow-sm">
+          <div className="flex items-center gap-2 px-4 py-2 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-xl text-sm font-bold border border-blue-100 dark:border-blue-800 shadow-sm">
             <Sparkles size={14} />
             <span>{formData.vinFields.length} Danych z VIN</span>
           </div>
@@ -137,7 +137,7 @@ export default function StepOne({ nextStep, prevStep, updateFormData, formData, 
 
         {/* Title */}
         <div className="col-span-2">
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 uppercase tracking-wider">Tytuł Ogłoszenia</label>
+          <label className="block text-md font-medium text-gray-700 dark:text-gray-300 mb-1 uppercase tracking-wider">Tytuł Ogłoszenia</label>
           <input
             type="text"
             placeholder="Np. BMW M5 F90 Competition 2021"
@@ -151,7 +151,7 @@ export default function StepOne({ nextStep, prevStep, updateFormData, formData, 
 
         {/* Seller Notes (Description) */}
         <div className="col-span-2">
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 uppercase tracking-wider">Notatki Sprzedającego / Opis</label>
+          <label className="block text-md font-medium text-gray-700 dark:text-gray-300 mb-1 uppercase tracking-wider">Notatki Sprzedającego / Opis</label>
           <textarea
             placeholder="Wpisz dodatkowe informacje o aucie, np. historia, dodatkowe wyposażenie, stan..."
             className="border-2 border-gray-100 dark:border-gray-700 p-4 w-full rounded-xl min-h-[120px] focus:border-blue-500 transition-all font-semibold bg-white dark:bg-dark-main dark:text-white placeholder-gray-400 dark:placeholder-gray-600"
@@ -160,7 +160,7 @@ export default function StepOne({ nextStep, prevStep, updateFormData, formData, 
               setLocalData({ ...localData, description: e.target.value })
             }
           />
-          <p className="text-xs text-gray-400 mt-2 font-medium italic">
+          <p className="text-sm text-gray-400 mt-2 font-medium italic">
             * Te notatki zostaną wykorzystane przez AI do wygenerowania profesjonalnego opisu.
           </p>
         </div>
@@ -169,49 +169,49 @@ export default function StepOne({ nextStep, prevStep, updateFormData, formData, 
         {formData.vin ? (
           <div className="col-span-2">
             <div className="bg-blue-50/50 dark:bg-blue-900/10 rounded-2xl border border-blue-100 dark:border-blue-800 p-6">
-              <h3 className="text-sm font-bold text-blue-800 dark:text-blue-300 uppercase tracking-widest mb-4 flex items-center gap-2">
+              <h3 className="text-md font-bold text-blue-800 dark:text-blue-300 uppercase tracking-widest mb-4 flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-blue-500"></span>
                 DANE ZWERYFIKOWANE Z VIN
               </h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-6">
                 <div>
-                  <label className="block text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">Marka</label>
+                  <label className="block text-sm font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">Marka</label>
                   <p className="text-lg font-bold text-gray-900 dark:text-gray-200 dark:text-white">{localData.make}</p>
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">Model</label>
+                  <label className="block text-sm font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">Model</label>
                   <p className="text-lg font-bold text-gray-900 dark:text-gray-200 dark:text-white">{localData.model}</p>
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">Rok</label>
+                  <label className="block text-sm font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">Rok</label>
                   <p className="text-lg font-bold text-gray-900 dark:text-gray-200 dark:text-white">{formData.year || "—"}</p>
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">Nadwozie</label>
+                  <label className="block text-sm font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">Nadwozie</label>
                   <p className="text-lg font-bold text-gray-900 dark:text-gray-200 dark:text-white">{formData.type || "—"}</p>
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">Paliwo</label>
+                  <label className="block text-sm font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">Paliwo</label>
                   <p className="text-lg font-bold text-gray-900 dark:text-gray-200 dark:text-white">{formData.fuel || "—"}</p>
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">Skrzynia</label>
+                  <label className="block text-sm font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">Skrzynia</label>
                   <p className="text-lg font-bold text-gray-900 dark:text-gray-200 dark:text-white">{formData.transmission || "—"}</p>
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">Silnik</label>
+                  <label className="block text-sm font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">Silnik</label>
                   <p className="text-lg font-bold text-gray-900 dark:text-gray-200 dark:text-white">{formData.engine || "—"}</p>
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">Moc</label>
+                  <label className="block text-sm font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">Moc</label>
                   <p className="text-lg font-bold text-gray-900 dark:text-gray-200 dark:text-white">{formData.horsepower ? `${formData.horsepower} KM` : "—"}</p>
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">Napęd</label>
+                  <label className="block text-sm font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-1">Napęd</label>
                   <p className="text-lg font-bold text-gray-900 dark:text-gray-200 dark:text-white">{formData.drivetrain || "—"}</p>
                 </div>
               </div>
-              <p className="text-xs text-blue-600/60 dark:text-blue-400/60 mt-4 font-medium">
+              <p className="text-sm text-blue-600/60 dark:text-blue-400/60 mt-4 font-medium">
                 Te dane zostały pobrane automatycznie i nie mogą być edytowane.
               </p>
             </div>
@@ -220,7 +220,7 @@ export default function StepOne({ nextStep, prevStep, updateFormData, formData, 
           <>
             {/* Make */}
             <div className="col-span-2 md:col-span-1">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 uppercase tracking-wider">Marka</label>
+              <label className="block text-md font-medium text-gray-700 dark:text-gray-300 mb-1 uppercase tracking-wider">Marka</label>
               <select
                 className="border-2 border-gray-100 dark:border-gray-700 p-4 w-full rounded-xl h-14 focus:border-blue-500 transition-all font-semibold bg-white dark:bg-dark-main dark:text-white"
                 value={localData.make}
@@ -240,7 +240,7 @@ export default function StepOne({ nextStep, prevStep, updateFormData, formData, 
 
             {/* Model */}
             <div className="col-span-2 md:col-span-1">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 uppercase tracking-wider">Model</label>
+              <label className="block text-md font-medium text-gray-700 dark:text-gray-300 mb-1 uppercase tracking-wider">Model</label>
               <select
                 className="border-2 border-gray-100 dark:border-gray-700 p-4 w-full rounded-xl h-14 focus:border-blue-500 transition-all font-semibold bg-white dark:bg-dark-main dark:text-white"
                 value={localData.model}
@@ -446,7 +446,7 @@ export default function StepOne({ nextStep, prevStep, updateFormData, formData, 
                 </div>
                 <div>
                   <h3 className="font-bold text-gray-900 dark:text-gray-200 dark:text-gray-100">Lokalizacja Pojazdu</h3>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">Ustaw gdzie można obejrzeć auto</p>
+                  <p className="text-md text-gray-500 dark:text-gray-400 font-medium">Ustaw gdzie można obejrzeć auto</p>
                 </div>
               </div>
               <div className={`transition-transform duration-300 ${showMap ? "rotate-180" : ""}`}>

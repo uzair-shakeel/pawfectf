@@ -34,7 +34,7 @@ export default function ContactPage() {
                 <div>
                   <h3 className="text-lg font-bold text-gray-900 dark:text-white">{t("dashboard.contact.emailUs", "Email Us")}</h3>
                   <p className="text-gray-600 dark:text-gray-400 mt-1">{t("dashboard.contact.email", "support@Rafraf.pl")}</p>
-                  <p className="text-gray-500 text-sm mt-1">{t("dashboard.contact.emailResponse", "We aim to reply within 24 hours.")}</p>
+                  <p className="text-gray-500 text-md mt-1">{t("dashboard.contact.emailResponse", "We aim to reply within 24 hours.")}</p>
                 </div>
               </div>
 
@@ -45,7 +45,7 @@ export default function ContactPage() {
                 <div>
                   <h3 className="text-lg font-bold text-gray-900 dark:text-white">{t("dashboard.contact.callUs", "Call Us")}</h3>
                   <p className="text-gray-600 dark:text-gray-400 mt-1">{t("dashboard.contact.phone", "+48 123 456 789")}</p>
-                  <p className="text-gray-500 text-sm mt-1">{t("dashboard.contact.phoneHours", "Mon-Fri from 8am to 5pm.")}</p>
+                  <p className="text-gray-500 text-md mt-1">{t("dashboard.contact.phoneHours", "Mon-Fri from 8am to 5pm.")}</p>
                 </div>
               </div>
 
@@ -56,7 +56,7 @@ export default function ContactPage() {
                 <div>
                   <h3 className="text-lg font-bold text-gray-900 dark:text-white">{t("dashboard.contact.officeLocation", "Office Location")}</h3>
                   <p className="text-gray-600 dark:text-gray-400 mt-1">{t("dashboard.contact.location", "Warsaw, Poland")}</p>
-                  <p className="text-gray-500 text-sm mt-1">{t("dashboard.contact.locationNote", "Available for partner shelter meetings by appointment.")}</p>
+                  <p className="text-gray-500 text-md mt-1">{t("dashboard.contact.locationNote", "Available for partner shelter meetings by appointment.")}</p>
                 </div>
               </div>
             </div>
@@ -73,15 +73,15 @@ export default function ContactPage() {
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">{t("dashboard.contact.name", "Name")}</label>
+                  <label className="block text-md font-semibold text-gray-700 dark:text-gray-300 mb-1">{t("dashboard.contact.name", "Name")}</label>
                   <input required type="text" className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-dark-divider bg-white dark:bg-dark-raised focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="John Doe" />
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">{t("dashboard.contact.email", "Email")}</label>
+                  <label className="block text-md font-semibold text-gray-700 dark:text-gray-300 mb-1">{t("dashboard.contact.email", "Email")}</label>
                   <input required type="email" className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-dark-divider bg-white dark:bg-dark-raised focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="john@example.com" />
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">{t("dashboard.contact.subject", "Subject")}</label>
+                  <label className="block text-md font-semibold text-gray-700 dark:text-gray-300 mb-1">{t("dashboard.contact.subject", "Subject")}</label>
                   <select className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-dark-divider bg-white dark:bg-dark-raised focus:outline-none focus:ring-2 focus:ring-blue-500">
                     <option>{t("dashboard.contact.subjects.general", "General Inquiry")}</option>
                     <option>{t("dashboard.contact.subjects.adoption", "Adoption Question")}</option>
@@ -90,7 +90,7 @@ export default function ContactPage() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">{t("dashboard.contact.message", "Message")}</label>
+                  <label className="block text-md font-semibold text-gray-700 dark:text-gray-300 mb-1">{t("dashboard.contact.message", "Message")}</label>
                   <textarea required rows="4" className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-dark-divider bg-white dark:bg-dark-raised focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="How can we help?"></textarea>
                 </div>
                 <button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl transition-colors flex items-center justify-center gap-2">

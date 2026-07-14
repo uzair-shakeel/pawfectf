@@ -42,13 +42,13 @@ export default function NotificationsPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-gray-200 dark:text-white">{t("dashboard:notifications.title", "Notifications")}</h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400">{t("dashboard:notifications.unread", "Unread")}: {unreadCount}</p>
+          <p className="text-md text-gray-500 dark:text-gray-400">{t("dashboard:notifications.unread", "Unread")}: {unreadCount}</p>
         </div>
         <div className="flex items-center gap-2">
           <select
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
-            className="border border-gray-200 dark:border-gray-700 bg-white dark:bg-dark-main rounded-md px-2 py-1 text-sm"
+            className="border border-gray-200 dark:border-gray-700 bg-white dark:bg-dark-main rounded-md px-2 py-1 text-md"
           >
             <option value="all">{t("dashboard:notifications.all", "All")}</option>
             <option value="unread">{t("dashboard:notifications.unread", "Unread")}</option>
@@ -59,7 +59,7 @@ export default function NotificationsPage() {
           </select>
           <button
             onClick={markAll}
-            className="px-3 py-1.5 text-sm rounded-md bg-blue-600 text-white hover:bg-blue-700"
+            className="px-3 py-1.5 text-md rounded-md bg-blue-600 text-white hover:bg-blue-700"
           >{t("dashboard:notifications.markAllRead", "Mark all as read")}
           </button>
         </div>
@@ -67,7 +67,7 @@ export default function NotificationsPage() {
 
       <div className="bg-white dark:bg-dark-main border border-gray-200 dark:border-gray-700 rounded-xl p-4">
         {items.length === 0 ? (
-          <div className="text-sm text-gray-500 dark:text-gray-400">{t("dashboard:notifications.noNotifications", "No notifications")}</div>
+          <div className="text-md text-gray-500 dark:text-gray-400">{t("dashboard:notifications.noNotifications", "No notifications")}</div>
         ) : (
           <ul className="divide-y divide-gray-100 dark:divide-gray-700">
             {items.map((n) => (
@@ -87,7 +87,7 @@ export default function NotificationsPage() {
                 <div className="min-w-0 flex-1">
                   <div className="font-medium text-gray-900 dark:text-gray-200 dark:text-white truncate">{n.title}</div>
                   {n.body && (
-                    <div className="text-sm line-clamp-2 text-gray-600 dark:text-gray-300 ">{n.body}</div>
+                    <div className="text-md line-clamp-2 text-gray-600 dark:text-gray-300 ">{n.body}</div>
                   )}
                   <div className="text-[10px] text-gray-400 mt-1">{fmt(n.createdAt)}</div>
                 </div>
@@ -95,7 +95,7 @@ export default function NotificationsPage() {
                   {!n.read && (
                     <button
                       onClick={() => markRead(n.id)}
-                      className="text-xs text-blue-600 hover:underline"
+                      className="text-sm text-blue-600 hover:underline"
                     >
                       {t("dashboard:notifications.markRead", "Mark as read")}
                     </button>

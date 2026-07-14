@@ -114,7 +114,7 @@ export default function VinLookupStep({ nextStep, updateFormData, formData }) {
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-50 rounded-full mb-4">
                     <Sparkles className="text-blue-600 w-8 h-8" />
                 </div>
-                <h3 className="text-blue-600 dark:text-blue-400 font-bold text-sm uppercase tracking-widest mb-2">Krok 1</h3>
+                <h3 className="text-blue-600 dark:text-blue-400 font-bold text-md uppercase tracking-widest mb-2">Krok 1</h3>
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-200 dark:text-white">Zacznij od numeru VIN</h2>
                 <p className="text-gray-500 dark:text-gray-400 mt-2">
                     Pobierzemy większość danych o Twoim aucie automatycznie.
@@ -124,7 +124,7 @@ export default function VinLookupStep({ nextStep, updateFormData, formData }) {
             <div className="space-y-8">
                 {/* Condition Type Selection */}
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-4 uppercase tracking-wider text-center">Stan Pojazdu</label>
+                    <label className="block text-md font-medium text-gray-700 dark:text-gray-300 mb-4 uppercase tracking-wider text-center">Stan Pojazdu</label>
                     <div className="flex justify-center gap-6">
                         <label className={`relative cursor-pointer group`}>
                             <input
@@ -156,7 +156,7 @@ export default function VinLookupStep({ nextStep, updateFormData, formData }) {
                 </div>
 
                 <div className="relative">
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Numer VIN (17 znaków)</label>
+                    <label className="block text-md font-medium text-gray-700 dark:text-gray-300 mb-2">Numer VIN (17 znaków)</label>
                     <div className="flex gap-2">
                         <div className="relative flex-grow">
                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -174,7 +174,7 @@ export default function VinLookupStep({ nextStep, updateFormData, formData }) {
                         <button
                             onClick={handleVinLookup}
                             disabled={isLoading || vin.length < 17}
-                            className="bg-blue-600 text-white px-10 py-4 rounded-xl font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-100 disabled:bg-gray-100 disabled:text-gray-400 disabled:shadow-none flex items-center gap-2 whitespace-nowrap uppercase tracking-wider text-sm"
+                            className="bg-blue-600 text-white px-10 py-4 rounded-xl font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-100 disabled:bg-gray-100 disabled:text-gray-400 disabled:shadow-none flex items-center gap-2 whitespace-nowrap uppercase tracking-wider text-md"
                         >
                             {isLoading ? (
                                 <div className="flex items-center gap-2">
@@ -204,25 +204,25 @@ export default function VinLookupStep({ nextStep, updateFormData, formData }) {
                             </h3>
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="space-y-1">
-                                    <span className="text-xs text-green-600 dark:text-green-400 block uppercase font-bold tracking-wider">Marka</span>
+                                    <span className="text-sm text-green-600 dark:text-green-400 block uppercase font-bold tracking-wider">Marka</span>
                                     <span className="text-lg font-semibold text-gray-900 dark:text-gray-200 dark:text-white">{fetchedData.make}</span>
                                 </div>
                                 <div className="space-y-1">
-                                    <span className="text-xs text-green-600 dark:text-green-400 block uppercase font-bold tracking-wider">Model</span>
+                                    <span className="text-sm text-green-600 dark:text-green-400 block uppercase font-bold tracking-wider">Model</span>
                                     <span className="text-lg font-semibold text-gray-900 dark:text-gray-200 dark:text-white">{fetchedData.model}</span>
                                 </div>
                                 <div className="space-y-1">
-                                    <span className="text-xs text-green-600 dark:text-green-400 block uppercase font-bold tracking-wider">Rok</span>
+                                    <span className="text-sm text-green-600 dark:text-green-400 block uppercase font-bold tracking-wider">Rok</span>
                                     <span className="text-lg font-semibold text-gray-900 dark:text-gray-200 dark:text-white">{fetchedData.year}</span>
                                 </div>
                                 <div className="space-y-1">
-                                    <span className="text-xs text-green-600 dark:text-green-400 block uppercase font-bold tracking-wider">Moc</span>
+                                    <span className="text-sm text-green-600 dark:text-green-400 block uppercase font-bold tracking-wider">Moc</span>
                                     <span className="text-lg font-semibold text-gray-900 dark:text-gray-200 dark:text-white">{fetchedData.horsepower} KM</span>
                                 </div>
                             </div>
                             <button
                                 onClick={nextStep}
-                                className="w-full mt-6 bg-green-600 text-white py-5 rounded-xl font-bold hover:bg-green-700 transition-all shadow-lg shadow-green-100 flex items-center justify-center gap-2 group uppercase tracking-widest text-sm"
+                                className="w-full mt-6 bg-green-600 text-white py-5 rounded-xl font-bold hover:bg-green-700 transition-all shadow-lg shadow-green-100 flex items-center justify-center gap-2 group uppercase tracking-widest text-md"
                             >
                                 <span>Kontynuuj do ogłoszenia</span>
                                 <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -235,7 +235,7 @@ export default function VinLookupStep({ nextStep, updateFormData, formData }) {
                     <div className="flex flex-col gap-4 mt-8">
                         <button
                             onClick={skipVin}
-                            className="text-gray-400 font-bold text-sm tracking-wide hover:text-blue-600 transition-colors py-4 px-8 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800/50 uppercase"
+                            className="text-gray-400 font-bold text-md tracking-wide hover:text-blue-600 transition-colors py-4 px-8 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800/50 uppercase"
                         >
                             Wpiszę dane ręcznie
                         </button>
@@ -274,7 +274,7 @@ export default function VinLookupStep({ nextStep, updateFormData, formData }) {
                                 <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-200 dark:text-white mb-4">Wystąpił błąd</h3>
                                 <p className="text-gray-600 dark:text-gray-300 text-lg mb-2">{errorModal.message}</p>
                                 {errorModal.details && (
-                                    <p className="text-gray-400 text-sm italic mb-6">
+                                    <p className="text-gray-400 text-md italic mb-6">
                                         "{errorModal.details}"
                                     </p>
                                 )}
