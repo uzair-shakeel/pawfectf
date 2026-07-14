@@ -155,6 +155,10 @@ const ProfileComponent = () => {
         ...formData,
         phoneNumbers: formData.phoneNumbers.map(item => item.phone).filter(phone => phone.trim() !== ""),
       };
+      // Ensure sellerType is valid enum value
+      if (data.sellerType && !['private', 'company'].includes(data.sellerType)) {
+        data.sellerType = 'private';
+      }
       if (imageFile) data.image = imageFile;
 
       const result = await updateUser(data, getToken);
@@ -280,11 +284,11 @@ const ProfileComponent = () => {
           </div>
 
           <div className="bg-white dark:bg-dark-main p-4 sm:p-8 rounded-3xl border border-gray-100 dark:border-dark-divider shadow-sm">
-            <h2 className="text-lg font-bold text-gray-900 dark:text-white uppercase tracking-widest mb-6">{t("dashboard:profile.socialLinks", "Social Links")}</h2>
+            <h2 className="text-md font-bold text-gray-900 dark:text-white uppercase tracking-widest mb-6">{t("dashboard:profile.socialLinks", "Social Links")}</h2>
             <div className="space-y-4">
               {['instagram', 'facebook', 'website'].map((social) => (
                 <div key={social} className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 uppercase text-sm font-bold tracking-wider w-24">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 uppercase text-xs font-bold tracking-wider w-24">
                     {social}
                   </div>
                   <input type="url" name={social} value={formData.socialMedia[social]} onChange={handleInputChange} placeholder="https://..." className="w-full border-2 border-gray-100 dark:border-dark-divider p-4 pl-24 rounded-xl focus:border-blue-500 transition-all text-md font-medium bg-gray-50/50 dark:bg-dark-raised text-gray-900 dark:text-white" />
