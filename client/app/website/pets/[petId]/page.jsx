@@ -10,6 +10,11 @@ import { optimizeCloudinaryUrl } from "../../../../lib/imageUtils";
 import { ShieldCheck, MapPin, Heart, MessageCircle, Phone, ChevronLeft, ChevronRight } from "lucide-react";
 import { FaGlobe, FaFacebook, FaInstagram } from "react-icons/fa";
 import Link from "next/link";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination, A11y } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 import io from "socket.io-client";
 
 const API_BASE = (process.env.NEXT_PUBLIC_API_BASE_URL || "").trim().replace(/\/$/, "");
@@ -44,6 +49,8 @@ export default function PetDetailPage() {
   const [showPhone, setShowPhone] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [applicationText, setApplicationText] = useState("Hi, I'm very interested in adopting this pet. Please let me know what the next steps are!");
+  const swiperRef = useRef(null);
+  const fullscreenSwiperRef = useRef(null);
 
   useEffect(() => {
     if (!petId) return;
@@ -133,6 +140,35 @@ export default function PetDetailPage() {
   const images = (pet.images || []).map(img => fmtUrl(img, 1200));
   if (!images.length) images.push("/images/hamer1.png");
 
+  // Gallery mode logic from ojest
+  let galleryMode = "full"; // default 1 main + 8 thumbs (for 9+ images)
+  if (images.length < 5) {
+    galleryMode = "single"; // just 1 main image
+  } else if (images.length < 9) {
+    galleryMode = "mini"; // 1 main + 4 thumbs
+  }
+
+  const maxThumbnailsToShow = galleryMode === "full" ? 8 : (galleryMode === "mini" ? 4 : 0);
+
+  // Main gallery uses thumbnails on the right.
+  const useThumbnailOffset = images.length > 1;
+  const thumbnailSource = useThumbnailOffset ? images.slice(1) : images.slice(0);
+  const thumbnailImages = [];
+
+  if (thumbnailSource.length > 0 && maxThumbnailsToShow > 0) {
+    // Fill thumbnails up to the allowed limit
+    for (let i = 0; i < Math.min(maxThumbnailsToShow, thumbnailSource.length); i++) {
+      thumbnailImages.push(thumbnailSource[i]);
+    }
+
+    // Fill remaining slots if needed to maintain grid shape
+    let i = 0;
+    while (thumbnailImages.length < maxThumbnailsToShow && thumbnailSource.length > 0) {
+      thumbnailImages.push(thumbnailSource[i % thumbnailSource.length]);
+      i++;
+    }
+  }
+
   const name = pet.name || pet.breed || pet.species || "Pet";
   // Fee display removed per user request
   // const adoptionFee = pet.adoptionFee ? `${Number(pet.adoptionFee).toLocaleString()} zł` : "Free";
@@ -155,14 +191,103 @@ export default function PetDetailPage() {
     <div className="min-h-screen bg-white dark:bg-dark-main">
       {/* Fullscreen viewer */}
       {fullscreen && (
-        <div className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center" onClick={() => setFullscreen(false)}>
-          <button onClick={() => setFullscreen(false)} className="absolute top-4 right-4 text-white bg-black/50 rounded-full p-3">✕</button>
-          <button onClick={(e) => { e.stopPropagation(); setActiveImg(i => (i - 1 + images.length) % images.length); }} className="absolute left-4 text-white bg-black/50 rounded-full p-3"><ChevronLeft className="w-6 h-6" /></button>
-          <div className="relative w-full max-w-4xl h-[80vh]" onClick={e => e.stopPropagation()}>
-            <Image src={images[activeImg]} alt={name} fill className="object-contain" sizes="100vw" priority unoptimized />
+        <div className="fixed inset-0 z-50 bg-white dark:bg-dark-main overflow-y-auto overflow-x-hidden h-screen w-screen">
+          {/* Top Navigation Bar */}
+          <div className="w-full sticky top-0 left-0 z-[110]">
+            <div className="max-w-[1600px] mx-auto px-4 md:px-20 py-3.5 flex justify-between items-center gap-0 md:gap-6">
+              <div className="flex-1"></div>
+              
+              <div className="flex gap-2 items-center ml-auto flex-shrink-0">
+                <button
+                  onClick={() => { if (swiperRef.current) swiperRef.current.swiper.slidePrev(); }}
+                  className="h-8 w-8 md:h-9 md:w-9 hidden md:block rounded-full bg-gray-100/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200 transition-all shadow-sm"
+                  aria-label="Previous image"
+                >
+                  <ChevronLeft className="w-4 h-4 md:w-5 md:h-5" />
+                </button>
+
+                <button
+                  onClick={() => { if (swiperRef.current) swiperRef.current.swiper.slideNext(); }}
+                  className="h-8 w-8 md:h-9 md:w-9 hidden md:block rounded-full bg-gray-100/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200 transition-all shadow-sm"
+                  aria-label="Next image"
+                >
+                  <ChevronRight className="w-4 h-4 md:w-5 md:h-5" />
+                </button>
+
+                <button
+                  onClick={() => setFullscreen(false)}
+                  className="h-10 w-10 md:h-8 md:w-8 md:h-9 md:w-9 rounded-full bg-gray-100/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200 transition-all shadow-sm"
+                  title="Close"
+                >
+                  <span className="text-xl font-light"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-icon lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></span>
+                </button>
+              </div>
+            </div>
           </div>
-          <button onClick={(e) => { e.stopPropagation(); setActiveImg(i => (i + 1) % images.length); }} className="absolute right-4 text-white bg-black/50 rounded-full p-3"><ChevronRight className="w-6 h-6" /></button>
-          <div className="absolute bottom-4 text-white text-md">{activeImg + 1} / {images.length}</div>
+
+          {/* Image Display */}
+          <div className="max-w-[1600px] mx-auto  md:px-20 py-5">
+            <div className="flex items-center justify-center my-1 relative h-[85vh] w-full overflow-hidden">
+              <div className="flex items-center justify-center relative w-full h-full">
+                <Swiper
+                  ref={swiperRef}
+                  modules={[Navigation, A11y]}
+                  spaceBetween={0}
+                  slidesPerView={1}
+                  initialSlide={activeImg}
+                  onSlideChange={(swiper) => setActiveImg(swiper.activeIndex)}
+                  grabCursor={true}
+                  threshold={10}
+                  allowTouchMove={true}
+                  simulateTouch={false}
+                  resistance={true}
+                  resistanceRatio={0.8}
+                  className="w-full h-full"
+                  style={{ touchAction: 'pan-y' }}
+                >
+                  {images.map((img, index) => (
+                    <SwiperSlide key={index} className="!flex !items-center !justify-center w-full h-full">
+                      <div className="relative w-full h-full flex items-center justify-center">
+                        <Image src={img} alt={`${name} - Image ${index + 1}`} fill className="object-contain rounded-none md:rounded-2xl" sizes="100vw" priority unoptimized />
+                      </div>
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+
+                </div>
+
+      
+
+
+
+                {/* Desktop: Bottom Right Counter */}
+                <div className="block fixed bottom-4 right-4 text-white dark:text-white text-sm md:text-lg md:text-base font-medium z-[110] bg-gray-900/70 dark:bg-black/70 px-3 py-2 rounded">
+                  {activeImg + 1} of {images.length}
+                </div>
+
+        {/* Top Navigation Bar */}
+<div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-[110] md:hidden">
+  <div className="flex items-center gap-6">
+    <button
+      onClick={() => swiperRef.current?.swiper.slidePrev()}
+      className="h-10 w-10 rounded-full bg-gray-100/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200 transition-all shadow-sm"
+      aria-label="Previous image"
+    >
+      <ChevronLeft className="w-7 h-7" />
+    </button>
+
+    <button
+      onClick={() => swiperRef.current?.swiper.slideNext()}
+      className="h-10 w-10 rounded-full bg-gray-100/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200 transition-all shadow-sm"
+      aria-label="Next image"
+    >
+      <ChevronRight className="w-7 h-7" />
+    </button>
+  </div>
+</div>
+              
+            </div>
+          </div>
         </div>
       )}
 
@@ -175,41 +300,236 @@ export default function PetDetailPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* LEFT: Gallery */}
           <div className="lg:col-span-2 space-y-3">
-            {/* Main image */}
-            <div className="relative h-[340px] md:h-[500px] rounded-2xl overflow-hidden cursor-pointer group" onClick={() => setFullscreen(true)}>
-              <Image src={images[activeImg]} alt={name} fill className="object-cover transition-transform duration-500 group-hover:scale-[1.02]" sizes="(max-width: 1024px) 100vw, 66vw" priority />
-              {images.length > 1 && (
-                <>
-                  <button onClick={(e) => { e.stopPropagation(); setActiveImg(i => (i - 1 + images.length) % images.length); }} className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/50 text-white rounded-full p-2 hover:bg-black/70 transition">
-                    <ChevronLeft className="w-5 h-5" />
-                  </button>
-                  <button onClick={(e) => { e.stopPropagation(); setActiveImg(i => (i + 1) % images.length); }} className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/50 text-white rounded-full p-2 hover:bg-black/70 transition">
-                    <ChevronRight className="w-5 h-5" />
-                  </button>
-                </>
-              )}
-              <div className="absolute bottom-3 right-3 bg-black/60 text-white text-sm px-2 py-1 rounded-lg">{activeImg + 1} / {images.length}</div>
-              {pet.healthStatus?.length > 0 && (
-                <div className="absolute top-3 left-3 flex gap-2 flex-wrap">
-                  {pet.healthStatus.slice(0, 3).map(h => (
-                    <span key={h} className="text-sm font-semibold bg-green-500/90 text-white px-2 py-0.5 rounded-full flex items-center gap-1">
-                      <ShieldCheck className="w-3 h-3" />{h}
-                    </span>
-                  ))}
+            {/* Desktop / tablet gallery: Dynamic layout based on image count */}
+            <div className="hidden md:flex md:flex-row gap-2 bg-white dark:bg-dark-card overflow-hidden h-[380px] sm:h-[430px] md:h-[461px] lg:h-[520px] xl:h-[560px] 2xl:h-[600px]">
+              {/* Main Image - Left Side */}
+              <div className={`relative group h-full ${galleryMode === "single" ? "w-full" : "w-full md:w-[calc(100%-320px)]"}`}>
+                <div
+                  className="relative w-full h-full cursor-pointer"
+                  onClick={() => setFullscreen(true)}
+                >
+                  <Image
+                    src={images[activeImg] || images[0]}
+                    alt={`${name} - Image ${activeImg + 1}`}
+                    fill
+                    className="object-cover"
+                    priority
+                    sizes="(max-width: 768px) 100vw, 70vw"
+                    unoptimized={true}
+                    onError={(e) => {
+                      e.target.src = "/images/hamer1.png";
+                    }}
+                  />
+                </div>
+
+                {/* Fullscreen button overlay */}
+                <button
+                  onClick={() => setFullscreen(true)}
+                  className="absolute top-4 right-4 bg-black bg-opacity-50 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-opacity-70 z-10"
+                >
+                  <ChevronRight className="w-5 h-5 rotate-45" />
+                </button>
+
+                {/* Navigation Arrows */}
+                {images.length > 1 && (
+                  <>
+                    <button
+                      onClick={() => setActiveImg(i => (i - 1 + images.length) % images.length)}
+                      className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-60 text-white p-3 rounded-full hover:bg-opacity-80 transition-all opacity-0 group-hover:opacity-100 z-10"
+                    >
+                      <ChevronLeft className="w-5 h-5" />
+                    </button>
+                    <button
+                      onClick={() => setActiveImg(i => (i + 1) % images.length)}
+                      className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-60 text-white p-3 rounded-full hover:bg-opacity-80 transition-all opacity-0 group-hover:opacity-100 z-10"
+                    >
+                      <ChevronRight className="w-5 h-5" />
+                    </button>
+                  </>
+                )}
+
+                {/* Image counter */}
+                {images.length > 1 && (
+                  <div className="absolute bottom-4 right-4 bg-black/60 text-white text-sm px-2 py-1 rounded-lg z-10">
+                    {activeImg + 1} / {images.length}
+                  </div>
+                )}
+
+                {/* Health badges */}
+                {pet.healthStatus?.length > 0 && (
+                  <div className="absolute top-4 left-4 flex gap-2 flex-wrap z-10">
+                    {pet.healthStatus.slice(0, 3).map(h => (
+                      <span key={h} className="text-sm font-semibold bg-green-500/90 text-white px-2 py-0.5 rounded-full flex items-center gap-1">
+                        <ShieldCheck className="w-3 h-3" />{h}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Thumbnail Grid - Right Side - Show conditionally based on count */}
+              {galleryMode !== "single" && (
+                <div className="w-full md:w-[320px] flex-shrink-0 h-full overflow-hidden">
+                  <div className={`grid gap-2 h-full ${galleryMode === "mini" ? "grid-cols-1 grid-rows-4" : "grid-cols-2 grid-rows-4"}`}>
+                    {thumbnailImages.map((img, index) => {
+                      const realIndex = useThumbnailOffset ? index + 1 : index;
+                      const isAllPhotosTile = index === (maxThumbnailsToShow - 1) && images.length > (useThumbnailOffset ? (maxThumbnailsToShow + 1) : maxThumbnailsToShow);
+
+                      return (
+                        <div
+                          key={index}
+                          className="relative overflow-hidden cursor-pointer transition-all duration-200 h-full w-full"
+                          onClick={() => setActiveImg(realIndex)}
+                        >
+                          <Image
+                            src={img}
+                            alt={`Thumbnail ${realIndex + 1}`}
+                            fill
+                            className={`object-cover ${activeImg === realIndex ? "opacity-100" : "opacity-70 hover:opacity-100"}`}
+                            loading="lazy"
+                            sizes="(max-width: 768px) 25vw, 20vw"
+                            unoptimized={true}
+                            onError={(e) => {
+                              e.target.style.display = 'none';
+                            }}
+                          />
+
+                          {isAllPhotosTile && (
+                            <div
+                              className="absolute inset-0 bg-black bg-opacity-60 flex flex-col items-center justify-center cursor-pointer hover:bg-opacity-70 transition-all"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setActiveImg(0);
+                              }}
+                            >
+                              <span className="text-white text-base md:text-lg font-semibold">
+                                {`All Photos (${images.length})`}
+                              </span>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
               )}
             </div>
 
-            {/* Thumbnails */}
-            {images.length > 1 && (
-              <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-1">
-                {images.slice(0, 12).map((img, i) => (
-                  <button key={i} onClick={() => setActiveImg(i)} className={`relative h-16 w-24 flex-shrink-0 rounded-xl overflow-hidden border-2 transition-all ${activeImg === i ? "border-blue-500 scale-[1.03]" : "border-transparent opacity-70 hover:opacity-100"}`}>
-                    <Image src={fmtUrl(pet.images?.[i], 200)} alt="" fill className="object-cover" sizes="96px" />
-                  </button>
-                ))}
+            {/* Mobile gallery: horizontally scrollable carousel with PEEK effect */}
+            <div
+              className={`flex md:hidden overflow-x-auto snap-x snap-mandatory scrollbar-hide scroll-x-touch min-h-[250px] w-full ${images.length > 1 ? "gap-[3px]" : ""}`}
+              style={{ touchAction: 'pan-x pan-y', WebkitOverflowScrolling: 'touch' }}
+              onTouchStart={(e) => e.stopPropagation()}
+              onTouchMove={(e) => e.stopPropagation()}
+            >
+              {/* Slide 1: Main Image */}
+              <div
+                className={`snap-start shrink-0 ${images.length === 1 ? "w-full" : "w-[88vw]"} aspect-[4/3] relative overflow-hidden bg-white dark:bg-dark-card cursor-pointer`}
+                onClick={() => setFullscreen(true)}
+              >
+                <Image
+                  src={images[activeImg] || images[0]}
+                  alt={`${name} - Image 1`}
+                  fill
+                  className="object-cover"
+                  priority
+                  sizes="88vw"
+                  unoptimized={true}
+                  onError={(e) => {
+                    e.target.src = "/images/hamer1.png";
+                  }}
+                />
+
+                <button
+                  onClick={() => setFullscreen(true)}
+                  className="absolute top-3 right-3 bg-black/60 text-white p-2 rounded-full z-10"
+                >
+                  <ChevronRight className="w-4 h-4 rotate-45" />
+                </button>
+
+                {/* Health badges */}
+                {pet.healthStatus?.length > 0 && (
+                  <div className="absolute top-3 left-3 flex gap-2 flex-wrap z-10">
+                    {pet.healthStatus.slice(0, 3).map(h => (
+                      <span key={h} className="text-sm font-semibold bg-green-500/90 text-white px-2 py-0.5 rounded-full flex items-center gap-1">
+                        <ShieldCheck className="w-3 h-3" />{h}
+                      </span>
+                    ))}
+                  </div>
+                )}
+
+                {images.length > 1 && (
+                  <div className="absolute bottom-3 right-3 bg-black/60 text-white text-sm px-2 py-1 rounded-lg z-10">
+                    {activeImg + 1} / {images.length}
+                  </div>
+                )}
               </div>
-            )}
+
+              {/* Slide 2 & 3: Thumbnail Grids (2x2) */}
+              {[0, 1].map((gridIdx) => {
+                const startIndex = gridIdx * 4;
+                const gridThumbs = thumbnailImages.slice(startIndex, startIndex + 4);
+                if (gridThumbs.length === 0) return null;
+
+                const hasMoreImages = images.length > (useThumbnailOffset ? thumbnailImages.length + 1 : thumbnailImages.length);
+
+                return (
+                  <div
+                    key={gridIdx}
+                    className="snap-start shrink-0 w-[88vw] aspect-[4/3] grid grid-cols-2 grid-rows-2 gap-[2px] bg-white dark:bg-dark-card"
+                  >
+                    {gridThumbs.map((img, i) => {
+                      const thumbIndexInThumbnailImages = startIndex + i;
+                      const realIndex = useThumbnailOffset ? thumbIndexInThumbnailImages + 1 : thumbIndexInThumbnailImages;
+
+                      const isLastVisibleThumb = thumbIndexInThumbnailImages === thumbnailImages.length - 1;
+                      const isAllPhotosTile = isLastVisibleThumb && hasMoreImages;
+
+                      return (
+                        <div
+                          key={i}
+                          className="relative overflow-hidden cursor-pointer"
+                          onClick={() => {
+                            if (isAllPhotosTile) {
+                              setActiveImg(0);
+                            } else {
+                              setActiveImg(realIndex);
+                            }
+                          }}
+                        >
+                          <Image
+                            src={img}
+                            alt={`Thumbnail ${realIndex + 1}`}
+                            fill
+                            className={`object-cover ${activeImg === realIndex ? "opacity-100" : "opacity-70 hover:opacity-100"}`}
+                            loading="lazy"
+                            sizes="44vw"
+                            unoptimized={true}
+                            onError={(e) => {
+                              e.target.style.display = 'none';
+                            }}
+                          />
+
+                          {isAllPhotosTile && (
+                            <div
+                              className="absolute inset-0 bg-black bg-opacity-60 flex flex-col items-center justify-center cursor-pointer hover:bg-opacity-70 transition-all"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setActiveImg(0);
+                              }}
+                            >
+                              <span className="text-white text-base md:text-lg font-semibold">
+                                {`All Photos (${images.length})`}
+                              </span>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                );
+              })}
+            </div>
 
             {/* Description + AI sections */}
             <div className="bg-white dark:bg-dark-card rounded-2xl p-6 border border-gray-100 dark:border-dark-divider space-y-4">
