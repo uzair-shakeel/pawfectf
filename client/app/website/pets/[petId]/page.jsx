@@ -305,9 +305,11 @@ export default function PetDetailPage() {
                     <MessageCircle className="w-4 h-4" /> {t('petDetail.messageShelter')}
                   </button>
                 )}
-                <button onClick={() => setIsModalOpen(true)} className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl border border-gray-200 dark:border-dark-divider text-gray-700 dark:text-gray-200 font-bold text-md hover:bg-gray-50 dark:hover:bg-dark-card transition-all">
-                  <Heart className="w-4 h-4" /> {t('petDetail.applyToAdopt')}
-                </button>
+                {owner?.phoneNumbers?.length > 0 && (
+                  <button onClick={startChat} className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl border border-gray-200 dark:border-dark-divider text-gray-700 dark:text-gray-200 font-bold text-md hover:bg-gray-50 dark:hover:bg-dark-card transition-all">
+                    <MessageCircle className="w-4 h-4" /> {t('petDetail.messageShelter')}
+                  </button>
+                )}
               </div>
 
               {/* Owner Info & Socials */}
@@ -317,7 +319,7 @@ export default function PetDetailPage() {
                     {owner?.image ? <Image src={owner.image} alt={ownerName} fill className="object-cover" sizes="48px" /> : <div className="w-full h-full flex items-center justify-center text-gray-400 text-lg font-bold">{ownerName[0]}</div>}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-md font-bold text-gray-900 dark:text-gray-100 group-hover:text-blue-600 transition-colors truncate">{ownerName}</p>
+                    <p className="text-md font-bold text-gray-900 dark:text-gray-100 group-hover:text-blue-600 transition-colors">{ownerName}</p>
                     <p className="text-sm text-gray-400">{owner?.sellerType === "company" ? t('petDetail.shelter') : t('petDetail.privateOwner')}</p>
                   </div>
                   <span className="text-sm text-blue-500 font-semibold opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0">{t('petDetail.viewProfile')}</span>
