@@ -320,13 +320,7 @@ export default function PetDetailPage() {
                   />
                 </div>
 
-                {/* Fullscreen button overlay */}
-                <button
-                  onClick={() => setFullscreen(true)}
-                  className="absolute top-4 right-4 bg-black bg-opacity-50 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-opacity-70 z-10"
-                >
-                  <ChevronRight className="w-5 h-5 rotate-45" />
-                </button>
+                
 
                 {/* Navigation Arrows */}
                 {images.length > 1 && (
@@ -531,7 +525,6 @@ export default function PetDetailPage() {
 
   </div>  
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 py-8">
-          {/* LEFT: Gallery */}
           <div className="lg:col-span-2 space-y-3">
             
             {/* Description + AI sections */}
