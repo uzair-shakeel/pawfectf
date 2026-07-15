@@ -297,10 +297,8 @@ export default function PetDetailPage() {
           <ChevronLeft className="w-4 h-4" /> {t('petDetail.backToListings')}
         </button>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* LEFT: Gallery */}
-          <div className="lg:col-span-2 space-y-3">
-            {/* Desktop / tablet gallery: Dynamic layout based on image count */}
+<div>
+  {/* Desktop / tablet gallery: Dynamic layout based on image count */}
             <div className="hidden md:flex md:flex-row gap-2 bg-white dark:bg-dark-card overflow-hidden h-[380px] sm:h-[430px] md:h-[461px] lg:h-[520px] xl:h-[560px] 2xl:h-[600px]">
               {/* Main Image - Left Side */}
               <div className={`relative group h-full ${galleryMode === "single" ? "w-full" : "w-full md:w-[calc(100%-320px)]"}`}>
@@ -531,6 +529,11 @@ export default function PetDetailPage() {
               })}
             </div>
 
+  </div>  
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 py-8">
+          {/* LEFT: Gallery */}
+          <div className="lg:col-span-2 space-y-3">
+            
             {/* Description + AI sections */}
             <div className="bg-white dark:bg-dark-card rounded-2xl p-6 border border-gray-100 dark:border-dark-divider space-y-4">
               <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">{t('petDetail.about')} {name}</h2>
