@@ -79,15 +79,21 @@ export default function PetDetailPage() {
   }, [user]);
 
   useEffect(() => {
-    const handler = (e) => {
-      if (!fullscreen) return;
-      if (e.key === "Escape") setFullscreen(false);
-      if (e.key === "ArrowRight") setActiveImg(i => (i + 1) % images.length);
-      if (e.key === "ArrowLeft") setActiveImg(i => (i - 1 + images.length) % images.length);
+    if (!fullscreen) return;
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        setFullscreen(false);
+      } else if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        if (swiperRef.current) swiperRef.current.swiper.slidePrev();
+      } else if (e.key === "ArrowRight") {
+        e.preventDefault();
+        if (swiperRef.current) swiperRef.current.swiper.slideNext();
+      }
     };
-    window.addEventListener("keydown", handler);
-    return () => window.removeEventListener("keydown", handler);
-  }, [fullscreen, pet]);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [fullscreen]);
 
   const startChat = async () => {
     if (!user) { router.push("/sign-in"); return; }
@@ -200,18 +206,18 @@ export default function PetDetailPage() {
               <div className="flex gap-2 items-center ml-auto flex-shrink-0">
                 <button
                   onClick={() => { if (swiperRef.current) swiperRef.current.swiper.slidePrev(); }}
-                  className="h-8 w-8 md:h-9 md:w-9 hidden md:block rounded-full bg-gray-100/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200 transition-all shadow-sm"
+                  className="h-8 w-8 md:h-10 md:w-10 hidden md:block rounded-full bg-gray-100/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200 transition-all shadow-sm"
                   aria-label="Previous image"
                 >
-                  <ChevronLeft className="w-4 h-4 md:w-5 md:h-5" />
+                  <ChevronLeft className="w-4 h-4 md:w-[24px] md:h-[24px] mx-auto" />
                 </button>
 
                 <button
                   onClick={() => { if (swiperRef.current) swiperRef.current.swiper.slideNext(); }}
-                  className="h-8 w-8 md:h-9 md:w-9 hidden md:block rounded-full bg-gray-100/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200 transition-all shadow-sm"
+                  className="h-8 w-8 md:h-10 md:w-10 hidden md:block rounded-full bg-gray-100/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200 transition-all shadow-sm"
                   aria-label="Next image"
                 >
-                  <ChevronRight className="w-4 h-4 md:w-5 md:h-5" />
+                  <ChevronRight className="w-4 h-4 md:w-[24px] md:h-[24px] mx-auto" />
                 </button>
 
                 <button
