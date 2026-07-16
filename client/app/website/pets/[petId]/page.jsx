@@ -291,7 +291,7 @@ export default function PetDetailPage() {
         </div>
       )}
 
-      <div className="max-w-7xl mx-auto px-4 py-8 lg:py-12">
+      <div className="max-w-7xl mx-auto  py-8 lg:py-12">
         {/* Back */}
         <button onClick={() => router.back()} className="flex items-center gap-2 text-md text-gray-500 hover:text-gray-900 dark:hover:text-gray-200 mb-6 transition-colors">
           <ChevronLeft className="w-4 h-4" /> {t('petDetail.backToListings')}
@@ -432,12 +432,7 @@ export default function PetDetailPage() {
                   }}
                 />
 
-                <button
-                  onClick={() => setFullscreen(true)}
-                  className="absolute top-3 right-3 bg-black/60 text-white p-2 rounded-full z-10"
-                >
-                  <ChevronRight className="w-4 h-4 rotate-45" />
-                </button>
+                
 
                 {/* Health badges */}
                 {pet.healthStatus?.length > 0 && (
@@ -524,11 +519,11 @@ export default function PetDetailPage() {
             </div>
 
   </div>  
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 py-8">
+        <div className="grid grid-cols-1 px-4 lg:grid-cols-3 gap-8 py-8">
           <div className="lg:col-span-2 space-y-3">
             
             {/* Description + AI sections */}
-            <div className="bg-white dark:bg-dark-card rounded-2xl p-6 border border-gray-100 dark:border-dark-divider space-y-4">
+            <div className="md:bg-white md:dark:bg-dark-card rounded-2xl pt-6 md:p-6 md:border border-gray-100 dark:border-dark-divider space-y-4">
               <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">{t('petDetail.about')} {name}</h2>
               {pet.description && <p className="text-gray-700 dark:text-gray-300 leading-relaxed">{pet.description}</p>}
               {pet.aiSections?.length > 0 && pet.aiSections.map((s, i) => (
@@ -554,7 +549,7 @@ export default function PetDetailPage() {
             </div>
 
             {/* Specs table */}
-            <div className="bg-white dark:bg-dark-card rounded-2xl p-6 sm:p-6 border border-gray-100 dark:border-dark-divider">
+            <div className="md:bg-white md:dark:bg-dark-card rounded-2xl md:p-6 pt-6  md:border border-gray-100 dark:border-dark-divider">
               <h2 className="text-lg pb-2 sm:text-xl font-bold text-gray-900 dark:text-gray-100 mb-3 sm:mb-4">
                 {t('petDetail.details')}
               </h2>
@@ -583,7 +578,7 @@ export default function PetDetailPage() {
           {/* RIGHT: Contact card */}
           <div className="space-y-4">
             {/* Price + name sticky card */}
-            <div className="bg-white dark:bg-dark-card rounded-2xl p-6 border border-gray-100 dark:border-dark-divider sticky top-4 space-y-4">
+            <div className="md:bg-white md:dark:bg-dark-card rounded-2xl md:p-6 md:border border-gray-100 dark:border-dark-divider sticky top-4 space-y-4">
               <div>
                 <h1 className="text-3xl font-black text-gray-900 dark:text-white">{name}</h1>
                 {pet.breed && pet.species && <p className="text-gray-500 dark:text-gray-400 text-md mt-1">{pet.breed} · {pet.species}</p>}
