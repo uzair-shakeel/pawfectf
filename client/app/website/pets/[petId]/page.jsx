@@ -235,13 +235,14 @@ export default function PetDetailPage() {
                   spaceBetween={0}
                   slidesPerView={1}
                   initialSlide={activeImg}
-                  onSlideChange={(swiper) => setActiveImg(swiper.activeIndex)}
+                  onSlideChange={(swiper) => setActiveImg(swiper.realIndex)}
                   grabCursor={true}
                   threshold={10}
                   allowTouchMove={true}
                   simulateTouch={false}
                   resistance={true}
                   resistanceRatio={0.8}
+                  loop={true}
                   className="w-full h-full"
                   style={{ touchAction: 'pan-y' }}
                 >
