@@ -51,7 +51,7 @@ function HomeContent() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative h-[750px] sm:h-[450px] md:h-[650px] w-[98%] mx-auto my-4 rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden shadow-2xl bg-gray-900 group">
+      <section className="relative h-[600px] sm:h-[450px] md:h-[650px] w-[98%] mx-auto my-4 rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden shadow-2xl bg-gray-900 group">
         <div className="absolute inset-0">
           <Image
             src="/bg.jpeg"
@@ -94,9 +94,9 @@ function HomeContent() {
             </button>
             <button
               onClick={() => router.push("/website/pets")}
-              className="flex-1 bg-blue-600 hover:bg-blue-500 transition-colors py-2 sm:py-3 md:py-4 rounded-lg sm:rounded-xl md:rounded-2xl font-bold flex items-center justify-center gap-1 sm:gap-2 text-white shadow-lg shadow-blue-500/25 text-sm sm:text-md md:text-base"
+              className="flex-1 bg-blue-600 hover:bg-blue-500 transition-colors py-2 sm:py-3 md:py-4 rounded-lg sm:rounded-xl md:rounded-2xl font-bold flex items-center justify-center gap-1 sm:gap-2 text-white shadow-lg shadow-blue-500/25 text-md md:text-base"
             >
-              <Search className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5" /> {t('homepage.hero.allPets')}
+              <Search className="w-5 h-5 sm:w-4 sm:h-4 md:w-5 md:h-5" /> {t('homepage.hero.allPets')}
             </button>
           </div>
         </div>

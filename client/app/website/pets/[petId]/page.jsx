@@ -528,6 +528,32 @@ export default function PetDetailPage() {
   </div>  
         <div className="grid grid-cols-1 px-4 lg:grid-cols-3 gap-8 py-8">
           <div className="lg:col-span-2 space-y-3">
+
+            {/* Specs table */}
+            <div className="md:bg-white md:dark:bg-dark-card rounded-2xl md:p-6 pt-6  md:border border-gray-100 dark:border-dark-divider">
+              <h2 className="text-lg pb-2 sm:text-xl font-bold text-gray-900 dark:text-gray-100 mb-3 sm:mb-4">
+                {t('petDetail.details')}
+              </h2>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {specs
+                  .filter((s) => s.label !== "Location")
+                  .map((s) => (
+                    <div
+                      key={s.label}
+                      className="flex md:flex-col justify-between gap-0.5 border-b border-gray-100 dark:border-dark-divider pb-2"
+                    >
+                      <span className="text-md sm:text-sm text-gray-400 tracking-widest font-semibold">
+                        {t(`petDetail.${s.label.toLowerCase().replace(/ /g, '')}`) || s.label}
+                      </span>
+                      <span className="text-lg sm:text-md font-medium text-gray-900 dark:text-gray-100">
+                        {s.value}
+                      </span>
+                    </div>
+                  ))}
+              </div>
+
+            </div>
             
             {/* Description + AI sections */}
             <div className="md:bg-white md:dark:bg-dark-card rounded-2xl pt-6 md:p-6 md:border border-gray-100 dark:border-dark-divider space-y-4">
@@ -555,31 +581,7 @@ export default function PetDetailPage() {
               )}
             </div>
 
-            {/* Specs table */}
-            <div className="md:bg-white md:dark:bg-dark-card rounded-2xl md:p-6 pt-6  md:border border-gray-100 dark:border-dark-divider">
-              <h2 className="text-lg pb-2 sm:text-xl font-bold text-gray-900 dark:text-gray-100 mb-3 sm:mb-4">
-                {t('petDetail.details')}
-              </h2>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {specs
-                  .filter((s) => s.label !== "Location")
-                  .map((s) => (
-                    <div
-                      key={s.label}
-                      className="flex md:flex-col justify-between gap-0.5 border-b border-gray-100 dark:border-dark-divider pb-2"
-                    >
-                      <span className="text-md sm:text-sm text-gray-400 uppercase tracking-widest font-semibold">
-                        {t(`petDetail.${s.label.toLowerCase().replace(/ /g, '')}`) || s.label}
-                      </span>
-                      <span className="text-lg sm:text-md font-medium text-gray-900 dark:text-gray-100">
-                        {s.value}
-                      </span>
-                    </div>
-                  ))}
-              </div>
-
-            </div>
+            
           </div>
 
           {/* RIGHT: Contact card */}

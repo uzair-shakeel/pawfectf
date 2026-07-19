@@ -305,12 +305,12 @@ const Dashboard = () => {
           icon={MdPets}
           color="green"
         />
-        <StatCard
+        {/* <StatCard
           title="Adoption Requests"
           value={adoptionRequests.totalRequests?.toLocaleString() || '0'}
           icon={FiShoppingCart}
           color="yellow"
-        />
+        /> */}
         <StatCard
           title="Avg Budget"
           value={formatPrice(adoptionRequests.budgetStats?.avgBudgetMax)}

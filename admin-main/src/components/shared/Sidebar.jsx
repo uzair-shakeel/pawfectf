@@ -31,7 +31,7 @@ const Sidebar = () => {
     { name: "Dashboard", path: "/", icon: FiHome },
     { name: "Users", path: "/users", icon: FiUsers },
     { name: "Pets", path: "/pets", icon: MdPets },
-    { name: "Adoption Requests", path: "/adoption-requests", icon: FiShoppingCart },
+    // { name: "Adoption Requests", path: "/adoption-requests", icon: FiShoppingCart },
     { name: "Lost & Found", path: "/lost-found", icon: FiSearch },
     { name: "Food Donations", path: "/food-donations", icon: FiHeart },
     { name: "Food Packages", path: "/food-packages", icon: FiPackage },

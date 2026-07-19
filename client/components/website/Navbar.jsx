@@ -302,15 +302,15 @@ const Navbar = () => {
 
     },
 
-    {
+    // {
 
-      label: "Adoption Requests",
+    //   label: "Adoption Requests",
 
-      href: "/dashboard/buyer-requests",
+    //   href: "/dashboard/buyer-requests",
 
-      icon: <FiShoppingBag className="w-6 h-6" />,
+    //   icon: <FiShoppingBag className="w-6 h-6" />,
 
-    },
+    // },
 
     {
 
@@ -346,7 +346,7 @@ const Navbar = () => {
 
     { label: "Saved Pets", href: "/wishlist", icon: <FiHeart className="w-6 h-6" /> },
 
-    { label: "Blog", href: "/website/blog", icon: <FiBook className="w-6 h-6" /> },
+    // { label: "Blog", href: "/website/blog", icon: <FiBook className="w-6 h-6" /> },
 
     { label: "FAQ", href: "/website/faq", icon: <FiLifeBuoy className="w-6 h-6" /> },
 
