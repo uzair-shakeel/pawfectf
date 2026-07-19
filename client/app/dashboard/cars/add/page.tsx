@@ -95,7 +95,7 @@ export default function AddPetPage() {
       if (formData.color) payload.append("color", formData.color);
       payload.append("coatLength", formData.coatLength);
       // payload.append("adoptionFee", formData.adoptionFee || "0");
-      payload.append("description", formData.description);
+      payload.append("description", formData.description || `${formData.breed} looking for a loving home`);
       payload.append("location", JSON.stringify(formData.location));
       if (formData.specialNeeds) payload.append("specialNeeds", formData.specialNeeds);
       if (formData.healthStatus.length) payload.append("healthStatus", JSON.stringify(formData.healthStatus));
@@ -320,17 +320,17 @@ export default function AddPetPage() {
 
         <div className="pt-6 border-t border-gray-100 dark:border-dark-divider flex justify-between items-center">
           {step > 1 ? (
-            <button type="button" onClick={() => setStep(step - 1)} className="px-6 py-3 rounded-xl font-bold text-gray-600 hover:bg-gray-100 transition-colors">
+            <button type="button" onClick={(e) => { e.preventDefault(); setStep(step - 1); }} className="px-6 py-3 rounded-xl font-bold text-gray-600 hover:bg-gray-100 transition-colors">
               {t("dashboard:addPet.back", "Back")}
             </button>
           ) : (
-            <button type="button" onClick={() => router.back()} className="px-6 py-3 rounded-xl font-bold text-gray-600 hover:bg-gray-100 transition-colors">
+            <button type="button" onClick={(e) => { e.preventDefault(); router.back(); }} className="px-6 py-3 rounded-xl font-bold text-gray-600 hover:bg-gray-100 transition-colors">
               {t("dashboard:addPet.cancel", "Cancel")}
             </button>
           )}
 
           {step < 3 ? (
-            <button type="button" onClick={() => setStep(step + 1)} className="px-8 py-3 rounded-xl font-bold text-white bg-blue-600 hover:bg-blue-700 transition-all shadow-lg shadow-blue-500/30">
+            <button type="button" onClick={(e) => { e.preventDefault(); setStep(step + 1); }} className="px-8 py-3 rounded-xl font-bold text-white bg-blue-600 hover:bg-blue-700 transition-all shadow-lg shadow-blue-500/30">
               {t("dashboard:addPet.nextStep", "Next Step")}
             </button>
           ) : (
