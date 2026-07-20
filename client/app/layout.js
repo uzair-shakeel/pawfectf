@@ -7,9 +7,9 @@ import ScrollToTop from "../components/ScrollToTop";
 
 
 export const metadata = {
-  title: "Rafraf - Pet Adoption & Shelter Marketplace",
+  title: "RafRaf - Psia Adopcja & Pomoc Zwierzakom",
   description:
-    "Find, adopt, and list pets on Rafraf - the ultimate pet adoption marketplace.",
+    "Znajdź, adoptuj, wystaw zwierzaki na Rafraf - Najlepsza platforma do adopcji i pomocy",
 };
 
 export default function RootLayout({ children }) {

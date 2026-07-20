@@ -258,20 +258,9 @@ function HomeContent() {
               {t('homepage.feedPets.subtitle')}
             </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
-              <div className="text-center">
-                <div className="text-3xl font-black text-blue-600">450+</div>
-                <div className="text-md text-gray-600 dark:text-gray-400">{t('homepage.feedPets.stat1')}</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-black text-blue-600">25</div>
-                <div className="text-md text-gray-600 dark:text-gray-400">{t('homepage.feedPets.stat2')}</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-black text-blue-600">15k zł</div>
-                <div className="text-md text-gray-600 dark:text-gray-400">{t('homepage.feedPets.stat3')}</div>
-              </div>
-            </div>
+            <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 mb-10 font-medium max-w-3xl mx-auto">
+              {t('homepage.feedPets.description', 'Every meal makes a difference. Join our community of compassionate donors helping shelter pets get the nutrition they need. Your support keeps tails wagging and hearts full.')}
+            </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/website/food-donations" className="bg-blue-600 text-white hover:bg-blue-700 font-bold py-4 px-8 rounded-xl transition-transform hover:scale-105 active:scale-95 shadow-xl shadow-blue-600/25 flex items-center justify-center gap-2">
@@ -356,37 +345,24 @@ function HomeContent() {
               {t('homepage.lostFound.subtitle')}
             </p>
 
-            {recentLost.length > 0 && (
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-10 text-left">
-                {recentLost.map((entry, i) => (
-                  <Link key={i} href={`/website/lost-found/${entry._id}`} className="group bg-white dark:bg-dark-raised rounded-2xl overflow-hidden border border-gray-100 dark:border-dark-divider hover:shadow-xl transition-all block">
-                    <div className="relative h-40">
-                      <Image
-                        src={(entry.images && entry.images[0]) || "/images/hamer1.png"}
-                        alt={entry.title || "Pet"}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-500"
-                        loading="lazy"
-                        sizes="(max-width: 768px) 100vw, 25vw"
-                        quality={60}
-                      />
-                      <div className="absolute top-3 left-3">
-                        <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider text-white shadow-md ${entry.type === 'Lost' ? 'bg-red-500' : 'bg-green-500'}`}>
-                          {entry.type}
-                        </span>
-                      </div>
-                    </div>
-                    <div className="p-4">
-                      <h3 className="font-bold text-gray-900 dark:text-white line-clamp-1">{entry.title}</h3>
-                      <div className="flex items-center gap-1 mt-2 text-sm text-gray-500">
-                        <MapPin className="w-3 h-3 text-blue-500" />
-                        <span className="truncate">{entry.location?.city || "Unknown"}</span>
-                      </div>
-                    </div>
-                  </Link>
-                ))}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-10 relative">
+              <div className="hidden md:block absolute top-12 left-[15%] right-[15%] h-1 bg-blue-200 dark:bg-blue-900/50 z-0"></div>
+              <div className="relative z-10 flex flex-col items-center">
+                <div className="w-20 h-20 bg-blue-600 text-white rounded-full flex items-center justify-center text-2xl font-black mb-4 ">1</div>
+                <h3 className="text-lg font-bold mb-2">{t('homepage.lostFound.step1.title', 'Report Lost Pet')}</h3>
+                <p className="text-gray-600 dark:text-gray-400 text-sm">{t('homepage.lostFound.step1.desc', 'Submit details and photos of your lost pet to alert the community')}</p>
               </div>
-            )}
+              <div className="relative z-10 flex flex-col items-center">
+                <div className="w-20 h-20 bg-blue-600 text-white rounded-full flex items-center justify-center text-2xl font-black mb-4 ">2</div>
+                <h3 className="text-lg font-bold mb-2">{t('homepage.lostFound.step2.title', 'Community Search')}</h3>
+                <p className="text-gray-600 dark:text-gray-400 text-sm">{t('homepage.lostFound.step2.desc', 'Our community helps search and shares sightings in real-time')}</p>
+              </div>
+              <div className="relative z-10 flex flex-col items-center">
+                <div className="w-20 h-20 bg-blue-600 text-white rounded-full flex items-center justify-center text-2xl font-black mb-4 ">3</div>
+                <h3 className="text-lg font-bold mb-2">{t('homepage.lostFound.step3.title', 'Reunite & Celebrate')}</h3>
+                <p className="text-gray-600 dark:text-gray-400 text-sm">{t('homepage.lostFound.step3.desc', 'Get reunited with your beloved pet and share the happy news')}</p>
+              </div>
+            </div>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/website/lost-found" className="bg-blue-600 text-white hover:bg-blue-700 font-bold py-4 px-8 rounded-xl transition-transform hover:scale-105 active:scale-95 shadow-xl shadow-blue-600/25">
