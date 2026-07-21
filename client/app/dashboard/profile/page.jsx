@@ -268,7 +268,7 @@ const ProfileComponent = () => {
                   {formData.phoneNumbers.map((phone, index) => (
                     <div key={index} className="flex gap-2">
                       <div className="flex-grow">
-                        <PhoneInput country={phone.countryCode?.toLowerCase() || 'pl'} value={phone.phone} onChange={(v, c) => handlePhoneNumberChange(index, v, c)} inputClass="!w-full !h-12 !bg-gray-50/50 dark:!bg-dark-raised !border-2 !border-gray-100 dark:!border-dark-divider !rounded-xl !text-gray-900 dark:!text-white" containerClass="!w-full" buttonClass="!bg-transparent !border-0 !pl-2" />
+                        <PhoneInput country={phone.countryCode?.toLowerCase() || 'pl'} onlyCountries={['pl']} value={phone.phone} onChange={(v, c) => handlePhoneNumberChange(index, v, c)} inputClass="!w-full !h-12 !bg-gray-50/50 dark:!bg-dark-raised !border-2 !border-gray-100 dark:!border-dark-divider !rounded-xl !text-gray-900 dark:!text-white" containerClass="!w-full" buttonClass="!bg-transparent !border-0 !pl-2" />
                       </div>
                       {formData.phoneNumbers.length > 1 && (
                         <button type="button" onClick={() => removePhoneNumber(index)} className="p-3 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl transition-colors border-2 border-transparent">✕</button>
