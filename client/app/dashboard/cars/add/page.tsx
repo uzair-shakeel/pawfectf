@@ -23,10 +23,10 @@ export default function AddPetPage() {
     name: "",
     species: "",
     breed: "",
+    ageYears: "",
     ageMonths: "",
     gender: "Male",
     size: "Medium",
-    color: "",
     coatLength: "Short",
     // adoptionFee: "",
     description: "",
@@ -89,10 +89,10 @@ export default function AddPetPage() {
       payload.append("name", formData.name || `${formData.breed} Mix`);
       payload.append("species", formData.species);
       payload.append("breed", formData.breed);
-      payload.append("ageMonths", formData.ageMonths || "0");
+      const totalMonths = (parseInt(formData.ageYears) || 0) * 12 + (parseInt(formData.ageMonths) || 0);
+      payload.append("ageMonths", totalMonths.toString());
       payload.append("gender", formData.gender);
       payload.append("size", formData.size);
-      if (formData.color) payload.append("color", formData.color);
       payload.append("coatLength", formData.coatLength);
       // payload.append("adoptionFee", formData.adoptionFee || "0");
       payload.append("description", formData.description || `${formData.breed} looking for a loving home`);
@@ -235,8 +235,23 @@ export default function AddPetPage() {
             </div>
 
             <div>
+              <label className={labelClass}>{t("dashboard:addPet.ageYears", "Age (Years)")}</label>
+              <select value={formData.ageYears} onChange={e => setFormData({ ...formData, ageYears: e.target.value })} className={inputClass}>
+                <option value="">{t("dashboard:addPet.selectYears", "Select Years")}</option>
+                {Array.from({ length: 36 }, (_, i) => (
+                  <option key={i} value={i}>{i}</option>
+                ))}
+              </select>
+            </div>
+
+            <div>
               <label className={labelClass}>{t("dashboard:addPet.ageMonths", "Age (Months)")}</label>
-              <input type="number" min="0" value={formData.ageMonths} onChange={e => setFormData({ ...formData, ageMonths: e.target.value })} className={inputClass} placeholder="e.g. 24" />
+              <select value={formData.ageMonths} onChange={e => setFormData({ ...formData, ageMonths: e.target.value })} className={inputClass}>
+                <option value="">{t("dashboard:addPet.selectMonths", "Select Months")}</option>
+                {Array.from({ length: 12 }, (_, i) => (
+                  <option key={i} value={i + 1}>{i + 1}</option>
+                ))}
+              </select>
             </div>
 
             <div>
@@ -257,11 +272,6 @@ export default function AddPetPage() {
               </select>
             </div>
 
-            <div>
-              <label className={labelClass}>{t("dashboard:addPet.color", "Color")}</label>
-              <input type="text" value={formData.color} onChange={e => setFormData({ ...formData, color: e.target.value })} className={inputClass} placeholder="e.g. Golden" />
-            </div>
-
             {/* <div>
             <label className={labelClass}>Adoption Fee (PLN)</label>
             <input type="number" min="0" value={formData.adoptionFee} onChange={e => setFormData({...formData, adoptionFee: e.target.value})} className={inputClass} placeholder="0 for free adoption" />
@@ -279,7 +289,7 @@ export default function AddPetPage() {
             <div>
               <label className={labelClass}>{t("dashboard:addPet.healthTags", "Health Tags")}</label>
               <div className="flex gap-2 mb-2">
-                <input type="text" value={healthInput} onChange={e => setHealthInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && (e.preventDefault(), addItem('healthStatus', healthInput, setHealthInput))} className={inputClass} placeholder="e.g. Vaccinated" />
+                <input type="text" value={healthInput} onChange={e => setHealthInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && (e.preventDefault(), addItem('healthStatus', healthInput, setHealthInput))} className={inputClass} placeholder="np. Odrobaczony" />
                 <button type="button" onClick={() => addItem('healthStatus', healthInput, setHealthInput)} className="px-4 bg-green-100 text-green-700 rounded-xl hover:bg-green-200"><Plus className="w-5 h-5" /></button>
               </div>
               <div className="flex flex-wrap gap-2">
@@ -294,7 +304,7 @@ export default function AddPetPage() {
             <div>
               <label className={labelClass}>{t("dashboard:addPet.personalityTags", "Personality Tags")}</label>
               <div className="flex gap-2 mb-2">
-                <input type="text" value={personalityInput} onChange={e => setPersonalityInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && (e.preventDefault(), addItem('personality', personalityInput, setPersonalityInput))} className={inputClass} placeholder="e.g. Playful" />
+                <input type="text" value={personalityInput} onChange={e => setPersonalityInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && (e.preventDefault(), addItem('personality', personalityInput, setPersonalityInput))} className={inputClass} placeholder="np. Towarzyski" />
                 <button type="button" onClick={() => addItem('personality', personalityInput, setPersonalityInput)} className="px-4 bg-purple-100 text-purple-700 rounded-xl hover:bg-purple-200"><Plus className="w-5 h-5" /></button>
               </div>
               <div className="flex flex-wrap gap-2">
@@ -308,12 +318,12 @@ export default function AddPetPage() {
 
             <div className="col-span-1 md:col-span-2">
               <label className={labelClass}>{t("dashboard:addPet.specialNeeds", "Special Needs (Optional)")}</label>
-              <textarea value={formData.specialNeeds} onChange={e => setFormData({ ...formData, specialNeeds: e.target.value })} rows={2} className={inputClass} placeholder="Describe any medical conditions, dietary requirements, etc." />
+              <textarea value={formData.specialNeeds} onChange={e => setFormData({ ...formData, specialNeeds: e.target.value })} rows={2} className={inputClass} placeholder="Opisz medyczne potrzeby, wymagania itp." />
             </div>
 
             <div className="col-span-1 md:col-span-2">
               <label className={labelClass}>{t("dashboard:addPet.descriptionBio", "Description / Bio")}</label>
-              <textarea value={formData.description} onChange={e => setFormData({ ...formData, description: e.target.value })} rows={5} className={inputClass} placeholder="Tell potential adopters about this pet's story, habits, and what kind of home they need..." />
+              <textarea value={formData.description} onChange={e => setFormData({ ...formData, description: e.target.value })} rows={5} className={inputClass} placeholder="Opowiedz historie zwierzaka, jaki jest, jakie ma potrzeby...." />
             </div>
           </section>
         )}
