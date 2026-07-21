@@ -187,7 +187,7 @@ export default function PetDetailPage() {
     { label: "Gender", value: pet.gender },
     { label: "Size", value: pet.size },
     { label: "Color", value: pet.color },
-    { label: "Coat Length", value: pet.coatLength },
+    // { label: "Coat Length", value: pet.coatLength },
     { label: "Adoption Status", value: pet.adoptionStatus || "Available" },
     { label: "Location", value: city || "—" },
 
