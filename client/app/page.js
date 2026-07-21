@@ -75,13 +75,13 @@ function HomeContent() {
 
           <div className="w-full mt-60 md:mt-8 grid grid-cols-2 md:grid-cols-4 max-w-4xl bg-white/10 backdrop-blur-md p-3 sm:p-4 md:p-4 rounded-xl sm:rounded-2xl md:rounded-[2rem] border border-white/20 shadow-2xl gap-2 sm:gap-3 md:gap-3 animate-in slide-in-from-bottom-8 duration-1000 delay-300">
             <button
-              onClick={() => router.push("/website/pets?species=Dog")}
+              onClick={() => router.push("/website/pets?species=Pies")}
               className="flex-1 bg-white/10 hover:bg-white/20 transition-colors py-2 sm:py-3 md:py-4 rounded-lg sm:rounded-xl md:rounded-2xl font-bold flex flex-col items-center justify-center gap-1 sm:gap-2 text-sm sm:text-md md:text-base"
             >
               <span className="text-xl sm:text-2xl md:text-3xl">🐶</span> {t('homepage.hero.dogs')}
             </button>
             <button
-              onClick={() => router.push("/website/pets?species=Cat")}
+              onClick={() => router.push("/website/pets?species=Kot")}
               className="flex-1 bg-white/10 hover:bg-white/20 transition-colors py-2 sm:py-3 md:py-4 rounded-lg sm:rounded-xl md:rounded-2xl font-bold flex flex-col items-center justify-center gap-1 sm:gap-2 text-sm sm:text-md md:text-base"
             >
               <span className="text-xl sm:text-2xl md:text-3xl">🐱</span> {t('homepage.hero.cats')}
@@ -311,9 +311,9 @@ function HomeContent() {
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
-              { name: t('homepage.browseCategory.smallDogs'), q: "species=Dog&size=Small", img: "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&q=80&w=600" },
-              { name: t('homepage.browseCategory.bigDogs'), q: "species=Dog&size=Large", img: "https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&q=80&w=600" },
-              { name: t('homepage.browseCategory.kittens'), q: "species=Cat&ageGroup=Baby", img: "https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&q=80&w=600" },
+              { name: t('homepage.browseCategory.smallDogs'), q: "species=Pies&size=Small", img: "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&q=80&w=600" },
+              { name: t('homepage.browseCategory.bigDogs'), q: "species=Pies&size=Large", img: "https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&q=80&w=600" },
+              { name: t('homepage.browseCategory.kittens'), q: "species=Kot&ageGroup=Baby", img: "https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&q=80&w=600" },
               { name: t('homepage.browseCategory.seniorPets'), q: "ageGroup=Senior", img: "https://images.unsplash.com/photo-1505628346881-b72b27e84530?auto=format&fit=crop&q=80&w=600" },
             ].map((cat, i) => (
               <Link key={i} href={`/website/pets?${cat.q}`} className="group relative h-48 md:h-64 rounded-2xl overflow-hidden">

@@ -1,6 +1,6 @@
 [
   {
-    "species": "Dog",
+    "species": "Pies",
     "breeds": [
       "Kundel / mieszaniec",
       "Akita",
@@ -58,7 +58,7 @@
     ]
   },
   {
-    "species": "Cat",
+    "species": "Kot",
     "breeds": [
       "Persian",
       "Maine Coon",

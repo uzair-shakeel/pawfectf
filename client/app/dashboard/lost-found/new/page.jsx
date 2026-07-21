@@ -19,7 +19,7 @@ export default function NewLostFoundPage() {
         type: "Lost",
         title: "",
         description: "",
-        species: "Dog",
+        species: "Pies",
         breed: "",
         gender: "Unknown",
         color: "",
