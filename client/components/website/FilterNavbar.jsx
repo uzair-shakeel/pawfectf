@@ -134,21 +134,8 @@ export default function FilterNavbar({ onApplyFilters }) {
                     <option value="Female">{t("dashboard.addPet.female", "Female")}</option>
                   </select>{arrow}
                 </div>
-                <div className="relative flex-1">
-                  <select name="coatLength" value={filters.coatLength} onChange={handleInputChange} className={sel}>
-                    <option value="">{t("dashboard.filters.coatLength", "Coat Length")}</option>
-                    <option value="Hairless">Hairless</option>
-                    <option value="Short">Short</option>
-                    <option value="Medium">Medium</option>
-                    <option value="Long">Long</option>
-                  </select>{arrow}
-                </div>
-                <div className="relative flex-1">
-                  <select name="healthStatus" value={filters.healthStatus} onChange={handleInputChange} className={sel}>
-                    <option value="">{t("dashboard.filters.healthStatus", "Health Status")}</option>
-                    {HEALTH_OPTIONS.map((h) => <option key={h} value={h}>{h}</option>)}
-                  </select>{arrow}
-                </div>
+                
+                
                 <div className="relative flex-1">
 
                   <input type="text" name="location" value={filters.location} onChange={handleInputChange} placeholder={t("dashboard.filters.searchByLocation", "Search by location...")} className={sel} />
@@ -252,25 +239,9 @@ export default function FilterNavbar({ onApplyFilters }) {
                   </select>
                   <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none"><MdKeyboardArrowDown className="w-5 h-5 text-gray-500" /></div>
                 </div>
-                <div className="relative flex-1">
-                  <select name="coatLength" value={filters.coatLength} onChange={handleInputChange} className="w-full px-3 h-10 pr-6 text-md font-medium border border-gray-200 dark:border-dark-divider rounded-lg focus:outline-none bg-white dark:bg-dark-raised dark:text-dark-text-primary shadow-sm appearance-none">
-                    <option value="">{t("dashboard.filters.coat", "Coat")}</option>
-                    <option value="Hairless">Hairless</option>
-                    <option value="Short">Short</option>
-                    <option value="Medium">Medium</option>
-                    <option value="Long">Long</option>
-                  </select>
-                  <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none"><MdKeyboardArrowDown className="w-5 h-5 text-gray-500" /></div>
-                </div>
+                
               </div>
-              {/* Health Status */}
-              <div className="relative">
-                <select name="healthStatus" value={filters.healthStatus} onChange={handleInputChange} className="w-full px-3 h-10 pr-6 text-md font-medium border border-gray-200 dark:border-dark-divider rounded-lg focus:outline-none bg-white dark:bg-dark-raised dark:text-dark-text-primary shadow-sm appearance-none">
-                  <option value="">{t("dashboard.filters.healthStatus", "Health")}</option>
-                  {HEALTH_OPTIONS.map((h) => <option key={h} value={h}>{h}</option>)}
-                </select>
-                <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none"><MdKeyboardArrowDown className="w-5 h-5 text-gray-500" /></div>
-              </div>
+              
               {/* Location */}
               <input type="text" name="location" value={filters.location} onChange={handleInputChange} placeholder={t("dashboard.filters.location", "Location")} className="w-full px-3 h-10 text-md font-medium border border-gray-200 dark:border-dark-divider rounded-lg focus:outline-none bg-white dark:bg-dark-raised dark:text-dark-text-primary shadow-sm" />
               {/* Reset + Apply */}

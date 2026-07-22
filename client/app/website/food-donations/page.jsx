@@ -77,21 +77,7 @@ export default function FoodDonationsPage() {
             </div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
-                {/* Quick Stats */}
-                <div className="grid grid-cols-3 gap-4 mb-10">
-                    <div className="bg-white dark:bg-dark-card rounded-2xl p-6 border border-gray-100 dark:border-dark-divider shadow-sm text-center">
-                        <div className="text-3xl font-black text-blue-600 dark:text-blue-400 mb-1">450+</div>
-                        <div className="text-md text-gray-600 dark:text-gray-400">{t('foodDonation.listings.petsFed')}</div>
-                    </div>
-                    <div className="bg-white dark:bg-dark-card rounded-2xl p-6 border border-gray-100 dark:border-dark-divider shadow-sm text-center">
-                        <div className="text-3xl font-black text-blue-600 dark:text-blue-400 mb-1">25</div>
-                        <div className="text-md text-gray-600 dark:text-gray-400">{t('foodDonation.listings.shelters')}</div>
-                    </div>
-                    <div className="bg-white dark:bg-dark-card rounded-2xl p-6 border border-gray-100 dark:border-dark-divider shadow-sm text-center">
-                        <div className="text-3xl font-black text-blue-600 dark:text-blue-400 mb-1">15k zł</div>
-                        <div className="text-md text-gray-600 dark:text-gray-400">{t('foodDonation.listings.donated')}</div>
-                    </div>
-                </div>
+               
 
                 {/* Pets Grid */}
                 {loading ? (

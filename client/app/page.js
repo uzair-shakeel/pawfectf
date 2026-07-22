@@ -259,7 +259,7 @@ function HomeContent() {
             </p>
 
             <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 mb-10 font-medium max-w-3xl mx-auto">
-              {t('homepage.feedPets.description', 'Every meal makes a difference. Join our community of compassionate donors helping shelter pets get the nutrition they need. Your support keeps tails wagging and hearts full.')}
+              {t('homepage.feedPets.description', 'Pracujemy nad nową sekcją wsparcia zwierząt. Już wkrótce będzie można pomagać konkretnym podopiecznym oraz finansować określone cele, takie jak karma, leczenie czy niezbędne wyposażenie. Dziękujemy za cierpliwość!')}
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -349,18 +349,18 @@ function HomeContent() {
               <div className="hidden md:block absolute top-12 left-[15%] right-[15%] h-1 bg-blue-200 dark:bg-blue-900/50 z-0"></div>
               <div className="relative z-10 flex flex-col items-center">
                 <div className="w-20 h-20 bg-blue-600 text-white rounded-full flex items-center justify-center text-2xl font-black mb-4 ">1</div>
-                <h3 className="text-lg font-bold mb-2">{t('homepage.lostFound.step1.title', 'Report Lost Pet')}</h3>
-                <p className="text-gray-600 dark:text-gray-400 text-sm">{t('homepage.lostFound.step1.desc', 'Submit details and photos of your lost pet to alert the community')}</p>
+                <h3 className="text-lg font-bold mb-2">{t('homepage.lostFound.step1.title', 'Zgłoś zwierzaka')}</h3>
+                <p className="text-gray-600 dark:text-gray-400 text-sm">{t('homepage.lostFound.step1.desc', 'Dodaj informacje o zaginięciu lub znalezieniu zwierzęcia wraz ze zdjęciami i lokalizacją.')}</p>
               </div>
               <div className="relative z-10 flex flex-col items-center">
                 <div className="w-20 h-20 bg-blue-600 text-white rounded-full flex items-center justify-center text-2xl font-black mb-4 ">2</div>
-                <h3 className="text-lg font-bold mb-2">{t('homepage.lostFound.step2.title', 'Community Search')}</h3>
-                <p className="text-gray-600 dark:text-gray-400 text-sm">{t('homepage.lostFound.step2.desc', 'Our community helps search and shares sightings in real-time')}</p>
+                <h3 className="text-lg font-bold mb-2">{t('homepage.lostFound.step2.title', 'Społeczność pomaga')}</h3>
+                <p className="text-gray-600 dark:text-gray-400 text-sm">{t('homepage.lostFound.step2.desc', 'Użytkownicy będą mogli przeglądać ogłoszenia, zgłaszać obserwacje i udostępniać je dalej.')}</p>
               </div>
               <div className="relative z-10 flex flex-col items-center">
                 <div className="w-20 h-20 bg-blue-600 text-white rounded-full flex items-center justify-center text-2xl font-black mb-4 ">3</div>
-                <h3 className="text-lg font-bold mb-2">{t('homepage.lostFound.step3.title', 'Reunite & Celebrate')}</h3>
-                <p className="text-gray-600 dark:text-gray-400 text-sm">{t('homepage.lostFound.step3.desc', 'Get reunited with your beloved pet and share the happy news')}</p>
+                <h3 className="text-lg font-bold mb-2">{t('homepage.lostFound.step3.title', 'Szczęśliwy powrót')}</h3>
+                <p className="text-gray-600 dark:text-gray-400 text-sm">{t('homepage.lostFound.step3.desc', 'Po odnalezieniu zwierzaka będzie można oznaczyć ogłoszenie jako zakończone i poinformować społeczność o szczęśliwym zakończeniu.')}</p>
               </div>
             </div>
 

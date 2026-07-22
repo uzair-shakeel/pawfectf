@@ -183,24 +183,9 @@ export default function FilterSidebar({ onApplyFilters, setShowMobileFilter, isV
             </select>
           </Section>
 
-          {/* Coat Length */}
-          <Section index={6} label={t("dashboard.filters.coatLength", "Coat Length")}>
-            <select name="coatLength" value={filters.coatLength} onChange={handleInputChange} className={selectClass}>
-              <option value="">{t("dashboard.filters.any", "Any")}</option>
-              <option value="Hairless">Hairless</option>
-              <option value="Short">Short</option>
-              <option value="Medium">Medium</option>
-              <option value="Long">Long</option>
-            </select>
-          </Section>
+        
 
-          {/* Health Status */}
-          <Section index={7} label={t("dashboard.filters.healthStatus", "Health Status")}>
-            <select name="healthStatus" value={filters.healthStatus} onChange={handleInputChange} className={selectClass}>
-              <option value="">{t("dashboard.filters.any", "Any")}</option>
-              {HEALTH_OPTIONS.map((h) => <option key={h} value={h}>{h}</option>)}
-            </select>
-          </Section>
+          
         </div>
 
         {setShowMobileFilter && (

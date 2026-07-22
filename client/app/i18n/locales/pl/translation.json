@@ -36,8 +36,8 @@
       }
     },
     "feedPets": {
-      "title": "Nakarm potrzebującego zwierzaka",
-      "subtitle": "Twoja niewielka darowizna może zrobić wielką różnicę w życiu zwierzaka ze schroniska.",
+      "title": "Już wkrótce – Pomóż konkretnemu zwierzakowi",
+      "subtitle": "ZaginionePrzygotowujemy nowy dział, w którym będziesz mógł wesprzeć wybrane zwierzęta oraz konkretne cele, takie jak karma, leczenie, operacje czy wyposażenie schroniska.",
       "stat1": "Przekazane posiłki",
       "stat2": "Wsparte schroniska",
       "stat3": "Przekazano",
@@ -69,7 +69,7 @@
     },
     "lostFound": {
       "title": "Zaginione i znalezione",
-      "subtitle": "Pomóż zjednoczyć zagubione zwierzęta z ich rodzinami lub zgłoś znalezione zwierzę."
+      "subtitle": "Przygotowujemy nowy dział, który ułatwi zgłaszanie zagubionych i znalezionych zwierząt oraz pomoże szybciej połączyć je z ich właścicielami."
     },
     "cta": {
       "title": "Gotowy zmienić życie?",
@@ -809,8 +809,8 @@
       "allBreeds": "Wszystkie rasy",
       "age": "Wiek",
       "anyAge": "Każdy wiek",
-      "baby": "Baby (0–6 miesięcy)",
-      "young": "Młode (6m–2 lata)",
+      "baby": "Szczeniak (0-6 miesięcy)",
+      "young": "Młode (6m–2 lat)",
       "adult": "Dorosłe (2–7 lat)",
       "senior": "Starsze (7+ lat)",
       "gender": "Płeć",
