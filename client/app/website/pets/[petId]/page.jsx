@@ -23,10 +23,16 @@ const SOCKET_BASE = process.env.NEXT_PUBLIC_SOCKET_URL || process.env.NEXT_PUBLI
 const socket = io(SOCKET_BASE, { autoConnect: false });
 
 const formatAge = (months) => {
-  if (!months && months !== 0) return "Unknown";
-  if (months < 12) return `${months} month${months !== 1 ? "s" : ""}`;
+  if (!months && months !== 0) return "Nieznany";
+  if (months < 12) return `${months} miesiące`;
   const y = Math.floor(months / 12), m = months % 12;
-  return m ? `${y}y ${m}m` : `${y} year${y !== 1 ? "s" : ""}`;
+  const getYearWord = (years) => {
+    if (years === 1) return "rok";
+    if (years >= 2 && years <= 4) return "Lata";
+    return "Lat";
+  };
+  const yearWord = getYearWord(y);
+  return m ? `${y} ${yearWord} ${m} miesiące` : `${y} ${yearWord}`;
 };
 
 const fmtUrl = (path, w = 1200) => {

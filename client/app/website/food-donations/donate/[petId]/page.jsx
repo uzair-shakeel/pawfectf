@@ -147,9 +147,17 @@ export default function DonatePage() {
 
     const name = pet.title || pet.name || pet.species || "Pet";
     const age = pet.ageMonths
-        ? pet.ageMonths < 12
-            ? `${pet.ageMonths}mo`
-            : `${Math.floor(pet.ageMonths / 12)}y`
+        ? (() => {
+            if (pet.ageMonths < 12) return `${pet.ageMonths} miesiące`;
+            const y = Math.floor(pet.ageMonths / 12), m = pet.ageMonths % 12;
+            const getYearWord = (years) => {
+              if (years === 1) return "rok";
+              if (years >= 2 && years <= 4) return "Lata";
+              return "Lat";
+            };
+            const yearWord = getYearWord(y);
+            return m ? `${y} ${yearWord} ${m} miesiące` : `${y} ${yearWord}`;
+          })()
         : null;
 
     return (

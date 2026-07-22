@@ -74,7 +74,18 @@ const DiscoveryCard = React.memo(function DiscoveryCard({ pet, onAction, active 
                                 <span className="text-[10px] md:text-md uppercase tracking-wider">{pet.location?.city || "Unknown"}</span>
                             </div>
                             <span className="hidden md:block w-1.5 h-1.5 rounded-full bg-blue-400/50" />
-                            <span className="text-[10px] md:text-md uppercase tracking-wider">{pet.ageMonths ? `${pet.ageMonths} months` : 'Age N/A'}</span>
+                            <span className="text-[10px] md:text-md uppercase tracking-wider">{(() => {
+                              if (!pet.ageMonths && pet.ageMonths !== 0) return 'Wiek N/A';
+                              if (pet.ageMonths < 12) return `${pet.ageMonths} miesiące`;
+                              const y = Math.floor(pet.ageMonths / 12), m = pet.ageMonths % 12;
+                              const getYearWord = (years) => {
+                                if (years === 1) return "rok";
+                                if (years >= 2 && years <= 4) return "Lata";
+                                return "Lat";
+                              };
+                              const yearWord = getYearWord(y);
+                              return m ? `${y} ${yearWord} ${m} miesiące` : `${y} ${yearWord}`;
+                            })()}</span>
                         </div>
 
                         <div className="flex items-center justify-between">

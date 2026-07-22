@@ -11,12 +11,15 @@ const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "/api";
 
 const formatAge = (ageMonths) => {
   if (!ageMonths && ageMonths !== 0) return null;
-  if (ageMonths < 1) return "< 1 month";
-  if (ageMonths < 12) return `${ageMonths} month${ageMonths !== 1 ? "s" : ""}`;
-  const years = Math.floor(ageMonths / 12);
-  const months = ageMonths % 12;
-  if (months === 0) return `${years} year${years !== 1 ? "s" : ""}`;
-  return `${years}y ${months}m`;
+  if (ageMonths < 12) return `${ageMonths} miesiące`;
+  const y = Math.floor(ageMonths / 12), m = ageMonths % 12;
+  const getYearWord = (years) => {
+    if (years === 1) return "rok";
+    if (years >= 2 && years <= 4) return "Lata";
+    return "Lat";
+  };
+  const yearWord = getYearWord(y);
+  return m ? `${y} ${yearWord} ${m} miesiące` : `${y} ${yearWord}`;
 };
 
 export default function PetCard({ pet, viewMode = "grid" }) {

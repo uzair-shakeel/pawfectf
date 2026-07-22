@@ -248,7 +248,17 @@ export default function FoodPetsPage() {
                                 </h3>
                                 <p className="text-md text-gray-500 dark:text-gray-400 mb-2">
                                     {pet.species}{pet.breed ? ` • ${pet.breed}` : ""}
-                                    {pet.ageMonths ? ` • ${Math.floor(pet.ageMonths / 12)}y` : ""}
+                                    {pet.ageMonths ? (() => {
+                                      if (pet.ageMonths < 12) return ` • ${pet.ageMonths} miesiące`;
+                                      const y = Math.floor(pet.ageMonths / 12), m = pet.ageMonths % 12;
+                                      const getYearWord = (years) => {
+                                        if (years === 1) return "rok";
+                                        if (years >= 2 && years <= 4) return "Lata";
+                                        return "Lat";
+                                      };
+                                      const yearWord = getYearWord(y);
+                                      return m ? ` • ${y} ${yearWord} ${m} miesiące` : ` • ${y} ${yearWord}`;
+                                    })() : ""}
                                 </p>
                                 {pet.location?.city && (
                                     <p className="text-sm text-gray-400 flex items-center gap-1 mb-3">
