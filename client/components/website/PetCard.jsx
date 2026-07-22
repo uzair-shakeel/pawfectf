@@ -71,9 +71,9 @@ export default function PetCard({ pet, viewMode = "grid" }) {
 
   const displayName = pet?.name || `${pet?.breed || pet?.species || "Pet"}`;
   const subtitle = [
-    formatAge(pet?.ageMonths),
+    pet?.name,
     pet?.breed,
-    pet?.gender,
+    formatAge(pet?.ageMonths),
   ].filter(Boolean).join(" · ");
 
   // Fee display removed per user request
@@ -137,14 +137,14 @@ export default function PetCard({ pet, viewMode = "grid" }) {
 
           <div className="py-4 px-1 bg-transparent">
             <div className="mb-1">
-              <h3 className="text-[21px] font-bold text-gray-900 dark:text-gray-200 leading-tight group-hover:text-blue-600 transition-colors">
-                {displayName}
+              <h3 className="text-[21px] font-[500] text-gray-900 dark:text-gray-200 leading-tight group-hover:text-blue-600 transition-colors">
+                {subtitle}
               </h3>
             </div>
             <div className="space-y-1.5">
-              <p className="text-[15px] text-gray-600 dark:text-dark-text-secondary line-clamp-2 leading-snug">
+              {/* <p className="text-[15px] text-gray-600 dark:text-dark-text-secondary line-clamp-2 leading-snug">
                 {subtitle || "Looking for a loving home"}
-              </p>
+              </p> */}
               <div className="text-[15px] text-gray-600 dark:text-dark-text-secondary leading-snug flex items-center gap-1">
                 <MapPin className="w-3.5 h-3.5" />
                 {locationDetails.city || "Location TBD"}
