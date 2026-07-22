@@ -125,7 +125,7 @@ export default function FilterNavbar({ onApplyFilters }) {
                 </div>
               </div>
 
-              {/* Row 2: Gender, Coat Length, Health Status */}
+              {/* Row 2: Gender, Location, Radius */}
               <div className="flex items-center justify-between w-full gap-1">
                 <div className="relative flex-1">
                   <select name="gender" value={filters.gender} onChange={handleInputChange} className={sel}>
@@ -134,12 +134,16 @@ export default function FilterNavbar({ onApplyFilters }) {
                     <option value="Female">{t("dashboard.addPet.female", "Female")}</option>
                   </select>{arrow}
                 </div>
-                
-                
                 <div className="relative flex-1">
-
                   <input type="text" name="location" value={filters.location} onChange={handleInputChange} placeholder={t("dashboard.filters.searchByLocation", "Search by location...")} className={sel} />
-
+                </div>
+                <div className="relative flex-1">
+                  <select name="distance" value={filters.distance} onChange={handleInputChange} className={sel}>
+                    <option value="">{t("dashboard.filters.radius", "Radius")}</option>
+                    <option value="30">30 km</option>
+                    <option value="50">50 km</option>
+                    <option value="100">100 km</option>
+                  </select>{arrow}
                 </div>
               </div>
 
@@ -239,11 +243,21 @@ export default function FilterNavbar({ onApplyFilters }) {
                   </select>
                   <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none"><MdKeyboardArrowDown className="w-5 h-5 text-gray-500" /></div>
                 </div>
-                
               </div>
-              
+
               {/* Location */}
               <input type="text" name="location" value={filters.location} onChange={handleInputChange} placeholder={t("dashboard.filters.location", "Location")} className="w-full px-3 h-10 text-md font-medium border border-gray-200 dark:border-dark-divider rounded-lg focus:outline-none bg-white dark:bg-dark-raised dark:text-dark-text-primary shadow-sm" />
+
+              {/* Radius */}
+              <div className="relative">
+                <select name="distance" value={filters.distance} onChange={handleInputChange} className="w-full px-3 h-10 pr-6 text-md font-medium border border-gray-200 dark:border-dark-divider rounded-lg focus:outline-none bg-white dark:bg-dark-raised dark:text-dark-text-primary shadow-sm appearance-none">
+                  <option value="">{t("dashboard.filters.radius", "Radius")}</option>
+                  <option value="30">30 km</option>
+                  <option value="50">50 km</option>
+                  <option value="100">100 km</option>
+                </select>
+                <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none"><MdKeyboardArrowDown className="w-5 h-5 text-gray-500" /></div>
+              </div>
               {/* Reset + Apply */}
               <div className="flex gap-2 pt-2">
                 <button onClick={handleReset} className="flex-1 px-4 py-3 text-md font-medium border border-gray-200 rounded-lg text-gray-700">{t("dashboard.filters.reset", "Reset")}</button>

@@ -803,6 +803,7 @@
       "location": "Lokalizacja",
       "enterLocation": "Wprowadź lokalizację",
       "selectDistance": "Wybierz dystans",
+      "radius": "Promień",
       "species": "Gatunek",
       "allSpecies": "Wszystkie gatunki",
       "breed": "Rasa",
