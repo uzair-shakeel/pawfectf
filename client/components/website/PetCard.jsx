@@ -5,25 +5,22 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { getPublicUserInfo } from "../../services/userService";
 import { optimizeCloudinaryUrl } from "../../lib/imageUtils";
+import { useLanguage } from "../../lib/i18n/LanguageContext";
 import { MapPin, Heart, User, ShieldCheck } from "lucide-react";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "/api";
 
 const formatAge = (ageMonths) => {
   if (!ageMonths && ageMonths !== 0) return null;
-  if (ageMonths < 12) return `${ageMonths} miesiące`;
-  const y = Math.floor(ageMonths / 12), m = ageMonths % 12;
-  const getYearWord = (years) => {
-    if (years === 1) return "rok";
-    if (years >= 2 && years <= 4) return "Lata";
-    return "Lat";
-  };
-  const yearWord = getYearWord(y);
-  return m ? `${y} ${yearWord} ${m} miesiące` : `${y} ${yearWord}`;
+  if (ageMonths <= 6) return "Szczeniak";
+  if (ageMonths <= 24) return "Młody";
+  if (ageMonths <= 84) return "Dorosły";
+  return "Starszy";
 };
 
 export default function PetCard({ pet, viewMode = "grid" }) {
   const router = useRouter();
+  const { t } = useLanguage();
   const [locationDetails, setLocationDetails] = useState({ city: "", state: "" });
   const [owner, setOwner] = useState(null);
 
@@ -70,10 +67,27 @@ export default function PetCard({ pet, viewMode = "grid" }) {
     : "https://via.placeholder.com/500";
 
   const displayName = pet?.name || `${pet?.breed || pet?.species || "Pet"}`;
+  
+  const translateGender = (gender) => {
+    if (gender === "Male") return "Pies";
+    if (gender === "Female") return "Suczka";
+    return gender;
+  };
+  
+  const translateSize = (size) => {
+    if (size === "Small") return "Mały";
+    if (size === "Medium") return "Średni";
+    if (size === "Large") return "Duży";
+    if (size === "Extra Large") return "Bardzo duży";
+    return size;
+  };
+  
   const subtitle = [
     pet?.name,
     pet?.breed,
     formatAge(pet?.ageMonths),
+    translateGender(pet?.gender),
+    translateSize(pet?.size),
   ].filter(Boolean).join(" · ");
 
   // Fee display removed per user request
@@ -142,12 +156,10 @@ export default function PetCard({ pet, viewMode = "grid" }) {
               </h3>
             </div>
             <div className="space-y-1.5">
-              {/* <p className="text-[15px] text-gray-600 dark:text-dark-text-secondary line-clamp-2 leading-snug">
-                {subtitle || "Looking for a loving home"}
-              </p> */}
+             
               <div className="text-[15px] text-gray-600 dark:text-dark-text-secondary leading-snug flex items-center gap-1">
                 <MapPin className="w-3.5 h-3.5" />
-                {locationDetails.city || "Location TBD"}
+                {locationDetails.city || "Lokalizacja nieokreślona"}
               </div>
             </div>
           </div>

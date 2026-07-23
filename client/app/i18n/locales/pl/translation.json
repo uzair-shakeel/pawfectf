@@ -537,8 +537,8 @@
         "other": "Inny"
       },
       "gender": {
-        "male": "Samiec",
-        "female": "Samica",
+        "male": "Pies",
+        "female": "Suczka",
         "unknown": "Nieznana"
       },
       "size": {
@@ -668,8 +668,8 @@
       "bird": "Ptak",
       "other": "Inne",
       "gender": "Płeć",
-      "male": "Samiec",
-      "female": "Samica",
+      "male": "Pies",
+      "female": "Suczka",
       "unknown": "Nieznana",
       "location": "Lokalizacja (miasto/dzielnica)",
       "locationPlaceholder": "np. Warszawa, Mokotów",
@@ -777,8 +777,8 @@
       "selectBreed": "Wybierz rasę",
       "ageMonths": "Wiek (miesiące)",
       "gender": "Płeć",
-      "male": "Samiec",
-      "female": "Samica",
+      "male": "Pies",
+      "female": "Suczka",
       "size": "Rozmiar",
       "small": "Mały",
       "medium": "Średni",

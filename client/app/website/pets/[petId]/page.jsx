@@ -67,7 +67,7 @@ export default function PetDetailPage() {
         try {
           const o = await getPublicUserInfo(data?.createdBy);
           setOwner(o);
-        } catch { setOwner({ firstName: "Shelter", sellerType: "private" }); }
+        } catch { setOwner({ firstName: "Schronisko", sellerType: "private" }); }
         const coords = data?.location?.coordinates;
         if (coords) {
           try {
@@ -184,18 +184,45 @@ export default function PetDetailPage() {
   const name = pet.name || pet.breed || pet.species || "Pet";
   // Fee display removed per user request
   // const adoptionFee = pet.adoptionFee ? `${Number(pet.adoptionFee).toLocaleString()} zł` : "Free";
-  const ownerName = owner?.sellerType === "company" ? (owner?.companyName || "Shelter") : `${owner?.firstName || ""} ${owner?.lastName || ""}`.trim() || "Shelter";
+  const ownerName = owner?.sellerType === "company" ? (owner?.companyName || "Schronisko") : `${owner?.firstName || ""} ${owner?.lastName || ""}`.trim() || "Schronisko";
+
+  const translateSpecies = (species) => {
+    if (species === "Dog") return "Pies";
+    if (species === "Cat") return "Kot";
+    return species;
+  };
+
+  const translateGender = (gender) => {
+    if (gender === "Male") return "Pies";
+    if (gender === "Female") return "Suczka";
+    return gender;
+  };
+
+  const translateSize = (size) => {
+    if (size === "Small") return "Mały";
+    if (size === "Medium") return "Średni";
+    if (size === "Large") return "Duży";
+    if (size === "Extra Large") return "Bardzo duży";
+    return size;
+  };
+
+  const translateAdoptionStatus = (status) => {
+    if (status === "Available") return "Dostępny";
+    if (status === "Adopted") return "Adoptowany";
+    if (status === "Pending") return "W trakcie";
+    return status;
+  };
 
   const specs = [
-    { label: "Species", value: pet.species },
-    { label: "Breed", value: pet.breed },
-    { label: "Age", value: formatAge(pet.ageMonths) },
-    { label: "Gender", value: pet.gender },
-    { label: "Size", value: pet.size },
-    { label: "Color", value: pet.color },
-    // { label: "Coat Length", value: pet.coatLength },
-    { label: "Adoption Status", value: pet.adoptionStatus || "Available" },
-    { label: "Location", value: city || "—" },
+    { label: t("species"), value: translateSpecies(pet.species) },
+    { label: t("breed"), value: pet.breed },
+    { label: t("age"), value: formatAge(pet.ageMonths) },
+    { label: t("gender"), value: translateGender(pet.gender) },
+    { label: t("size"), value: translateSize(pet.size) },
+    { label: t("color"), value: pet.color },
+    // { label: t("petDetail.coatLength"), value: pet.coatLength },
+    { label: t("adoptionStatus"), value: translateAdoptionStatus(pet.adoptionStatus) || "Dostępny" },
+    { label: t("location"), value: city || "—" },
 
   ].filter(s => s.value);
 

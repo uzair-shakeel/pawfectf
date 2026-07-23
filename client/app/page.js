@@ -7,6 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Navbar from "../components/website/Navbar.jsx";
 import { Footer } from "../components/website/Footer.jsx";
+import PetCard from "../components/website/PetCard.jsx";
 import { useLanguage } from "../lib/i18n/LanguageContext";
 import { Search, Heart, MapPin, ArrowRight } from "lucide-react";
 
@@ -124,28 +125,7 @@ function HomeContent() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {recentPets.map((pet, i) => (
-                <Link key={i} href={`/website/pets/${pet._id || pet.id}`} className="group bg-white dark:bg-dark-card rounded-2xl overflow-hidden border border-gray-100 dark:border-dark-divider hover:shadow-xl transition-all block">
-                  <div className="relative h-48">
-                    <Image
-                      src={(pet.images && pet.images[0]) || "/images/hamer1.png"}
-                      alt={pet.name || "Pet"}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
-                      loading="lazy"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                      quality={60}
-                    />
-                  </div>
-                  <div className="p-4">
-                    <h3 className="font-bold text-lg">{pet.name || pet.species || "Pet"}</h3>
-                    <p className="text-md text-gray-500 mb-2">{pet.breed || pet.species}</p>
-                    <div className="flex items-center justify-between text-md">
-                      {/* Fee display removed per user request */}
-                      {/* <span className="font-semibold text-blue-600">{pet.adoptionFee ? `${pet.adoptionFee} PLN` : "Free"}</span> */}
-                      <span className="text-gray-400">{pet.location?.city || "Available"}</span>
-                    </div>
-                  </div>
-                </Link>
+                <PetCard key={i} pet={pet} viewMode="grid" />
               ))}
             </div>
           </section>
