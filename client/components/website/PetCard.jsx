@@ -69,7 +69,7 @@ export default function PetCard({ pet, viewMode = "grid" }) {
   const displayName = pet?.name || `${pet?.breed || pet?.species || "Pet"}`;
   
   const translateGender = (gender) => {
-    if (gender === "Male") return "Pies";
+    if (gender === "Male") return "Samiec";
     if (gender === "Female") return "Suczka";
     return gender;
   };
@@ -108,7 +108,7 @@ export default function PetCard({ pet, viewMode = "grid" }) {
       >
         <div className="mx-2 bg-transparent rounded-2xl overflow-hidden relative transition-all duration-300">
           <div className="absolute inset-0 bg-black/0 hover:bg-black/20 dark:hover:bg-white/20 transition-all duration-300 z-10 pointer-events-none rounded-2xl" />
-          <div className="relative h-[260px] md:h-48 lg:h-[220px] overflow-hidden rounded-2xl">
+          <div className="relative h-[280px] md:h-52 lg:h-[240px] overflow-hidden rounded-2xl">
             {pet?.isFeatured && (pet?.images?.length ?? 0) >= 3 ? (
               <div className="grid grid-cols-2 grid-rows-2 h-full gap-0.5">
                 <div className="relative col-span-2 row-span-1">
@@ -122,8 +122,18 @@ export default function PetCard({ pet, viewMode = "grid" }) {
                 </div>
               </div>
             ) : (
-              <Image src={firstImage} alt={displayName} fill className="object-cover transition-transform duration-500" loading="lazy" sizes="(max-width: 768px) 100vw, 50vw" />
+              <Image src={firstImage} alt={displayName} fill className="object-cover transition-transform duration-500 group-hover:scale-[1.03]" loading="lazy" sizes="(max-width: 768px) 100vw, 50vw" />
             )}
+
+            <div className="absolute inset-x-0 bottom-0 z-20 bg-gradient-to-t from-black/80 via-black/40 to-transparent pt-20 pb-4 px-3.5 pointer-events-none">
+              <h3 className="text-[19px] sm:text-[20px] font-semibold text-white leading-snug drop-shadow-md">
+                {subtitle}
+              </h3>
+              <div className="mt-1.5 flex items-center gap-1 text-[13px] text-white/80">
+                <MapPin className="w-3.5 h-3.5 shrink-0" />
+                <span className="truncate">{locationDetails.city || "Lokalizacja nieokreślona"}</span>
+              </div>
+            </div>
 
             {/* Fee overlay - REMOVED per user request */}
             {/* <div className="absolute bottom-3 left-3 bg-gray-900/90 backdrop-blur-md px-3 py-1.5 rounded-xl shadow-lg border border-white/10">
@@ -147,21 +157,6 @@ export default function PetCard({ pet, viewMode = "grid" }) {
                 ))}
               </div>
             )}
-          </div>
-
-          <div className="py-4 px-1 bg-transparent">
-            <div className="mb-1">
-              <h3 className="text-[21px] font-[500] text-gray-900 dark:text-gray-200 leading-tight group-hover:text-blue-600 transition-colors">
-                {subtitle}
-              </h3>
-            </div>
-            <div className="space-y-1.5">
-             
-              <div className="text-[15px] text-gray-600 dark:text-dark-text-secondary leading-snug flex items-center gap-1">
-                <MapPin className="w-3.5 h-3.5" />
-                {locationDetails.city || "Lokalizacja nieokreślona"}
-              </div>
-            </div>
           </div>
         </div>
       </div>
