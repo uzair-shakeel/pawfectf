@@ -7,6 +7,7 @@ import { getPublicUserInfo } from "../../../../services/userService";
 import { useAuth } from "../../../../lib/auth/AuthContext";
 import { useLanguage } from "../../../../lib/i18n/LanguageContext";
 import { optimizeCloudinaryUrl } from "../../../../lib/imageUtils";
+import { toTelHref } from "../../../../lib/utils";
 import { ShieldCheck, MapPin, Heart, MessageCircle, Phone, ChevronLeft, ChevronRight } from "lucide-react";
 import { FaGlobe, FaFacebook, FaInstagram } from "react-icons/fa";
 import Link from "next/link";
@@ -650,7 +651,7 @@ export default function PetDetailPage() {
               {/* CTA buttons */}
               <div className="space-y-2">
                 {owner?.phoneNumbers?.length > 0 ? (
-                  <a href={`tel:${owner.phoneNumbers[0]}`} className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-md transition-all shadow-lg shadow-blue-500/25 active:scale-[0.98]">
+                  <a href={toTelHref(owner.phoneNumbers[0])} className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-md transition-all shadow-lg shadow-blue-500/25 active:scale-[0.98]">
                     <Phone className="w-4 h-4" /> {t('petDetail.callNow')}
                   </a>
                 ) : (

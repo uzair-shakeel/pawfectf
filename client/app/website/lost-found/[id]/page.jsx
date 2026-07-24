@@ -6,6 +6,7 @@ import { getLostFoundById } from "../../../../services/lostFoundService";
 import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope, FaCalendarAlt } from "react-icons/fa";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { optimizeCloudinaryUrl } from "../../../../lib/imageUtils";
+import { toTelHref } from "../../../../lib/utils";
 import { getPublicUserInfo } from "../../../../services/userService";
 import Link from "next/link";
 
@@ -196,7 +197,7 @@ export default function LostFoundDetailPage() {
 
                                 <div className="flex flex-col gap-3 mt-4">
                                     {entry.contactPhone && (
-                                        <a href={`tel:${entry.contactPhone}`} className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl bg-green-600 hover:bg-green-700 text-white font-bold text-md transition-all shadow-lg shadow-green-600/25 active:scale-[0.98]">
+                                        <a href={toTelHref(entry.contactPhone)} className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl bg-green-600 hover:bg-green-700 text-white font-bold text-md transition-all shadow-lg shadow-green-600/25 active:scale-[0.98]">
                                             <FaPhoneAlt /> Call {entry.contactPhone}
                                         </a>
                                     )}

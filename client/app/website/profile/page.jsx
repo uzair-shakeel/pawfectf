@@ -9,6 +9,7 @@ import { getPublicUserInfo } from "../../../services/userService";
 import { getAllPets } from "../../../services/petService";
 import PetCard from "../../../components/website/PetCard";
 import { useLanguage } from "../../../lib/i18n/LanguageContext";
+import { toTelHref } from "../../../lib/utils";
 
 const API_BASE = (process.env.NEXT_PUBLIC_API_BASE_URL || "").trim().replace(/\/$/, "");
 
@@ -201,12 +202,8 @@ function ProfileContent({ sellerId }) {
                             <motion.div variants={containerVariants} initial="hidden" animate="visible" className="space-y-4">
                                 {phones.map((phoneObj, idx) => {
                                     const phone = typeof phoneObj === "object" ? phoneObj.number || phoneObj.phone : phoneObj;
-                                    let sanitized = String(phone).replace(/[^\d+]/g, "");
-                                    if (!sanitized.startsWith("+") && sanitized.length > 0) {
-                                        sanitized = "+" + sanitized;
-                                    }
                                     return (
-                                        <motion.a key={idx} variants={itemVariants} whileHover={{ scale: 1.02, x: 8 }} whileTap={{ scale: 0.98 }} href={`tel:${sanitized}`} className="flex items-center gap-4 p-5 bg-white dark:bg-dark-main rounded-xl border-2 border-gray-200 dark:border-gray-700 hover:border-green-500 dark:hover:border-green-400 transition-all shadow-md hover:shadow-xl group">
+                                        <motion.a key={idx} variants={itemVariants} whileHover={{ scale: 1.02, x: 8 }} whileTap={{ scale: 0.98 }} href={toTelHref(phone)} className="flex items-center gap-4 p-5 bg-white dark:bg-dark-main rounded-xl border-2 border-gray-200 dark:border-gray-700 hover:border-green-500 dark:hover:border-green-400 transition-all shadow-md hover:shadow-xl group">
                                             <motion.div whileHover={{ rotate: 15, scale: 1.1 }} transition={{ type: "spring", stiffness: 300 }} className="w-12 h-12 rounded-full bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center text-white shadow-lg">
                                                 <FaPhoneAlt className="text-lg" />
                                             </motion.div>

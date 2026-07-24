@@ -235,23 +235,27 @@ export default function AddPetPage() {
             </div>
 
             <div>
-              <label className={labelClass}>{t("dashboard:addPet.ageYears", "Age (Years)")}</label>
-              <select value={formData.ageYears} onChange={e => setFormData({ ...formData, ageYears: e.target.value })} className={inputClass}>
-                <option value="">{t("dashboard:addPet.selectYears", "Select Years")}</option>
-                {Array.from({ length: 36 }, (_, i) => (
-                  <option key={i} value={i}>{i}</option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <label className={labelClass}>{t("dashboard:addPet.ageMonths", "Age (Months)")}</label>
-              <select value={formData.ageMonths} onChange={e => setFormData({ ...formData, ageMonths: e.target.value })} className={inputClass}>
-                <option value="">{t("dashboard:addPet.selectMonths", "Select Months")}</option>
-                {Array.from({ length: 12 }, (_, i) => (
-                  <option key={i} value={i + 1}>{i + 1}</option>
-                ))}
-              </select>
+              <label className={labelClass}>{t("dashboard:addPet.age", "Age")}</label>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <select value={formData.ageYears} onChange={e => setFormData({ ...formData, ageYears: e.target.value })} className={inputClass}>
+                    <option value="">—</option>
+                    {Array.from({ length: 36 }, (_, i) => (
+                      <option key={i} value={i}>{i}</option>
+                    ))}
+                  </select>
+                  <p className="mt-1.5 text-center text-sm text-gray-500 dark:text-gray-400">{t("dashboard:addPet.years", "Years")}</p>
+                </div>
+                <div>
+                  <select value={formData.ageMonths} onChange={e => setFormData({ ...formData, ageMonths: e.target.value })} className={inputClass}>
+                    <option value="">—</option>
+                    {Array.from({ length: 12 }, (_, i) => (
+                      <option key={i} value={i}>{i}</option>
+                    ))}
+                  <p className="mt-1.5 text-center text-sm text-gray-500 dark:text-gray-400">{t("dashboard:addPet.months", "Months")}</p>
+                  </select>
+                </div>
+              </div>
             </div>
 
             <div>
