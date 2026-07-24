@@ -416,3 +416,45 @@ export const generatePetListing = async (
     );
   }
 };
+
+export type PetImageAnalysis = {
+  species: string;
+  breed: string;
+  gender?: string;
+  size?: string;
+  description: string;
+};
+
+export const analyzePetImage = async (
+  file: File,
+  getToken: () => Promise<string | null>
+): Promise<PetImageAnalysis> => {
+  const token = await getToken();
+  if (!token) throw new Error("No authentication token found");
+
+  const imageBase64 = await new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result || ""));
+    reader.onerror = () => reject(new Error("Failed to read image"));
+    reader.readAsDataURL(file);
+  });
+
+  try {
+    const response = await axios.post(
+      `${API_BASE_URL}/analyze-pet-image`,
+      { imageBase64, mimeType: file.type || "image/jpeg" },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        timeout: 120000,
+      }
+    );
+    return response.data;
+  } catch (error: any) {
+    throw new Error(
+      error?.response?.data?.message || error?.message || "Failed to analyze pet image"
+    );
+  }
+};

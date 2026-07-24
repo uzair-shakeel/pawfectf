@@ -1,23 +1,39 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useLanguage } from "../../../../lib/i18n/LanguageContext";
 import { useAuth } from "../../../../lib/auth/AuthContext";
-import { addPet } from "../../../../services/petService";
+import { addPet, analyzePetImage } from "../../../../services/petService";
 import { getUserById } from "../../../../services/userService";
 import { useSpeciesBreeds } from "../../../../hooks/useSpeciesBreeds";
-import { UploadCloud, X, Plus } from "lucide-react";
+import { UploadCloud, X, Plus, Mic, MicOff, Sparkles, Loader2 } from "lucide-react";
 import Image from "next/image";
 
+type SpeechRecognitionLike = {
+  lang: string;
+  continuous: boolean;
+  interimResults: boolean;
+  onresult: ((event: any) => void) | null;
+  onerror: ((event: any) => void) | null;
+  onend: (() => void) | null;
+  start: () => void;
+  stop: () => void;
+};
+
 export default function AddPetPage() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage() as any;
   const { getToken, userId } = useAuth();
   const router = useRouter();
   const { getSpecies, getBreedsForSpecies } = useSpeciesBreeds();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [step, setStep] = useState(1);
+  const [analyzing, setAnalyzing] = useState(false);
+  const [analyzeInfo, setAnalyzeInfo] = useState("");
+  const [listening, setListening] = useState(false);
+  const recognitionRef = useRef<SpeechRecognitionLike | null>(null);
+  const analyzedFirstImage = useRef(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -28,12 +44,11 @@ export default function AddPetPage() {
     gender: "Male",
     size: "Medium",
     coatLength: "Short",
-    // adoptionFee: "",
     description: "",
-    healthStatus: [],
-    personality: [],
+    healthStatus: [] as string[],
+    personality: [] as string[],
     specialNeeds: "",
-    location: { type: "Point", coordinates: [52.2297, 21.0122] }
+    location: { type: "Point", coordinates: [52.2297, 21.0122] as [number, number] }
   });
 
   const [images, setImages] = useState<File[]>([]);
@@ -49,18 +64,125 @@ export default function AddPetPage() {
     }
   }, [userId, getToken]);
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      const newFiles = Array.from(e.target.files);
-      setImages(prev => [...prev, ...newFiles]);
-      const newPreviews = newFiles.map(file => URL.createObjectURL(file));
-      setPreviews(prev => [...prev, ...newPreviews]);
+  useEffect(() => {
+    return () => {
+      recognitionRef.current?.stop?.();
+    };
+  }, []);
+
+  const runImageAnalysis = async (file: File) => {
+    setAnalyzing(true);
+    setAnalyzeInfo("");
+    setError("");
+    try {
+      const result = await analyzePetImage(file, getToken);
+      setFormData(prev => ({
+        ...prev,
+        species: result.species || prev.species,
+        breed: result.breed || prev.breed,
+        gender: result.gender || prev.gender,
+        size: result.size || prev.size,
+        description: result.description || prev.description,
+      }));
+      setAnalyzeInfo(
+        t(
+          "dashboard:addPet.analyzeSuccess",
+          "Photo analyzed — species, breed and description were filled in. Check steps 2 and 3."
+        )
+      );
+    } catch (err: any) {
+      setAnalyzeInfo("");
+      setError(
+        err?.message ||
+          t("dashboard:addPet.analyzeError", "Could not analyze the photo. You can fill details manually.")
+      );
+    } finally {
+      setAnalyzing(false);
     }
   };
 
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) return;
+    const newFiles = Array.from(e.target.files);
+    if (!newFiles.length) return;
+
+    setImages(prev => [...prev, ...newFiles]);
+    const newPreviews = newFiles.map(file => URL.createObjectURL(file));
+    setPreviews(prev => [...prev, ...newPreviews]);
+
+    if (!analyzedFirstImage.current) {
+      analyzedFirstImage.current = true;
+      await runImageAnalysis(newFiles[0]);
+    }
+    e.target.value = "";
+  };
+
   const removeImage = (index: number) => {
-    setImages(images.filter((_, i) => i !== index));
-    setPreviews(previews.filter((_, i) => i !== index));
+    setImages(prev => prev.filter((_, i) => i !== index));
+    setPreviews(prev => prev.filter((_, i) => i !== index));
+    if (images.length <= 1) {
+      analyzedFirstImage.current = false;
+      setAnalyzeInfo("");
+    }
+  };
+
+  const speechSupported =
+    typeof window !== "undefined" &&
+    (!!(window as any).SpeechRecognition || !!(window as any).webkitSpeechRecognition);
+
+  const toggleVoiceInput = () => {
+    const SpeechRecognitionCtor =
+      (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+
+    if (!SpeechRecognitionCtor) {
+      setError(
+        t(
+          "dashboard:addPet.voiceUnsupported",
+          "Voice input is not supported in this browser. Try Chrome or Edge."
+        )
+      );
+      return;
+    }
+
+    if (listening && recognitionRef.current) {
+      recognitionRef.current.stop();
+      setListening(false);
+      return;
+    }
+
+    const recognition: SpeechRecognitionLike = new SpeechRecognitionCtor();
+    recognition.lang = language === "en" ? "en-US" : "pl-PL";
+    recognition.continuous = true;
+    recognition.interimResults = false;
+
+    recognition.onresult = (event: any) => {
+      let transcript = "";
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        if (event.results[i].isFinal) {
+          transcript += event.results[i][0].transcript;
+        }
+      }
+      transcript = transcript.trim();
+      if (!transcript) return;
+      setFormData(prev => ({
+        ...prev,
+        description: prev.description
+          ? `${prev.description.trim()} ${transcript}`
+          : transcript,
+      }));
+    };
+
+    recognition.onerror = () => {
+      setListening(false);
+    };
+
+    recognition.onend = () => {
+      setListening(false);
+    };
+
+    recognitionRef.current = recognition;
+    recognition.start();
+    setListening(true);
   };
 
   const addItem = (field: 'healthStatus' | 'personality', value: string, setter: (v: string) => void) => {
@@ -94,7 +216,6 @@ export default function AddPetPage() {
       payload.append("gender", formData.gender);
       payload.append("size", formData.size);
       payload.append("coatLength", formData.coatLength);
-      // payload.append("adoptionFee", formData.adoptionFee || "0");
       payload.append("description", formData.description || `${formData.breed} looking for a loving home`);
       payload.append("location", JSON.stringify(formData.location));
       if (formData.specialNeeds) payload.append("specialNeeds", formData.specialNeeds);
@@ -103,7 +224,6 @@ export default function AddPetPage() {
 
       images.forEach(file => payload.append("images", file));
 
-      // Required dummy fields for backend compatibility until backend is fully pet-migrated
       payload.append("make", formData.species);
       payload.append("model", formData.breed);
       payload.append("year", new Date().getFullYear().toString());
@@ -111,7 +231,6 @@ export default function AddPetPage() {
       payload.append("mileage", "0");
       payload.append("condition", "Used");
       payload.append("title", formData.name || formData.breed);
-      // payload.append("financialInfo", JSON.stringify({ priceNetto: Number(formData.adoptionFee || 0), currency: "PLN" }));
 
       await addPet(payload, getToken);
       router.push("/dashboard/cars?success=true");
@@ -139,6 +258,13 @@ export default function AddPetPage() {
         </div>
       )}
 
+      {analyzeInfo && (
+        <div className="mb-8 p-4 bg-blue-50 border border-blue-200 text-blue-700 rounded-xl flex items-start gap-2">
+          <Sparkles className="w-5 h-5 shrink-0 mt-0.5" />
+          <span>{analyzeInfo}</span>
+        </div>
+      )}
+
       <form onSubmit={handleSubmit} className="space-y-8 bg-white dark:bg-dark-card p-6 md:p-8 rounded-[2rem] border border-gray-100 dark:border-dark-divider shadow-sm">
 
         {/* Progress Bar */}
@@ -162,13 +288,24 @@ export default function AddPetPage() {
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4 border-b border-gray-100 dark:border-dark-divider pb-2">
               {t("dashboard:addPet.steps.photos", "Photos")}
             </h2>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+              {t(
+                "dashboard:addPet.analyzeHint",
+                "Upload a clear photo and we’ll auto-fill species, breed and description for steps 2 and 3."
+              )}
+            </p>
 
             <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
-              {/* Upload Button */}
-              <label className="aspect-square flex flex-col items-center justify-center border-2 border-dashed border-blue-300 dark:border-blue-800 bg-blue-50 dark:bg-blue-900/10 rounded-2xl cursor-pointer hover:bg-blue-100 dark:hover:bg-blue-900/20 transition-colors text-blue-600 dark:text-blue-400">
-                <UploadCloud className="w-8 h-8 mb-2" />
-                <span className="text-sm font-semibold text-center">
-                  {t("dashboard:addPet.addPhoto", "Add Photo")}
+              <label className={`aspect-square flex flex-col items-center justify-center border-2 border-dashed border-blue-300 dark:border-blue-800 bg-blue-50 dark:bg-blue-900/10 rounded-2xl cursor-pointer hover:bg-blue-100 dark:hover:bg-blue-900/20 transition-colors text-blue-600 dark:text-blue-400 ${analyzing ? "opacity-60 pointer-events-none" : ""}`}>
+                {analyzing ? (
+                  <Loader2 className="w-8 h-8 mb-2 animate-spin" />
+                ) : (
+                  <UploadCloud className="w-8 h-8 mb-2" />
+                )}
+                <span className="text-sm font-semibold text-center px-2">
+                  {analyzing
+                    ? t("dashboard:addPet.analyzing", "Analyzing...")
+                    : t("dashboard:addPet.addPhoto", "Add Photo")}
                 </span>
 
                 <input
@@ -177,10 +314,10 @@ export default function AddPetPage() {
                   accept="image/*"
                   className="hidden"
                   onChange={handleImageChange}
+                  disabled={analyzing}
                 />
               </label>
 
-              {/* Previews */}
               {previews.map((src, i) => (
                 <div
                   key={i}
@@ -252,8 +389,8 @@ export default function AddPetPage() {
                     {Array.from({ length: 12 }, (_, i) => (
                       <option key={i} value={i}>{i}</option>
                     ))}
-                  <p className="mt-1.5 text-center text-sm text-gray-500 dark:text-gray-400">{t("dashboard:addPet.months", "Months")}</p>
                   </select>
+                  <p className="mt-1.5 text-center text-sm text-gray-500 dark:text-gray-400">{t("dashboard:addPet.months", "Months")}</p>
                 </div>
               </div>
             </div>
@@ -275,11 +412,6 @@ export default function AddPetPage() {
                 <option value="Extra Large">{t("dashboard:addPet.extraLarge", "Extra Large")}</option>
               </select>
             </div>
-
-            {/* <div>
-            <label className={labelClass}>Adoption Fee (PLN)</label>
-            <input type="number" min="0" value={formData.adoptionFee} onChange={e => setFormData({...formData, adoptionFee: e.target.value})} className={inputClass} placeholder="0 for free adoption" />
-          </div> */}
           </section>
         )}
 
@@ -326,8 +458,57 @@ export default function AddPetPage() {
             </div>
 
             <div className="col-span-1 md:col-span-2">
-              <label className={labelClass}>{t("dashboard:addPet.descriptionBio", "Description / Bio")}</label>
-              <textarea value={formData.description} onChange={e => setFormData({ ...formData, description: e.target.value })} rows={5} className={inputClass} placeholder="Opowiedz historie zwierzaka, jaki jest, jakie ma potrzeby...." />
+              <div className="flex items-center justify-between mb-2">
+                <label className="text-md font-bold text-gray-700 dark:text-gray-300">
+                  {t("dashboard:addPet.descriptionBio", "Description / Bio")}
+                </label>
+                <button
+                  type="button"
+                  onClick={toggleVoiceInput}
+                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-semibold transition-colors ${
+                    listening
+                      ? "bg-red-100 text-red-700 hover:bg-red-200"
+                      : "bg-blue-50 text-blue-700 hover:bg-blue-100 dark:bg-blue-900/30 dark:text-blue-300"
+                  }`}
+                  title={t("dashboard:addPet.voiceHint", "Speak to fill the description")}
+                >
+                  {listening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
+                  {listening
+                    ? t("dashboard:addPet.listening", "Listening...")
+                    : t("dashboard:addPet.voiceInput", "Voice")}
+                </button>
+              </div>
+              <div className="relative">
+                <textarea
+                  value={formData.description}
+                  onChange={e => setFormData({ ...formData, description: e.target.value })}
+                  rows={5}
+                  className={`${inputClass} ${listening ? "ring-2 ring-red-400 border-red-300" : ""} pr-12`}
+                  placeholder="Opowiedz historie zwierzaka, jaki jest, jakie ma potrzeby...."
+                />
+                <button
+                  type="button"
+                  onClick={toggleVoiceInput}
+                  className={`absolute bottom-3 right-3 p-2 rounded-full transition-colors ${
+                    listening
+                      ? "bg-red-500 text-white animate-pulse"
+                      : "bg-gray-200 dark:bg-dark-raised text-gray-600 dark:text-gray-300 hover:bg-blue-100 hover:text-blue-700"
+                  }`}
+                  aria-label={t("dashboard:addPet.voiceInput", "Voice")}
+                >
+                  {listening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
+                </button>
+              </div>
+              {listening && (
+                <p className="mt-2 text-sm text-red-600">
+                  {t("dashboard:addPet.listeningHelp", "Speak now — your words will be added to the description.")}
+                </p>
+              )}
+              {!speechSupported && (
+                <p className="mt-2 text-sm text-gray-400">
+                  {t("dashboard:addPet.voiceUnsupported", "Voice input is not supported in this browser. Try Chrome or Edge.")}
+                </p>
+              )}
             </div>
           </section>
         )}
@@ -344,7 +525,7 @@ export default function AddPetPage() {
           )}
 
           {step < 3 ? (
-            <button type="button" onClick={(e) => { e.preventDefault(); setStep(step + 1); }} className="px-8 py-3 rounded-xl font-bold text-white bg-blue-600 hover:bg-blue-700 transition-all shadow-lg shadow-blue-500/30">
+            <button type="button" disabled={analyzing} onClick={(e) => { e.preventDefault(); setStep(step + 1); }} className="px-8 py-3 rounded-xl font-bold text-white bg-blue-600 hover:bg-blue-700 transition-all shadow-lg shadow-blue-500/30 disabled:opacity-50">
               {t("dashboard:addPet.nextStep", "Next Step")}
             </button>
           ) : (

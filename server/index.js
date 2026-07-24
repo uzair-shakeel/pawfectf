@@ -118,6 +118,7 @@ app.use("/api/adoption-requests", adoptionRequestRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/image-detection", imageDetectionRoutes);
 app.use("/api/generate-listing", listingGenerationRoutes);
+app.use("/api/analyze-pet-image", require("./routes/petImageAnalysis"));
 app.use("/api/food-donations", foodDonationRoutes);
 app.use("/api/food-packages", foodPackageRoutes);
 app.use("/api/lost-found", require("./routes/lostFound"));
