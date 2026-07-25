@@ -3,6 +3,13 @@ const fs = require("fs");
 const path = require("path");
 
 const SCRIPT_PATH = path.join(__dirname, "../../scripts/analyze_pet_image.py");
+const VENV_PYTHON = path.join(__dirname, "../../scripts/.venv/bin/python3");
+
+function resolvePythonBin() {
+  if (process.env.PYTHON_PATH) return process.env.PYTHON_PATH;
+  if (fs.existsSync(VENV_PYTHON)) return VENV_PYTHON;
+  return "python3";
+}
 
 function normalize(str) {
   return String(str || "")
@@ -63,7 +70,7 @@ function matchBreed(raw, breeds) {
 
 function runPythonAnalyze({ imageBase64, mimeType }) {
   return new Promise((resolve, reject) => {
-    const pythonBin = process.env.PYTHON_PATH || "python";
+    const pythonBin = resolvePythonBin();
     const args = [SCRIPT_PATH, "--stdin-b64", "--mime", mimeType || "image/jpeg"];
     const child = spawn(pythonBin, args, {
       cwd: path.join(__dirname, "../.."),
