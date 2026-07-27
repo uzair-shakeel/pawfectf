@@ -93,6 +93,14 @@ const nextConfig = {
         source: "/api/notifications/:path*",
         destination: `${API_BASE_URL}/api/notifications/:path*`,
       },
+      {
+        source: "/api/analyze-pet-image",
+        destination: `${API_BASE_URL}/api/analyze-pet-image`,
+      },
+      {
+        source: "/api/analyze-pet-image/:path*",
+        destination: `${API_BASE_URL}/api/analyze-pet-image/:path*`,
+      },
     ];
   },
 

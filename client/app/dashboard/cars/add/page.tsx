@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useLanguage } from "../../../../lib/i18n/LanguageContext";
 import { useAuth } from "../../../../lib/auth/AuthContext";
-import { addPet, analyzePetImage } from "../../../../services/petService";
+import { addPet, analyzePetImage, punctuateSpeechText } from "../../../../services/petService";
 import { getUserById } from "../../../../services/userService";
 import { useSpeciesBreeds } from "../../../../hooks/useSpeciesBreeds";
 import { UploadCloud, X, Plus, Mic, MicOff, Sparkles, Loader2 } from "lucide-react";
@@ -32,8 +32,14 @@ export default function AddPetPage() {
   const [analyzing, setAnalyzing] = useState(false);
   const [analyzeInfo, setAnalyzeInfo] = useState("");
   const [listening, setListening] = useState(false);
+  const [fixingVoice, setFixingVoice] = useState(false);
   const recognitionRef = useRef<SpeechRecognitionLike | null>(null);
   const analyzedFirstImage = useRef(false);
+  const voiceBaseDescriptionRef = useRef("");
+  const voiceSpokenRef = useRef("");
+  const voiceSessionActiveRef = useRef(false);
+  const descriptionRef = useRef("");
+  const stopVoiceRequestedRef = useRef(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -63,6 +69,10 @@ export default function AddPetPage() {
       }).catch(() => { });
     }
   }, [userId, getToken]);
+
+  useEffect(() => {
+    descriptionRef.current = formData.description;
+  }, [formData.description]);
 
   useEffect(() => {
     return () => {
@@ -130,6 +140,29 @@ export default function AddPetPage() {
     typeof window !== "undefined" &&
     (!!(window as any).SpeechRecognition || !!(window as any).webkitSpeechRecognition);
 
+  const finishVoiceAndPunctuate = async () => {
+    if (!voiceSessionActiveRef.current) return;
+    voiceSessionActiveRef.current = false;
+    setListening(false);
+
+    const base = voiceBaseDescriptionRef.current || "";
+    const spoken = (voiceSpokenRef.current || "").trim();
+    voiceSpokenRef.current = "";
+    if (!spoken) return;
+
+    setFixingVoice(true);
+    try {
+      const lang = language === "en" ? "en-US" : "pl-PL";
+      const fixed = await punctuateSpeechText(spoken, lang, getToken);
+      const nextDescription = base ? `${base.trim()} ${fixed}`.trim() : fixed;
+      descriptionRef.current = nextDescription;
+      setFormData(prev => ({ ...prev, description: nextDescription }));
+    } finally {
+      setFixingVoice(false);
+      stopVoiceRequestedRef.current = false;
+    }
+  };
+
   const toggleVoiceInput = () => {
     const SpeechRecognitionCtor =
       (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
@@ -145,44 +178,74 @@ export default function AddPetPage() {
     }
 
     if (listening && recognitionRef.current) {
+      stopVoiceRequestedRef.current = true;
       recognitionRef.current.stop();
-      setListening(false);
       return;
     }
+
+    if (fixingVoice) return;
+
+    voiceBaseDescriptionRef.current = descriptionRef.current || formData.description || "";
+    voiceSpokenRef.current = "";
+    voiceSessionActiveRef.current = true;
+    stopVoiceRequestedRef.current = false;
 
     const recognition: SpeechRecognitionLike = new SpeechRecognitionCtor();
     recognition.lang = language === "en" ? "en-US" : "pl-PL";
     recognition.continuous = true;
-    recognition.interimResults = false;
+    recognition.interimResults = true;
 
     recognition.onresult = (event: any) => {
-      let transcript = "";
+      let finalChunk = "";
       for (let i = event.resultIndex; i < event.results.length; i++) {
         if (event.results[i].isFinal) {
-          transcript += event.results[i][0].transcript;
+          finalChunk += event.results[i][0].transcript;
         }
       }
-      transcript = transcript.trim();
-      if (!transcript) return;
-      setFormData(prev => ({
-        ...prev,
-        description: prev.description
-          ? `${prev.description.trim()} ${transcript}`
-          : transcript,
-      }));
+      finalChunk = finalChunk.trim();
+      if (!finalChunk) return;
+
+      voiceSpokenRef.current = `${voiceSpokenRef.current} ${finalChunk}`.trim();
+      const base = voiceBaseDescriptionRef.current || "";
+      const nextDescription = base
+        ? `${base.trim()} ${voiceSpokenRef.current}`.trim()
+        : voiceSpokenRef.current;
+      descriptionRef.current = nextDescription;
+      setFormData(prev => ({ ...prev, description: nextDescription }));
     };
 
-    recognition.onerror = () => {
-      setListening(false);
+    recognition.onerror = (event: any) => {
+      // Ignore benign auto-stop errors; still finalize if user stopped or we got speech
+      const err = event?.error;
+      if (err === "aborted") return;
+      if (!stopVoiceRequestedRef.current && err === "no-speech") {
+        // Keep listening session open if browser fires no-speech mid-way
+        return;
+      }
+      finishVoiceAndPunctuate();
     };
 
     recognition.onend = () => {
-      setListening(false);
+      // Some browsers end recognition mid-session; restart unless user stopped
+      if (voiceSessionActiveRef.current && !stopVoiceRequestedRef.current) {
+        try {
+          recognition.start();
+          return;
+        } catch {
+          /* fall through to finalize */
+        }
+      }
+      finishVoiceAndPunctuate();
     };
 
     recognitionRef.current = recognition;
-    recognition.start();
-    setListening(true);
+    try {
+      recognition.start();
+      setListening(true);
+    } catch (err: any) {
+      voiceSessionActiveRef.current = false;
+      setError(err?.message || "Could not start voice input.");
+    }
   };
 
   const addItem = (field: 'healthStatus' | 'personality', value: string, setter: (v: string) => void) => {
@@ -465,17 +528,20 @@ export default function AddPetPage() {
                 <button
                   type="button"
                   onClick={toggleVoiceInput}
-                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-semibold transition-colors ${
+                  disabled={fixingVoice}
+                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-semibold transition-colors disabled:opacity-60 ${
                     listening
                       ? "bg-red-100 text-red-700 hover:bg-red-200"
                       : "bg-blue-50 text-blue-700 hover:bg-blue-100 dark:bg-blue-900/30 dark:text-blue-300"
                   }`}
                   title={t("dashboard:addPet.voiceHint", "Speak to fill the description")}
                 >
-                  {listening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
+                  {fixingVoice ? <Loader2 className="w-4 h-4 animate-spin" /> : listening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
                   {listening
                     ? t("dashboard:addPet.listening", "Listening...")
-                    : t("dashboard:addPet.voiceInput", "Voice")}
+                    : fixingVoice
+                      ? t("dashboard:addPet.fixingVoice", "Fixing text...")
+                      : t("dashboard:addPet.voiceInput", "Voice")}
                 </button>
               </div>
               <div className="relative">
@@ -485,10 +551,12 @@ export default function AddPetPage() {
                   rows={5}
                   className={`${inputClass} ${listening ? "ring-2 ring-red-400 border-red-300" : ""} pr-12`}
                   placeholder="Opowiedz historie zwierzaka, jaki jest, jakie ma potrzeby...."
+                  disabled={fixingVoice}
                 />
                 <button
                   type="button"
                   onClick={toggleVoiceInput}
+                  disabled={fixingVoice}
                   className={`absolute bottom-3 right-3 p-2 rounded-full transition-colors ${
                     listening
                       ? "bg-red-500 text-white animate-pulse"
@@ -496,12 +564,17 @@ export default function AddPetPage() {
                   }`}
                   aria-label={t("dashboard:addPet.voiceInput", "Voice")}
                 >
-                  {listening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
+                  {fixingVoice ? <Loader2 className="w-4 h-4 animate-spin" /> : listening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
                 </button>
               </div>
               {listening && (
                 <p className="mt-2 text-sm text-red-600">
                   {t("dashboard:addPet.listeningHelp", "Speak now — your words will be added to the description.")}
+                </p>
+              )}
+              {fixingVoice && (
+                <p className="mt-2 text-sm text-blue-600">
+                  {t("dashboard:addPet.fixingVoiceHelp", "Adding punctuation to your spoken text...")}
                 </p>
               )}
               {!speechSupported && (

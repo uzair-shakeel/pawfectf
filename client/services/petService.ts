@@ -425,6 +425,34 @@ export type PetImageAnalysis = {
   description: string;
 };
 
+async function compressImageForAnalysis(file: File): Promise<File> {
+  try {
+    if (!file.type.startsWith("image/")) return file;
+    const bitmap = await createImageBitmap(file);
+    const maxSide = 1280;
+    const scale = Math.min(1, maxSide / Math.max(bitmap.width, bitmap.height));
+    const width = Math.max(1, Math.round(bitmap.width * scale));
+    const height = Math.max(1, Math.round(bitmap.height * scale));
+    const canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return file;
+    ctx.drawImage(bitmap, 0, 0, width, height);
+    bitmap.close?.();
+
+    const blob: Blob | null = await new Promise((resolve) =>
+      canvas.toBlob((b) => resolve(b), "image/jpeg", 0.82)
+    );
+    if (!blob) return file;
+    return new File([blob], file.name.replace(/\.\w+$/, ".jpg") || "pet.jpg", {
+      type: "image/jpeg",
+    });
+  } catch {
+    return file;
+  }
+}
+
 export const analyzePetImage = async (
   file: File,
   getToken: () => Promise<string | null>
@@ -432,29 +460,90 @@ export const analyzePetImage = async (
   const token = await getToken();
   if (!token) throw new Error("No authentication token found");
 
-  const imageBase64 = await new Promise<string>((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(String(reader.result || ""));
-    reader.onerror = () => reject(new Error("Failed to read image"));
-    reader.readAsDataURL(file);
-  });
+  const compressed = await compressImageForAnalysis(file);
+  const formData = new FormData();
+  formData.append("image", compressed);
 
   try {
+    const response = await axios.post(`${API_BASE_URL}/analyze-pet-image`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      timeout: 180000,
+      maxBodyLength: Infinity,
+      maxContentLength: Infinity,
+    });
+    return response.data;
+  } catch (error: any) {
+    const msg =
+      error?.response?.data?.message ||
+      error?.message ||
+      "Failed to analyze pet image";
+    throw new Error(msg === "Network Error" ? "Network error while analyzing image. Please try a smaller photo." : msg);
+  }
+};
+
+/** Stronger local fallback if API is down */
+export function punctuateTextLocally(text: string): string {
+  let t = String(text || "").replace(/\s+/g, " ").trim();
+  if (!t) return "";
+
+  // Insert breaks before likely new sentences / questions
+  t = t.replace(
+    /\s+(?=(?:What|Where|When|Why|How|Who|Is|Are|Can|Do|Did|Will|Would|Booking|You|I|Czy|Jak|Co|Gdzie|Dlaczego)\b)/g,
+    ". "
+  );
+  t = t.replace(/\s+(ale|jednak|ponieważ|dlatego|więc|natomiast)\s+/gi, ", $1 ");
+
+  // Question mark for question-like clauses
+  t = t
+    .split(/(?<=[.!?])\s+/)
+    .map((sentence) => {
+      let s = sentence.trim();
+      if (!s) return "";
+      s = s.charAt(0).toUpperCase() + s.slice(1);
+      if (/^(what|where|when|why|how|who|is|are|can|do|did|will|would|czy|jak|co|gdzie|dlaczego)\b/i.test(s)) {
+        if (!/[?]$/.test(s)) s = s.replace(/[.!]*$/, "") + "?";
+      } else if (!/[.!?]$/.test(s)) {
+        s += ".";
+      }
+      return s;
+    })
+    .filter(Boolean)
+    .join(" ");
+
+  return t.trim();
+}
+
+export const punctuateSpeechText = async (
+  text: string,
+  lang: string,
+  getToken: () => Promise<string | null>
+): Promise<string> => {
+  const raw = String(text || "").trim();
+  if (!raw) return "";
+
+  try {
+    const token = await getToken();
+    if (!token) return punctuateTextLocally(raw);
+
     const response = await axios.post(
-      `${API_BASE_URL}/analyze-pet-image`,
-      { imageBase64, mimeType: file.type || "image/jpeg" },
+      `${API_BASE_URL}/analyze-pet-image/punctuate`,
+      { text: raw, lang },
       {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
-        timeout: 120000,
+        timeout: 60000,
       }
     );
-    return response.data;
+    const apiText = String(response.data?.text || "").trim();
+    if (apiText && apiText !== raw) return apiText;
+    // If API echoed raw unchanged, still try local structuring
+    return punctuateTextLocally(raw);
   } catch (error: any) {
-    throw new Error(
-      error?.response?.data?.message || error?.message || "Failed to analyze pet image"
-    );
+    console.warn("[punctuateSpeechText]", error?.message || error);
+    return punctuateTextLocally(raw);
   }
 };

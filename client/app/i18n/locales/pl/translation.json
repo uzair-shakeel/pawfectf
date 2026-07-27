@@ -798,6 +798,8 @@
       "listeningHelp": "Mów teraz — Twoje słowa zostaną dodane do opisu.",
       "voiceHint": "Mów, aby uzupełnić opis",
       "voiceUnsupported": "Dyktowanie nie jest obsługiwane w tej przeglądarce. Użyj Chrome lub Edge.",
+      "fixingVoice": "Poprawianie tekstu...",
+      "fixingVoiceHelp": "Dodaję interpunkcję do wypowiedzi...",
       "analyzeHint": "Dodaj wyraźne zdjęcie — automatycznie uzupełnimy gatunek, rasę i opis w krokach 2 i 3.",
       "analyzing": "Analizowanie...",
       "analyzeSuccess": "Zdjęcie przeanalizowane — gatunek, rasa i opis zostały uzupełnione. Sprawdź kroki 2 i 3.",
