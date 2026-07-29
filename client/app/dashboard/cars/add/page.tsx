@@ -7,7 +7,7 @@ import { useAuth } from "../../../../lib/auth/AuthContext";
 import { addPet, analyzePetImage, punctuateSpeechText } from "../../../../services/petService";
 import { getUserById } from "../../../../services/userService";
 import { useSpeciesBreeds } from "../../../../hooks/useSpeciesBreeds";
-import { UploadCloud, X, Plus, Mic, MicOff, Sparkles, Loader2 } from "lucide-react";
+import { UploadCloud, X, Plus, Mic, MicOff, Sparkles, Loader2, ScanSearch } from "lucide-react";
 import Image from "next/image";
 
 type SpeechRecognitionLike = {
@@ -92,12 +92,11 @@ export default function AddPetPage() {
         breed: result.breed || prev.breed,
         gender: result.gender || prev.gender,
         size: result.size || prev.size,
-        description: result.description || prev.description,
       }));
       setAnalyzeInfo(
         t(
           "dashboard:addPet.analyzeSuccess",
-          "Photo analyzed — species, breed and description were filled in. Check steps 2 and 3."
+          "AI scanned the photo — species, breed, gender and size were filled in. Check step 2."
         )
       );
     } catch (err: any) {
@@ -354,9 +353,11 @@ export default function AddPetPage() {
             <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
               {t(
                 "dashboard:addPet.analyzeHint",
-                "Upload a clear photo and we’ll auto-fill species, breed and description for steps 2 and 3."
+                "Upload a clear photo — AI will detect species, breed, gender and size for step 2."
               )}
             </p>
+
+       
 
             <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
               <label className={`aspect-square flex flex-col items-center justify-center border-2 border-dashed border-blue-300 dark:border-blue-800 bg-blue-50 dark:bg-blue-900/10 rounded-2xl cursor-pointer hover:bg-blue-100 dark:hover:bg-blue-900/20 transition-colors text-blue-600 dark:text-blue-400 ${analyzing ? "opacity-60 pointer-events-none" : ""}`}>
@@ -367,7 +368,7 @@ export default function AddPetPage() {
                 )}
                 <span className="text-sm font-semibold text-center px-2">
                   {analyzing
-                    ? t("dashboard:addPet.analyzing", "Analyzing...")
+                    ? t("dashboard:addPet.analyzing", "AI scanning...")
                     : t("dashboard:addPet.addPhoto", "Add Photo")}
                 </span>
 
@@ -393,16 +394,42 @@ export default function AddPetPage() {
                     className="object-cover"
                   />
 
+                  {analyzing && i === 0 && (
+                    <div className="absolute inset-0 z-10 bg-black/45 backdrop-blur-[1px] flex flex-col items-center justify-center gap-2 text-white">
+                      <div className="absolute inset-x-0 h-10 bg-gradient-to-b from-transparent via-sky-300/50 to-transparent animate-[aiScanY_1.8s_linear_infinite]" />
+                      <Sparkles className="w-6 h-6 animate-pulse" />
+                      <span className="text-[11px] font-bold tracking-wide uppercase">
+                        {t("dashboard:addPet.aiBadge", "AI scan")}
+                      </span>
+                    </div>
+                  )}
+
                   <button
                     type="button"
                     onClick={() => removeImage(i)}
-                    className="absolute top-2 right-2 bg-black/60 text-white rounded-full p-1 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition"
+                    disabled={analyzing}
+                    className="absolute top-2 right-2 z-20 bg-black/60 text-white rounded-full p-1 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition disabled:opacity-40"
                   >
                     <X className="w-4 h-4" />
                   </button>
                 </div>
               ))}
             </div>
+
+            <style jsx>{`
+              @keyframes aiScan {
+                0% { transform: translateX(-120%); }
+                100% { transform: translateX(320%); }
+              }
+              @keyframes aiBar {
+                0% { transform: translateX(-120%); }
+                100% { transform: translateX(220%); }
+              }
+              @keyframes aiScanY {
+                0% { top: -20%; }
+                100% { top: 110%; }
+              }
+            `}</style>
           </section>
         )}
 
