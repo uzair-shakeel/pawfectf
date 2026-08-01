@@ -8,6 +8,7 @@ import { useAuth } from "../../../../lib/auth/AuthContext";
 import { useLanguage } from "../../../../lib/i18n/LanguageContext";
 import { optimizeCloudinaryUrl } from "../../../../lib/imageUtils";
 import { toTelHref } from "../../../../lib/utils";
+import { usePetImageTransition } from "../../../../lib/petImageTransition/PetImageTransitionContext";
 import { ShieldCheck, MapPin, Heart, MessageCircle, Phone, ChevronLeft, ChevronRight } from "lucide-react";
 import { FaGlobe, FaFacebook, FaInstagram } from "react-icons/fa";
 import Link from "next/link";
@@ -47,6 +48,13 @@ export default function PetDetailPage() {
   const router = useRouter();
   const { user, token, getToken: getAuthToken } = useAuth();
   const { t } = useLanguage();
+  const {
+    registerTarget,
+    isTransitioningFor,
+    peekImageIndex,
+    confirmHandoff,
+    phase: imageTransitionPhase,
+  } = usePetImageTransition();
   const [pet, setPet] = useState(null);
   const [owner, setOwner] = useState(null);
   const [city, setCity] = useState("");
@@ -58,12 +66,23 @@ export default function PetDetailPage() {
   const [applicationText, setApplicationText] = useState("Hi, I'm very interested in adopting this pet. Please let me know what the next steps are!");
   const swiperRef = useRef(null);
   const fullscreenSwiperRef = useRef(null);
+  const desktopMainImageRef = useRef(null);
+  const mobileMainImageRef = useRef(null);
+  const handoffDoneRef = useRef(false);
+  const isMorphActive = isTransitioningFor(petId);
 
   useEffect(() => {
     if (!petId) return;
     (async () => {
       try {
         const data = await getPetById(petId);
+        const len = Array.isArray(data?.images) ? data.images.length : 0;
+        const pending = peekImageIndex(petId);
+        const startIdx =
+          pending == null || !len
+            ? 0
+            : Math.min(Math.max(0, pending), len - 1);
+        setActiveImg(startIdx);
         setPet(data);
         try {
           const o = await getPublicUserInfo(data?.createdBy);
@@ -79,7 +98,88 @@ export default function PetDetailPage() {
         }
       } catch { setError("Failed to load pet details."); }
     })();
+    // peekImageIndex reads live transition payload once on load
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [petId]);
+
+  // Shared card→detail image expand: register hero as soon as morph shell/content exists
+  useEffect(() => {
+    if (!petId) return undefined;
+    // Don't wait for pet fetch — register placeholder during morph so spinner never shows through
+    if (!pet && !isMorphActive) return undefined;
+
+    const resolveTarget = () => {
+      const isDesktop =
+        typeof window !== "undefined" &&
+        window.matchMedia("(min-width: 768px)").matches;
+      const el = isDesktop
+        ? desktopMainImageRef.current
+        : mobileMainImageRef.current;
+      if (!el) return () => {};
+      return registerTarget(petId, el);
+    };
+
+    let cleanup = resolveTarget();
+    const retry = requestAnimationFrame(() => {
+      cleanup?.();
+      cleanup = resolveTarget();
+    });
+
+    const mql = window.matchMedia("(min-width: 768px)");
+    const onChange = () => {
+      cleanup?.();
+      cleanup = resolveTarget();
+    };
+    mql.addEventListener("change", onChange);
+
+    return () => {
+      cancelAnimationFrame(retry);
+      cleanup?.();
+      mql.removeEventListener("change", onChange);
+    };
+  }, [petId, pet, registerTarget, isMorphActive]);
+
+  // When morph finishes, wait until real pet content + hero image painted, then drop cover
+  useEffect(() => {
+    if (imageTransitionPhase !== "done" || !isMorphActive || !pet) return;
+    handoffDoneRef.current = false;
+
+    const tryHandoff = () => {
+      if (handoffDoneRef.current) return;
+      const isDesktop = window.matchMedia("(min-width: 768px)").matches;
+      const wrap = isDesktop
+        ? desktopMainImageRef.current
+        : mobileMainImageRef.current;
+      const img = wrap?.querySelector?.("img");
+      if (img && img.complete && img.naturalWidth > 0) {
+        handoffDoneRef.current = true;
+        confirmHandoff();
+      }
+    };
+
+    tryHandoff();
+    const t = setTimeout(tryHandoff, 80);
+    const t2 = setTimeout(tryHandoff, 250);
+    const t3 = setTimeout(() => {
+      if (!handoffDoneRef.current) {
+        handoffDoneRef.current = true;
+        confirmHandoff();
+      }
+    }, 1200);
+    return () => {
+      clearTimeout(t);
+      clearTimeout(t2);
+      clearTimeout(t3);
+    };
+  }, [imageTransitionPhase, isMorphActive, confirmHandoff, activeImg, pet]);
+
+  const handleMainImageReady = () => {
+    if (imageTransitionPhase === "done" && isMorphActive && pet) {
+      if (handoffDoneRef.current) return;
+      handoffDoneRef.current = true;
+      confirmHandoff();
+    }
+  };
 
   useEffect(() => {
     if (user) { socket.auth = { userId: user?.id }; socket.connect(); return () => socket.disconnect(); }
@@ -148,7 +248,32 @@ export default function PetDetailPage() {
   };
 
   if (error) return <div className="flex items-center justify-center min-h-screen"><p className="text-red-500 text-xl">{error}</p></div>;
-  if (!pet) return <div className="flex items-center justify-center min-h-screen"><div className="h-10 w-10 animate-spin rounded-full border-4 border-blue-600 border-r-transparent" /></div>;
+
+  // Morph open: blank page + hero target only — no spinner
+  if (!pet && isMorphActive) {
+    return (
+      <div className="min-h-screen bg-white dark:bg-dark-main">
+        <div className="max-w-7xl mx-auto py-8 lg:py-12">
+          <div className="h-6 mb-6" />
+          <div className="hidden md:block h-[380px] sm:h-[430px] md:h-[461px] lg:h-[520px] xl:h-[560px] 2xl:h-[600px]">
+            <div ref={desktopMainImageRef} className="relative w-full h-full" />
+          </div>
+          <div className="md:hidden w-full aspect-[4/3]">
+            <div ref={mobileMainImageRef} className="relative w-full h-full" />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Normal navigation (no morph): keep spinner
+  if (!pet) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="h-10 w-10 animate-spin rounded-full border-4 border-blue-600 border-r-transparent" />
+      </div>
+    );
+  }
 
   const images = (pet.images || []).map(img => fmtUrl(img, 1200));
   if (!images.length) images.push("/images/hamer1.png");
@@ -344,6 +469,7 @@ export default function PetDetailPage() {
               {/* Main Image - Left Side */}
               <div className={`relative group h-full ${galleryMode === "single" ? "w-full" : "w-full md:w-[calc(100%-320px)]"}`}>
                 <div
+                  ref={desktopMainImageRef}
                   className="relative w-full h-full cursor-pointer"
                   onClick={() => setFullscreen(true)}
                 >
@@ -355,6 +481,7 @@ export default function PetDetailPage() {
                     priority
                     sizes="(max-width: 768px) 100vw, 70vw"
                     unoptimized={true}
+                    onLoadingComplete={handleMainImageReady}
                     onError={(e) => {
                       e.target.src = "/images/hamer1.png";
                     }}
@@ -457,6 +584,7 @@ export default function PetDetailPage() {
             >
               {/* Slide 1: Main Image */}
               <div
+                ref={mobileMainImageRef}
                 className={`snap-start shrink-0 ${images.length === 1 ? "w-full" : "w-[88vw]"} aspect-[4/3] relative overflow-hidden bg-white dark:bg-dark-card cursor-pointer`}
                 onClick={() => setFullscreen(true)}
               >
@@ -468,6 +596,7 @@ export default function PetDetailPage() {
                   priority
                   sizes="88vw"
                   unoptimized={true}
+                  onLoadingComplete={handleMainImageReady}
                   onError={(e) => {
                     e.target.src = "/images/hamer1.png";
                   }}

@@ -2,11 +2,11 @@
 
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { getPublicUserInfo } from "../../services/userService";
 import { optimizeCloudinaryUrl } from "../../lib/imageUtils";
-import { useLanguage } from "../../lib/i18n/LanguageContext";
-import { MapPin, Heart, User, ShieldCheck } from "lucide-react";
+import { usePetImageTransition } from "../../lib/petImageTransition/PetImageTransitionContext";
+import { MapPin, ShieldCheck } from "lucide-react";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "/api";
 
@@ -20,17 +20,12 @@ const formatAge = (ageMonths) => {
 
 export default function PetCard({ pet, viewMode = "grid" }) {
   const router = useRouter();
-  const { t } = useLanguage();
+  const { startTransition } = usePetImageTransition();
+  const imageWrapRef = useRef(null);
   const [locationDetails, setLocationDetails] = useState({ city: "", state: "" });
   const [owner, setOwner] = useState(null);
 
-  const formatImageUrl = (imagePath) => {
-    if (!imagePath) return "/website/seller.jpg";
-    const url = /^(https?:)?\/\//.test(imagePath)
-      ? imagePath
-      : `${API_BASE}/${String(imagePath).replace("\\", "/")}`;
-    return optimizeCloudinaryUrl(url, 400);
-  };
+  const href = pet?.href || `/website/pets/${pet._id}`;
 
   const formatPetImage = (imagePath) => {
     if (!imagePath) return "https://via.placeholder.com/500";
@@ -41,7 +36,6 @@ export default function PetCard({ pet, viewMode = "grid" }) {
   };
 
   useEffect(() => {
-    // Just use the city from pet.location if available
     if (pet?.location?.city) {
       setLocationDetails({ city: pet.location.city, state: pet.location.state || "" });
     }
@@ -67,13 +61,13 @@ export default function PetCard({ pet, viewMode = "grid" }) {
     : "https://via.placeholder.com/500";
 
   const displayName = pet?.name || `${pet?.breed || pet?.species || "Pet"}`;
-  
+
   const translateGender = (gender) => {
     if (gender === "Male") return "Samiec";
     if (gender === "Female") return "Suczka";
     return gender;
   };
-  
+
   const translateSize = (size) => {
     if (size === "Small") return "Mały";
     if (size === "Medium") return "Średni";
@@ -81,7 +75,7 @@ export default function PetCard({ pet, viewMode = "grid" }) {
     if (size === "Extra Large") return "Bardzo duży";
     return size;
   };
-  
+
   const subtitle = [
     pet?.name,
     pet?.breed,
@@ -90,39 +84,58 @@ export default function PetCard({ pet, viewMode = "grid" }) {
     translateSize(pet?.size),
   ].filter(Boolean).join(" · ");
 
-  // Fee display removed per user request
-  // const feeLabel = pet?.customLabel || (pet?.adoptionFee
-  //   ? `Adoption Fee: ${Number(pet.adoptionFee).toLocaleString()} zł`
-  //   : "Free Adoption");
+  const handleNavigate = useCallback(
+    (event) => {
+      if (event?.defaultPrevented) return;
+      if (event && "button" in event && event.button !== 0) return;
+      if (event?.metaKey || event?.ctrlKey || event?.shiftKey || event?.altKey) return;
 
-  const handleCardClick = () => router.push(pet?.href || `/website/pets/${pet._id}`);
+      const started = startTransition({
+        petId: pet._id,
+        href,
+        imageSrc: firstImage,
+        sourceEl: imageWrapRef.current,
+        clientX: event?.clientX,
+        clientY: event?.clientY,
+      });
+
+      if (started && event?.preventDefault) event.preventDefault();
+      router.push(href);
+    },
+    [firstImage, href, pet?._id, router, startTransition]
+  );
 
   if (viewMode === "grid") {
     return (
       <div
         className="group cursor-pointer focus:outline-none"
-        onClick={handleCardClick}
+        onClick={handleNavigate}
         role="button"
         tabIndex={0}
-        onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") handleCardClick(); }}
+        onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") handleNavigate(e); }}
       >
         <div className="mx-2 bg-transparent rounded-2xl overflow-hidden relative transition-all duration-300">
           <div className="absolute inset-0 bg-black/0 hover:bg-black/20 dark:hover:bg-white/20 transition-all duration-300 z-10 pointer-events-none rounded-2xl" />
-          <div className="relative h-[280px] md:h-52 lg:h-[240px] overflow-hidden rounded-2xl">
+          <div
+            ref={imageWrapRef}
+            className="relative h-[280px] md:h-52 lg:h-[240px] overflow-hidden rounded-2xl [&_[data-pet-morph-source]]:opacity-0"
+          >
             {pet?.isFeatured && (pet?.images?.length ?? 0) >= 3 ? (
               <div className="grid grid-cols-2 grid-rows-2 h-full gap-0.5">
-                <div className="relative col-span-2 row-span-1">
+                <div data-pet-tile data-pet-tile-index="0" className="relative col-span-2 row-span-1">
                   <Image src={formatPetImage(pet.images[0])} alt={`${displayName} - 1`} fill className="object-cover" loading="lazy" sizes="(max-width: 768px) 100vw, 50vw" />
                 </div>
-                <div className="relative col-start-1 col-end-2 row-start-2 row-end-3">
+                <div data-pet-tile data-pet-tile-index="1" className="relative col-start-1 col-end-2 row-start-2 row-end-3">
                   <Image src={formatPetImage(pet.images[1])} alt={`${displayName} - 2`} fill className="object-cover" loading="lazy" sizes="(max-width: 768px) 50vw, 25vw" />
                 </div>
-                <div className="relative col-start-2 col-end-3 row-start-2 row-end-3">
+                <div data-pet-tile data-pet-tile-index="2" className="relative col-start-2 col-end-3 row-start-2 row-end-3">
                   <Image src={formatPetImage(pet.images[2])} alt={`${displayName} - 3`} fill className="object-cover" loading="lazy" sizes="(max-width: 768px) 50vw, 25vw" />
                 </div>
               </div>
             ) : (
-              <Image src={firstImage} alt={displayName} fill className="object-cover transition-transform duration-500 group-hover:scale-[1.03]" loading="lazy" sizes="(max-width: 768px) 100vw, 50vw" />
+              <div data-pet-tile data-pet-tile-index="0" className="absolute inset-0">
+                <Image src={firstImage} alt={displayName} fill className="object-cover transition-transform duration-500 group-hover:scale-[1.03]" loading="lazy" sizes="(max-width: 768px) 100vw, 50vw" />
+              </div>
             )}
 
             <div className="absolute inset-x-0 bottom-0 z-20 bg-gradient-to-t from-black/80 via-black/40 to-transparent pt-20 pb-4 px-3.5 pointer-events-none">
@@ -135,23 +148,16 @@ export default function PetCard({ pet, viewMode = "grid" }) {
               </div>
             </div>
 
-            {/* Fee overlay - REMOVED per user request */}
-            {/* <div className="absolute bottom-3 left-3 bg-gray-900/90 backdrop-blur-md px-3 py-1.5 rounded-xl shadow-lg border border-white/10">
-              <div className="text-md font-semibold text-white">{feeLabel}</div>
-            </div> */}
-
-            {/* Featured badge */}
             {pet?.isFeatured && (
               <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-bl from-blue-900/30 to-transparent pointer-events-none z-20 flex items-start justify-end p-3 rounded-tr-2xl">
                 <Image src="/logooo.png" alt="Featured" width={32} height={32} className="object-contain brightness-0 invert opacity-70" />
               </div>
             )}
 
-            {/* Health badges */}
             {pet?.healthStatus?.length > 0 && (
               <div className="absolute top-3 left-3 z-20 flex gap-1 flex-wrap max-w-[60%]">
                 {pet.healthStatus.slice(0, 2).map((s) => (
-                  <span key={s} className="text-[10px] font-bold bg-green-500/90 text-white px-2 py-0.5 rounded-full flex items-center gap-0.5">
+                  <span key={s} className="text-[10px] font-bold bg-green-500/90 text-white px-2 py-0.5 rounded-full flex items-center gap-1">
                     <ShieldCheck className="w-2.5 h-2.5" /> {s}
                   </span>
                 ))}
@@ -163,19 +169,23 @@ export default function PetCard({ pet, viewMode = "grid" }) {
     );
   }
 
-  // LIST VIEW
   return (
     <div
       className="group cursor-pointer focus:outline-none"
-      onClick={handleCardClick}
+      onClick={handleNavigate}
       role="button"
       tabIndex={0}
-      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); handleCardClick(); } }}
+      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); handleNavigate(e); } }}
     >
       <div className="mx-2 bg-transparent rounded-2xl overflow-hidden transition-all duration-500 flex flex-row h-[140px] xs:h-[160px] sm:h-[200px] md:h-[260px] relative">
         <div className="absolute inset-0 bg-black/0 hover:bg-black/20 dark:hover:bg-dark-raised/20 transition-all duration-300 z-10 pointer-events-none rounded-2xl" />
-        <div className="relative w-[120px] xs:w-[150px] sm:w-[200px] md:w-[400px] h-full flex-shrink-0 overflow-hidden rounded-2xl">
-          <Image src={firstImage} alt={displayName} fill className="object-cover transition-transform duration-700" loading="lazy" sizes="(max-width: 768px) 40vw, 30vw" />
+        <div
+          ref={imageWrapRef}
+          className="relative w-[120px] xs:w-[150px] sm:w-[200px] md:w-[400px] h-full flex-shrink-0 overflow-hidden rounded-2xl [&_[data-pet-morph-source]]:opacity-0"
+        >
+          <div data-pet-tile data-pet-tile-index="0" className="absolute inset-0">
+            <Image src={firstImage} alt={displayName} fill className="object-cover transition-transform duration-700" loading="lazy" sizes="(max-width: 768px) 40vw, 30vw" />
+          </div>
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60" />
           {pet?.isFeatured && (
             <div className="absolute top-0 right-0 w-24 h-24 sm:w-32 sm:h-32 bg-gradient-to-bl from-black/50 to-transparent pointer-events-none z-20 flex items-start justify-end p-2 sm:p-4">
@@ -198,10 +208,6 @@ export default function PetCard({ pet, viewMode = "grid" }) {
                 <MapPin className="w-3 h-3 md:w-4 md:h-4" />
                 {locationDetails.city || "Location TBD"}
               </div>
-              {/* Fee display removed per user request */}
-              {/* <div className="text-md xs:text-base sm:text-xl md:text-2xl font-black text-gray-900 dark:text-gray-200 tracking-tighter">
-                {feeLabel}
-              </div> */}
             </div>
           </div>
         </div>

@@ -8,6 +8,7 @@ import { NotificationsProvider } from "../lib/notifications/NotificationsContext
 import dynamic from "next/dynamic";
 import { SWRConfig } from "swr";
 import { fetcher } from "../lib/fetcher";
+import { PetImageTransitionProvider } from "../lib/petImageTransition/PetImageTransitionContext";
 
 // Lazy load CookieConsent since it's not critical for initial render
 const CookieConsent = dynamic(() => import("../components/website/CookieConsent"), {
@@ -31,6 +32,7 @@ export default function Providers({ children }) {
         <LanguageProvider>
           <AuthProvider>
             <NotificationsProvider>
+              <PetImageTransitionProvider>
               {children}
               
               <CookieConsent />
@@ -66,6 +68,7 @@ export default function Providers({ children }) {
               pointer-events: auto !important;
             }
           `}</style>
+              </PetImageTransitionProvider>
           </NotificationsProvider>
         </AuthProvider>
       </LanguageProvider>
