@@ -9,141 +9,119 @@ export function Footer() {
   const { t } = useLanguage();
 
   return (
-    <footer className="bg-dark-panel text-white pt-20 pb-10 transition-colors duration-300 border-t border-gray-100 dark:border-gray-800">
-      <div className="mx-auto px-4 max-w-7xl">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+    <footer className="marketing-ui bg-[#0F172A] text-white pt-16 pb-8">
+      <div className="mx-auto w-full max-w-[1520px] px-5 sm:px-8">
+        <div className="grid grid-cols-1 gap-12 border-b border-white/10 pb-14 md:grid-cols-2 lg:grid-cols-4">
           <div>
-            <h3 className="font-bold mb-4">O nas</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link
-                  href="/website/about"
-                  className="text-gray-400 hover:text-white transition-colors"
-                >
-                  O nas
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/website/pets"
-                  className="text-gray-400 hover:text-white transition-colors"
-                >
-                  Adoptuj
-                </Link>
-              </li>
-
-
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="font-bold mb-4">Informacje</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link
-                  href="/website/contact"
-                  className="text-gray-400 hover:text-white transition-colors"
-                >
-                  Kontakt
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/website/faq"
-                  className="text-gray-400 hover:text-white transition-colors"
-                >
-                  FAQ
-                </Link>
-              </li>
-
-              <li>
-                <Link
-                  href="/website/privacy"
-                  className="text-gray-400 hover:text-white transition-colors"
-                >
-                  Polityka prywatności
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/website/terms"
-                  className="text-gray-400 hover:text-white transition-colors"
-                >
-                  Regulamin
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          <div></div>
-
-          <div>
-            <h3 className="font-bold mb-4">Newsletter</h3>
-            <p className="text-gray-400 mb-4">
-              Subskrybuj nasz newsletter i otrzymuj najnowsze aktualności.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-2">
-              <input
-                type="email"
-                placeholder="Wprowadź swój adres e-mail"
-                className="bg-gray-800 border-gray-700 rounded-xl px-4 py-3 w-full focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all placeholder:text-gray-500"
-              />
-              <button className="bg-white text-gray-900 dark:text-gray-200 font-bold px-6 py-3 rounded-xl hover:bg-gray-100 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 whitespace-nowrap">
-                Subskrybuj
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div className="border-t border-gray-800 dark:border-gray-900 pt-8 flex flex-col md:flex-row justify-between items-center transition-colors duration-300">
-          <div className="mb-4 md:mb-0">
             <Link href="/" className="inline-block">
-              <div className="relative w-48 h-14">
+              <div className="relative h-12 w-44">
                 <Image
                   src="/whitelogo.png"
                   alt="Rafraf Logo"
                   fill
-                  className="object-contain brightness-0 invert"
+                  className="object-contain object-left brightness-0 invert"
                 />
               </div>
             </Link>
-            <p className="text-gray-400 text-md mt-2">
-              All rights reserved © {new Date().getFullYear()} Rafraf.
-              Wszelkie prawa zastrzeżone.
+            <p className="mt-5 max-w-xs text-sm leading-relaxed text-white/55">
+              {t(
+                "homepage.whyAdopt.lead",
+                "Adoption changes two lives at once — the pet you take home, and the one that takes its place at the shelter."
+              )}
             </p>
           </div>
 
+          <div>
+            <h3 className="font-display text-xl font-medium">
+              {t("footer.about.title", "About Rafraf")}
+            </h3>
+            <ul className="mt-5 space-y-3 text-sm text-white/55">
+              <li>
+                <Link href="/website/about" className="transition-colors hover:text-white">
+                  {t("footer.about.links.aboutUs", "About Us")}
+                </Link>
+              </li>
+              <li>
+                <Link href="/website/pets" className="transition-colors hover:text-white">
+                  {t("navbar.links.adopt", "Adopt")}
+                </Link>
+              </li>
+              <li>
+                <Link href="/website/lost-found" className="transition-colors hover:text-white">
+                  {t("navbar.links.lostFound", "Lost & Found")}
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="font-display text-xl font-medium">
+              {t("footer.other.title", "Other")}
+            </h3>
+            <ul className="mt-5 space-y-3 text-sm text-white/55">
+              <li>
+                <Link href="/website/contact" className="transition-colors hover:text-white">
+                  {t("footer.other.links.contact", "Contact Us")}
+                </Link>
+              </li>
+              <li>
+                <Link href="/website/faq" className="transition-colors hover:text-white">
+                  {t("footer.other.links.faq", "Help/FAQ")}
+                </Link>
+              </li>
+              <li>
+                <Link href="/website/privacy" className="transition-colors hover:text-white">
+                  {t("footer.other.links.privacy", "Privacy Policy")}
+                </Link>
+              </li>
+              <li>
+                <Link href="/website/terms" className="transition-colors hover:text-white">
+                  {t("footer.other.links.terms", "Terms & Conditions")}
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="font-display text-xl font-medium">
+              {t("footer.newsletter.title", "Newsletter")}
+            </h3>
+            <p className="mt-5 mb-4 text-sm leading-relaxed text-white/55">
+              {t("footer.newsletter.description", "Subscribe to our newsletter and get exclusive updates on new pets.")}
+            </p>
+            <form
+              className="flex flex-col gap-2 sm:flex-row"
+              onSubmit={(event) => event.preventDefault()}
+            >
+              <input
+                type="email"
+                placeholder={t("footer.newsletter.placeholder", "Enter your email")}
+                className="w-full border border-white/15 bg-white/5 px-4 py-3 text-sm text-white outline-none placeholder:text-white/35 focus:border-[#2563EB]"
+              />
+              <button
+                type="submit"
+                className="bg-[#2563EB] px-5 py-3 text-[11px] font-bold uppercase tracking-[0.14em] text-white transition hover:bg-[#1D4ED8] whitespace-nowrap"
+              >
+                {t("footer.newsletter.button", "Subscribe")}
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <div className="flex flex-col items-center justify-between gap-5 pt-8 md:flex-row">
+          <p className="text-sm text-white/40">
+            {t("footer.copyright", `© ${new Date().getFullYear()} Rafraf. All rights reserved.`)}
+          </p>
           <div className="flex gap-4">
-            <Link
-              href="#"
-              className="text-gray-400 hover:text-white transition-colors"
-            >
-              <Facebook className="h-5 w-5" />
-            </Link>
-            <Link
-              href="#"
-              className="text-gray-400 hover:text-white transition-colors"
-            >
-              <Twitter className="h-5 w-5" />
-            </Link>
-            <Link
-              href="#"
-              className="text-gray-400 hover:text-white transition-colors"
-            >
-              <Instagram className="h-5 w-5" />
-            </Link>
-            <Link
-              href="#"
-              className="text-gray-400 hover:text-white transition-colors"
-            >
-              <Linkedin className="h-5 w-5" />
-            </Link>
-            <Link
-              href="#"
-              className="text-gray-400 hover:text-white transition-colors"
-            >
-              <Youtube className="h-5 w-5" />
-            </Link>
+            {[Facebook, Twitter, Instagram, Linkedin, Youtube].map((Icon, index) => (
+              <Link
+                key={index}
+                href="#"
+                className="text-white/40 transition-colors hover:text-[#93C5FD]"
+              >
+                <Icon className="h-5 w-5" />
+              </Link>
+            ))}
           </div>
         </div>
       </div>

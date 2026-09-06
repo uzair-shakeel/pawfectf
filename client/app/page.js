@@ -1,15 +1,68 @@
 "use client";
 
-import { useEffect, Suspense } from "react";
-import { useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import Navbar from "../components/website/Navbar.jsx";
 import { Footer } from "../components/website/Footer.jsx";
-import PetCard from "../components/website/PetCard.jsx";
+import CustomSelect from "../components/website/CustomSelect.jsx";
+import HomePetCard from "../components/website/HomePetCard.jsx";
 import { useLanguage } from "../lib/i18n/LanguageContext";
-import { Search, Heart, MapPin, ArrowRight } from "lucide-react";
+import {
+  Search,
+  Heart,
+  MapPin,
+  ArrowRight,
+  PawPrint,
+  ShieldCheck,
+  Quote,
+  Star,
+  HeartHandshake,
+  Users,
+  Home as HomeIcon,
+} from "lucide-react";
+
+const resolveImage = (src, fallback) =>
+  typeof src === "string" && /^(https?:\/\/|\/)/.test(src) ? src : fallback;
+
+const HERO_STATS = [
+  { value: "500+", key: "homepage.stats.pets", fallback: "Pets looking for a home" },
+  { value: "120+", key: "homepage.stats.shelters", fallback: "Partner shelters" },
+  { value: "2 400+", key: "homepage.stats.adoptions", fallback: "Happy adoptions" },
+];
+
+function SectionHeading({ eyebrow, title, subtitle, href, linkLabel }) {
+  return (
+    <div className="mb-12 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+      <div className="max-w-2xl">
+        {eyebrow && (
+          <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.22em] text-[#2563EB]">
+            {eyebrow}
+          </p>
+        )}
+        <h2 className="font-display text-[2.15rem] font-medium leading-[1.12] tracking-tight text-[#0F172A] dark:text-white md:text-[3.1rem]">
+          {title}
+        </h2>
+        {subtitle && (
+          <p className="mt-4 max-w-xl text-[17px] leading-relaxed text-[#64748B] dark:text-gray-400">
+            {subtitle}
+          </p>
+        )}
+      </div>
+
+      {href && (
+        <Link
+          href={href}
+          className="group inline-flex w-fit items-center gap-2 border-b border-[#0F172A] pb-1 text-sm font-semibold text-[#0F172A] dark:border-white dark:text-white"
+        >
+          {linkLabel}
+          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+        </Link>
+      )}
+    </div>
+  );
+}
 
 function HomeContent() {
   const { t } = useLanguage();
@@ -18,6 +71,8 @@ function HomeContent() {
   const [recentPets, setRecentPets] = useState([]);
   const [recentLost, setRecentLost] = useState([]);
   const [foodDonationPets, setFoodDonationPets] = useState([]);
+  const [searchSpecies, setSearchSpecies] = useState("");
+  const [searchLocation, setSearchLocation] = useState("");
 
   useEffect(() => {
     const clerkJwt = searchParams.get("__clerk_db_jwt");
@@ -26,354 +81,580 @@ function HomeContent() {
       return;
     }
 
-    // Lazy load services only when needed, with slight delay for better UX
     const timer = setTimeout(() => {
       Promise.all([
         import("../services/petService").then(({ getAllPets }) =>
-          getAllPets().then(pets => {
-            // Separate adoption pets and food donation pets
-            const adoptionPets = pets.filter(p => p.type !== 'food_donation');
-            const foodPets = pets.filter(p => p.type === 'food_donation' && p.status === 'Approved');
-            setRecentPets(adoptionPets.slice(0, 4));
-            setFoodDonationPets(foodPets.slice(0, 4));
-          }).catch(() => { })
+          getAllPets()
+            .then((pets) => {
+              const adoptionPets = pets.filter((p) => p.type !== "food_donation");
+              const foodPets = pets.filter((p) => p.type === "food_donation" && p.status === "Approved");
+              setRecentPets(adoptionPets.slice(0, 4));
+              setFoodDonationPets(foodPets.slice(0, 4));
+            })
+            .catch(() => {})
         ),
         import("../services/lostFoundService").then(({ getAllLostFound }) =>
-          getAllLostFound().then(entries => setRecentLost(entries.slice(0, 4))).catch(() => { })
-        )
+          getAllLostFound()
+            .then((entries) => setRecentLost(entries.slice(0, 3)))
+            .catch(() => {})
+        ),
       ]);
     }, 100);
 
     return () => clearTimeout(timer);
   }, [searchParams, router]);
 
+  const handleHeroSearch = (event) => {
+    event.preventDefault();
+    const params = new URLSearchParams();
+    if (searchSpecies) params.set("species", searchSpecies);
+    if (searchLocation.trim()) params.set("location", searchLocation.trim());
+    const query = params.toString();
+    router.push(query ? `/website/pets?${query}` : "/website/pets");
+  };
+
+  const categories = [
+    { name: t("homepage.browseCategory.smallDogs"), q: "species=Pies&size=Small", img: "/home/cat-small-dogs.jpg" },
+    { name: t("homepage.browseCategory.bigDogs"), q: "species=Pies&size=Large", img: "/home/cat-big-dogs.jpg" },
+    { name: t("homepage.browseCategory.kittens"), q: "species=Kot&ageGroup=Baby", img: "/home/cat-kittens.jpg" },
+    { name: t("homepage.browseCategory.seniorPets"), q: "ageGroup=Senior", img: "/home/cat-senior.jpg" },
+  ];
+
+  const testimonials = [
+    {
+      quote: t("homepage.testimonials.one.quote", "The whole process took less than a week. Luna settled in as if she had always lived here."),
+      name: t("homepage.testimonials.one.name", "Anna K."),
+      city: t("homepage.testimonials.one.city", "Warsaw"),
+    },
+    {
+      quote: t("homepage.testimonials.two.quote", "I could message the shelter directly and ask everything before deciding. No stress at all."),
+      name: t("homepage.testimonials.two.name", "Marek W."),
+      city: t("homepage.testimonials.two.city", "Krakow"),
+    },
+    {
+      quote: t("homepage.testimonials.three.quote", "We reported our lost cat in the evening and a neighbour found him the very next morning."),
+      name: t("homepage.testimonials.three.name", "Julia S."),
+      city: t("homepage.testimonials.three.city", "Gdansk"),
+    },
+  ];
+
+  const speciesOptions = [
+    { value: "", label: t("homepage.hero.searchSpecies", "All species") },
+    { value: "Pies", label: t("homepage.hero.dogs") },
+    { value: "Kot", label: t("homepage.hero.cats") },
+  ];
+
+  const whyItems = [
+    { num: "01", title: t("homepage.whyAdopt.saveLife.title"), desc: t("homepage.whyAdopt.saveLife.desc") },
+    { num: "02", title: t("homepage.whyAdopt.localShelters.title"), desc: t("homepage.whyAdopt.localShelters.desc") },
+    { num: "03", title: t("homepage.whyAdopt.easyProcess.title"), desc: t("homepage.whyAdopt.easyProcess.desc") },
+  ];
+
   return (
-    <div className="flex flex-col min-h-screen bg-white dark:bg-dark-main transition-colors duration-300">
+    <div className="marketing-ui flex min-h-screen flex-col bg-[#F4F7FB] text-[#0F172A] transition-colors duration-300 dark:bg-dark-main dark:text-gray-200">
       <Navbar />
 
-      {/* Hero Section */}
-      <section className="relative h-[600px] sm:h-[450px] md:h-[650px] w-[98%] mx-auto my-4 rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden shadow-2xl bg-gray-900 group">
-        <div className="absolute inset-0">
+      <section className="relative isolate min-h-[calc(100svh-5rem)]">
+        <div className="absolute inset-0 overflow-hidden">
           <Image
-            src="/bg.jpeg"
-            alt="Adopt a pet"
+            src="/home/hero-wide.jpg"
+            alt={t("homepage.hero.imageDogAlt", "Dogs running toward a new home")}
             fill
-            className="object-cover brightness-[0.6] group-hover:scale-105 transition-transform duration-700"
             priority
             sizes="100vw"
-            quality={75}
+            className="object-cover object-center animate-kenburns"
           />
-          <div className="absolute inset-0 bg-blue-900/20 mix-blend-multiply" />
+          <div className="absolute inset-0 bg-[#0F172A]/55" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0F172A]/80 via-[#0F172A]/40 to-transparent" />
         </div>
 
-        <div className="relative w-full z-10 h-full flex flex-col justify-center items-center text-center text-white px-3 sm:px-4 md:px-6">
-          <h1 className="text-3xl md:text-5xl lg:text-7xl font-black mb-2 sm:mb-3 md:mb-6 tracking-tight drop-shadow-xl animate-in slide-in-from-bottom-8 duration-700">
-            {t('homepage.hero.title1')} <span className="text-blue-400">{t('homepage.hero.title2')}</span>
-          </h1>
-          <p className="text-md md:text-lg lg:text-2xl font-medium mb-4 sm:mb-6 md:mb-12 max-w-2xl text-gray-200 drop-shadow-md animate-in slide-in-from-bottom-8 duration-1000 delay-150">
-            {t('homepage.hero.subtitle')}
-          </p>
+        <div className="relative z-20 mx-auto flex min-h-[calc(100svh-5rem)] w-full max-w-[1520px] flex-col justify-end px-5 pb-10 pt-16 sm:px-8 lg:justify-center lg:pb-16">
+          <div className="max-w-3xl">
+            <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#93C5FD]">
+              {t("homepage.hero.badge", "Over 500 pets are waiting for a home")}
+            </p>
 
-          <div className="w-full mt-60 md:mt-8 grid grid-cols-2 md:grid-cols-4 max-w-4xl bg-white/10 backdrop-blur-md p-3 sm:p-4 md:p-4 rounded-xl sm:rounded-2xl md:rounded-[2rem] border border-white/20 shadow-2xl gap-2 sm:gap-3 md:gap-3 animate-in slide-in-from-bottom-8 duration-1000 delay-300">
-            <button
-              onClick={() => router.push("/website/pets?species=Pies")}
-              className="flex-1 bg-white/10 hover:bg-white/20 transition-colors py-2 sm:py-3 md:py-4 rounded-lg sm:rounded-xl md:rounded-2xl font-bold flex flex-col items-center justify-center gap-1 sm:gap-2 text-sm sm:text-md md:text-base"
-            >
-              <span className="text-xl sm:text-2xl md:text-3xl">🐶</span> {t('homepage.hero.dogs')}
-            </button>
-            <button
-              onClick={() => router.push("/website/pets?species=Kot")}
-              className="flex-1 bg-white/10 hover:bg-white/20 transition-colors py-2 sm:py-3 md:py-4 rounded-lg sm:rounded-xl md:rounded-2xl font-bold flex flex-col items-center justify-center gap-1 sm:gap-2 text-sm sm:text-md md:text-base"
-            >
-              <span className="text-xl sm:text-2xl md:text-3xl">🐱</span> {t('homepage.hero.cats')}
-            </button>
-            <button
-              onClick={() => router.push("/website/lost-found")}
-              className="flex-1 bg-white/10 hover:bg-white/20 transition-colors py-2 sm:py-3 md:py-4 rounded-lg sm:rounded-xl md:rounded-2xl font-bold flex flex-col items-center justify-center gap-1 sm:gap-2 text-white text-sm sm:text-md md:text-base"
-            >
-              <span className="text-xl sm:text-2xl md:text-3xl">🔍</span> {t('homepage.hero.lostFound')}
-            </button>
-            <button
-              onClick={() => router.push("/website/pets")}
-              className="flex-1 bg-blue-600 hover:bg-blue-500 transition-colors py-2 sm:py-3 md:py-4 rounded-lg sm:rounded-xl md:rounded-2xl font-bold flex items-center justify-center gap-1 sm:gap-2 text-white shadow-lg shadow-blue-500/25 text-md md:text-base"
-            >
-              <Search className="w-5 h-5 sm:w-4 sm:h-4 md:w-5 md:h-5" /> {t('homepage.hero.allPets')}
-            </button>
+            <h1 className="font-display mt-4 text-[2.7rem] font-medium leading-[1.05] text-white sm:text-6xl lg:text-[5.1rem]">
+              {t("homepage.hero.title1")}
+              <br />
+              <em className="font-normal text-[#93C5FD]">{t("homepage.hero.title2")}</em>
+            </h1>
+
+            <p className="mt-6 max-w-lg text-lg leading-relaxed text-[#E8EEF8]">
+              {t("homepage.hero.subtitle")}
+            </p>
+
+            <form onSubmit={handleHeroSearch} className="mkt-search mt-9 max-w-3xl">
+              <CustomSelect
+                value={searchSpecies}
+                onChange={setSearchSpecies}
+                options={speciesOptions}
+                label={t("homepage.hero.searchSpecies", "All species")}
+                icon={PawPrint}
+                ariaLabel={t("homepage.hero.searchSpecies", "All species")}
+              />
+
+              <label className="mkt-field">
+                <MapPin className="mr-3 h-5 w-5 shrink-0 text-[#2563EB]" />
+                <span className="min-w-0 flex-1">
+                  <span className="mkt-field-label">{t("homepage.hero.searchLocation", "City or region")}</span>
+                  <input
+                    type="text"
+                    value={searchLocation}
+                    onChange={(e) => setSearchLocation(e.target.value)}
+                    placeholder={t("homepage.hero.searchLocation", "City or region")}
+                    className="mkt-field-value"
+                  />
+                </span>
+              </label>
+
+              <button
+                type="submit"
+                className="inline-flex min-h-[58px] items-center justify-center gap-2 bg-[#2563EB] px-8 text-sm font-bold uppercase tracking-[0.12em] text-white transition hover:bg-[#1D4ED8]"
+              >
+                <Search className="h-4 w-4" />
+                {t("homepage.hero.searchBtn", "Search")}
+              </button>
+            </form>
+
+            <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-white/70">
+              <span className="font-semibold uppercase tracking-[0.16em] text-white/45">
+                {t("homepage.hero.popular", "Popular:")}
+              </span>
+              {[
+                { label: t("homepage.hero.dogs"), href: "/website/pets?species=Pies" },
+                { label: t("homepage.hero.cats"), href: "/website/pets?species=Kot" },
+                { label: t("homepage.hero.lostFound"), href: "/website/lost-found" },
+                { label: t("homepage.hero.allPets"), href: "/website/pets" },
+              ].map((chip) => (
+                <Link
+                  key={chip.href}
+                  href={chip.href}
+                  className="border-b border-white/25 pb-0.5 transition hover:border-white hover:text-white"
+                >
+                  {chip.label}
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
-
-        <div className="absolute bottom-0 left-0 w-full h-1/4 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
       </section>
 
+      <div className="grid w-full grid-cols-3 border-y border-[#0F172A] bg-[#0F172A] text-white dark:border-dark-divider">
+        {HERO_STATS.map((stat, index) => (
+          <div
+            key={stat.key}
+            className={`px-4 py-6 text-center sm:px-8 sm:py-8 ${index > 0 ? "border-l border-white/10" : ""}`}
+          >
+            <p className="font-display text-3xl font-medium sm:text-5xl">{stat.value}</p>
+            <p className="mt-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-white/50 sm:text-xs">
+              {t(stat.key, stat.fallback)}
+            </p>
+          </div>
+        ))}
+      </div>
 
-
-      <main className="flex-grow text-gray-900 dark:text-gray-200 max-w-7xl mx-auto w-full px-4 py-16 space-y-24">
-
-
-        {/* Newly Listed Section */}
-        {recentPets.length > 0 && (
-          <section>
-            <div className="flex justify-between items-end mb-8">
-              <div>
-                <h2 className="text-3xl md:text-4xl font-black">{t('homepage.newlyListed.title')}</h2>
-                <p className="text-gray-500 mt-2">{t('homepage.newlyListed.subtitle')}</p>
+      <main className="w-full flex-grow">
+        <section className="border-b border-[#E2E8F0] dark:border-dark-divider">
+          <div className="mx-auto grid max-w-[1520px] grid-cols-2 divide-x divide-[#E2E8F0] dark:divide-dark-divider md:grid-cols-4">
+            {[
+              { icon: ShieldCheck, label: t("homepage.trust.verified", "Verified shelters") },
+              { icon: Heart, label: t("homepage.trust.free", "Free to browse") },
+              { icon: Users, label: t("homepage.trust.community", "Active community") },
+              { icon: HomeIcon, label: t("homepage.trust.support", "Post-adoption support") },
+            ].map(({ icon: Icon, label }) => (
+              <div key={label} className="flex items-center gap-3 px-5 py-6 sm:px-8">
+                <Icon className="h-5 w-5 text-[#2563EB]" />
+                <span className="text-sm font-semibold">{label}</span>
               </div>
-              <Link href="/website/pets" className="hidden md:flex items-center gap-2 text-blue-600 font-semibold hover:text-blue-700">
-                {t('homepage.viewAll')} <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
+            ))}
+          </div>
+        </section>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <section className="mx-auto w-full max-w-[1520px] px-5 py-20 sm:px-8 md:py-28">
+          <SectionHeading
+            eyebrow={t("homepage.browseCategory.eyebrow", "Categories")}
+            title={t("homepage.browseCategory.title")}
+            subtitle={t("homepage.browseCategory.subtitle")}
+            href="/website/pets"
+            linkLabel={t("homepage.viewAll")}
+          />
+
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 md:h-[36rem] md:gap-4">
+            {categories.slice(0, 2).map((cat) => (
+              <Link
+                key={cat.q}
+                href={`/website/pets?${cat.q}`}
+                className="group relative block h-56 overflow-hidden sm:h-72 md:h-full"
+              >
+                <Image
+                  src={cat.img}
+                  alt={cat.name}
+                  fill
+                  loading="lazy"
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A]/85 via-[#0F172A]/15 to-transparent" />
+                <div className="absolute inset-x-5 bottom-5">
+                  <h3 className="font-display text-2xl font-medium text-white md:text-3xl">{cat.name}</h3>
+                  <span className="mt-2 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-white/70">
+                    {t("homepage.browseCategory.browse", "Browse")}
+                    <ArrowRight className="h-3.5 w-3.5" />
+                  </span>
+                </div>
+              </Link>
+            ))}
+
+            <div className="grid grid-cols-1 gap-3 sm:col-span-2 md:col-span-1 md:grid-rows-2 md:gap-4">
+              {categories.slice(2).map((cat) => (
+                <Link
+                  key={cat.q}
+                  href={`/website/pets?${cat.q}`}
+                  className="group relative block h-56 overflow-hidden md:h-auto"
+                >
+                  <Image
+                    src={cat.img}
+                    alt={cat.name}
+                    fill
+                    loading="lazy"
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A]/85 via-[#0F172A]/15 to-transparent" />
+                  <div className="absolute inset-x-5 bottom-5">
+                    <h3 className="font-display text-2xl font-medium text-white md:text-3xl">{cat.name}</h3>
+                    <span className="mt-2 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-white/70">
+                      {t("homepage.browseCategory.browse", "Browse")}
+                      <ArrowRight className="h-3.5 w-3.5" />
+                    </span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {recentPets.length > 0 && (
+          <section className="mx-auto w-full max-w-[1520px] px-5 pb-8 sm:px-8">
+            <SectionHeading
+              eyebrow={t("homepage.newlyListed.eyebrow", "Fresh arrivals")}
+              title={t("homepage.newlyListed.title")}
+              subtitle={t("homepage.newlyListed.subtitle")}
+              href="/website/pets"
+              linkLabel={t("homepage.viewAll")}
+            />
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {recentPets.map((pet, i) => (
-                <PetCard key={i} pet={pet} viewMode="grid" />
+                <HomePetCard key={pet._id || i} pet={pet} />
               ))}
             </div>
           </section>
         )}
 
-        {/* Pets Needing Food Section */}
-        {foodDonationPets.length > 0 && (
-          <section className="bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-dark-card dark:via-dark-card dark:to-dark-card rounded-[2.5rem] p-8 md:p-12 border border-gray-100 dark:border-dark-divider shadow-lg">
-            <div className="flex justify-between items-end mb-8">
-              <div>
-                <div className="inline-flex items-center gap-2 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-400 px-3 py-1.5 rounded-full text-sm font-bold mb-3">
-                  <Heart className="h-3.5 w-3.5" />
-                  {t('homepage.petsNeedingFood.badge')}
-                </div>
-                <h2 className="text-3xl md:text-4xl font-black text-gray-900 dark:text-white mb-2">{t('homepage.petsNeedingFood.title')}</h2>
-                <p className="text-gray-600 dark:text-gray-400">{t('homepage.petsNeedingFood.subtitle')}</p>
-              </div>
-              <Link href="/website/food-donations" className="hidden md:flex items-center gap-2 text-blue-600 font-bold hover:text-blue-700 hover:gap-3 transition-all">
-                View All <ArrowRight className="w-4 h-4" />
-              </Link>
+        <section className="mt-16 bg-white dark:bg-dark-card md:mt-24">
+          <div className="grid lg:grid-cols-12">
+            <div className="relative min-h-[380px] lg:col-span-6 lg:min-h-[680px]">
+              <Image
+                src="/home/hero-hug.jpg"
+                alt={t("homepage.hero.imageHugAlt", "Woman hugging her adopted dog")}
+                fill
+                loading="lazy"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover"
+              />
             </div>
+            <div className="flex items-center lg:col-span-6">
+              <div className="w-full px-6 py-14 sm:px-10 lg:px-16 xl:px-20">
+                <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#2563EB]">
+                  {t("homepage.whyAdopt.eyebrow", "Why Rafraf")}
+                </p>
+                <h2 className="font-display mt-4 max-w-xl text-[2.3rem] font-medium leading-[1.12] text-[#0F172A] dark:text-white md:text-[3.25rem]">
+                  {t("homepage.whyAdopt.title")}
+                </h2>
+                <p className="mt-5 max-w-lg text-[17px] leading-relaxed text-[#64748B] dark:text-gray-400">
+                  {t(
+                    "homepage.whyAdopt.lead",
+                    "Adoption changes two lives at once — the pet you take home, and the one that takes its place at the shelter."
+                  )}
+                </p>
+                <div className="mt-10 divide-y divide-[#E2E8F0] dark:divide-dark-divider">
+                  {whyItems.map((item) => (
+                    <article key={item.num} className="grid grid-cols-[56px_1fr] gap-5 py-6 first:pt-0 last:pb-0">
+                      <span className="font-display text-2xl text-[#2563EB]">{item.num}</span>
+                      <div>
+                        <h3 className="font-display text-[1.45rem] font-medium text-[#0F172A] dark:text-white">
+                          {item.title}
+                        </h3>
+                        <p className="mt-2 leading-relaxed text-[#64748B] dark:text-gray-400">{item.desc}</p>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <section id="how-it-works" className="mx-auto w-full max-w-[1520px] px-5 py-20 sm:px-8 md:py-28">
+          <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#2563EB]">
+            {t("homepage.howItWorks.eyebrow", "Three steps")}
+          </p>
+          <h2 className="font-display mt-3 text-[2.3rem] font-medium text-[#0F172A] dark:text-white md:text-[3.1rem]">
+            {t("homepage.howItWorks.title")}
+          </h2>
+          <div className="mt-12 grid grid-cols-1 divide-y divide-[#E2E8F0] border-y border-[#E2E8F0] dark:divide-dark-divider dark:border-dark-divider md:grid-cols-3 md:divide-x md:divide-y-0">
+            {[1, 2, 3].map((step) => (
+              <div key={step} className="px-0 py-8 md:px-10 md:py-12 first:md:pl-0 last:md:pr-0">
+                <span className="font-display text-5xl text-[#2563EB]/80">0{step}</span>
+                <h3 className="font-display mt-5 text-2xl font-medium text-[#0F172A] dark:text-white">
+                  {t(`homepage.howItWorks.step${step}.title`)}
+                </h3>
+                <p className="mt-3 max-w-sm leading-relaxed text-[#64748B] dark:text-gray-400">
+                  {t(`homepage.howItWorks.step${step}.desc`)}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="mx-auto w-full max-w-[1520px] px-5 pb-8 sm:px-8">
+          <div className="grid overflow-hidden bg-white dark:bg-dark-card lg:grid-cols-2">
+            <div className="relative min-h-[300px] lg:min-h-[560px]">
+              <Image
+                src="/home/feed-pets.jpg"
+                alt={t("homepage.feedPets.imageAlt", "Volunteer feeding a shelter dog")}
+                fill
+                loading="lazy"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover"
+              />
+            </div>
+            <div className="flex flex-col justify-center px-6 py-12 sm:px-12 lg:px-16">
+              <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#2563EB]">
+                {t("homepage.petsNeedingFood.badge")}
+              </p>
+              <h2 className="font-display mt-4 text-[2.2rem] font-medium leading-[1.15] text-[#0F172A] dark:text-white md:text-[3rem]">
+                {t("homepage.feedPets.title")}
+              </h2>
+              <p className="mt-5 text-lg leading-relaxed text-[#64748B] dark:text-gray-400">
+                {t("homepage.feedPets.subtitle")}
+              </p>
+              <p className="mt-4 leading-relaxed text-[#64748B] dark:text-gray-500">
+                  {t(
+                    "homepage.feedPets.description",
+                    "Przygotowujemy nowy dział wsparcia. Wkrótce będzie można pomóc konkretnym zwierzętom i finansować cele takie jak karma, leczenie lub niezbędny sprzęt."
+                  )}
+              </p>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <Link
+                  href="/website/food-donations"
+                  className="inline-flex items-center justify-center gap-2 bg-[#2563EB] px-7 py-3.5 text-sm font-bold uppercase tracking-[0.12em] text-white transition hover:bg-[#1D4ED8]"
+                >
+                  <Heart className="h-4 w-4" />
+                  {t("homepage.feedPets.browseBtn")}
+                </Link>
+                <Link
+                  href="/dashboard/food-pets/add"
+                  className="inline-flex items-center justify-center border border-[#0F172A] px-7 py-3.5 text-sm font-bold uppercase tracking-[0.12em] text-[#0F172A] transition hover:bg-[#0F172A] hover:text-white dark:border-white dark:text-white"
+                >
+                  {t("homepage.feedPets.listBtn")}
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {foodDonationPets.length > 0 && (
+            <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
               {foodDonationPets.map((pet, i) => (
-                <Link key={i} href={`/website/food-donations/donate/${pet._id || pet.id}`} className="group bg-white dark:bg-dark-raised rounded-2xl overflow-hidden border border-gray-100 dark:border-dark-divider hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 block relative">
+                <Link
+                  key={pet._id || i}
+                  href={`/website/food-donations/donate/${pet._id || pet.id}`}
+                  className="group block overflow-hidden bg-white dark:bg-dark-card"
+                >
                   <div className="relative h-48">
                     <Image
-                      src={(pet.images && pet.images[0]) || "/images/hamer1.png"}
+                      src={resolveImage(pet.images?.[0], "/home/feed-pets.jpg")}
                       alt={pet.name || "Pet"}
                       fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-500"
                       loading="lazy"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                      quality={60}
+                      sizes="(max-width: 768px) 100vw, 25vw"
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                     {pet.isUrgent && (
-                      <div className="absolute top-3 left-3 bg-red-500 text-white px-3 py-1.5 rounded-full text-sm font-bold animate-pulse shadow-lg">
-                        🚨 URGENT
-                      </div>
+                      <span className="absolute left-3 top-3 bg-red-600 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-white">
+                        Urgent
+                      </span>
                     )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                   </div>
                   <div className="p-4">
-                    <div className="flex items-start justify-between mb-2">
-                      <h3 className="font-bold text-lg text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{pet.name || pet.species || "Pet"}</h3>
-                      <Heart className="h-5 w-5 text-gray-400 group-hover:text-red-500 group-hover:fill-red-500 transition-all" />
-                    </div>
-                    <p className="text-md text-gray-600 dark:text-gray-400 mb-3">{pet.breed || pet.species}</p>
-                    <div className="flex items-center justify-between pt-3 border-t border-gray-100 dark:border-dark-divider">
-                      <div className="flex items-center gap-1 text-sm text-gray-500 dark:text-gray-400">
+                    <h3 className="font-display text-xl text-[#0F172A] dark:text-white">
+                      {pet.name || pet.species || "Pet"}
+                    </h3>
+                    <p className="mt-1 text-sm text-[#64748B]">{pet.breed || pet.species}</p>
+                    <div className="mt-3 flex items-center justify-between border-t border-[#E2E8F0] pt-3 text-sm dark:border-dark-divider">
+                      <span className="flex items-center gap-1 text-[#64748B]">
                         <MapPin className="h-3.5 w-3.5" />
                         {pet.location?.city || "Available"}
-                      </div>
-                      <span className="text-md font-bold text-blue-600 dark:text-blue-400 group-hover:translate-x-1 transition-transform">
-                        {t('homepage.petsNeedingFood.donate')} →
                       </span>
+                      <span className="font-semibold text-[#2563EB]">{t("homepage.petsNeedingFood.donate")} →</span>
                     </div>
                   </div>
                 </Link>
               ))}
             </div>
+          )}
+        </section>
 
-            <div className="mt-8 text-center">
+        <section className="relative mt-16 min-h-[520px] w-full overflow-hidden md:mt-24 md:min-h-[600px]">
+          <Image
+            src="/home/lost-found.jpg"
+            alt={t("homepage.lostFound.imageAlt", "Dog running back to its owner")}
+            fill
+            loading="lazy"
+            sizes="100vw"
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-[#0F172A]/70" />
+          <div className="relative z-10 mx-auto flex min-h-[520px] max-w-[1520px] items-center px-5 py-16 sm:px-8 md:min-h-[600px]">
+            <div className="max-w-2xl">
+              <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#93C5FD]">
+                {t("homepage.lostFound.title")}
+              </p>
+              <h2 className="font-display mt-4 text-[2.4rem] font-medium leading-[1.1] text-white md:text-[3.4rem]">
+                {t("homepage.lostFound.heading", "Every hour counts when a pet goes missing")}
+              </h2>
+              <p className="mt-5 max-w-xl text-lg leading-relaxed text-white/75">
+                {t("homepage.lostFound.subtitle")}
+              </p>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <Link
+                  href="/website/lost-found"
+                  className="inline-flex items-center justify-center gap-2 bg-white px-7 py-3.5 text-sm font-bold uppercase tracking-[0.12em] text-[#0F172A]"
+                >
+                  {t("homepage.lostFound.browseBtn", "Browse reports")}
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+                <Link
+                  href="/dashboard/lost-found/new"
+                  className="inline-flex items-center justify-center border border-white/40 px-7 py-3.5 text-sm font-bold uppercase tracking-[0.12em] text-white"
+                >
+                  {t("homepage.lostFound.reportBtn", "Report a pet")}
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {recentLost.length > 0 && (
+          <div className="mx-auto grid w-full max-w-[1520px] grid-cols-1 gap-px bg-[#E2E8F0] px-0 sm:grid-cols-3 dark:bg-dark-divider">
+            {recentLost.map((entry, i) => (
               <Link
-                href="/website/food-donations"
-                className="inline-flex items-center justify-center px-6 py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-all shadow-lg hover:shadow-xl hover:scale-105"
+                key={entry._id || i}
+                href={`/website/lost-found/${entry._id}`}
+                className="flex items-center gap-4 bg-[#F4F7FB] px-5 py-5 dark:bg-dark-main"
               >
-                <Heart className="h-4 w-4 mr-2" />
-                See All Pets Needing Food
-              </Link>
-            </div>
-          </section>
-        )}
-
-        {/* Why Adopt Section */}
-        <section className="text-center">
-          <h2 className="text-3xl md:text-5xl font-black mb-12">{t('homepage.whyAdopt.title')}</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-gray-50 dark:bg-dark-card p-8 rounded-3xl border border-gray-100 dark:border-dark-divider">
-              <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                <Heart className="w-8 h-8" />
-              </div>
-              <h3 className="text-xl font-bold mb-4">{t('homepage.whyAdopt.saveLife.title')}</h3>
-              <p className="text-gray-600 dark:text-gray-400">{t('homepage.whyAdopt.saveLife.desc')}</p>
-            </div>
-            <div className="bg-gray-50 dark:bg-dark-card p-8 rounded-3xl border border-gray-100 dark:border-dark-divider">
-              <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 text-green-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                <MapPin className="w-8 h-8" />
-              </div>
-              <h3 className="text-xl font-bold mb-4">{t('homepage.whyAdopt.localShelters.title')}</h3>
-              <p className="text-gray-600 dark:text-gray-400">{t('homepage.whyAdopt.localShelters.desc')}</p>
-            </div>
-            <div className="bg-gray-50 dark:bg-dark-card p-8 rounded-3xl border border-gray-100 dark:border-dark-divider">
-              <div className="w-16 h-16 bg-purple-100 dark:bg-purple-900/30 text-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                <Search className="w-8 h-8" />
-              </div>
-              <h3 className="text-xl font-bold mb-4">{t('homepage.whyAdopt.easyProcess.title')}</h3>
-              <p className="text-gray-600 dark:text-gray-400">{t('homepage.whyAdopt.easyProcess.desc')}</p>
-            </div>
-          </div>
-        </section>
-
-        {/* Food Donations Section */}
-        <section className="bg-blue-50 dark:bg-dark-card rounded-[2.5rem] p-8 md:p-16 border border-blue-100 dark:border-dark-divider my-16 text-center shadow-lg relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full -mr-32 -mt-32"></div>
-          <div className="absolute bottom-0 left-0 w-48 h-48 bg-blue-500/10 rounded-full -ml-24 -mb-24"></div>
-          <div className="relative z-10 max-w-5xl mx-auto">
-            <h2 className="text-3xl md:text-5xl font-black mb-6 text-gray-900 dark:text-white">{t('homepage.feedPets.title')}</h2>
-            <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 mb-10 font-medium">
-              {t('homepage.feedPets.subtitle')}
-            </p>
-
-            <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 mb-10 font-medium max-w-3xl mx-auto">
-              {t('homepage.feedPets.description', 'Pracujemy nad nową sekcją wsparcia zwierząt. Już wkrótce będzie można pomagać konkretnym podopiecznym oraz finansować określone cele, takie jak karma, leczenie czy niezbędne wyposażenie. Dziękujemy za cierpliwość!')}
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/website/food-donations" className="bg-blue-600 text-white hover:bg-blue-700 font-bold py-4 px-8 rounded-xl transition-transform hover:scale-105 active:scale-95 shadow-xl shadow-blue-600/25 flex items-center justify-center gap-2">
-                <Heart className="w-5 h-5" />
-                {t('homepage.feedPets.browseBtn')}
-              </Link>
-              <Link href="/dashboard/food-pets/add" className="bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 dark:bg-dark-raised dark:border-dark-divider dark:text-gray-300 dark:hover:bg-dark-card font-bold py-4 px-8 rounded-xl transition-transform hover:scale-105 active:scale-95">
-                {t('homepage.feedPets.listBtn')}
-              </Link>
-            </div>
-          </div>
-        </section>
-
-        {/* How it Works Section */}
-        <section className="bg-blue-50 dark:bg-dark-card rounded-[2.5rem] p-8 md:p-16 border border-blue-100 dark:border-dark-divider my-16 text-center">
-          <h2 className="text-3xl md:text-5xl font-black mb-16">{t('homepage.howItWorks.title')}</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 relative">
-            <div className="hidden md:block absolute top-12 left-[15%] right-[15%] h-1 bg-blue-200 dark:bg-blue-900/50 z-0"></div>
-            <div className="relative z-10 flex flex-col items-center">
-              <div className="w-24 h-24 bg-blue-600 text-white rounded-full flex items-center justify-center text-3xl font-black mb-6 shadow-xl shadow-blue-500/30">1</div>
-              <h3 className="text-xl font-bold mb-3">{t('homepage.howItWorks.step1.title')}</h3>
-              <p className="text-gray-600 dark:text-gray-400">{t('homepage.howItWorks.step1.desc')}</p>
-            </div>
-            <div className="relative z-10 flex flex-col items-center">
-              <div className="w-24 h-24 bg-blue-600 text-white rounded-full flex items-center justify-center text-3xl font-black mb-6 shadow-xl shadow-blue-500/30">2</div>
-              <h3 className="text-xl font-bold mb-3">{t('homepage.howItWorks.step2.title')}</h3>
-              <p className="text-gray-600 dark:text-gray-400">{t('homepage.howItWorks.step2.desc')}</p>
-            </div>
-            <div className="relative z-10 flex flex-col items-center">
-              <div className="w-24 h-24 bg-blue-600 text-white rounded-full flex items-center justify-center text-3xl font-black mb-6 shadow-xl shadow-blue-500/30">3</div>
-              <h3 className="text-xl font-bold mb-3">{t('homepage.howItWorks.step3.title')}</h3>
-              <p className="text-gray-600 dark:text-gray-400">{t('homepage.howItWorks.step3.desc')}</p>
-            </div>
-          </div>
-        </section>
-
-        {/* Categories Section */}
-        <section>
-          <div className="flex justify-between items-end mb-8">
-            <div>
-              <h2 className="text-3xl md:text-4xl font-black">{t('homepage.browseCategory.title')}</h2>
-              <p className="text-gray-500 mt-2">{t('homepage.browseCategory.subtitle')}</p>
-            </div>
-            <Link href="/website/pets" className="hidden md:flex items-center gap-2 text-blue-600 font-semibold hover:text-blue-700">
-              {t('homepage.viewAll')} <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[
-              { name: t('homepage.browseCategory.smallDogs'), q: "species=Pies&size=Small", img: "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&q=80&w=600" },
-              { name: t('homepage.browseCategory.bigDogs'), q: "species=Pies&size=Large", img: "https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&q=80&w=600" },
-              { name: t('homepage.browseCategory.kittens'), q: "species=Kot&ageGroup=Baby", img: "https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&q=80&w=600" },
-              { name: t('homepage.browseCategory.seniorPets'), q: "ageGroup=Senior", img: "https://images.unsplash.com/photo-1505628346881-b72b27e84530?auto=format&fit=crop&q=80&w=600" },
-            ].map((cat, i) => (
-              <Link key={i} href={`/website/pets?${cat.q}`} className="group relative h-48 md:h-64 rounded-2xl overflow-hidden">
-                <Image
-                  src={cat.img}
-                  alt={cat.name}
-                  fill
-                  className="object-cover group-hover:scale-110 transition-transform duration-500"
-                  loading="lazy"
-                  sizes="(max-width: 768px) 50vw, 25vw"
-                  quality={60}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                <div className="absolute bottom-4 left-4 right-4">
-                  <h3 className="text-white font-bold text-lg md:text-xl">{cat.name}</h3>
+                <div className="relative h-16 w-16 shrink-0 overflow-hidden bg-[#E2E8F0]">
+                  <Image
+                    src={resolveImage(entry.images?.[0], "/home/lost-found.jpg")}
+                    alt={entry.title || "Lost pet"}
+                    fill
+                    loading="lazy"
+                    sizes="64px"
+                    className="object-cover"
+                  />
+                </div>
+                <div className="min-w-0">
+                  <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#2563EB]">
+                    {entry.type || "Lost"}
+                  </span>
+                  <p className="mt-1 truncate font-semibold">{entry.title || entry.species || "—"}</p>
+                  <p className="flex items-center gap-1 truncate text-xs text-[#64748B]">
+                    <MapPin className="h-3 w-3 shrink-0" />
+                    {entry.location?.city || "—"}
+                  </p>
                 </div>
               </Link>
             ))}
           </div>
-        </section>
+        )}
 
-        {/* Lost & Found Section */}
-        <section className="bg-blue-50 dark:bg-dark-card rounded-[2.5rem] p-8 md:p-16 border border-blue-100 dark:border-dark-divider my-16 text-center shadow-lg relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full -mr-32 -mt-32"></div>
-          <div className="absolute bottom-0 left-0 w-48 h-48 bg-blue-500/10 rounded-full -ml-24 -mb-24"></div>
-          <div className="relative z-10 max-w-5xl mx-auto">
-            <h2 className="text-3xl md:text-5xl font-black mb-6 text-gray-900 dark:text-white">{t('homepage.lostFound.title')}</h2>
-            <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 mb-10 font-medium">
-              {t('homepage.lostFound.subtitle')}
-            </p>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-10 relative">
-              <div className="hidden md:block absolute top-12 left-[15%] right-[15%] h-1 bg-blue-200 dark:bg-blue-900/50 z-0"></div>
-              <div className="relative z-10 flex flex-col items-center">
-                <div className="w-20 h-20 bg-blue-600 text-white rounded-full flex items-center justify-center text-2xl font-black mb-4 ">1</div>
-                <h3 className="text-lg font-bold mb-2">{t('homepage.lostFound.step1.title', 'Zgłoś zwierzaka')}</h3>
-                <p className="text-gray-600 dark:text-gray-400 text-sm">{t('homepage.lostFound.step1.desc', 'Dodaj informacje o zaginięciu lub znalezieniu zwierzęcia wraz ze zdjęciami i lokalizacją.')}</p>
+        <section className="w-full bg-[#0F172A] text-white">
+          <div className="px-5 py-16 sm:px-8 md:px-12 md:py-24">
+            <div className="mb-12 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+              <div>
+                <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#93C5FD]">
+                  {t("homepage.testimonials.eyebrow", "Happy endings")}
+                </p>
+                <h2 className="font-display mt-3 text-[2.3rem] font-medium md:text-[3.4rem]">
+                  {t("homepage.testimonials.title", "Stories from our community")}
+                </h2>
               </div>
-              <div className="relative z-10 flex flex-col items-center">
-                <div className="w-20 h-20 bg-blue-600 text-white rounded-full flex items-center justify-center text-2xl font-black mb-4 ">2</div>
-                <h3 className="text-lg font-bold mb-2">{t('homepage.lostFound.step2.title', 'Społeczność pomaga')}</h3>
-                <p className="text-gray-600 dark:text-gray-400 text-sm">{t('homepage.lostFound.step2.desc', 'Użytkownicy będą mogli przeglądać ogłoszenia, zgłaszać obserwacje i udostępniać je dalej.')}</p>
-              </div>
-              <div className="relative z-10 flex flex-col items-center">
-                <div className="w-20 h-20 bg-blue-600 text-white rounded-full flex items-center justify-center text-2xl font-black mb-4 ">3</div>
-                <h3 className="text-lg font-bold mb-2">{t('homepage.lostFound.step3.title', 'Szczęśliwy powrót')}</h3>
-                <p className="text-gray-600 dark:text-gray-400 text-sm">{t('homepage.lostFound.step3.desc', 'Po odnalezieniu zwierzaka będzie można oznaczyć ogłoszenie jako zakończone i poinformować społeczność o szczęśliwym zakończeniu.')}</p>
-              </div>
+              <p className="max-w-md text-white/55">
+                {t("homepage.testimonials.subtitle", "Real people, real pets, real second chances.")}
+              </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/website/lost-found" className="bg-blue-600 text-white hover:bg-blue-700 font-bold py-4 px-8 rounded-xl transition-transform hover:scale-105 active:scale-95 shadow-xl shadow-blue-600/25">
-                View All Lost & Found
-              </Link>
-              <Link href="/dashboard/lost-found/new" className="bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 dark:bg-dark-raised dark:border-dark-divider dark:text-gray-300 dark:hover:bg-dark-card font-bold py-4 px-8 rounded-xl transition-transform hover:scale-105 active:scale-95">
-                Report a Pet
-              </Link>
-            </div>
-          </div>
-        </section>
-
-        {/* CTA Section */}
-        <section className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-[2.5rem] p-10 md:p-20 text-center text-white relative overflow-hidden my-16 shadow-2xl">
-          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
-          <div className="relative z-10 max-w-2xl mx-auto">
-            <Heart className="w-16 h-16 mx-auto mb-6 text-pink-400 animate-pulse" />
-            <h2 className="text-4xl md:text-5xl font-black mb-6">{t('homepage.cta.title')}</h2>
-            <p className="text-xl text-blue-100 mb-10 font-medium">{t('homepage.cta.subtitle')}</p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/website/pets" className="bg-white text-blue-700 hover:bg-gray-50 dark:hover:bg-dark-card font-bold py-4 px-8 rounded-xl transition-transform hover:scale-105 active:scale-95 shadow-xl">
-                {t('homepage.cta.adoptBtn')}
-              </Link>
-              <Link href="/sign-up" className="bg-blue-800/50 hover:bg-blue-800 text-white font-bold py-4 px-8 rounded-xl transition-transform hover:scale-105 active:scale-95 backdrop-blur-sm border border-blue-500/30">
-                {t('homepage.cta.listBtn')}
-              </Link>
+            <div className="grid grid-cols-1 md:grid-cols-3">
+              {testimonials.map((item, index) => (
+                <figure
+                  key={item.name}
+                  className={`py-10 md:px-10 md:py-4 ${index > 0 ? "border-t border-white/10 md:border-l md:border-t-0" : ""} ${index === 0 ? "md:pl-0" : ""} ${index === testimonials.length - 1 ? "md:pr-0" : ""}`}
+                >
+                  <Quote className="h-8 w-8 text-[#2563EB]" />
+                  <div className="mt-4 flex gap-1">
+                    {Array.from({ length: 5 }).map((_, i) => (
+                      <Star key={i} className="h-3.5 w-3.5 fill-[#93C5FD] text-[#93C5FD]" />
+                    ))}
+                  </div>
+                  <blockquote className="font-display mt-6 text-[1.35rem] font-normal leading-relaxed text-white/90">
+                    “{item.quote}”
+                  </blockquote>
+                  <figcaption className="mt-8 text-sm">
+                    <span className="block font-semibold">{item.name}</span>
+                    <span className="mt-0.5 block uppercase tracking-[0.14em] text-white/40">{item.city}</span>
+                  </figcaption>
+                </figure>
+              ))}
             </div>
           </div>
         </section>
 
+        <section className="relative min-h-[480px] w-full overflow-hidden md:min-h-[560px]">
+          <Image
+            src="/home/cta-family.jpg"
+            alt={t("homepage.cta.imageAlt", "Family walking their adopted dog")}
+            fill
+            loading="lazy"
+            sizes="100vw"
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-[#0F172A]/65" />
+          <div className="relative z-10 mx-auto flex min-h-[480px] max-w-[800px] flex-col items-center justify-center px-6 py-20 text-center text-white md:min-h-[560px]">
+            <HeartHandshake className="mb-6 h-10 w-10 text-[#93C5FD]" />
+            <h2 className="font-display text-[2.4rem] font-medium leading-tight md:text-[4rem]">
+              {t("homepage.cta.title")}
+            </h2>
+            <p className="mx-auto mt-5 max-w-xl text-lg text-white/70">{t("homepage.cta.subtitle")}</p>
+            <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+              <Link
+                href="/website/pets"
+                className="inline-flex items-center justify-center gap-2 bg-[#2563EB] px-8 py-3.5 text-sm font-bold uppercase tracking-[0.12em] text-white transition hover:bg-[#1D4ED8]"
+              >
+                <PawPrint className="h-4 w-4" />
+                {t("homepage.cta.adoptBtn")}
+              </Link>
+              <Link
+                href="/sign-up"
+                className="inline-flex items-center justify-center border border-white px-8 py-3.5 text-sm font-bold uppercase tracking-[0.12em] text-white"
+              >
+                {t("homepage.cta.listBtn")}
+              </Link>
+            </div>
+          </div>
+        </section>
       </main>
+
       <Footer />
     </div>
   );
@@ -381,11 +662,13 @@ function HomeContent() {
 
 export default function Home() {
   return (
-    <Suspense fallback={
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="w-16 h-16 border-4 border-blue-600/20 border-t-blue-600 rounded-full animate-spin" />
-      </div>
-    }>
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen items-center justify-center bg-[#F4F7FB]">
+          <div className="h-10 w-10 animate-spin rounded-full border-2 border-[#2563EB]/20 border-t-[#2563EB]" />
+        </div>
+      }
+    >
       <HomeContent />
     </Suspense>
   );

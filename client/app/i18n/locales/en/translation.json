@@ -7,11 +7,24 @@
       "dogs": "Dogs",
       "cats": "Cats",
       "lostFound": "Lost & Found",
-      "allPets": "All Pets"
+      "allPets": "All Pets",
+      "badge": "Over 500 pets are waiting for a home",
+      "searchSpecies": "All species",
+      "searchLocation": "City or region",
+      "searchBtn": "Search",
+      "popular": "Popular:",
+      "floatTitle": "12 adoptions this week",
+      "floatSubtitle": "Thanks to our community",
+      "imageDogAlt": "Golden retriever waiting for adoption",
+      "imageCatAlt": "Ginger kitten looking for a home",
+      "imageHugAlt": "Woman hugging her adopted dog",
+      "ctaBrowse": "Browse all pets",
+      "scroll": "Discover more"
     },
     "newlyListed": {
       "title": "Newly Listed",
-      "subtitle": "Meet our most recent arrivals looking for a home"
+      "subtitle": "Meet our most recent arrivals looking for a home",
+      "eyebrow": "Fresh arrivals"
     },
     "viewAll": "View All",
     "petsNeedingFood": {
@@ -33,7 +46,9 @@
       "easyProcess": {
         "title": "Easy Process",
         "desc": "We make the adoption process simple and transparent so you can focus on welcoming your new family member."
-      }
+      },
+      "eyebrow": "Why Rafraf",
+      "lead": "Adoption changes two lives at once — the pet you take home, and the one that takes its place at the shelter."
     },
     "feedPets": {
       "title": "Feed a Pet in Need",
@@ -42,7 +57,8 @@
       "stat2": "Shelters Supported",
       "stat3": "Donated",
       "browseBtn": "Browse Pets to Feed",
-      "listBtn": "List a Pet for Food"
+      "listBtn": "List a Pet for Food",
+      "imageAlt": "Volunteer feeding a shelter dog"
     },
     "howItWorks": {
       "title": "How it Works",
@@ -57,7 +73,8 @@
       "step3": {
         "title": "Adopt",
         "desc": "Complete the adoption process and welcome your new best friend."
-      }
+      },
+      "eyebrow": "Three steps"
     },
     "browseCategory": {
       "title": "Browse by Category",
@@ -65,17 +82,55 @@
       "smallDogs": "Small Dogs",
       "bigDogs": "Big Dogs",
       "kittens": "Kittens",
-      "seniorPets": "Senior Pets"
+      "seniorPets": "Senior Pets",
+      "eyebrow": "Categories",
+      "browse": "Browse"
     },
     "lostFound": {
       "title": "Lost & Found",
-      "subtitle": "Help reunite lost pets with their families or report a found animal."
+      "subtitle": "Help reunite lost pets with their families or report a found animal.",
+      "heading": "Every hour counts when a pet goes missing",
+      "browseBtn": "Browse reports",
+      "reportBtn": "Report a pet",
+      "imageAlt": "Dog running back to its owner"
     },
     "cta": {
       "title": "Ready to change a life?",
       "subtitle": "Join thousands of people who have found their perfect companion through Rafraf.",
       "adoptBtn": "Adopt a Pet",
-      "listBtn": "List a Pet"
+      "listBtn": "List a Pet",
+      "imageAlt": "Family walking their adopted dog"
+    },
+    "stats": {
+      "pets": "Pets looking for a home",
+      "shelters": "Partner shelters",
+      "adoptions": "Happy adoptions"
+    },
+    "trust": {
+      "verified": "Verified shelters",
+      "free": "Free to browse",
+      "community": "Active community",
+      "support": "Post-adoption support"
+    },
+    "testimonials": {
+      "eyebrow": "Happy endings",
+      "title": "Stories from our community",
+      "subtitle": "Real people, real pets, real second chances.",
+      "one": {
+        "quote": "The whole process took less than a week. Luna settled in as if she had always lived here.",
+        "name": "Anna K.",
+        "city": "Warsaw"
+      },
+      "two": {
+        "quote": "I could message the shelter directly and ask everything before deciding. No stress at all.",
+        "name": "Marek W.",
+        "city": "Krakow"
+      },
+      "three": {
+        "quote": "We reported our lost cat in the evening and a neighbour found him the very next morning.",
+        "name": "Julia S.",
+        "city": "Gdansk"
+      }
     }
   },
   "terms": {
@@ -347,13 +402,22 @@
   "navbar": {
     "links": {
       "home": "Home",
+      "adopt": "Adopt",
+      "lostFound": "Lost & Found",
+      "saved": "Saved",
       "blog": "Blog",
       "faq": "FAQ",
       "contact": "Contact"
     },
     "becomeSeller": "List a Pet",
+    "addListing": "Add Listing",
     "messages": "Messages",
-    "dashboard": "Dashboard"
+    "dashboard": "Dashboard",
+    "login": "Login",
+    "logout": "Logout",
+    "profile": "Profile",
+    "myListings": "My Listings",
+    "join": "Join the Community"
   },
   "footer": {
     "about": {
@@ -759,6 +823,32 @@
       "markAllRead": "Mark all as read",
       "noNotifications": "No notifications",
       "markRead": "Mark as read"
+    },
+    "pets": {
+      "bannerAlt": "Rescue dogs and cats waiting for adoption",
+      "bannerTitle": "Find your new best friend",
+      "bannerSubtitle": "Browse pets from verified shelters and private owners near you.",
+      "breadcrumbHome": "Home",
+      "available": "pets available",
+      "results": "results",
+      "loading": "Loading pets...",
+      "error": "Something went wrong. Please try again.",
+      "tryAgain": "Try Again",
+      "noPetsFound": "No pets found",
+      "adjustFilters": "Try adjusting your filters to find more pets.",
+      "searchBtn": "Search",
+      "searchLocation": "City or region",
+      "searchSpecies": "All species",
+      "quickTitle": "Browse by type",
+      "quickDogs": "Dogs",
+      "quickCats": "Cats",
+      "quickSmall": "Small dogs",
+      "quickLarge": "Big dogs",
+      "quickYoung": "Puppies & kittens",
+      "quickSeniors": "Seniors"
+    },
+    "filters": {
+      "clearAll": "Clear all"
     }
   },
   "foodDonations": {
@@ -822,20 +912,6 @@
         }
       }
     }
-  },
-  "navbar": {
-    "links": {
-      "home": "Home",
-      "blog": "Blog",
-      "faq": "FAQ",
-      "contact": "Contact"
-    },
-    "becomeSeller": "List a Pet",
-    "addListing": "Add Listing",
-    "messages": "Messages",
-    "dashboard": "Dashboard",
-    "login": "Login",
-    "logout": "Logout"
   },
   "foodDonation": {
     "backToDonations": "Back to Food Donations",
@@ -919,44 +995,5 @@
     "sellersLocation": "Seller's Location",
     "locationNotSpecified": "Location not specified",
     "getDirections": "Get Directions"
-  },
-  "footer": {
-    "about": {
-      "title": "About Rafraf",
-      "links": {
-        "aboutUs": "About Us",
-        "careers": "Careers",
-        "mobile": "Mobile",
-        "blog": "Blog",
-        "howWeWork": "How we work"
-      }
-    },
-    "brands": {
-      "title": "Popular Pet Types",
-      "links": {
-        "toyota": "Dogs",
-        "honda": "Cats",
-        "bmw": "Birds",
-        "mercedes": "Rabbits",
-        "tesla": "Other"
-      }
-    },
-    "other": {
-      "title": "Other",
-      "links": {
-        "contact": "Contact Us",
-        "faq": "Help/FAQ",
-        "affiliates": "Affiliates",
-        "privacy": "Privacy Policy",
-        "terms": "Terms & Conditions"
-      }
-    },
-    "newsletter": {
-      "title": "Newsletter",
-      "description": "Subscribe to our newsletter and get exclusive updates on new pets.",
-      "placeholder": "Enter your email",
-      "button": "Subscribe"
-    },
-    "copyright": "© 2025 Rafraf. All rights reserved."
   }
 }

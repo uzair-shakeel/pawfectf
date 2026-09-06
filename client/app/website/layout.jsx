@@ -4,7 +4,7 @@ import { Footer } from "../../components/website/Footer";
 
 export default function WebsiteLayout({ children }) {
   return (
-    <div className="flex flex-col bg-white min-h-screen h-auto w-full overflow-x-clip">
+    <div className="flex flex-col bg-[#F4F7FB] min-h-screen h-auto w-full overflow-x-clip dark:bg-dark-main">
       <Navbar />
       {/* Main content adjusts dynamically */}
       <main className={`flex-1 flex h-auto w-full`}>

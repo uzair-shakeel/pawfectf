@@ -75,7 +75,7 @@ const Pagination = ({
           onClick={() => handlePageChange(1)}
           disabled={currentPage === 1}
           className={`px-3 py-2 text-md font-medium rounded-md transition-colors ${currentPage === 1
-            ? "text-gray-400 cursor-not-allowed"
+            ? "text-gray-400 cursor-not-allowed opacity-30"
             : "text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-200"
             }`}
           aria-label="First page"
@@ -90,7 +90,7 @@ const Pagination = ({
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}
           className={`px-3 py-2 text-md font-medium rounded-md transition-colors ${currentPage === 1
-            ? "text-gray-400 cursor-not-allowed"
+            ? "text-gray-400 cursor-not-allowed opacity-30"
             : "text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-200"
             }`}
           aria-label="Previous page"
@@ -136,7 +136,7 @@ const Pagination = ({
           onClick={() => handlePageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
           className={`px-3 py-2 text-md font-medium rounded-md transition-colors ${currentPage === totalPages
-            ? "text-gray-400 cursor-not-allowed"
+            ? "text-gray-400 cursor-not-allowed opacity-30"
             : "text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-200"
             }`}
           aria-label="Next page"
@@ -151,7 +151,7 @@ const Pagination = ({
           onClick={() => handlePageChange(totalPages)}
           disabled={currentPage === totalPages}
           className={`px-3 py-2 text-md font-medium rounded-md transition-colors ${currentPage === totalPages
-            ? "text-gray-400 cursor-not-allowed"
+            ? "text-gray-400 cursor-not-allowed opacity-30"
             : "text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-200"
             }`}
           aria-label="Last page"

@@ -488,6 +488,25 @@ export const passCar = async (
   }
 };
 
+export const passPet = async (
+  petId: string,
+  getToken: () => Promise<string | null>,
+) => {
+  try {
+    const token = await getToken();
+    const response = await axios.post(
+      `${API_URL}/users/pass/${petId}`,
+      {},
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      },
+    );
+    return response.data;
+  } catch (error: any) {
+    throw new Error(error?.response?.data?.message || "Failed to pass pet");
+  }
+};
+
 export const getWishlist = async (getToken: () => Promise<string | null>) => {
   try {
     const token = await getToken();

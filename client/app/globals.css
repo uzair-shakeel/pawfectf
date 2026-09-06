@@ -46,6 +46,244 @@
   animation: slideUp 0.3s ease-out;
 }
 
+@keyframes riseIn {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes floatY {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-14px);
+  }
+}
+
+@keyframes blobDrift {
+
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  33% {
+    transform: translate(24px, -18px) scale(1.06);
+  }
+
+  66% {
+    transform: translate(-18px, 16px) scale(0.96);
+  }
+}
+
+@keyframes kenburns {
+  0% {
+    transform: scale(1) translate(0, 0);
+  }
+
+  100% {
+    transform: scale(1.12) translate(-1.5%, -1%);
+  }
+}
+
+/* Entrance animation used across the marketing pages */
+.animate-rise {
+  animation: riseIn 0.75s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-float {
+  animation: floatY 6s ease-in-out infinite;
+}
+
+.animate-float-slow {
+  animation: floatY 9s ease-in-out infinite;
+}
+
+.animate-blob {
+  animation: blobDrift 18s ease-in-out infinite;
+}
+
+.animate-kenburns {
+  animation: kenburns 28s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .animate-rise,
+  .animate-float,
+  .animate-float-slow,
+  .animate-blob,
+  .animate-kenburns {
+    animation: none;
+  }
+}
+
+.marketing-ui {
+  --mkt-brand: #2563eb;
+  --mkt-hover: #1d4ed8;
+  --mkt-accent: #93c5fd;
+  --mkt-ink: #0f172a;
+  --mkt-cream: #f4f7fb;
+  --mkt-line: #e2e8f0;
+  --mkt-muted: #64748b;
+  --mkt-soft: #eef2ff;
+  font-family: var(--font-ui), system-ui, sans-serif;
+}
+
+.marketing-ui h1,
+.marketing-ui h2,
+.marketing-ui h3,
+.marketing-ui .font-display {
+  font-family: var(--font-display), Georgia, serif;
+}
+
+.mkt-search {
+  position: relative;
+  z-index: 50;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 18px 50px rgba(37, 99, 235, 0.12);
+}
+
+@media (min-width: 640px) {
+  .mkt-search {
+    grid-template-columns: minmax(180px, 1fr) minmax(220px, 1.2fr) auto;
+    gap: 0;
+    padding: 8px;
+    align-items: stretch;
+  }
+
+  .mkt-search .mkt-field {
+    background: transparent;
+  }
+
+  .mkt-search .mkt-field + .mkt-field {
+    border-left: 1px solid #e2e8f0;
+  }
+}
+
+.dark .mkt-search {
+  background: #303030;
+  border-color: #494952;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+}
+
+.dark .mkt-search .mkt-field + .mkt-field {
+  border-left-color: #494952;
+}
+
+.mkt-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 58px;
+  padding: 6px 14px 6px 16px;
+  background: #eef2ff;
+  text-align: left;
+}
+
+.dark .mkt-field {
+  background: #3a3a3a;
+}
+
+.mkt-field-label {
+  display: block;
+  margin-bottom: 2px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+
+.dark .mkt-field-label {
+  color: #9ca3af;
+}
+
+.mkt-field-value {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  font-size: 15px;
+  font-weight: 600;
+  color: #0f172a;
+  outline: none;
+}
+
+.dark .mkt-field-value {
+  color: #f5f5f4;
+}
+
+.mkt-field-value::placeholder {
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.mkt-select-menu {
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.12);
+}
+
+.marketing-ui select,
+.marketing-ui input {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.marketing-ui select:disabled,
+.marketing-ui input:disabled,
+.marketing-ui button:disabled {
+  opacity: 0.32;
+  cursor: not-allowed;
+}
+
+.dark .mkt-select-menu {
+  background: #303030;
+  border-color: #494952;
+}
+
+.mkt-select-option {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #0f172a;
+  text-align: left;
+}
+
+.dark .mkt-select-option {
+  color: #f5f5f4;
+}
+
+.mkt-select-option:hover,
+.mkt-select-option[data-active="true"] {
+  background: #eef2ff;
+}
+
+.dark .mkt-select-option:hover,
+.dark .mkt-select-option[data-active="true"] {
+  background: #3a3a3a;
+}
+
 @layer base {
   :root {
     --background: #ffffff;

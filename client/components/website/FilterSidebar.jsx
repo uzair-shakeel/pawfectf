@@ -89,7 +89,7 @@ export default function FilterSidebar({ onApplyFilters, setShowMobileFilter, isV
     if (setShowMobileFilter) setShowMobileFilter(false);
   };
 
-  const selectClass = "w-full p-4 min-h-[50px] rounded-md bg-white dark:bg-dark-raised border border-gray-300 dark:border-dark-divider text-md dark:text-dark-text-primary appearance-none";
+  const selectClass = "w-full min-w-0 max-w-full p-4 min-h-[50px] rounded-md bg-white dark:bg-dark-raised border border-gray-300 dark:border-dark-divider text-md dark:text-dark-text-primary appearance-none disabled:opacity-[0.32] disabled:cursor-not-allowed disabled:bg-[#EEF2FF]";
 
   const Section = ({ index, label, children }) => (
     <div className={`collapse collapse-arrow px-2 rounded-none ${openIndex === index ? "collapse-open" : ""}`}>

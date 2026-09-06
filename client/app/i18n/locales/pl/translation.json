@@ -7,11 +7,24 @@
       "dogs": "Psy",
       "cats": "Koty",
       "lostFound": "Zaginione",
-      "allPets": "Wszystkie"
+      "allPets": "Wszystkie",
+      "badge": "Ponad 500 zwierzaków czeka na dom",
+      "searchSpecies": "Wszystkie gatunki",
+      "searchLocation": "Miasto lub region",
+      "searchBtn": "Szukaj",
+      "popular": "Popularne:",
+      "floatTitle": "12 adopcji w tym tygodniu",
+      "floatSubtitle": "Dzięki naszej społeczności",
+      "imageDogAlt": "Golden retriever czekający na adopcję",
+      "imageCatAlt": "Rudy kotek szukający domu",
+      "imageHugAlt": "Kobieta przytulająca adoptowanego psa",
+      "ctaBrowse": "Zobacz wszystkie",
+      "scroll": "Odkryj więcej"
     },
     "newlyListed": {
       "title": "Nowo dodane",
-      "subtitle": "Poznaj nasze najnowsze zwierzaki szukające domu"
+      "subtitle": "Poznaj nasze najnowsze zwierzaki szukające domu",
+      "eyebrow": "Nowo dodane"
     },
     "viewAll": "Zobacz wszystkie",
     "petsNeedingFood": {
@@ -33,16 +46,20 @@
       "easyProcess": {
         "title": "Prosty proces",
         "desc": "Sprawiamy, że proces adopcji jest prosty i przejrzysty, abyś mógł skupić się na powitaniu nowego członka rodziny."
-      }
+      },
+      "eyebrow": "Dlaczego Rafraf",
+      "lead": "Adopcja zmienia dwa życia naraz — zwierzaka, którego zabierasz do domu, i tego, który zajmie jego miejsce w schronisku."
     },
     "feedPets": {
       "title": "Już wkrótce – Pomóż konkretnemu zwierzakowi",
-      "subtitle": "ZaginionePrzygotowujemy nowy dział, w którym będziesz mógł wesprzeć wybrane zwierzęta oraz konkretne cele, takie jak karma, leczenie, operacje czy wyposażenie schroniska.",
+      "subtitle": "Przygotowujemy nowy dział, w którym będziesz mógł wesprzeć wybrane zwierzęta oraz konkretne cele, takie jak karma, leczenie, operacje czy wyposażenie schroniska.",
       "stat1": "Przekazane posiłki",
       "stat2": "Wsparte schroniska",
       "stat3": "Przekazano",
       "browseBtn": "Przeglądaj zwierzaki do nakarmienia",
-      "listBtn": "Zgłoś zwierzaka po karmę"
+      "listBtn": "Zgłoś zwierzaka po karmę",
+      "imageAlt": "Wolontariusz karmiący psa ze schroniska",
+      "description": "Przygotowujemy nowy dział wsparcia. Wkrótce będzie można pomóc konkretnym zwierzętom i finansować cele takie jak karma, leczenie lub niezbędny sprzęt."
     },
     "howItWorks": {
       "title": "Jak to działa",
@@ -57,7 +74,8 @@
       "step3": {
         "title": "Adoptuj",
         "desc": "Zakończ proces adopcji i powitaj swojego nowego najlepszego przyjaciela."
-      }
+      },
+      "eyebrow": "Trzy kroki"
     },
     "browseCategory": {
       "title": "Przeglądaj według kategorii",
@@ -65,17 +83,55 @@
       "smallDogs": "Małe psy",
       "bigDogs": "Duże psy",
       "kittens": "Kocięta",
-      "seniorPets": "Starsi pupile"
+      "seniorPets": "Starsi pupile",
+      "eyebrow": "Kategorie",
+      "browse": "Przeglądaj"
     },
     "lostFound": {
       "title": "Zaginione i znalezione",
-      "subtitle": "Przygotowujemy nowy dział, który ułatwi zgłaszanie zagubionych i znalezionych zwierząt oraz pomoże szybciej połączyć je z ich właścicielami."
+      "subtitle": "Przygotowujemy nowy dział, który ułatwi zgłaszanie zagubionych i znalezionych zwierząt oraz pomoże szybciej połączyć je z ich właścicielami.",
+      "heading": "Gdy zwierzak ginie, liczy się każda godzina",
+      "browseBtn": "Zobacz ogłoszenia",
+      "reportBtn": "Zgłoś zwierzaka",
+      "imageAlt": "Pies biegnący do swojego właściciela"
     },
     "cta": {
       "title": "Gotowy zmienić życie?",
       "subtitle": "Dołącz do tysięcy osób, które znalazły swojego idealnego towarzysza przez Rafraf.",
       "adoptBtn": "Adoptuj zwierzaka",
-      "listBtn": "Wystaw zwierzaka"
+      "listBtn": "Wystaw zwierzaka",
+      "imageAlt": "Rodzina na spacerze z adoptowanym psem"
+    },
+    "stats": {
+      "pets": "Zwierzaków szuka domu",
+      "shelters": "Partnerskich schronisk",
+      "adoptions": "Szczęśliwych adopcji"
+    },
+    "trust": {
+      "verified": "Zweryfikowane schroniska",
+      "free": "Przeglądanie za darmo",
+      "community": "Aktywna społeczność",
+      "support": "Wsparcie po adopcji"
+    },
+    "testimonials": {
+      "eyebrow": "Szczęśliwe zakończenia",
+      "title": "Historie naszej społeczności",
+      "subtitle": "Prawdziwi ludzie, prawdziwe zwierzaki, prawdziwe drugie szanse.",
+      "one": {
+        "quote": "Cały proces zajął mniej niż tydzień. Luna zadomowiła się tak, jakby zawsze tu mieszkała.",
+        "name": "Anna K.",
+        "city": "Warszawa"
+      },
+      "two": {
+        "quote": "Mogłem napisać bezpośrednio do schroniska i zapytać o wszystko przed decyzją. Zero stresu.",
+        "name": "Marek W.",
+        "city": "Kraków"
+      },
+      "three": {
+        "quote": "Zgłosiliśmy zaginięcie kota wieczorem, a już następnego ranka znalazł go sąsiad.",
+        "name": "Julia S.",
+        "city": "Gdańsk"
+      }
     }
   },
   "terms": {
@@ -347,13 +403,22 @@
   "navbar": {
     "links": {
       "home": "Strona główna",
+      "adopt": "Adoptuj",
+      "lostFound": "Zaginione",
+      "saved": "Zapisane",
       "blog": "Blog",
       "faq": "FAQ",
       "contact": "Kontakt"
     },
     "becomeSeller": "Wystaw zwierzę",
+    "addListing": "Dodaj ogłoszenie",
     "messages": "Wiadomości",
-    "dashboard": "Panel"
+    "dashboard": "Panel",
+    "login": "Zaloguj się",
+    "logout": "Wyloguj",
+    "profile": "Profil",
+    "myListings": "Moje ogłoszenia",
+    "join": "Dołącz do społeczności"
   },
   "footer": {
     "about": {
@@ -388,7 +453,7 @@
     },
     "newsletter": {
       "title": "Newsletter",
-      "description": "Zapisz się do naszego newslettera i otrzymuj ekskluzywne informacje o nowych zwierzętach do adopcji.",
+      "description": "Zapisz się do naszego newslettera i otrzymuj powiadomienia o nowych zwierzętach do adopcji.",
       "placeholder": "Wpisz swój email",
       "button": "Zapisz się"
     },
@@ -583,14 +648,28 @@
       "openChat": "Otwórz czat",
       "loading": "Ładowanie...",
       "noMessages": "Brak wiadomości",
-      "user": "Użytkownik",
-      "attachment": "załącznik(i)",
-      "newMessage": "Nowa wiadomość",
       "seeAllMessages": "Zobacz wszystkie wiadomości",
       "notifications": "Powiadomienia",
       "markAllRead": "Oznacz wszystkie jako przeczytane",
       "noNotifications": "Brak powiadomień",
-      "seeAll": "Zobacz wszystkie"
+      "seeAll": "Zobacz wszystkie",
+      "dashboard": "Panel",
+      "listPet": "Wystaw zwierzę",
+      "myListings": "Moje ogłoszenia",
+      "adoptionRequests": "Prośby o adopcję",
+      "profile": "Profil",
+      "home": "Strona główna",
+      "adopt": "Adoptuj",
+      "savedPets": "Zapisane zwierzęta",
+      "blog": "Blog",
+      "faq": "FAQ",
+      "contact": "Kontakt",
+      "login": "Zaloguj",
+      "joinCommunity": "Dołącz do społeczności",
+      "logout": "Wyloguj się",
+      "user": "Użytkownik",
+      "newMessage": "Nowa wiadomość",
+      "attachment": "załącznik(i)"
     },
     "home": {
       "welcome": "Witaj ponownie",
@@ -644,14 +723,14 @@
       "delete": "Usuń"
     },
     "lostFound": {
-      "title": "Moje zgłoszenia zagubionych i znalezionych",
-      "subtitle": "Zarządzaj aktywnymi zgłoszeniami zaginionych lub znalezionych zwierząt.",
-      "reportPet": "Zgłoś zwierzę",
-      "confirmDelete": "Czy na pewno chcesz usunąć to zgłoszenie?",
-      "noReports": "Brak zgłoszeń",
-      "noReportsDesc": "Nie zgłosiłeś żadnych zaginionych ani znalezionych zwierząt.",
-      "createReport": "Utwórz zgłoszenie",
-      "viewPublic": "Wyświetl publicznie"
+      "title": "Zaginione i znalezione zwierzęta",
+      "subtitle": "Pomóż zjednoczyć zwierzęta z ich rodzinami.",
+      "noEntries": "Nie znaleziono wpisów",
+      "noEntriesDesc": "Obecnie nie ma raportów o {type} zwierzętach.",
+      "searchCity": "Szukaj miasta...",
+      "allSpecies": "Wszystkie gatunki",
+      "lostPet": "Zaginione zwierzę",
+      "foundPet": "Znalezione zwierzę"
     },
     "reportPet": {
       "title": "Zgłoś zwierzę",
@@ -842,7 +921,8 @@
       "findPet": "Znajdź zwierzę",
       "ageGroup": "Grupa wiekowa",
       "coat": "Sierść",
-      "searchByLocation": "Szukaj według lokalizacji..."
+      "searchByLocation": "Szukaj według lokalizacji...",
+      "clearAll": "Wyczyść wszystko"
     },
     "pets": {
       "loading": "Ładowanie zwierząt...",
@@ -856,51 +936,29 @@
         "oldest": "Najstarsze",
         "newestListed": "Najnowsze ogłoszenia",
         "oldestListed": "Najstarsze ogłoszenia"
-      }
-    },
-    "lostFound": {
-      "title": "Zaginione i znalezione zwierzęta",
-      "subtitle": "Pomóż zjednoczyć zwierzęta z ich rodzinami.",
-      "noEntries": "Nie znaleziono wpisów",
-      "noEntriesDesc": "Obecnie nie ma raportów o {type} zwierzętach.",
-      "searchCity": "Szukaj miasta...",
-      "allSpecies": "Wszystkie gatunki",
-      "lostPet": "Zaginione zwierzę",
-      "foundPet": "Znalezione zwierzę"
-    },
-    "navbar": {
-      "messages": "Wiadomości",
-      "openChat": "Otwórz czat",
-      "loading": "Ładowanie...",
-      "noMessages": "Brak wiadomości",
-      "seeAllMessages": "Zobacz wszystkie wiadomości",
-      "notifications": "Powiadomienia",
-      "markAllRead": "Oznacz wszystkie jako przeczytane",
-      "noNotifications": "Brak powiadomień",
-      "seeAll": "Zobacz wszystkie",
-      "dashboard": "Panel",
-      "listPet": "Wystaw zwierzę",
-      "myListings": "Moje ogłoszenia",
-      "adoptionRequests": "Prośby o adopcję",
-      "profile": "Profil",
-      "home": "Strona główna",
-      "adopt": "Adoptuj",
-      "savedPets": "Zapisane zwierzęta",
-      "blog": "Blog",
-      "faq": "FAQ",
-      "contact": "Kontakt",
-      "login": "Zaloguj",
-      "joinCommunity": "Dołącz do społeczności",
-      "logout": "Wyloguj się",
-      "user": "Użytkownik",
-      "newMessage": "Nowa wiadomość",
-      "attachment": "załącznik(i)"
+      },
+      "bannerAlt": "Psy i koty ze schronisk czekające na adopcję",
+      "bannerTitle": "Znajdź swojego nowego przyjaciela",
+      "bannerSubtitle": "Przeglądaj zwierzaki ze zweryfikowanych schronisk i od prywatnych opiekunów w Twojej okolicy.",
+      "breadcrumbHome": "Strona główna",
+      "available": "zwierzaków dostępnych",
+      "results": "wyników",
+      "searchBtn": "Szukaj",
+      "searchLocation": "Miasto lub region",
+      "searchSpecies": "Wszystkie gatunki",
+      "quickTitle": "Przeglądaj według typu",
+      "quickDogs": "Psy",
+      "quickCats": "Koty",
+      "quickSmall": "Małe psy",
+      "quickLarge": "Duże psy",
+      "quickYoung": "Szczeniaki i kocięta",
+      "quickSeniors": "Starsi pupile"
     },
     "contact": {
       "title": "Skontaktuj się z nami",
       "subtitle": "Czy szukasz zwierzęcia do adopcji, chcesz wystawić swoje schronisko, czy masz pytanie o działanie Rafraf - jesteśmy tu, aby pomóc.",
       "emailUs": "Napisz do nas",
-      "email": "support@Rafraf.pl",
+      "email": "Email",
       "emailResponse": "Staramy się odpowiadać w ciągu 24 godzin.",
       "callUs": "Zadzwoń do nas",
       "phone": "+48 123 456 789",
@@ -911,7 +969,6 @@
       "sendMessage": "Wyślij wiadomość",
       "successMessage": "Dziękujemy! Twoja wiadomość została wysłana. Skontaktujemy się z Tobą wkrótce.",
       "name": "Imię",
-      "email": "Email",
       "subject": "Temat",
       "message": "Wiadomość",
       "sendButton": "Wyślij wiadomość",
@@ -1062,20 +1119,6 @@
       }
     }
   },
-  "navbar": {
-    "links": {
-      "home": "Strona główna",
-      "blog": "Blog",
-      "faq": "FAQ",
-      "contact": "Kontakt"
-    },
-    "becomeSeller": "Wystaw zwierzę",
-    "addListing": "Dodaj ogłoszenie",
-    "messages": "Wiadomości",
-    "dashboard": "Panel",
-    "login": "Zaloguj się",
-    "logout": "Wyloguj"
-  },
   "foodDonation": {
     "backToDonations": "Powrót do darowizn żywności",
     "petNotFound": "Nie znaleziono zwierzęcia",
@@ -1161,44 +1204,5 @@
     "sellersLocation": "Lokalizacja sprzedawcy",
     "locationNotSpecified": "Lokalizacja nie określona",
     "getDirections": "Pobierz wskazówki dojazdu"
-  },
-  "footer": {
-    "about": {
-      "title": "O Rafraf",
-      "links": {
-        "aboutUs": "O nas",
-        "careers": "Kariera",
-        "mobile": "Aplikacja mobilna",
-        "blog": "Blog",
-        "howWeWork": "Jak działamy"
-      }
-    },
-    "brands": {
-      "title": "Popularne zwierzęta",
-      "links": {
-        "toyota": "Psy",
-        "honda": "Koty",
-        "bmw": "Ptaki",
-        "mercedes": "Króliki",
-        "tesla": "Inne"
-      }
-    },
-    "other": {
-      "title": "Inne",
-      "links": {
-        "contact": "Kontakt",
-        "faq": "Pomoc/FAQ",
-        "affiliates": "Partnerzy",
-        "privacy": "Polityka prywatności",
-        "terms": "Regulamin"
-      }
-    },
-    "newsletter": {
-      "title": "Newsletter",
-      "description": "Zapisz się do naszego newslettera i otrzymuj powiadomienia o nowych zwierzętach do adopcji.",
-      "placeholder": "Wpisz swój email",
-      "button": "Zapisz się"
-    },
-    "copyright": "© 2025 Rafraf. Wszelkie prawa zastrzeżone."
   }
 }

@@ -71,7 +71,7 @@ export default function FilterNavbar({ onApplyFilters }) {
     return () => { window.removeEventListener("scroll", onScroll); window.removeEventListener("resize", onScroll); };
   }, []);
 
-  const sel = "px-2 py-1.5 pr-6 text-md lg:px-4 lg:py-3 lg:pr-10 lg:text-base font-medium border border-gray-200 dark:border-dark-divider rounded-md lg:rounded-lg focus:outline-none bg-white dark:bg-dark-raised dark:text-dark-text-primary shadow-sm hover:shadow-md transition-all duration-200 appearance-none w-full";
+  const sel = "min-w-0 max-w-full w-full truncate px-2 py-1.5 pr-6 text-md lg:px-4 lg:py-3 lg:pr-10 lg:text-base font-medium border border-gray-200 dark:border-dark-divider rounded-md lg:rounded-lg focus:outline-none bg-white dark:bg-dark-raised dark:text-dark-text-primary shadow-sm hover:shadow-md transition-all duration-200 appearance-none disabled:opacity-[0.32] disabled:cursor-not-allowed disabled:bg-[#EEF2FF] disabled:shadow-none disabled:hover:shadow-none";
   const arrow = <div className="absolute inset-y-0 right-0 flex items-center pr-2 lg:pr-3 pointer-events-none"><MdKeyboardArrowDown className="w-5 h-5 text-gray-500" /></div>;
 
   return (
@@ -79,33 +79,31 @@ export default function FilterNavbar({ onApplyFilters }) {
       {isSticky && <div style={{ height: navbarHeight }} />}
       <div
         ref={filterRef}
-        className={`bg-white max-w-[1480px] mx-auto dark:bg-dark-panel z-50 ${isSticky ? "fixed top-0 left-0 right-0 shadow-xl backdrop-blur-sm bg-white/70 dark:bg-dark-panel/95" : "relative"}`}
+        className={`mx-auto w-full max-w-[1520px] px-5 sm:px-8 ${isSticky ? "fixed inset-x-0 top-20 z-30" : "relative z-10"}`}
       >
-        <div className={`w-full px-0 lg:px-8 ${isSticky ? "py-2" : "py-6"}`}>
+        <div className={`bg-white dark:bg-dark-panel ${isSticky ? "px-5 py-3 shadow-lg sm:px-8" : "px-5 py-6 sm:px-8"}`}>
           {!isSticky && (
-            <div className="flex items-center justify-between mx-[10px] mb-[10px]">
-              <h2 className="font-bold text-gray-900 dark:text-gray-200 text-2xl">{t("dashboard.filters.findPet", "Find a Pet")}</h2>
+            <div className="mb-5">
+              <h2 className="font-display text-2xl font-medium text-[#0F172A] dark:text-gray-200">{t("dashboard.filters.findPet", "Find a Pet")}</h2>
             </div>
           )}
 
-          <div className="space-y-1">
-            {/* Desktop Layout */}
-            <div className="hidden md:block space-y-1 lg:w-full">
-              {/* Row 1: Species, Breed, Size, Age */}
-              <div className="flex items-center justify-between w-full gap-1">
-                <div className="relative flex-1">
+          <div className="space-y-3">
+            <div className="hidden md:block space-y-3">
+              <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+                <div className="relative min-w-0 overflow-hidden">
                   <select name="species" value={filters.species} onChange={handleInputChange} className={sel} disabled={loading}>
                     <option value="">{t("dashboard.filters.species", "Species")}</option>
                     {getSpecies().map((s) => <option key={s} value={s}>{s}</option>)}
                   </select>{arrow}
                 </div>
-                <div className="relative flex-1">
+                <div className="relative min-w-0 overflow-hidden">
                   <select name="breed" value={filters.breed} onChange={handleInputChange} className={sel} disabled={!filters.species}>
                     <option value="">{t("dashboard.filters.breed", "Breed")}</option>
                     {getBreedsForSpecies(filters.species).map((b) => <option key={b} value={b}>{b}</option>)}
                   </select>{arrow}
                 </div>
-                <div className="relative flex-1">
+                <div className="relative min-w-0 overflow-hidden">
                   <select name="size" value={filters.size} onChange={handleInputChange} className={sel}>
                     <option value="">{t("dashboard.filters.size", "Size")}</option>
                     <option value="Small">{t("dashboard.addPet.small", "Small")}</option>
@@ -114,7 +112,7 @@ export default function FilterNavbar({ onApplyFilters }) {
                     <option value="Extra Large">{t("dashboard.addPet.extraLarge", "Extra Large")}</option>
                   </select>{arrow}
                 </div>
-                <div className="relative flex-1">
+                <div className="relative min-w-0 overflow-hidden">
                   <select name="ageGroup" value={filters.ageGroup} onChange={handleInputChange} className={sel}>
                     <option value="">{t("dashboard.filters.ageGroup", "Age Group")}</option>
                     <option value="Baby">{t("dashboard.filters.baby", "Baby (0–6m)")}</option>
@@ -125,19 +123,18 @@ export default function FilterNavbar({ onApplyFilters }) {
                 </div>
               </div>
 
-              {/* Row 2: Gender, Location, Radius */}
-              <div className="flex items-center justify-between w-full gap-1">
-                <div className="relative flex-1">
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+                <div className="relative min-w-0">
                   <select name="gender" value={filters.gender} onChange={handleInputChange} className={sel}>
                     <option value="">{t("dashboard.filters.gender", "Gender")}</option>
                     <option value="Male">{t("dashboard.addPet.male", "Male")}</option>
                     <option value="Female">{t("dashboard.addPet.female", "Female")}</option>
                   </select>{arrow}
                 </div>
-                <div className="relative flex-1">
+                <div className="relative min-w-0">
                   <input type="text" name="location" value={filters.location} onChange={handleInputChange} placeholder={t("dashboard.filters.searchByLocation", "Search by location...")} className={sel} />
                 </div>
-                <div className="relative flex-1">
+                <div className="relative min-w-0">
                   <select name="distance" value={filters.distance} onChange={handleInputChange} className={sel}>
                     <option value="">{t("dashboard.filters.radius", "Radius")}</option>
                     <option value="30">30 km</option>
@@ -146,15 +143,11 @@ export default function FilterNavbar({ onApplyFilters }) {
                   </select>{arrow}
                 </div>
               </div>
-
-
-
-
             </div>
 
             {/* Mobile Layout */}
             <div className="md:hidden">
-              <div className={`flex items-center justify-between w-[calc(100%-18px)] gap-2 mx-[10px] ${isSticky ? "mb-0" : "mb-[10px]"}`}>
+              <div className="flex w-full items-center gap-2">
                 <div className="relative flex-1">
                   <select name="species" value={filters.species} onChange={handleInputChange} className="px-3 h-10 pr-6 text-md font-medium border border-gray-200 dark:border-dark-divider rounded-lg focus:outline-none bg-white dark:bg-dark-raised dark:text-dark-text-primary shadow-sm appearance-none w-full" disabled={loading}>
                     <option value="">{t("dashboard.filters.species", "Species")}</option>
@@ -163,7 +156,7 @@ export default function FilterNavbar({ onApplyFilters }) {
                   <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none"><MdKeyboardArrowDown className="w-5 h-5 text-gray-500" /></div>
                 </div>
                 <div className="relative flex-1">
-                  <select name="breed" value={filters.breed} onChange={handleInputChange} className="px-3 h-10 pr-6 text-md font-medium border border-gray-200 dark:border-dark-divider rounded-lg focus:outline-none bg-white dark:bg-dark-raised dark:text-dark-text-primary shadow-sm appearance-none w-full" disabled={!filters.species}>
+                  <select name="breed" value={filters.breed} onChange={handleInputChange} className="px-3 h-10 pr-6 text-md font-medium border border-gray-200 dark:border-dark-divider rounded-lg focus:outline-none bg-white dark:bg-dark-raised dark:text-dark-text-primary shadow-sm appearance-none w-full disabled:opacity-[0.32] disabled:cursor-not-allowed disabled:bg-[#EEF2FF]" disabled={!filters.species}>
                     <option value="">{t("dashboard.filters.breed", "Breed")}</option>
                     {getBreedsForSpecies(filters.species).map((b) => <option key={b} value={b}>{b}</option>)}
                   </select>
@@ -203,7 +196,7 @@ export default function FilterNavbar({ onApplyFilters }) {
                   <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none"><MdKeyboardArrowDown className="w-5 h-5 text-gray-500" /></div>
                 </div>
                 <div className="relative flex-1">
-                  <select name="breed" value={filters.breed} onChange={handleInputChange} className="w-full px-3 h-10 pr-6 text-md font-medium border border-gray-200 rounded-lg focus:outline-none bg-white shadow-sm appearance-none" disabled={!filters.species}>
+                  <select name="breed" value={filters.breed} onChange={handleInputChange} className="w-full px-3 h-10 pr-6 text-md font-medium border border-gray-200 rounded-lg focus:outline-none bg-white shadow-sm appearance-none disabled:opacity-[0.32] disabled:cursor-not-allowed disabled:bg-[#EEF2FF]" disabled={!filters.species}>
                     <option value="">{t("dashboard.filters.breed", "Breed")}</option>
                     {getBreedsForSpecies(filters.species).map((b) => <option key={b} value={b}>{b}</option>)}
                   </select>

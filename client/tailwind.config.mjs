@@ -8,9 +8,23 @@ export default {
   darkMode: "class",
   theme: {
     extend: {
+      fontFamily: {
+        display: ["var(--font-display)", "Georgia", "serif"],
+        ui: ["var(--font-ui)", "system-ui", "sans-serif"],
+      },
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        mkt: {
+          brand: "#2563EB",
+          hover: "#1D4ED8",
+          accent: "#93C5FD",
+          ink: "#0F172A",
+          cream: "#F4F7FB",
+          line: "#E2E8F0",
+          muted: "#64748B",
+          soft: "#EEF2FF",
+        },
         "dark-main": "#212121",
         // "dark-panel": "#181818",
         "dark-panel": "#070707ff",

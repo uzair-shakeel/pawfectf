@@ -24,31 +24,18 @@ const translations = {
 const LanguageContext = createContext();
 
 export function LanguageProvider({ children }) {
-  // Default to Polish (falls back to saved/browser preference if present)
   const [language, setLanguage] = useState("pl");
-  // Track if we're on client side for localStorage access
   const [isClient, setIsClient] = useState(false);
 
-  // Set isClient to true once component mounts (client-side only)
   useEffect(() => {
     setIsClient(true);
-  }, []);
-
-  // Try to load language preference from localStorage on client side
-  useEffect(() => {
-    if (isClient) {
-      const savedLanguage = localStorage.getItem("language");
-      if (savedLanguage) {
-        setLanguage(savedLanguage);
-      } else {
-        // Try to detect browser language
-        const browserLang = navigator.language.split("-")[0];
-        if (browserLang === "pl") {
-          setLanguage("pl");
-        }
-      }
+    setLanguage("pl");
+    try {
+      localStorage.setItem("language", "pl");
+    } catch {
+      // ignore storage errors
     }
-  }, [isClient]);
+  }, []);
 
   // Function to change language
   const changeLanguage = (lang) => {

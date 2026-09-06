@@ -16,8 +16,6 @@ import { usePathname } from "next/navigation";
 
 // Lazy load heavy components
 
-const LanguageSwitcher = dynamic(() => import("../LanguageSwitcher"), { ssr: false });
-
 const ThemeToggle = dynamic(() => import("../ThemeToggle"), { ssr: false });
 
 const Avatar = dynamic(() => import("../both/Avatar"), { ssr: false });
@@ -274,7 +272,7 @@ const Navbar = () => {
 
     {
 
-      label: "Dashboard",
+      label: t("navbar.dashboard", "Panel"),
 
       href: "/dashboard/home",
 
@@ -284,7 +282,7 @@ const Navbar = () => {
 
     {
 
-      label: "List a Pet",
+      label: t("navbar.becomeSeller", "Wystaw zwierzę"),
 
       href: "/dashboard/pets/add",
 
@@ -294,7 +292,7 @@ const Navbar = () => {
 
     {
 
-      label: "My Listings",
+      label: t("navbar.myListings", "Moje ogłoszenia"),
 
       href: "/dashboard/pets",
 
@@ -302,19 +300,9 @@ const Navbar = () => {
 
     },
 
-    // {
-
-    //   label: "Adoption Requests",
-
-    //   href: "/dashboard/buyer-requests",
-
-    //   icon: <FiShoppingBag className="w-6 h-6" />,
-
-    // },
-
     {
 
-      label: "Messages",
+      label: t("navbar.messages", "Wiadomości"),
 
       href: "/dashboard/messages",
 
@@ -324,7 +312,7 @@ const Navbar = () => {
 
     {
 
-      label: "Profile",
+      label: t("navbar.profile", "Profil"),
 
       href: "/dashboard/profile",
 
@@ -338,19 +326,17 @@ const Navbar = () => {
 
   const websiteLinks = [
 
-    { label: "Home", href: "/", icon: <FiHome className="w-6 h-6" /> },
+    { label: t("navbar.links.home", "Home"), href: "/", icon: <FiHome className="w-6 h-6" /> },
 
-    { label: "Adopt", href: "/website/pets", icon: <FiSearch className="w-6 h-6" /> },
+    { label: t("navbar.links.adopt", "Adopt"), href: "/website/pets", icon: <FiSearch className="w-6 h-6" /> },
 
-    { label: "Lost & Found", href: "/website/lost-found", icon: <FiSearch className="w-6 h-6" /> },
+    { label: t("navbar.links.lostFound", "Lost & Found"), href: "/website/lost-found", icon: <FiSearch className="w-6 h-6" /> },
 
-    { label: "Saved Pets", href: "/wishlist", icon: <FiHeart className="w-6 h-6" /> },
+    { label: t("navbar.links.saved", "Saved"), href: "/wishlist", icon: <FiHeart className="w-6 h-6" /> },
 
-    // { label: "Blog", href: "/website/blog", icon: <FiBook className="w-6 h-6" /> },
+    { label: t("navbar.links.faq", "FAQ"), href: "/website/faq", icon: <FiLifeBuoy className="w-6 h-6" /> },
 
-    { label: "FAQ", href: "/website/faq", icon: <FiLifeBuoy className="w-6 h-6" /> },
-
-    { label: "Contact", href: "/website/contact", icon: <FiPhone className="w-6 h-6" /> },
+    { label: t("navbar.links.contact", "Contact"), href: "/website/contact", icon: <FiPhone className="w-6 h-6" /> },
 
   ];
 
@@ -438,11 +424,9 @@ const Navbar = () => {
 
   return (
 
-    <header className="w-full h-16 px-4 bg-white dark:bg-dark-panel shadow-md flex justify-between items-center text-black dark:text-dark-text-primary transition-colors duration-300 relative">
+    <header className="marketing-ui sticky top-0 z-50 w-full h-20 px-4 sm:px-8 bg-[#F4F7FB]/95 dark:bg-dark-panel/95 backdrop-blur-md border-b border-[#E2E8F0] dark:border-dark-divider flex justify-between items-center text-[#0F172A] dark:text-dark-text-primary transition-colors duration-300">
 
-      {/* Logo Section - Left Side */}
-
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 shrink-0">
 
         <Link href="/" className="flex items-center">
 
@@ -456,7 +440,7 @@ const Navbar = () => {
 
             height={30}
 
-            className="h-14   w-auto object-contain dark:hidden"
+            className="h-14 w-auto object-contain dark:hidden"
 
             priority
 
@@ -472,7 +456,7 @@ const Navbar = () => {
 
             height={30}
 
-            className="h-14  w-auto object-contain hidden dark:block"
+            className="h-14 w-auto object-contain hidden dark:block"
 
             priority
 
@@ -480,17 +464,39 @@ const Navbar = () => {
 
         </Link>
 
-
-
-
-
       </div>
 
+      <nav className="hidden lg:flex flex-1 items-center justify-center gap-8">
 
+        {websiteLinks.filter((link) => link.href !== "/").map((link) => (
+
+          <Link
+
+            key={link.href}
+
+            href={link.href}
+
+            className={`text-[12px] font-semibold uppercase tracking-[0.16em] transition-colors ${
+
+              isActive(link.href)
+
+                ? "text-[#2563EB]"
+
+                : "text-[#0F172A] hover:text-[#2563EB] dark:text-white dark:hover:text-[#93C5FD]"
+
+            }`}
+
+          >
+
+            {link.label}
+
+          </Link>
+
+        ))}
+
+      </nav>
 
       <div className="flex items-center space-x-2 md:space-x-3">
-
-        {/* Theme Toggle */}
 
         <ThemeToggle size={22} />
 
@@ -780,11 +786,11 @@ const Navbar = () => {
 
               onClick={handleSignIn}
 
-              className="flex items-center gap-2 px-6 py-2 rounded-full bg-blue-600 text-white text-xs font-black uppercase tracking-widest hover:bg-blue-700 transition-all shadow-lg shadow-blue-500/25"
+              className="flex h-12 items-center gap-2 px-6 bg-[#2563EB] text-white text-[11px] font-bold uppercase tracking-[0.14em] hover:bg-[#1D4ED8] transition-colors"
 
             >
 
-              Login
+              {t("navbar.login", "Login")}
 
             </button>
 
@@ -800,7 +806,7 @@ const Navbar = () => {
 
           onClick={() => setIsMenuOpen(!isMenuOpen)}
 
-          className="lg:hidden flex items-center gap-2 p-1.5 pl-2 pr-3 bg-gray-50 dark:bg-dark-raised border border-gray-200 dark:border-dark-divider rounded-full transition-all active:scale-95"
+          className="lg:hidden flex items-center gap-2 p-1.5 pl-2 pr-3 bg-white dark:bg-dark-raised border border-[#E2E8F0] dark:border-dark-divider transition-all active:scale-95"
 
           aria-label="Toggle Navigation"
 
@@ -840,11 +846,9 @@ const Navbar = () => {
 
       {isMenuOpen && (
 
-        <div className="fixed inset-0 bg-white dark:bg-dark-panel z-[100] lg:hidden overflow-y-auto animate-slideIn">
+        <div className="fixed inset-0 bg-[#F4F7FB] dark:bg-dark-panel z-[100] lg:hidden overflow-y-auto animate-slideIn">
 
-          {/* Top Bar for Mobile Menu */}
-
-          <div className="h-16 px-4 border-b border-gray-100 dark:border-dark-divider flex justify-between items-center sticky top-0 bg-white/80 dark:bg-dark-panel/80 backdrop-blur-md z-10">
+          <div className="h-20 px-4 border-b border-[#E2E8F0] dark:border-dark-divider flex justify-between items-center sticky top-0 bg-[#F4F7FB]/90 dark:bg-dark-panel/80 backdrop-blur-md z-10">
 
             <div className="flex items-center">
 
@@ -886,7 +890,7 @@ const Navbar = () => {
 
             {isSignedIn && user && (
 
-              <div className="flex items-center gap-4 bg-gray-50 dark:bg-dark-card p-5 rounded-[2rem] border border-gray-100 dark:border-dark-divider">
+              <div className="flex items-center gap-4 bg-white dark:bg-dark-card p-5 border border-[#E2E8F0] dark:border-dark-divider">
 
                 <Avatar src={user?.profilePicture || user?.image} alt="User" size={50} />
 
@@ -932,7 +936,7 @@ const Navbar = () => {
 
                   active={isActive(item.href)}
 
-                  badge={item.label === "Wiadomości" ? messageCount : 0}
+                  badge={item.href === "/dashboard/messages" ? messageCount : 0}
 
                 />
 
@@ -950,11 +954,11 @@ const Navbar = () => {
 
                   onClick={handleSignIn}
 
-                  className="w-full py-5 rounded-[2rem] bg-gradient-to-r from-blue-600 to-blue-500 text-white font-black uppercase tracking-widest text-xs shadow-xl shadow-blue-500/25 flex items-center justify-center gap-2 animate-slideUp"
+                  className="w-full py-5 bg-[#2563EB] text-white font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-2 animate-slideUp"
 
                 >
 
-                  Join the Community
+                  {t("navbar.join", "Dołącz do społeczności")}
 
                 </button>
 
@@ -1018,13 +1022,13 @@ function QuickAccessBubble({ href, icon, label, onClick, active = false, badge =
 
       className={`
 
-        group flex flex-col items-center justify-center h-28 rounded-[2rem] text-[10px] font-black uppercase tracking-[0.2em] transition-all text-center px-4 gap-3 relative
+        group flex flex-col items-center justify-center h-28 text-[10px] font-bold uppercase tracking-[0.2em] transition-all text-center px-4 gap-3 relative
 
         ${active
 
-          ? "bg-blue-600 text-white shadow-xl shadow-blue-500/30"
+          ? "bg-[#2563EB] text-white"
 
-          : "bg-gray-50 dark:bg-dark-card text-gray-900 dark:text-white border border-gray-100 dark:border-dark-divider hover:bg-blue-600 hover:text-white"
+          : "bg-white dark:bg-dark-card text-[#0F172A] dark:text-white border border-[#E2E8F0] dark:border-dark-divider hover:bg-[#2563EB] hover:text-white"
 
         }
 
@@ -1032,7 +1036,7 @@ function QuickAccessBubble({ href, icon, label, onClick, active = false, badge =
 
     >
 
-      <span className={`${active ? "" : "text-blue-500 group-hover:text-white"} transition-colors`}>
+      <span className={`${active ? "" : "text-[#2563EB] group-hover:text-white"} transition-colors`}>
 
         {React.cloneElement(icon, { className: "w-6 h-6" })}
 
@@ -1044,7 +1048,7 @@ function QuickAccessBubble({ href, icon, label, onClick, active = false, badge =
 
       {badge > 0 && (
 
-        <span className={`absolute top-4 right-4 h-5 w-auto min-w-[20px] px-1.5 flex items-center justify-center rounded-full text-[10px] font-black ${active ? "bg-white text-blue-600" : "bg-red-500 text-white"}`}>
+        <span className={`absolute top-4 right-4 h-5 w-auto min-w-[20px] px-1.5 flex items-center justify-center rounded-full text-[10px] font-black ${active ? "bg-white text-[#2563EB]" : "bg-red-500 text-white"}`}>
 
           {badge}
 
