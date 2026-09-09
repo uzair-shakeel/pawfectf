@@ -48,11 +48,11 @@
         "desc": "We make the adoption process simple and transparent so you can focus on welcoming your new family member."
       },
       "eyebrow": "Why Rafraf",
-      "lead": "Adoption changes two lives at once — the pet you take home, and the one that takes its place at the shelter."
+      "lead": "Adoption changes two lives at once - the pet you take home, and the one that takes its place at the shelter."
     },
     "feedPets": {
       "title": "Feed a Pet in Need",
-      "subtitle": "Your small donation can make a big difference in a shelter pet's life.",
+      "subtitle": "Soon you will be able to help a specific pet - with food, treatment, and shelter support.",
       "stat1": "Meals Donated",
       "stat2": "Shelters Supported",
       "stat3": "Donated",
@@ -218,7 +218,7 @@
   },
   "privacy": {
     "hero": {
-      "title": "Your Data, Your Journey — Always Secure, Always Private."
+      "title": "Your Data, Your Journey - Always Secure, Always Private."
     },
     "sections": {
       "introduction": {
@@ -836,6 +836,7 @@
       "tryAgain": "Try Again",
       "noPetsFound": "No pets found",
       "adjustFilters": "Try adjusting your filters to find more pets.",
+      "emptyClear": "Clear filters",
       "searchBtn": "Search",
       "searchLocation": "City or region",
       "searchSpecies": "All species",

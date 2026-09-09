@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 const Pagination = ({
   currentPage = 1,
   totalItems = 0,
-  itemsPerPage = 12,
+  itemsPerPage = 8,
   onPageChange,
   onItemsPerPageChange,
   showItemsPerPage = true,

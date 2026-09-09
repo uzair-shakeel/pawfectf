@@ -26,7 +26,7 @@
       "subtitle": "Poznaj nasze najnowsze zwierzaki szukające domu",
       "eyebrow": "Nowo dodane"
     },
-    "viewAll": "Zobacz wszystkie",
+    "viewAll": "Więcej",
     "petsNeedingFood": {
       "badge": "Potrzebuje karmy",
       "title": "Zwierzaki potrzebujące karmy",
@@ -37,22 +37,22 @@
       "title": "Dlaczego warto adoptować?",
       "saveLife": {
         "title": "Uratuj życie",
-        "desc": "Adoptując, dajesz drugą szansę potrzebującemu zwierzęciu i robisz miejsce dla kolejnego w schronisku."
+        "desc": "Dajesz drugą szansę - i miejsce w schronisku dla kolejnego zwierzaka."
       },
       "localShelters": {
         "title": "Wspieraj lokalne schroniska",
-        "desc": "Opłaty adopcyjne trafiają bezpośrednio do schronisk, aby pomóc im w opiece nad większą liczbą zwierząt."
+        "desc": "Twoje wsparcie pomaga schroniskom opiekować się większą liczbą zwierząt."
       },
       "easyProcess": {
         "title": "Prosty proces",
-        "desc": "Sprawiamy, że proces adopcji jest prosty i przejrzysty, abyś mógł skupić się na powitaniu nowego członka rodziny."
+        "desc": "Prosty, przejrzysty proces - Ty skupiasz się na nowym przyjacielu."
       },
       "eyebrow": "Dlaczego Rafraf",
-      "lead": "Adopcja zmienia dwa życia naraz — zwierzaka, którego zabierasz do domu, i tego, który zajmie jego miejsce w schronisku."
+      "lead": "Adopcja zmienia dwa życia naraz - zwierzaka, którego zabierasz do domu, i tego, który zajmie jego miejsce w schronisku."
     },
     "feedPets": {
       "title": "Już wkrótce – Pomóż konkretnemu zwierzakowi",
-      "subtitle": "Przygotowujemy nowy dział, w którym będziesz mógł wesprzeć wybrane zwierzęta oraz konkretne cele, takie jak karma, leczenie, operacje czy wyposażenie schroniska.",
+      "subtitle": "Wkrótce pomożesz konkretnym zwierzakom - karmą, leczeniem i wsparciem schroniska.",
       "stat1": "Przekazane posiłki",
       "stat2": "Wsparte schroniska",
       "stat3": "Przekazano",
@@ -65,15 +65,15 @@
       "title": "Jak to działa",
       "step1": {
         "title": "Znajdź zwierzaka",
-        "desc": "Przeglądaj nasze ogłoszenia, aby znaleźć zwierzaka pasującego do Twojego stylu życia."
+        "desc": "Przeglądaj ogłoszenia i znajdź zwierzaka dopasowanego do Ciebie."
       },
       "step2": {
         "title": "Nawiąż kontakt",
-        "desc": "Skontaktuj się ze schroniskiem lub właścicielem bezpośrednio przez naszą platformę."
+        "desc": "Napisz bezpośrednio do schroniska lub opiekuna przez Rafraf."
       },
       "step3": {
         "title": "Adoptuj",
-        "desc": "Zakończ proces adopcji i powitaj swojego nowego najlepszego przyjaciela."
+        "desc": "Dokończ adopcję i powitaj nowego najlepszego przyjaciela."
       },
       "eyebrow": "Trzy kroki"
     },
@@ -89,7 +89,7 @@
     },
     "lostFound": {
       "title": "Zaginione i znalezione",
-      "subtitle": "Przygotowujemy nowy dział, który ułatwi zgłaszanie zagubionych i znalezionych zwierząt oraz pomoże szybciej połączyć je z ich właścicielami.",
+      "subtitle": "Zgłoś zaginięcie albo znalezione zwierzę. Im szybciej, tym większa szansa na powrót do domu.",
       "heading": "Gdy zwierzak ginie, liczy się każda godzina",
       "browseBtn": "Zobacz ogłoszenia",
       "reportBtn": "Zgłoś zwierzaka",
@@ -219,7 +219,7 @@
   },
   "privacy": {
     "hero": {
-      "title": "Twoje Dane — Zawsze Bezpieczne, Zawsze Prywatne."
+      "title": "Twoje Dane - Zawsze Bezpieczne, Zawsze Prywatne."
     },
     "sections": {
       "introduction": {
@@ -874,14 +874,14 @@
       "descriptionBio": "Opis / biografia",
       "voiceInput": "Głos",
       "listening": "Słucham...",
-      "listeningHelp": "Mów teraz — Twoje słowa zostaną dodane do opisu.",
+      "listeningHelp": "Mów teraz - Twoje słowa zostaną dodane do opisu.",
       "voiceHint": "Mów, aby uzupełnić opis",
       "voiceUnsupported": "Dyktowanie nie jest obsługiwane w tej przeglądarce. Użyj Chrome lub Edge.",
       "fixingVoice": "Poprawianie tekstu...",
       "fixingVoiceHelp": "Dodaję interpunkcję do wypowiedzi...",
-      "analyzeHint": "Dodaj wyraźne zdjęcie — AI wykryje gatunek, rasę, płeć i rozmiar do kroku 2.",
+      "analyzeHint": "Dodaj wyraźne zdjęcie - AI wykryje gatunek, rasę, płeć i rozmiar do kroku 2.",
       "analyzing": "Skanowanie AI...",
-      "analyzeSuccess": "AI przeskanowało zdjęcie — gatunek, rasa, płeć i rozmiar zostały uzupełnione. Sprawdź krok 2.",
+      "analyzeSuccess": "AI przeskanowało zdjęcie - gatunek, rasa, płeć i rozmiar zostały uzupełnione. Sprawdź krok 2.",
       "analyzeError": "Nie udało się przeanalizować zdjęcia. Możesz uzupełnić dane ręcznie.",
       "aiScanningTitle": "AI rozpoznaje Twoje zwierzę…",
       "aiScanningSubtitle": "Wykrywamy gatunek, rasę, płeć i rozmiar. Opis zostawiamy Tobie.",
@@ -928,8 +928,9 @@
       "loading": "Ładowanie zwierząt...",
       "error": "Coś poszło nie tak. Spróbuj ponownie.",
       "tryAgain": "Spróbuj ponownie",
-      "noPetsFound": "Nie znaleziono zwierząt",
-      "adjustFilters": "Spróbuj dostosować filtry, aby znaleźć więcej zwierząt.",
+      "noPetsFound": "Brak wyników",
+      "adjustFilters": "Żaden zwierzak nie pasuje do wybranych filtrów.",
+      "emptyClear": "Wyczyść filtry",
       "sort": {
         "bestMatch": "Najlepsze dopasowanie",
         "youngest": "Najmłodsze",

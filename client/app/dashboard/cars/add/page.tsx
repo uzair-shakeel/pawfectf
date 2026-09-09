@@ -96,7 +96,7 @@ export default function AddPetPage() {
       setAnalyzeInfo(
         t(
           "dashboard:addPet.analyzeSuccess",
-          "AI scanned the photo — species, breed, gender and size were filled in. Check step 2."
+          "AI scanned the photo - species, breed, gender and size were filled in. Check step 2."
         )
       );
     } catch (err: any) {
@@ -353,7 +353,7 @@ export default function AddPetPage() {
             <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
               {t(
                 "dashboard:addPet.analyzeHint",
-                "Upload a clear photo — AI will detect species, breed, gender and size for step 2."
+                "Upload a clear photo - AI will detect species, breed, gender and size for step 2."
               )}
             </p>
 
@@ -596,7 +596,7 @@ export default function AddPetPage() {
               </div>
               {listening && (
                 <p className="mt-2 text-sm text-red-600">
-                  {t("dashboard:addPet.listeningHelp", "Speak now — your words will be added to the description.")}
+                  {t("dashboard:addPet.listeningHelp", "Speak now - your words will be added to the description.")}
                 </p>
               )}
               {fixingVoice && (

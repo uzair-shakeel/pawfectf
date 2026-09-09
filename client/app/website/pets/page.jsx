@@ -2,16 +2,14 @@
 
 import { useState, useEffect, Suspense, useCallback, useMemo } from "react";
 import Image from "next/image";
-import Link from "next/link";
-import FilterSidebar from "../../../components/website/FilterSidebar";
-import FilterNavbar from "../../../components/website/FilterNavbar";
 import HomePetCard from "../../../components/website/HomePetCard";
 import Pagination from "../../../components/website/Pagination";
+import FilterNavbar from "../../../components/website/FilterNavbar";
 import { searchPets } from "../../../services/petService";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useLanguage } from "../../../lib/i18n/LanguageContext";
-import CustomSelect from "../../../components/website/CustomSelect";
-import { LayoutGrid, List, SlidersHorizontal, X, PawPrint, ChevronRight, Search, MapPin } from "lucide-react";
+import { mergeWithDemoPets } from "../../../lib/demoPets";
+import { LayoutGrid, List, X, PawPrint, Search } from "lucide-react";
 
 // URL params that are surfaced as removable chips above the results grid.
 const CHIP_PARAMS = [
@@ -38,17 +36,14 @@ const PetsContent = () => {
   const [allPets, setAllPets] = useState([]);
   const [pets, setPets] = useState([]);
   const [totalItems, setTotalItems] = useState(0);
-  const [showMobileFilter, setShowMobileFilter] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [sortBy, setSortBy] = useState("best-match");
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(12);
+  const [itemsPerPage, setItemsPerPage] = useState(8);
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [bannerSpecies, setBannerSpecies] = useState("");
-  const [bannerLocation, setBannerLocation] = useState("");
 
   // Resize: force grid on mobile
   useEffect(() => {
@@ -57,12 +52,6 @@ const PetsContent = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
-  // Lock scroll on mobile filter open
-  useEffect(() => {
-    document.body.style.overflow = showMobileFilter ? "hidden" : "auto";
-    return () => { document.body.style.overflow = "auto"; };
-  }, [showMobileFilter]);
 
   // Build API filters from URL
   const getFiltersFromUrl = useCallback(() => {
@@ -99,6 +88,7 @@ const PetsContent = () => {
         const payload = Object.fromEntries(Object.entries(filters).filter(([, v]) => v !== undefined && v !== "" && !Number.isNaN(v)));
         const response = await searchPets(payload);
         let fetched = Array.isArray(response) ? response : (response?.pets ?? response?.cars ?? []);
+        fetched = mergeWithDemoPets(fetched);
 
         // Client-side filtering (fallback in case backend doesn't filter properly)
         if (filters.species) fetched = fetched.filter(p => p.species?.toLowerCase() === filters.species.toLowerCase());
@@ -128,8 +118,10 @@ const PetsContent = () => {
         setTotalItems(fetched.length);
       } catch (err) {
         console.error("Fetch error:", err);
-        setError(t("dashboard.pets.error", "Something went wrong. Please try again."));
-        setAllPets([]); setPets([]); setTotalItems(0);
+        const demo = mergeWithDemoPets([]);
+        setAllPets(demo);
+        setPets(demo);
+        setTotalItems(demo.length);
       } finally {
         setIsLoading(false);
       }
@@ -178,7 +170,6 @@ const PetsContent = () => {
     params.set("page", "1");
     setCurrentPage(1);
     router.replace(`${pathname}?${params.toString()}`, { scroll: false });
-    setShowMobileFilter(false);
   };
 
   const handlePageChange = (page) => {
@@ -219,40 +210,14 @@ const PetsContent = () => {
   ];
 
   const sortBtnClass = (val) =>
-    `shrink-0 rounded-full px-4 py-2 text-sm font-semibold transition-colors ${sortBy === val
+    `shrink-0 rounded-full px-3.5 py-2 text-sm font-semibold transition-colors ${sortBy === val
       ? "bg-[#2563EB] text-white"
       : "bg-white text-[#64748B] hover:bg-[#EEF2FF] dark:bg-dark-card dark:text-dark-text-secondary dark:hover:bg-dark-raised"
     }`;
 
-  useEffect(() => {
-    setBannerSpecies(searchParams.get("species") || "");
-    setBannerLocation(searchParams.get("location") || "");
-  }, [searchParams]);
-
-  const handleBannerSearch = (event) => {
-    event.preventDefault();
-    const params = new URLSearchParams(searchParams);
-    if (bannerSpecies) params.set("species", bannerSpecies);
-    else params.delete("species");
-    if (bannerLocation.trim()) params.set("location", bannerLocation.trim());
-    else params.delete("location");
-    params.set("page", "1");
-    setCurrentPage(1);
-    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
-  };
-
-  const quickCategories = [
-    { label: t("dashboard.pets.quickDogs", "Dogs"), href: "/website/pets?species=Pies", img: "/home/hero-dog.jpg" },
-    { label: t("dashboard.pets.quickCats", "Cats"), href: "/website/pets?species=Kot", img: "/home/hero-cat.jpg" },
-    { label: t("dashboard.pets.quickSmall", "Small dogs"), href: "/website/pets?species=Pies&size=Small", img: "/home/cat-small-dogs.jpg" },
-    { label: t("dashboard.pets.quickLarge", "Big dogs"), href: "/website/pets?species=Pies&size=Large", img: "/home/cat-big-dogs.jpg" },
-    { label: t("dashboard.pets.quickYoung", "Puppies & kittens"), href: "/website/pets?ageGroup=Baby", img: "/home/cat-kittens.jpg" },
-    { label: t("dashboard.pets.quickSeniors", "Seniors"), href: "/website/pets?ageGroup=Senior", img: "/home/cat-senior.jpg" },
-  ];
-
   return (
     <div className="marketing-ui min-h-screen bg-[#F4F7FB] text-[#0F172A] dark:bg-dark-main dark:text-gray-200">
-      <section className="relative min-h-[500px] md:min-h-[620px]">
+      <section className="relative">
         <div className="absolute inset-0 overflow-hidden">
           <Image
             src="/home/pets-banner.jpg"
@@ -262,106 +227,20 @@ const PetsContent = () => {
             sizes="100vw"
             className="object-cover object-[center_35%] animate-kenburns"
           />
-          <div className="absolute inset-0 bg-[#0F172A]/60" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#F4F7FB] via-transparent to-[#0F172A]/25 dark:from-dark-main" />
+          <div className="absolute inset-0 bg-[#0F172A]/70" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A] via-[#0F172A]/45 to-[#0F172A]/25" />
         </div>
 
-        <div className="relative z-30 mx-auto flex min-h-[500px] w-full max-w-[1520px] flex-col justify-end px-5 pb-16 pt-20 sm:px-8 md:min-h-[620px] md:pb-24">
-          <nav className="mb-5 flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.16em] text-white/60">
-            <Link href="/" className="transition-colors hover:text-white">
-              {t("dashboard.pets.breadcrumbHome", "Home")}
-            </Link>
-            <ChevronRight className="h-3.5 w-3.5" />
-            <span className="text-white">{t("dashboard.filters.findPet", "Find a Pet")}</span>
-          </nav>
-
-          <h1 className="font-display max-w-3xl text-[2.6rem] font-medium leading-[1.08] text-white md:text-[4.4rem]">
-            {t("dashboard.pets.bannerTitle", "Find your new best friend")}
-          </h1>
-          <p className="mt-4 max-w-xl text-lg leading-relaxed text-white/75">
-            {t("dashboard.pets.bannerSubtitle", "Browse pets from verified shelters and private owners near you.")}
-          </p>
-
-          <form onSubmit={handleBannerSearch} className="mkt-search mt-8 max-w-3xl">
-            <CustomSelect
-              value={bannerSpecies}
-              onChange={setBannerSpecies}
-              options={[
-                { value: "", label: t("dashboard.pets.searchSpecies", "All species") },
-                { value: "Pies", label: t("dashboard.pets.quickDogs", "Dogs") },
-                { value: "Kot", label: t("dashboard.pets.quickCats", "Cats") },
-              ]}
-              label={t("dashboard.pets.searchSpecies", "All species")}
-              icon={PawPrint}
-              ariaLabel={t("dashboard.pets.searchSpecies", "All species")}
-            />
-            <label className="mkt-field">
-              <MapPin className="mr-3 h-5 w-5 shrink-0 text-[#2563EB]" />
-              <span className="min-w-0 flex-1">
-                <span className="mkt-field-label">{t("dashboard.pets.searchLocation", "City or region")}</span>
-                <input
-                  type="text"
-                  value={bannerLocation}
-                  onChange={(e) => setBannerLocation(e.target.value)}
-                  placeholder={t("dashboard.pets.searchLocation", "City or region")}
-                  className="mkt-field-value"
-                />
-              </span>
-            </label>
-            <button
-              type="submit"
-              className="inline-flex min-h-[58px] items-center justify-center gap-2 bg-[#2563EB] px-8 text-sm font-bold uppercase tracking-[0.12em] text-white transition hover:bg-[#1D4ED8]"
-            >
-              <Search className="h-4 w-4" />
-              {t("dashboard.pets.searchBtn", "Search")}
-            </button>
-          </form>
-
-          <p className="mt-5 text-sm font-semibold uppercase tracking-[0.14em] text-white/70">
-            {isLoading
-              ? t("dashboard.pets.loading", "Loading pets...")
-              : `${totalItems} ${t("dashboard.pets.available", "pets available")}`}
-          </p>
+        <div className="relative z-30 mx-auto w-full max-w-[1520px] px-4 pb-6 pt-8 sm:px-8 md:pb-8 md:pt-20">
+          <FilterNavbar onApplyFilters={handleApplyFilters} variant="hero" />
         </div>
       </section>
 
-      <section className="relative z-0 mx-auto w-full max-w-[1520px] px-5 sm:px-8">
-        <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
-          {quickCategories.map((cat) => (
-            <Link
-              key={cat.href}
-              href={cat.href}
-              className="group relative block h-28 overflow-hidden md:h-40"
-            >
-              <Image
-                src={cat.img}
-                alt={cat.label}
-                fill
-                sizes="(max-width: 768px) 50vw, 16vw"
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A]/85 via-[#0F172A]/20 to-transparent" />
-              <span className="absolute inset-x-2 bottom-3 text-center font-display text-sm text-white md:text-lg">
-                {cat.label}
-              </span>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      <div className="w-full pt-6">
-        <FilterNavbar onApplyFilters={handleApplyFilters} />
-      </div>
-
-      <div className="mx-auto flex h-full max-w-[1520px] flex-row dark:bg-dark-main sm:py-8 lg:space-x-4">
-        <aside className="sticky top-0 hidden h-fit w-[380px] self-start">
-          <FilterSidebar onApplyFilters={handleApplyFilters} />
-        </aside>
-
-        <main className="h-full w-full px-0 sm:px-4">
+      <div className="mx-auto flex h-full max-w-[1520px] flex-row dark:bg-dark-main sm:px-8 sm:py-8">
+        <main className="h-full w-full px-5 py-4 sm:px-0 sm:py-0">
           {/* -------------------------------------------------- Active filters */}
           {activeChips.length > 0 && (
-            <div className="mb-4 flex flex-wrap items-center gap-2 px-[10px] sm:px-2">
+            <div className="mb-4 flex flex-wrap items-center gap-x-3 gap-y-2">
               {activeChips.map((chip) => (
                 <button
                   key={chip.key}
@@ -382,9 +261,9 @@ const PetsContent = () => {
           )}
 
           {/* ---------------------------------------------------- Controls bar */}
-          <div className="relative z-20 flex flex-col gap-3 px-[10px] py-1 pb-6 sm:px-2 lg:flex-row lg:items-center lg:justify-between lg:gap-4">
+          <div className="relative z-20 flex flex-col gap-3 pb-5 lg:flex-row lg:items-center lg:justify-between lg:gap-4">
             <div className="order-2 min-w-0 flex-1 lg:order-1">
-              <ul className="flex flex-wrap items-center gap-2 px-0.5 py-1">
+              <ul className="flex flex-wrap items-center gap-2.5">
                 {sortOptions.map(({ val, label }) => (
                   <li key={val} className="flex-none">
                     <button type="button" onClick={() => handleSort(val)} className={sortBtnClass(val)}>{label}</button>
@@ -399,14 +278,6 @@ const PetsContent = () => {
                   {totalItems} {t("dashboard.pets.results", "results")}
                 </span>
               )}
-
-              <button
-                onClick={() => setShowMobileFilter(true)}
-                className="inline-flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm font-bold text-gray-700 shadow-sm transition-colors hover:bg-gray-50 dark:border-dark-divider dark:bg-dark-card dark:text-dark-text-primary lg:hidden"
-              >
-                <SlidersHorizontal className="h-4 w-4" />
-                {t("dashboard.filters.title", "Filters")}
-              </button>
 
               <div className="hidden gap-1 rounded-xl border border-gray-200 bg-white p-1 shadow-sm dark:border-dark-divider dark:bg-dark-card lg:flex">
                 {[
@@ -432,7 +303,7 @@ const PetsContent = () => {
           </div>
 
           {isLoading ? (
-            <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
               {Array.from({ length: 8 }).map((_, i) => <PetCardSkeleton key={i} />)}
             </div>
           ) : error ? (
@@ -447,41 +318,41 @@ const PetsContent = () => {
             </div>
           ) : pets.length > 0 ? (
             <div className={viewMode === "grid"
-              ? "grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+              ? "grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4"
               : "flex flex-col space-y-4"
             }>
               {pets.map((pet, i) => <HomePetCard key={`${i}-${pet._id}`} pet={pet} viewMode={viewMode} />)}
             </div>
           ) : (
-            <div className="mx-2 rounded-3xl border border-gray-100 bg-white py-16 text-center shadow-sm dark:border-dark-divider dark:bg-dark-card">
-              <span className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-[#EEF2FF] text-blue-600 shadow-sm dark:bg-dark-raised">
-                <PawPrint className="h-7 w-7" />
-              </span>
-              <h3 className="text-xl font-black text-gray-900 dark:text-gray-200">
+            <div className="flex min-h-[380px] flex-col items-center justify-center px-2 py-16 text-center sm:min-h-[460px] sm:py-20">
+              <div className="relative mb-8">
+                <span className="flex h-[88px] w-[88px] items-center justify-center bg-[#EEF2FF] text-[#2563EB] dark:bg-white/10">
+                  <PawPrint className="h-10 w-10" strokeWidth={1.4} />
+                </span>
+                <span className="absolute -bottom-1 -right-1 flex h-8 w-8 items-center justify-center bg-[#2563EB] text-white">
+                  <Search className="h-4 w-4" strokeWidth={2.2} />
+                </span>
+              </div>
+              <h3 className="font-display max-w-sm text-[2rem] font-bold leading-[1.15] text-[#0F172A] dark:text-white md:text-[2.6rem]">
                 {t("dashboard.pets.noPetsFound", "No pets found")}
               </h3>
-              <p className="mx-auto mt-2 max-w-sm text-md text-gray-500 dark:text-dark-text-muted">
+              <p className="mt-3 max-w-[280px] text-[15px] leading-relaxed text-[#64748B] dark:text-white/55 sm:max-w-sm">
                 {t("dashboard.pets.adjustFilters", "Try adjusting your filters to find more pets.")}
               </p>
               {activeChips.length > 0 && (
                 <button
+                  type="button"
                   onClick={clearAllFilters}
-                  className="mt-6 bg-[#2563EB] px-6 py-3 font-bold uppercase tracking-[0.12em] text-white transition-colors hover:bg-[#1D4ED8]"
+                  className="mt-8 inline-flex h-12 items-center justify-center bg-[#2563EB] px-7 text-sm font-bold uppercase tracking-[0.12em] text-white transition hover:bg-[#1D4ED8]"
                 >
-                  {t("dashboard.filters.clearAll", "Clear all")}
+                  {t("dashboard.pets.emptyClear", "Clear filters")}
                 </button>
               )}
             </div>
           )}
 
           {!isLoading && !error && totalItems > 0 && (
-            <Pagination currentPage={currentPage} totalItems={totalItems} itemsPerPage={itemsPerPage} onPageChange={handlePageChange} onItemsPerPageChange={(n) => { setItemsPerPage(n); setCurrentPage(1); }} showItemsPerPage className="mt-8 border-t border-gray-200" />
-          )}
-
-          {showMobileFilter && (
-            <div className="fixed inset-0 z-50 overflow-y-auto bg-white dark:bg-dark-main">
-              <FilterSidebar onApplyFilters={handleApplyFilters} setShowMobileFilter={setShowMobileFilter} isVisible={showMobileFilter} />
-            </div>
+            <Pagination currentPage={currentPage} totalItems={totalItems} itemsPerPage={itemsPerPage} onPageChange={handlePageChange} className="mt-8 border-t border-gray-200" />
           )}
         </main>
       </div>

@@ -10,7 +10,7 @@ export function Footer() {
 
   return (
     <footer className="marketing-ui bg-[#0F172A] text-white pt-16 pb-8">
-      <div className="mx-auto w-full max-w-[1520px] px-5 sm:px-8">
+      <div className="mx-auto w-full max-w-[1520px] px-4 sm:px-8">
         <div className="grid grid-cols-1 gap-12 border-b border-white/10 pb-14 md:grid-cols-2 lg:grid-cols-4">
           <div>
             <Link href="/" className="inline-block">
@@ -26,13 +26,13 @@ export function Footer() {
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-white/55">
               {t(
                 "homepage.whyAdopt.lead",
-                "Adoption changes two lives at once — the pet you take home, and the one that takes its place at the shelter."
+                "Adoption changes two lives at once - the pet you take home, and the one that takes its place at the shelter."
               )}
             </p>
           </div>
 
           <div>
-            <h3 className="font-display text-xl font-medium">
+            <h3 className="font-display text-xl font-bold">
               {t("footer.about.title", "About Rafraf")}
             </h3>
             <ul className="mt-5 space-y-3 text-sm text-white/55">
@@ -55,7 +55,7 @@ export function Footer() {
           </div>
 
           <div>
-            <h3 className="font-display text-xl font-medium">
+            <h3 className="font-display text-xl font-bold">
               {t("footer.other.title", "Other")}
             </h3>
             <ul className="mt-5 space-y-3 text-sm text-white/55">
@@ -83,7 +83,7 @@ export function Footer() {
           </div>
 
           <div>
-            <h3 className="font-display text-xl font-medium">
+            <h3 className="font-display text-xl font-bold">
               {t("footer.newsletter.title", "Newsletter")}
             </h3>
             <p className="mt-5 mb-4 text-sm leading-relaxed text-white/55">

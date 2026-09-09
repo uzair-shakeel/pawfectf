@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 
 import { usePathname } from "next/navigation";
+import { createPortal } from "react-dom";
 
 
 
@@ -42,7 +43,7 @@ let markChatAsSeen = null;
 
 // Icons - these are actually small and tree-shaken, so keep them
 
-import { FiBell, FiMenu, FiX, FiSearch, FiHeart, FiBook, FiLifeBuoy, FiPhone, FiLayout, FiUser, FiLogOut, FiShoppingBag, FiHome, FiChevronDown } from "react-icons/fi";
+import { FiBell, FiMenu, FiX, FiSearch, FiHeart, FiLifeBuoy, FiPhone, FiLogOut, FiHome, FiChevronRight, FiMapPin } from "react-icons/fi";
 
 import { BsChatLeftDots, BsPersonGear } from "react-icons/bs";
 
@@ -246,12 +247,14 @@ const Navbar = () => {
 
 
 
-  const handleSignIn = () => {
-
+  const handleJoin = () => {
     setIsMenuOpen(false);
+    router.push("/sign-up");
+  };
 
+  const handleSignIn = () => {
+    setIsMenuOpen(false);
     router.push("/sign-in");
-
   };
 
 
@@ -330,25 +333,13 @@ const Navbar = () => {
 
     { label: t("navbar.links.adopt", "Adopt"), href: "/website/pets", icon: <FiSearch className="w-6 h-6" /> },
 
-    { label: t("navbar.links.lostFound", "Lost & Found"), href: "/website/lost-found", icon: <FiSearch className="w-6 h-6" /> },
+    { label: t("navbar.links.lostFound", "Lost & Found"), href: "/website/lost-found", icon: <FiMapPin className="w-6 h-6" /> },
 
     { label: t("navbar.links.saved", "Saved"), href: "/wishlist", icon: <FiHeart className="w-6 h-6" /> },
 
     { label: t("navbar.links.faq", "FAQ"), href: "/website/faq", icon: <FiLifeBuoy className="w-6 h-6" /> },
 
     { label: t("navbar.links.contact", "Contact"), href: "/website/contact", icon: <FiPhone className="w-6 h-6" /> },
-
-  ];
-
-
-
-  const mobileMenuItems = [
-
-    websiteLinks[0], // Home
-
-    ...(isSignedIn ? dashboardMenuItems : []),
-
-    ...websiteLinks.slice(1),
 
   ];
 
@@ -392,39 +383,26 @@ const Navbar = () => {
 
 
 
-  // Smooth dropdown: animate max-height from 0 to content height
-
-  const dropdownRef = useRef(null);
-
-  const [dropdownMax, setDropdownMax] = useState(0);
+  const [menuMounted, setMenuMounted] = useState(false);
+  useEffect(() => { setMenuMounted(true); }, []);
 
   useEffect(() => {
-
-    const el = dropdownRef.current;
-
-    if (!el) return;
-
-    if (isMenuOpen) {
-
-      // Measure full content height
-
-      const full = el.scrollHeight || 0;
-
-      setDropdownMax(full);
-
-    } else {
-
-      setDropdownMax(0);
-
-    }
-
-  }, [isMenuOpen, isSignedIn, t, user]);
+    if (!isMenuOpen) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e) => { if (e.key === "Escape") setIsMenuOpen(false); };
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = previous;
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [isMenuOpen]);
 
 
 
   return (
 
-    <header className="marketing-ui sticky top-0 z-50 w-full h-20 px-4 sm:px-8 bg-[#F4F7FB]/95 dark:bg-dark-panel/95 backdrop-blur-md border-b border-[#E2E8F0] dark:border-dark-divider flex justify-between items-center text-[#0F172A] dark:text-dark-text-primary transition-colors duration-300">
+    <header className="marketing-ui sticky top-0 z-[100] w-full h-[60px] md:h-20 px-4 sm:px-8 bg-[#F4F7FB] dark:bg-dark-panel border-b border-[#E2E8F0] dark:border-dark-divider flex justify-between items-center text-[#0F172A] dark:text-dark-text-primary">
 
       <div className="flex items-center gap-2 shrink-0">
 
@@ -440,7 +418,7 @@ const Navbar = () => {
 
             height={30}
 
-            className="h-14 w-auto object-contain dark:hidden"
+            className="h-9 w-auto object-contain dark:hidden md:h-14"
 
             priority
 
@@ -456,7 +434,7 @@ const Navbar = () => {
 
             height={30}
 
-            className="h-14 w-auto object-contain hidden dark:block"
+            className="h-9 w-auto object-contain hidden dark:block md:h-14"
 
             priority
 
@@ -476,7 +454,7 @@ const Navbar = () => {
 
             href={link.href}
 
-            className={`text-[12px] font-semibold uppercase tracking-[0.16em] transition-colors ${
+            className={`text-[15px] font-semibold transition-colors ${
 
               isActive(link.href)
 
@@ -800,202 +778,128 @@ const Navbar = () => {
 
 
 
-        {/* Mobile Navigation Toggle - Merged with User Info */}
-
         <button
-
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-
-          className="lg:hidden flex items-center gap-2 p-1.5 pl-2 pr-3 bg-white dark:bg-dark-raised border border-[#E2E8F0] dark:border-dark-divider transition-all active:scale-95"
-
-          aria-label="Toggle Navigation"
-
+          type="button"
+          onClick={() => setIsMenuOpen((open) => !open)}
+          className="lg:hidden flex h-9 w-9 items-center justify-center bg-[#2563EB] text-white"
+          aria-label={isMenuOpen ? "Zamknij menu" : "Otwórz menu"}
+          aria-expanded={isMenuOpen}
         >
-
-          {isSignedIn && user && (
-
-            <Avatar
-
-              src={user?.profilePicture || user?.image}
-
-              alt={user?.firstName || "User"}
-
-              size={24}
-
-              className="ring-1 ring-blue-500/20"
-
-            />
-
-          )}
-
-          {!isSignedIn && <FiUser className="w-5 h-5 text-gray-500" />}
-
-          <div className="text-gray-700 dark:text-gray-300">
-
-            {isMenuOpen ? <FiX className="w-6 h-6" /> : <FiMenu className="w-6 h-6" />}
-
-          </div>
-
+          {isMenuOpen ? <FiX className="h-5 w-5" /> : <FiMenu className="h-5 w-5" />}
         </button>
 
       </div>
 
 
 
-      {/* Mobile Navigation Dropdown - Full Page Cover */}
-
-      {isMenuOpen && (
-
-        <div className="fixed inset-0 bg-[#F4F7FB] dark:bg-dark-panel z-[100] lg:hidden overflow-y-auto animate-slideIn">
-
-          <div className="h-20 px-4 border-b border-[#E2E8F0] dark:border-dark-divider flex justify-between items-center sticky top-0 bg-[#F4F7FB]/90 dark:bg-dark-panel/80 backdrop-blur-md z-10">
-
-            <div className="flex items-center">
-
-              <Link href="/" onClick={() => setIsMenuOpen(false)} className="flex items-center">
-
-                <Image src="/logo.png" alt="Rafraf" width={150} height={48} className="h-10 md:h-12 w-auto object-contain dark:hidden" priority />
-
-                <Image src="/whitelogo.png" alt="Rafraf" width={150} height={48} className="h-10 md:h-12 w-auto object-contain hidden dark:block" priority />
-
-              </Link>
-
-            </div>
-
-
-
-            <div className="flex items-center gap-2">
-
-              <button
-
-                onClick={() => setIsMenuOpen(false)}
-
-                className="p-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-raised rounded-xl transition-all"
-
-              >
-
-                <FiX size={24} />
-
-              </button>
-
-            </div>
-
+      {menuMounted && isMenuOpen && createPortal(
+        <div className="marketing-ui fixed inset-0 z-[200] flex flex-col bg-[#0B1220] text-white lg:hidden">
+          <div className="flex h-[60px] shrink-0 items-center justify-between border-b border-white/10 px-4 sm:px-8 md:h-20">
+            <Link href="/" onClick={() => setIsMenuOpen(false)} className="flex items-center">
+              <Image
+                src="/whitelogo.png"
+                alt="Rafraf"
+                width={150}
+                height={30}
+                className="h-9 w-auto object-contain md:h-14"
+              />
+            </Link>
+            <button
+              type="button"
+              onClick={() => setIsMenuOpen(false)}
+              className="flex h-9 w-9 items-center justify-center bg-white/10 text-white"
+              aria-label="Zamknij menu"
+            >
+              <FiX size={18} />
+            </button>
           </div>
 
-
-
-          <div className="p-5 space-y-8 pb-10">
-
-            {/* Profile Overview (If signed in) */}
-
+          <nav className="flex-1 overflow-y-auto overscroll-contain px-4 py-3">
             {isSignedIn && user && (
-
-              <div className="flex items-center gap-4 bg-white dark:bg-dark-card p-5 border border-[#E2E8F0] dark:border-dark-divider">
-
-                <Avatar src={user?.profilePicture || user?.image} alt="User" size={50} />
-
-                <div className="min-w-0 flex-1">
-
-                  <h3 className="text-lg font-black text-gray-900 dark:text-white truncate">
-
-                    {user?.firstName || "Użytkownik"}
-
-                  </h3>
-
-                  <p className="text-xs text-gray-400 font-bold uppercase tracking-widest leading-none mt-1">
-
-                    {user?.sellerType === 'company' ? 'Shelter Account' : 'Pet Owner'}
-
-                  </p>
-
+              <div className="mb-3 flex items-center gap-3 bg-white/5 px-3 py-3">
+                <Avatar src={user?.profilePicture || user?.image} alt="User" size={40} />
+                <div className="min-w-0">
+                  <p className="truncate text-[15px] font-semibold">{user?.firstName || t("navbar.profile", "Profil")}</p>
+                  <p className="text-xs text-white/45">{t("navbar.profile", "Profil")}</p>
                 </div>
-
               </div>
-
             )}
 
-
-
-            {/* UNIFIED TILE GRID (All Actions) */}
-
-            <div className="grid grid-cols-2 gap-3">
-
-              {mobileMenuItems.map((item) => (
-
-                <QuickAccessBubble
-
-                  key={item.label}
-
-                  href={item.href}
-
-                  icon={item.icon}
-
-                  label={item.label}
-
-                  onClick={() => setIsMenuOpen(false)}
-
-                  active={isActive(item.href)}
-
-                  badge={item.href === "/dashboard/messages" ? messageCount : 0}
-
-                />
-
-              ))}
-
+            <div className="flex flex-col gap-1">
+              {websiteLinks.map((item) => {
+                const active = isActive(item.href);
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setIsMenuOpen(false)}
+                    className={`flex min-h-[52px] items-center gap-3 px-3 ${
+                      active ? "bg-[#2563EB] text-white" : "text-white"
+                    }`}
+                  >
+                    <span className={`flex h-9 w-9 shrink-0 items-center justify-center ${active ? "bg-white/20 text-white" : "bg-white/10 text-[#93C5FD]"}`}>
+                      {React.cloneElement(item.icon, { className: "h-5 w-5" })}
+                    </span>
+                    <span className="flex-1 text-[16px] font-semibold">{item.label}</span>
+                    <FiChevronRight className="h-4 w-4 opacity-35" />
+                  </Link>
+                );
+              })}
             </div>
 
-
-
-            {!isSignedIn ? (
-
-              <div className="pt-4">
-
-                <button
-
-                  onClick={handleSignIn}
-
-                  className="w-full py-5 bg-[#2563EB] text-white font-bold uppercase tracking-widest text-xs flex items-center justify-center gap-2 animate-slideUp"
-
-                >
-
-                  {t("navbar.join", "Dołącz do społeczności")}
-
-                </button>
-
+            {isSignedIn && (
+              <div className="mt-4 border-t border-white/10 pt-3">
+                {dashboardMenuItems.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setIsMenuOpen(false)}
+                    className="flex min-h-[48px] items-center gap-3 px-3 text-white"
+                  >
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center bg-white/10 text-[#93C5FD]">
+                      {React.cloneElement(item.icon, { className: "h-5 w-5" })}
+                    </span>
+                    <span className="flex-1 text-[13px] font-semibold">{item.label}</span>
+                    {item.href === "/dashboard/messages" && messageCount > 0 && (
+                      <span className="min-w-[20px] rounded-full bg-red-500 px-1.5 text-center text-[10px] font-bold text-white">{messageCount}</span>
+                    )}
+                  </Link>
+                ))}
               </div>
-
-            ) : (
-
-              <div className="pt-2">
-
-                <button
-
-                  onClick={handleSignOut}
-
-                  className="w-full flex items-center justify-between px-6 py-4 rounded-2xl bg-red-50 dark:bg-red-900/10 text-sm font-black text-red-500 uppercase tracking-widest"
-
-                >
-
-                  <div className="flex items-center gap-4">
-
-                    <FiLogOut size={20} />
-
-                    <span>Wyloguj Się</span>
-
-                  </div>
-
-                  <ArrowRight className="w-4 h-4" />
-
-                </button>
-
-              </div>
-
             )}
+          </nav>
 
+          <div className="shrink-0 space-y-2 border-t border-white/10 p-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
+            {!isSignedIn ? (
+              <>
+                <button
+                  type="button"
+                  onClick={handleJoin}
+                  className="flex h-12 w-full items-center justify-center bg-[#2563EB] text-[12px] font-bold uppercase tracking-[0.16em] text-white"
+                >
+                  {t("navbar.join", "Dołącz do społeczności")}
+                </button>
+                <button
+                  type="button"
+                  onClick={handleSignIn}
+                  className="flex h-12 w-full items-center justify-center border border-white/25 text-[12px] font-bold uppercase tracking-[0.16em] text-white"
+                >
+                  {t("navbar.login", "Login")}
+                </button>
+              </>
+            ) : (
+              <button
+                type="button"
+                onClick={handleSignOut}
+                className="flex h-12 w-full items-center justify-center gap-2 text-[12px] font-bold uppercase tracking-[0.16em] text-red-400"
+              >
+                <FiLogOut size={18} />
+                {t("navbar.logout", "Wyloguj")}
+              </button>
+            )}
           </div>
-
-        </div>
-
+        </div>,
+        document.body
       )}
 
     </header>
@@ -1003,64 +907,6 @@ const Navbar = () => {
   );
 
 };
-
-
-
-const ArrowRight = ({ className }) => <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" /></svg>
-
-
-
-function QuickAccessBubble({ href, icon, label, onClick, active = false, badge = 0 }) {
-
-  return (
-
-    <Link
-
-      href={href}
-
-      onClick={onClick}
-
-      className={`
-
-        group flex flex-col items-center justify-center h-28 text-[10px] font-bold uppercase tracking-[0.2em] transition-all text-center px-4 gap-3 relative
-
-        ${active
-
-          ? "bg-[#2563EB] text-white"
-
-          : "bg-white dark:bg-dark-card text-[#0F172A] dark:text-white border border-[#E2E8F0] dark:border-dark-divider hover:bg-[#2563EB] hover:text-white"
-
-        }
-
-      `}
-
-    >
-
-      <span className={`${active ? "" : "text-[#2563EB] group-hover:text-white"} transition-colors`}>
-
-        {React.cloneElement(icon, { className: "w-6 h-6" })}
-
-      </span>
-
-      <span>{label}</span>
-
-
-
-      {badge > 0 && (
-
-        <span className={`absolute top-4 right-4 h-5 w-auto min-w-[20px] px-1.5 flex items-center justify-center rounded-full text-[10px] font-black ${active ? "bg-white text-[#2563EB]" : "bg-red-500 text-white"}`}>
-
-          {badge}
-
-        </span>
-
-      )}
-
-    </Link>
-
-  );
-
-}
 
 
 

@@ -3,15 +3,17 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { getPetById } from "../../../../services/petService";
+import { getDemoPetById } from "../../../../lib/demoPets";
 import { getPublicUserInfo } from "../../../../services/userService";
 import { useAuth } from "../../../../lib/auth/AuthContext";
 import { useLanguage } from "../../../../lib/i18n/LanguageContext";
 import { optimizeCloudinaryUrl } from "../../../../lib/imageUtils";
 import { toTelHref } from "../../../../lib/utils";
 import { usePetImageTransition } from "../../../../lib/petImageTransition/PetImageTransitionContext";
-import { ShieldCheck, MapPin, Heart, MessageCircle, Phone, ChevronLeft, ChevronRight } from "lucide-react";
+import { ShieldCheck, MapPin, Heart, MessageCircle, Phone, ChevronLeft, ChevronRight, X } from "lucide-react";
 import { FaGlobe, FaFacebook, FaInstagram } from "react-icons/fa";
 import Link from "next/link";
+import { createPortal } from "react-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, A11y } from "swiper/modules";
 import "swiper/css";
@@ -75,7 +77,8 @@ export default function PetDetailPage() {
     if (!petId) return;
     (async () => {
       try {
-        const data = await getPetById(petId);
+        const demo = getDemoPetById(petId);
+        const data = demo || await getPetById(petId);
         const len = Array.isArray(data?.images) ? data.images.length : 0;
         const pending = peekImageIndex(petId);
         const startIdx =
@@ -84,6 +87,11 @@ export default function PetDetailPage() {
             : Math.min(Math.max(0, pending), len - 1);
         setActiveImg(startIdx);
         setPet(data);
+        if (demo) {
+          setOwner({ firstName: demo.shelter?.name || "Schronisko", sellerType: "shelter" });
+          setCity(demo.location?.city || "");
+          return;
+        }
         try {
           const o = await getPublicUserInfo(data?.createdBy);
           setOwner(o);
@@ -319,9 +327,19 @@ export default function PetDetailPage() {
   };
 
   const translateGender = (gender) => {
-    if (gender === "Male") return "Pies";
+    if (gender === "Male") return "Samiec";
     if (gender === "Female") return "Suczka";
     return gender;
+  };
+
+  const translateHealth = (status) => {
+    const map = {
+      Vaccinated: "Zaszczepiony",
+      Neutered: "Wykastrowany",
+      Microchipped: "Czip",
+      Good: "Zdrowy",
+    };
+    return map[status] || status;
   };
 
   const translateSize = (size) => {
@@ -340,127 +358,108 @@ export default function PetDetailPage() {
   };
 
   const specs = [
-    { label: t("species"), value: translateSpecies(pet.species) },
-    { label: t("breed"), value: pet.breed },
-    { label: t("age"), value: formatAge(pet.ageMonths) },
-    { label: t("gender"), value: translateGender(pet.gender) },
-    { label: t("size"), value: translateSize(pet.size) },
-    { label: t("color"), value: pet.color },
-    // { label: t("petDetail.coatLength"), value: pet.coatLength },
-    { label: t("adoptionStatus"), value: translateAdoptionStatus(pet.adoptionStatus) || "Dostępny" },
-    { label: t("location"), value: city || "—" },
-
-  ].filter(s => s.value);
+    { label: t("petDetail.species", "Gatunek"), value: translateSpecies(pet.species) },
+    { label: t("petDetail.breed", "Rasa"), value: pet.breed },
+    { label: t("petDetail.age", "Wiek"), value: formatAge(pet.ageMonths) },
+    { label: t("petDetail.gender", "Płeć"), value: translateGender(pet.gender) },
+    { label: t("petDetail.size", "Rozmiar"), value: translateSize(pet.size) },
+    { label: t("petDetail.color", "Kolor"), value: pet.color },
+    { label: t("petDetail.adoptionStatus", "Status adopcji"), value: translateAdoptionStatus(pet.adoptionStatus) || "Dostępny" },
+    { label: t("petDetail.location", "Lokalizacja"), value: city || "—" },
+  ].filter((s) => s.value);
 
   return (
-    <div className="min-h-screen bg-white dark:bg-dark-main">
+    <div className="marketing-ui min-h-screen bg-[#F4F7FB] text-[#0F172A] dark:bg-dark-main dark:text-gray-200">
       {/* Fullscreen viewer */}
-      {fullscreen && (
-        <div className="fixed inset-0 z-50 bg-white dark:bg-dark-main overflow-y-auto overflow-x-hidden h-screen w-screen">
-          {/* Top Navigation Bar */}
-          <div className="w-full sticky top-0 left-0 z-[110]">
-            <div className="max-w-[1600px] mx-auto px-4 md:px-20 py-3.5 flex justify-between items-center gap-0 md:gap-6">
-              <div className="flex-1"></div>
-              
-              <div className="flex gap-2 items-center ml-auto flex-shrink-0">
-                <button
-                  onClick={() => { if (swiperRef.current) swiperRef.current.swiper.slidePrev(); }}
-                  className="h-8 w-8 md:h-10 md:w-10 hidden md:block rounded-full bg-gray-100/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200 transition-all shadow-sm"
-                  aria-label="Previous image"
-                >
-                  <ChevronLeft className="w-4 h-4 md:w-[24px] md:h-[24px] mx-auto" />
-                </button>
+      {fullscreen && typeof document !== "undefined" && createPortal(
+        <div className="fixed inset-0 z-[400] bg-[#0F172A]">
+          <button
+            type="button"
+            onClick={() => setFullscreen(false)}
+            className="fixed top-4 right-4 z-[410] flex h-12 w-12 items-center justify-center !bg-[#2563EB] !text-white shadow-lg transition hover:!bg-[#1D4ED8]"
+            title="Zamknij"
+            aria-label="Zamknij"
+          >
+            <X className="h-6 w-6" strokeWidth={2.4} />
+          </button>
 
-                <button
-                  onClick={() => { if (swiperRef.current) swiperRef.current.swiper.slideNext(); }}
-                  className="h-8 w-8 md:h-10 md:w-10 hidden md:block rounded-full bg-gray-100/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200 transition-all shadow-sm"
-                  aria-label="Next image"
-                >
-                  <ChevronRight className="w-4 h-4 md:w-[24px] md:h-[24px] mx-auto" />
-                </button>
+          {images.length > 1 && (
+            <>
+              <button
+                type="button"
+                onClick={() => swiperRef.current?.swiper.slidePrev()}
+                className="fixed top-1/2 left-4 z-[410] hidden h-12 w-12 -translate-y-1/2 items-center justify-center bg-white/90 text-[#0F172A] md:flex"
+                aria-label="Poprzednie zdjęcie"
+              >
+                <ChevronLeft className="h-6 w-6" />
+              </button>
+              <button
+                type="button"
+                onClick={() => swiperRef.current?.swiper.slideNext()}
+                className="fixed top-1/2 right-4 z-[410] hidden h-12 w-12 -translate-y-1/2 items-center justify-center bg-white/90 text-[#0F172A] md:flex"
+                aria-label="Następne zdjęcie"
+              >
+                <ChevronRight className="h-6 w-6" />
+              </button>
+            </>
+          )}
 
-                <button
-                  onClick={() => setFullscreen(false)}
-                  className="h-10 w-10 md:h-8 md:w-8 md:h-9 md:w-9 rounded-full bg-gray-100/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200 transition-all shadow-sm"
-                  title="Close"
-                >
-                  <span className="text-xl font-light"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-icon lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></span>
-                </button>
-              </div>
-            </div>
+          <div className="flex h-full w-full items-center justify-center px-4 py-16">
+            <Swiper
+              ref={swiperRef}
+              modules={[Navigation, A11y]}
+              spaceBetween={0}
+              slidesPerView={1}
+              initialSlide={activeImg}
+              onSlideChange={(swiper) => setActiveImg(swiper.realIndex)}
+              grabCursor={true}
+              loop={images.length > 1}
+              className="h-full w-full max-w-[1400px]"
+            >
+              {images.map((img, index) => (
+                <SwiperSlide key={index} className="!flex !items-center !justify-center">
+                  <div className="relative h-[80vh] w-full">
+                    <Image src={img} alt={`${name} - ${index + 1}`} fill className="object-contain" sizes="100vw" priority unoptimized />
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
           </div>
 
-          {/* Image Display */}
-          <div className="max-w-[1600px] mx-auto  md:px-20 py-5">
-            <div className="flex items-center justify-center my-1 relative h-[85vh] w-full overflow-hidden">
-              <div className="flex items-center justify-center relative w-full h-full">
-                <Swiper
-                  ref={swiperRef}
-                  modules={[Navigation, A11y]}
-                  spaceBetween={0}
-                  slidesPerView={1}
-                  initialSlide={activeImg}
-                  onSlideChange={(swiper) => setActiveImg(swiper.realIndex)}
-                  grabCursor={true}
-                  threshold={10}
-                  allowTouchMove={true}
-                  simulateTouch={false}
-                  resistance={true}
-                  resistanceRatio={0.8}
-                  loop={true}
-                  className="w-full h-full"
-                  style={{ touchAction: 'pan-y' }}
-                >
-                  {images.map((img, index) => (
-                    <SwiperSlide key={index} className="!flex !items-center !justify-center w-full h-full">
-                      <div className="relative w-full h-full flex items-center justify-center">
-                        <Image src={img} alt={`${name} - Image ${index + 1}`} fill className="object-contain rounded-none md:rounded-2xl" sizes="100vw" priority unoptimized />
-                      </div>
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
-
-                </div>
-
-      
-
-
-
-                {/* Desktop: Bottom Right Counter */}
-                <div className="block fixed bottom-4 right-4 text-white dark:text-white text-sm md:text-lg md:text-base font-medium z-[110] bg-gray-900/70 dark:bg-black/70 px-3 py-2 rounded">
-                  {activeImg + 1} of {images.length}
-                </div>
-
-        {/* Top Navigation Bar */}
-<div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-[110] md:hidden">
-  <div className="flex items-center gap-6">
-    <button
-      onClick={() => swiperRef.current?.swiper.slidePrev()}
-      className="h-10 w-10 rounded-full bg-gray-100/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200 transition-all shadow-sm"
-      aria-label="Previous image"
-    >
-      <ChevronLeft className="w-7 h-7" />
-    </button>
-
-    <button
-      onClick={() => swiperRef.current?.swiper.slideNext()}
-      className="h-10 w-10 rounded-full bg-gray-100/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200 transition-all shadow-sm"
-      aria-label="Next image"
-    >
-      <ChevronRight className="w-7 h-7" />
-    </button>
-  </div>
-</div>
-              
-            </div>
+          <div className="fixed bottom-4 right-4 z-[410] bg-black/70 px-3 py-2 text-sm text-white">
+            {activeImg + 1} / {images.length}
           </div>
-        </div>
+
+          {images.length > 1 && (
+            <div className="fixed bottom-4 left-1/2 z-[410] flex -translate-x-1/2 gap-3 md:hidden">
+              <button
+                type="button"
+                onClick={() => swiperRef.current?.swiper.slidePrev()}
+                className="flex h-11 w-11 items-center justify-center bg-white text-[#0F172A]"
+                aria-label="Poprzednie zdjęcie"
+              >
+                <ChevronLeft className="h-6 w-6" />
+              </button>
+              <button
+                type="button"
+                onClick={() => swiperRef.current?.swiper.slideNext()}
+                className="flex h-11 w-11 items-center justify-center bg-white text-[#0F172A]"
+                aria-label="Następne zdjęcie"
+              >
+                <ChevronRight className="h-6 w-6" />
+              </button>
+            </div>
+          )}
+        </div>,
+        document.body
       )}
 
-      <div className="max-w-7xl mx-auto  py-8 lg:py-12">
-        {/* Back */}
-        <button onClick={() => router.back()} className="flex items-center gap-2 text-md text-gray-500 hover:text-gray-900 dark:hover:text-gray-200 mb-6 transition-colors">
-          <ChevronLeft className="w-4 h-4" /> {t('petDetail.backToListings')}
+      <div className="mx-auto w-full max-w-[1520px] px-4 py-6 sm:px-8 lg:py-10">
+        <button
+          onClick={() => router.back()}
+          className="mb-6 inline-flex items-center gap-1.5 text-[15px] font-semibold text-[#64748B] transition hover:text-[#2563EB]"
+        >
+          <ChevronLeft className="h-4 w-4" /> {t("petDetail.backToListings")}
         </button>
 
 <div>
@@ -518,9 +517,9 @@ export default function PetDetailPage() {
                 {/* Health badges */}
                 {pet.healthStatus?.length > 0 && (
                   <div className="absolute top-4 left-4 flex gap-2 flex-wrap z-10">
-                    {pet.healthStatus.slice(0, 3).map(h => (
-                      <span key={h} className="text-sm font-semibold bg-green-500/90 text-white px-2 py-0.5 rounded-full flex items-center gap-1">
-                        <ShieldCheck className="w-3 h-3" />{h}
+                    {pet.healthStatus.slice(0, 3).map((h) => (
+                      <span key={h} className="inline-flex items-center gap-1 bg-[#2563EB] px-2.5 py-1 text-[11px] font-semibold text-white">
+                        <ShieldCheck className="h-3 w-3" />{translateHealth(h)}
                       </span>
                     ))}
                   </div>
@@ -607,9 +606,9 @@ export default function PetDetailPage() {
                 {/* Health badges */}
                 {pet.healthStatus?.length > 0 && (
                   <div className="absolute top-3 left-3 flex gap-2 flex-wrap z-10">
-                    {pet.healthStatus.slice(0, 3).map(h => (
-                      <span key={h} className="text-sm font-semibold bg-green-500/90 text-white px-2 py-0.5 rounded-full flex items-center gap-1">
-                        <ShieldCheck className="w-3 h-3" />{h}
+                    {pet.healthStatus.slice(0, 3).map((h) => (
+                      <span key={h} className="inline-flex items-center gap-1 bg-[#2563EB] px-2.5 py-1 text-[11px] font-semibold text-white">
+                        <ShieldCheck className="h-3 w-3" />{translateHealth(h)}
                       </span>
                     ))}
                   </div>
@@ -689,161 +688,177 @@ export default function PetDetailPage() {
             </div>
 
   </div>  
-        <div className="grid grid-cols-1 px-4 lg:grid-cols-3 gap-8 py-8">
-          <div className="lg:col-span-2 space-y-3">
+        <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-12">
+          <div className="lg:col-span-8">
+            <h1 className="font-display text-[2.1rem] font-bold leading-tight text-[#0F172A] dark:text-white md:text-[3rem]">
+              {name}
+            </h1>
+            <p className="mt-2 text-[15px] text-[#64748B]">
+              {[pet.breed, translateSpecies(pet.species), city].filter(Boolean).join(" · ")}
+            </p>
 
-            {/* Specs table */}
-            <div className="md:bg-white md:dark:bg-dark-card rounded-2xl md:p-6 pt-6  md:border border-gray-100 dark:border-dark-divider">
-              <h2 className="text-lg pb-2 sm:text-xl font-bold text-gray-900 dark:text-gray-100 mb-3 sm:mb-4">
-                {t('petDetail.details')}
+            <section className="mt-8 border-t border-[#E2E8F0] pt-6 dark:border-dark-divider">
+              <h2 className="font-display text-2xl font-bold text-[#0F172A] dark:text-white">
+                {t("petDetail.details")}
               </h2>
+              <dl className="mt-5 grid grid-cols-1 gap-x-8 gap-y-4 sm:grid-cols-2">
+                {specs.map((s) => (
+                  <div key={s.label} className="border-b border-[#E2E8F0] pb-3 dark:border-dark-divider">
+                    <dt className="text-[13px] text-[#64748B]">{s.label}</dt>
+                    <dd className="mt-1 text-[16px] font-semibold text-[#0F172A] dark:text-white">{s.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            </section>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {specs
-                  .filter((s) => s.label !== "Location")
-                  .map((s) => (
-                    <div
-                      key={s.label}
-                      className="flex md:flex-col justify-between gap-0.5 border-b border-gray-100 dark:border-dark-divider pb-2"
-                    >
-                      <span className="text-md sm:text-sm text-gray-400 tracking-widest font-semibold">
-                        {t(`petDetail.${s.label.toLowerCase().replace(/ /g, '')}`) || s.label}
-                      </span>
-                      <span className="text-lg sm:text-md font-medium text-gray-900 dark:text-gray-100">
-                        {s.value}
-                      </span>
-                    </div>
-                  ))}
-              </div>
-
-            </div>
-            
-            {/* Description + AI sections */}
-            <div className="md:bg-white md:dark:bg-dark-card rounded-2xl pt-6 md:p-6 md:border border-gray-100 dark:border-dark-divider space-y-4">
-              <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">{t('petDetail.about')} {name}</h2>
-              {pet.description && <p className="text-gray-700 dark:text-gray-300 leading-relaxed">{pet.description}</p>}
+            <section className="mt-8 border-t border-[#E2E8F0] pt-6 dark:border-dark-divider">
+              <h2 className="font-display text-2xl font-bold text-[#0F172A] dark:text-white">
+                {t("petDetail.about")} {name}
+              </h2>
+              {pet.description && (
+                <p className="mt-4 max-w-2xl text-[16px] leading-relaxed text-[#475569] dark:text-white/70">
+                  {pet.description}
+                </p>
+              )}
               {pet.aiSections?.length > 0 && pet.aiSections.map((s, i) => (
-                <div key={i}>
-                  <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-1">{s.heading}</h3>
-                  <p className="text-gray-600 dark:text-gray-400 text-md leading-relaxed">{s.content}</p>
+                <div key={i} className="mt-5">
+                  <h3 className="font-semibold text-[#0F172A] dark:text-white">{s.heading}</h3>
+                  <p className="mt-1 text-[15px] leading-relaxed text-[#64748B]">{s.content}</p>
                 </div>
               ))}
               {pet.personality?.length > 0 && (
-                <div>
-                  <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-2">{t('petDetail.personality')}</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {pet.personality.map(p => <span key={p} className="px-3 py-1 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 rounded-full text-md font-medium">{p}</span>)}
+                <div className="mt-6">
+                  <h3 className="font-semibold text-[#0F172A] dark:text-white">{t("petDetail.personality")}</h3>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {pet.personality.map((p) => (
+                      <span key={p} className="bg-[#EEF2FF] px-3 py-1.5 text-sm font-medium text-[#2563EB] dark:bg-white/10 dark:text-[#93C5FD]">
+                        {p}
+                      </span>
+                    ))}
                   </div>
                 </div>
               )}
               {pet.specialNeeds && (
-                <div className="p-3 bg-amber-50 dark:bg-amber-900/20 rounded-xl border border-amber-200 dark:border-amber-800">
-                  <p className="text-md font-semibold text-amber-800 dark:text-amber-300">{t('petDetail.specialNeeds')}</p>
-                  <p className="text-md text-amber-700 dark:text-amber-400 mt-1">{pet.specialNeeds}</p>
+                <div className="mt-6 border-l-2 border-[#2563EB] bg-[#EEF2FF] px-4 py-3 dark:bg-white/5">
+                  <p className="text-sm font-semibold text-[#2563EB]">{t("petDetail.specialNeeds")}</p>
+                  <p className="mt-1 text-[15px] text-[#0F172A] dark:text-white/80">{pet.specialNeeds}</p>
                 </div>
               )}
-            </div>
-
-            
+            </section>
           </div>
 
-          {/* RIGHT: Contact card */}
-          <div className="space-y-4">
-            {/* Price + name sticky card */}
-            <div className="md:bg-white md:dark:bg-dark-card rounded-2xl md:p-6 md:border border-gray-100 dark:border-dark-divider sticky top-4 space-y-4">
-              <div>
-                <h1 className="text-3xl font-black text-gray-900 dark:text-white">{name}</h1>
-                {pet.breed && pet.species && <p className="text-gray-500 dark:text-gray-400 text-md mt-1">{pet.breed} · {pet.species}</p>}
-                <div className="mt-3 flex items-center gap-2">
-                  <MapPin className="w-4 h-4 text-gray-400" />
-                  <span className="text-md text-gray-500 dark:text-gray-400">{city || t('petDetail.locationNotSet')}</span>
-                </div>
-              </div>
+          <aside className="lg:col-span-4">
+            <div className="sticky top-24 bg-white p-6 dark:bg-dark-card">
+              <h2 className="font-display text-[1.75rem] font-bold text-[#0F172A] dark:text-white">{name}</h2>
+              <p className="mt-1 text-sm text-[#64748B]">
+                {[pet.breed, translateSpecies(pet.species)].filter(Boolean).join(" · ")}
+              </p>
+              {city && (
+                <p className="mt-3 flex items-center gap-1.5 text-sm text-[#64748B]">
+                  <MapPin className="h-4 w-4 text-[#2563EB]" />
+                  {city}
+                </p>
+              )}
 
-              {/* Fee section removed per user request */}
-              {/* <div className="bg-gray-50 dark:bg-dark-raised rounded-xl p-4">
-                <p className="text-sm text-gray-400 uppercase tracking-widest font-semibold mb-1">Adoption Fee</p>
-                <p className="text-3xl font-black text-gray-900 dark:text-white">{adoptionFee}</p>
-              </div> */}
-
-              {/* Health badges */}
               {pet.healthStatus?.length > 0 && (
-                <div className="flex flex-wrap gap-2">
-                  {pet.healthStatus.map(h => (
-                    <span key={h} className="flex items-center gap-1 text-sm font-semibold bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 border border-green-200 dark:border-green-800 px-2 py-1 rounded-full">
-                      <ShieldCheck className="w-3 h-3" />{h}
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {pet.healthStatus.map((h) => (
+                    <span key={h} className="inline-flex items-center gap-1 bg-[#EEF2FF] px-2.5 py-1 text-xs font-semibold text-[#2563EB] dark:bg-white/10 dark:text-[#93C5FD]">
+                      <ShieldCheck className="h-3 w-3" />{translateHealth(h)}
                     </span>
                   ))}
                 </div>
               )}
 
-              {/* CTA buttons */}
-              <div className="space-y-2">
+              <div className="mt-6 space-y-3">
                 {owner?.phoneNumbers?.length > 0 ? (
-                  <a href={toTelHref(owner.phoneNumbers[0])} className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-md transition-all shadow-lg shadow-blue-500/25 active:scale-[0.98]">
-                    <Phone className="w-4 h-4" /> {t('petDetail.callNow')}
+                  <a
+                    href={toTelHref(owner.phoneNumbers[0])}
+                    className="flex h-12 w-full items-center justify-center gap-2 bg-[#2563EB] text-sm font-bold text-white transition hover:bg-[#1D4ED8]"
+                  >
+                    <Phone className="h-4 w-4" /> {t("petDetail.callNow")}
                   </a>
                 ) : (
-                  <button onClick={startChat} className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-md transition-all shadow-lg shadow-blue-500/25 active:scale-[0.98]">
-                    <MessageCircle className="w-4 h-4" /> {t('petDetail.messageShelter')}
+                  <button
+                    onClick={startChat}
+                    className="flex h-12 w-full items-center justify-center gap-2 bg-[#2563EB] text-sm font-bold text-white transition hover:bg-[#1D4ED8]"
+                  >
+                    <MessageCircle className="h-4 w-4" /> {t("petDetail.messageShelter")}
                   </button>
                 )}
                 {owner?.phoneNumbers?.length > 0 && (
-                  <button onClick={startChat} className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl border border-gray-200 dark:border-dark-divider text-gray-700 dark:text-gray-200 font-bold text-md hover:bg-gray-50 dark:hover:bg-dark-card transition-all">
-                    <MessageCircle className="w-4 h-4" /> {t('petDetail.messageShelter')}
+                  <button
+                    onClick={startChat}
+                    className="flex h-12 w-full items-center justify-center gap-2 border border-[#0F172A] text-sm font-bold text-[#0F172A] transition hover:bg-[#0F172A] hover:text-white dark:border-white/40 dark:text-white"
+                  >
+                    <MessageCircle className="h-4 w-4" /> {t("petDetail.messageShelter")}
                   </button>
                 )}
               </div>
 
-              {/* Owner Info & Socials */}
-              <div className="border border-gray-100 dark:border-dark-divider rounded-xl p-4 flex flex-col gap-3">
-                <Link href={`/website/profile?id=${pet.createdBy}`} className="flex items-center gap-3 group cursor-pointer">
-                  <div className="w-12 h-12 rounded-full bg-gray-200 dark:bg-dark-raised overflow-hidden relative flex-shrink-0 group-hover:ring-2 group-hover:ring-blue-500 transition-all">
-                    {owner?.image ? <Image src={owner.image} alt={ownerName} fill className="object-cover" sizes="48px" /> : <div className="w-full h-full flex items-center justify-center text-gray-400 text-lg font-bold">{ownerName[0]}</div>}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-md font-bold text-gray-900 dark:text-gray-100 group-hover:text-blue-600 transition-colors">{ownerName}</p>
-                    <p className="text-sm text-gray-400">{owner?.sellerType === "company" ? t('petDetail.shelter') : t('petDetail.privateOwner')}</p>
-                  </div>
-                  <span className="text-sm text-blue-500 font-semibold opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0">{t('petDetail.viewProfile')}</span>
-                </Link>
+              <Link
+                href={`/website/profile?id=${pet.createdBy}`}
+                className="mt-6 flex items-center gap-3 border-t border-[#E2E8F0] pt-5 dark:border-dark-divider"
+              >
+                <div className="relative h-12 w-12 shrink-0 overflow-hidden bg-[#EEF2FF] dark:bg-white/10">
+                  {owner?.image ? (
+                    <Image src={owner.image} alt={ownerName} fill className="object-cover" sizes="48px" />
+                  ) : (
+                    <span className="flex h-full w-full items-center justify-center text-lg font-bold text-[#2563EB]">
+                      {ownerName[0]}
+                    </span>
+                  )}
+                </div>
+                <div className="min-w-0">
+                  <p className="truncate font-semibold text-[#0F172A] dark:text-white">{ownerName}</p>
+                  <p className="text-sm text-[#64748B]">
+                    {owner?.sellerType === "company" ? t("petDetail.shelter") : t("petDetail.privateOwner")}
+                  </p>
+                </div>
+              </Link>
 
-                {/* Social media links */}
-                {owner?.socialMedia && (owner.socialMedia.facebook || owner.socialMedia.instagram || owner.socialMedia.website) && (
-                  <div className="flex gap-2 pt-3 mx-auto border-t border-gray-50 dark:border-dark-raised">
-                    {owner.socialMedia.website && <a href={owner.socialMedia.website.startsWith('http') ? owner.socialMedia.website : `https://${owner.socialMedia.website}`} target="_blank" rel="noopener noreferrer" title="Website" className="p-2 rounded-full bg-gray-100 dark:bg-dark-raised text-gray-600 hover:text-blue-500 hover:bg-gray-200 dark:hover:bg-dark-card transition"><FaGlobe className="w-6 h-6" /></a>}
-                    {owner.socialMedia.facebook && <a href={owner.socialMedia.facebook.startsWith('http') ? owner.socialMedia.facebook : `https://${owner.socialMedia.facebook}`} target="_blank" rel="noopener noreferrer" title="Facebook" className="p-2 rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-600 hover:bg-blue-100 dark:hover:bg-blue-900/40 transition"><FaFacebook className="w-6 h-6" /></a>}
-                    {owner.socialMedia.instagram && <a href={owner.socialMedia.instagram.startsWith('http') ? owner.socialMedia.instagram : `https://${owner.socialMedia.instagram}`} target="_blank" rel="noopener noreferrer" title="Instagram" className="p-2 rounded-full bg-pink-50 dark:bg-pink-900/20 text-pink-600 hover:bg-pink-100 dark:hover:bg-pink-900/40 transition"><FaInstagram className="w-6 h-6" /></a>}
-                  </div>
-                )}
-              </div>
+              {owner?.socialMedia && (owner.socialMedia.facebook || owner.socialMedia.instagram || owner.socialMedia.website) && (
+                <div className="mt-4 flex gap-2">
+                  {owner.socialMedia.website && (
+                    <a href={owner.socialMedia.website.startsWith("http") ? owner.socialMedia.website : `https://${owner.socialMedia.website}`} target="_blank" rel="noopener noreferrer" className="flex h-10 w-10 items-center justify-center bg-[#F4F7FB] text-[#64748B] dark:bg-white/10">
+                      <FaGlobe className="h-4 w-4" />
+                    </a>
+                  )}
+                  {owner.socialMedia.facebook && (
+                    <a href={owner.socialMedia.facebook.startsWith("http") ? owner.socialMedia.facebook : `https://${owner.socialMedia.facebook}`} target="_blank" rel="noopener noreferrer" className="flex h-10 w-10 items-center justify-center bg-[#EEF2FF] text-[#2563EB] dark:bg-white/10">
+                      <FaFacebook className="h-4 w-4" />
+                    </a>
+                  )}
+                  {owner.socialMedia.instagram && (
+                    <a href={owner.socialMedia.instagram.startsWith("http") ? owner.socialMedia.instagram : `https://${owner.socialMedia.instagram}`} target="_blank" rel="noopener noreferrer" className="flex h-10 w-10 items-center justify-center bg-[#EEF2FF] text-[#2563EB] dark:bg-white/10">
+                      <FaInstagram className="h-4 w-4" />
+                    </a>
+                  )}
+                </div>
+              )}
             </div>
-          </div>
+          </aside>
         </div>
       </div>
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-          <div className="bg-white dark:bg-dark-card w-full max-w-lg rounded-3xl p-6 shadow-2xl animate-in zoom-in-95 duration-200 border border-gray-100 dark:border-dark-divider">
-            <h2 className="text-2xl font-black mb-2 text-gray-900 dark:text-white">{t('petDetail.adoptionApplication')}</h2>
-            <p className="text-gray-500 text-md mb-6">{t('petDetail.applicationSubtitle')} {name}.</p>
-
-            <div className="mb-6">
-              <label className="block text-md font-bold text-gray-700 dark:text-gray-300 mb-2">{t('petDetail.messageToShelter')}</label>
-              <textarea
-                value={applicationText}
-                onChange={(e) => setApplicationText(e.target.value)}
-                rows={4}
-                className="w-full p-3 rounded-xl border border-gray-200 dark:border-dark-divider bg-gray-50 dark:bg-dark-raised focus:ring-2 focus:ring-blue-500 outline-none text-md resize-none"
-                placeholder={t('petDetail.messagePlaceholder')}
-              />
-            </div>
-
-            <div className="flex gap-3">
-              <button onClick={() => setIsModalOpen(false)} className="flex-1 py-3 rounded-xl font-bold text-gray-600 bg-gray-100 hover:bg-gray-200 dark:bg-dark-raised dark:text-gray-300 dark:hover:bg-dark-card transition-colors">
-                {t('petDetail.cancel')}
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#0F172A]/50 p-4">
+          <div className="w-full max-w-lg bg-white p-6 dark:bg-dark-card">
+            <h2 className="font-display text-2xl font-bold text-[#0F172A] dark:text-white">{t("petDetail.adoptionApplication")}</h2>
+            <p className="mt-2 text-[15px] text-[#64748B]">{t("petDetail.applicationSubtitle")} {name}.</p>
+            <label className="mt-5 block text-sm font-semibold text-[#0F172A] dark:text-white">{t("petDetail.messageToShelter")}</label>
+            <textarea
+              value={applicationText}
+              onChange={(e) => setApplicationText(e.target.value)}
+              rows={4}
+              className="mt-2 w-full border border-[#E2E8F0] bg-[#F4F7FB] p-3 text-sm outline-none focus:border-[#2563EB] dark:border-dark-divider dark:bg-dark-raised"
+              placeholder={t("petDetail.messagePlaceholder")}
+            />
+            <div className="mt-5 flex gap-3">
+              <button onClick={() => setIsModalOpen(false)} className="h-12 flex-1 border border-[#0F172A] text-sm font-bold text-[#0F172A] dark:border-white/40 dark:text-white">
+                {t("petDetail.cancel")}
               </button>
-              <button onClick={submitApplication} className="flex-1 py-3 rounded-xl font-bold text-white bg-blue-600 hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 shadow-lg shadow-blue-500/25">
-                <Heart className="w-4 h-4" /> {t('petDetail.submitApplication')}
+              <button onClick={submitApplication} className="flex h-12 flex-1 items-center justify-center gap-2 bg-[#2563EB] text-sm font-bold text-white hover:bg-[#1D4ED8]">
+                <Heart className="h-4 w-4" /> {t("petDetail.submitApplication")}
               </button>
             </div>
           </div>

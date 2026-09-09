@@ -7,8 +7,12 @@ import Link from "next/link";
 import Navbar from "../components/website/Navbar.jsx";
 import { Footer } from "../components/website/Footer.jsx";
 import CustomSelect from "../components/website/CustomSelect.jsx";
+import LocationSearch from "../components/website/LocationSearch.jsx";
 import HomePetCard from "../components/website/HomePetCard.jsx";
 import { useLanguage } from "../lib/i18n/LanguageContext";
+import { mergeWithDemoPets, DEMO_PETS } from "../lib/demoPets";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination } from "swiper/modules";
 import {
   Search,
   Heart,
@@ -29,19 +33,19 @@ const resolveImage = (src, fallback) =>
 const HERO_STATS = [
   { value: "500+", key: "homepage.stats.pets", fallback: "Pets looking for a home" },
   { value: "120+", key: "homepage.stats.shelters", fallback: "Partner shelters" },
-  { value: "2 400+", key: "homepage.stats.adoptions", fallback: "Happy adoptions" },
+  { value: "2.400+", key: "homepage.stats.adoptions", fallback: "Happy adoptions" },
 ];
 
 function SectionHeading({ eyebrow, title, subtitle, href, linkLabel }) {
   return (
-    <div className="mb-12 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-      <div className="max-w-2xl">
+    <div className="mb-8 flex flex-row items-end justify-between gap-3 md:mb-12 md:gap-6">
+      <div className="min-w-0 flex-1">
         {eyebrow && (
           <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.22em] text-[#2563EB]">
             {eyebrow}
           </p>
         )}
-        <h2 className="font-display text-[2.15rem] font-medium leading-[1.12] tracking-tight text-[#0F172A] dark:text-white md:text-[3.1rem]">
+        <h2 className="font-display text-[1.85rem] font-bold leading-[1.12] tracking-tight text-[#0F172A] dark:text-white md:text-[3.1rem]">
           {title}
         </h2>
         {subtitle && (
@@ -54,7 +58,7 @@ function SectionHeading({ eyebrow, title, subtitle, href, linkLabel }) {
       {href && (
         <Link
           href={href}
-          className="group inline-flex w-fit items-center gap-2 border-b border-[#0F172A] pb-1 text-sm font-semibold text-[#0F172A] dark:border-white dark:text-white"
+          className="group mb-1 inline-flex shrink-0 items-center gap-1.5 border-b border-[#0F172A] pb-0.5 text-sm font-semibold whitespace-nowrap text-[#0F172A] dark:border-white dark:text-white"
         >
           {linkLabel}
           <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -88,10 +92,10 @@ function HomeContent() {
             .then((pets) => {
               const adoptionPets = pets.filter((p) => p.type !== "food_donation");
               const foodPets = pets.filter((p) => p.type === "food_donation" && p.status === "Approved");
-              setRecentPets(adoptionPets.slice(0, 4));
+              setRecentPets(mergeWithDemoPets(adoptionPets, 8));
               setFoodDonationPets(foodPets.slice(0, 4));
             })
-            .catch(() => {})
+            .catch(() => setRecentPets(DEMO_PETS.slice(0, 8)))
         ),
         import("../services/lostFoundService").then(({ getAllLostFound }) =>
           getAllLostFound()
@@ -112,13 +116,6 @@ function HomeContent() {
     const query = params.toString();
     router.push(query ? `/website/pets?${query}` : "/website/pets");
   };
-
-  const categories = [
-    { name: t("homepage.browseCategory.smallDogs"), q: "species=Pies&size=Small", img: "/home/cat-small-dogs.jpg" },
-    { name: t("homepage.browseCategory.bigDogs"), q: "species=Pies&size=Large", img: "/home/cat-big-dogs.jpg" },
-    { name: t("homepage.browseCategory.kittens"), q: "species=Kot&ageGroup=Baby", img: "/home/cat-kittens.jpg" },
-    { name: t("homepage.browseCategory.seniorPets"), q: "ageGroup=Senior", img: "/home/cat-senior.jpg" },
-  ];
 
   const testimonials = [
     {
@@ -151,66 +148,54 @@ function HomeContent() {
   ];
 
   return (
-    <div className="marketing-ui flex min-h-screen flex-col bg-[#F4F7FB] text-[#0F172A] transition-colors duration-300 dark:bg-dark-main dark:text-gray-200">
+    <div className="marketing-ui flex min-h-screen w-full max-w-full flex-col bg-[#F4F7FB] text-[#0F172A] transition-colors duration-300 dark:bg-dark-main dark:text-gray-200">
       <Navbar />
 
-      <section className="relative isolate min-h-[calc(100svh-5rem)]">
+      <div className="min-w-0 overflow-x-hidden">
+      <section className="relative isolate min-h-[72svh] md:min-h-[78svh]">
         <div className="absolute inset-0 overflow-hidden">
-          <Image
-            src="/home/hero-wide.jpg"
-            alt={t("homepage.hero.imageDogAlt", "Dogs running toward a new home")}
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover object-center animate-kenburns"
-          />
+          <div className="absolute inset-x-0 top-[-20%] h-[120%]">
+            <Image
+              src="/home/hero-wide.jpg"
+              alt={t("homepage.hero.imageDogAlt", "Dogs running toward a new home")}
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover object-top origin-top animate-kenburns"
+            />
+          </div>
           <div className="absolute inset-0 bg-[#0F172A]/55" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#0F172A]/80 via-[#0F172A]/40 to-transparent" />
         </div>
 
-        <div className="relative z-20 mx-auto flex min-h-[calc(100svh-5rem)] w-full max-w-[1520px] flex-col justify-end px-5 pb-10 pt-16 sm:px-8 lg:justify-center lg:pb-16">
+        <div className="relative z-20 mx-auto flex min-h-[72svh] w-full max-w-[1520px] flex-col justify-end px-4 pb-8 pt-10 sm:px-8 md:min-h-[78svh] lg:justify-center lg:pb-12">
           <div className="max-w-3xl">
-            <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-[#93C5FD]">
-              {t("homepage.hero.badge", "Over 500 pets are waiting for a home")}
-            </p>
-
-            <h1 className="font-display mt-4 text-[2.7rem] font-medium leading-[1.05] text-white sm:text-6xl lg:text-[5.1rem]">
+            <h1 className="font-display text-[2.15rem] font-bold leading-[1.28] text-white sm:text-6xl sm:leading-[1.24] lg:text-[5.1rem] lg:leading-[1.22]">
               {t("homepage.hero.title1")}
               <br />
-              <em className="font-normal text-[#93C5FD]">{t("homepage.hero.title2")}</em>
+              <em className="font-semibold italic leading-[inherit] text-[#93C5FD]">{t("homepage.hero.title2")}</em>
             </h1>
 
-            <p className="mt-6 max-w-lg text-lg leading-relaxed text-[#E8EEF8]">
-              {t("homepage.hero.subtitle")}
-            </p>
-
-            <form onSubmit={handleHeroSearch} className="mkt-search mt-9 max-w-3xl">
+            <form onSubmit={handleHeroSearch} className="mkt-search mt-9 w-full min-w-0 max-w-3xl">
               <CustomSelect
                 value={searchSpecies}
                 onChange={setSearchSpecies}
                 options={speciesOptions}
-                label={t("homepage.hero.searchSpecies", "All species")}
+                label={t("dashboard.filters.species", "Species")}
                 icon={PawPrint}
                 ariaLabel={t("homepage.hero.searchSpecies", "All species")}
               />
 
-              <label className="mkt-field">
-                <MapPin className="mr-3 h-5 w-5 shrink-0 text-[#2563EB]" />
-                <span className="min-w-0 flex-1">
-                  <span className="mkt-field-label">{t("homepage.hero.searchLocation", "City or region")}</span>
-                  <input
-                    type="text"
-                    value={searchLocation}
-                    onChange={(e) => setSearchLocation(e.target.value)}
-                    placeholder={t("homepage.hero.searchLocation", "City or region")}
-                    className="mkt-field-value"
-                  />
-                </span>
-              </label>
+              <LocationSearch
+                value={searchLocation}
+                onChange={setSearchLocation}
+                label={t("dashboard.filters.location", "Location")}
+                placeholder={t("homepage.hero.searchLocation", "City or region")}
+              />
 
               <button
                 type="submit"
-                className="inline-flex min-h-[58px] items-center justify-center gap-2 bg-[#2563EB] px-8 text-sm font-bold uppercase tracking-[0.12em] text-white transition hover:bg-[#1D4ED8]"
+                className="inline-flex min-h-[68px] items-center justify-center gap-2 bg-[#2563EB] px-8 text-sm font-bold uppercase tracking-[0.12em] text-white transition hover:bg-[#1D4ED8]"
               >
                 <Search className="h-4 w-4" />
                 {t("homepage.hero.searchBtn", "Search")}
@@ -244,10 +229,10 @@ function HomeContent() {
         {HERO_STATS.map((stat, index) => (
           <div
             key={stat.key}
-            className={`px-4 py-6 text-center sm:px-8 sm:py-8 ${index > 0 ? "border-l border-white/10" : ""}`}
+            className={`px-2 py-5 text-center sm:px-8 sm:py-8 ${index > 0 ? "border-l border-white/10" : ""}`}
           >
-            <p className="font-display text-3xl font-medium sm:text-5xl">{stat.value}</p>
-            <p className="mt-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-white/50 sm:text-xs">
+            <p className="font-display text-[1.35rem] font-bold whitespace-nowrap sm:text-5xl">{stat.value}</p>
+            <p className="mt-2 text-[9px] font-semibold uppercase leading-tight tracking-[0.12em] text-white/50 sm:text-xs sm:tracking-[0.16em]">
               {t(stat.key, stat.fallback)}
             </p>
           </div>
@@ -256,95 +241,54 @@ function HomeContent() {
 
       <main className="w-full flex-grow">
         <section className="border-b border-[#E2E8F0] dark:border-dark-divider">
-          <div className="mx-auto grid max-w-[1520px] grid-cols-2 divide-x divide-[#E2E8F0] dark:divide-dark-divider md:grid-cols-4">
+          <div className="mx-auto grid max-w-[1520px] grid-cols-2 md:grid-cols-4">
             {[
               { icon: ShieldCheck, label: t("homepage.trust.verified", "Verified shelters") },
               { icon: Heart, label: t("homepage.trust.free", "Free to browse") },
               { icon: Users, label: t("homepage.trust.community", "Active community") },
               { icon: HomeIcon, label: t("homepage.trust.support", "Post-adoption support") },
-            ].map(({ icon: Icon, label }) => (
-              <div key={label} className="flex items-center gap-3 px-5 py-6 sm:px-8">
-                <Icon className="h-5 w-5 text-[#2563EB]" />
-                <span className="text-sm font-semibold">{label}</span>
+            ].map(({ icon: Icon, label }, index) => (
+              <div
+                key={label}
+                className={`flex items-center gap-3 px-3 py-2.5 sm:gap-3 sm:px-8 sm:py-6 ${
+                  index % 2 === 1 ? "border-l border-[#E2E8F0] dark:border-dark-divider" : ""
+                } ${
+                  index >= 2 ? "border-t border-[#E2E8F0] dark:border-dark-divider md:border-t-0" : ""
+                } ${
+                  index > 0 ? "md:border-l md:border-[#E2E8F0] dark:md:border-dark-divider" : ""
+                }`}
+              >
+                <Icon className="h-5 w-5 shrink-0 text-[#2563EB]" />
+                <span className="text-sm font-semibold leading-snug sm:text-sm">{label}</span>
               </div>
             ))}
           </div>
         </section>
 
-        <section className="mx-auto w-full max-w-[1520px] px-5 py-20 sm:px-8 md:py-28">
-          <SectionHeading
-            eyebrow={t("homepage.browseCategory.eyebrow", "Categories")}
-            title={t("homepage.browseCategory.title")}
-            subtitle={t("homepage.browseCategory.subtitle")}
-            href="/website/pets"
-            linkLabel={t("homepage.viewAll")}
-          />
-
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 md:h-[36rem] md:gap-4">
-            {categories.slice(0, 2).map((cat) => (
-              <Link
-                key={cat.q}
-                href={`/website/pets?${cat.q}`}
-                className="group relative block h-56 overflow-hidden sm:h-72 md:h-full"
-              >
-                <Image
-                  src={cat.img}
-                  alt={cat.name}
-                  fill
-                  loading="lazy"
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A]/85 via-[#0F172A]/15 to-transparent" />
-                <div className="absolute inset-x-5 bottom-5">
-                  <h3 className="font-display text-2xl font-medium text-white md:text-3xl">{cat.name}</h3>
-                  <span className="mt-2 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-white/70">
-                    {t("homepage.browseCategory.browse", "Browse")}
-                    <ArrowRight className="h-3.5 w-3.5" />
-                  </span>
-                </div>
-              </Link>
-            ))}
-
-            <div className="grid grid-cols-1 gap-3 sm:col-span-2 md:col-span-1 md:grid-rows-2 md:gap-4">
-              {categories.slice(2).map((cat) => (
-                <Link
-                  key={cat.q}
-                  href={`/website/pets?${cat.q}`}
-                  className="group relative block h-56 overflow-hidden md:h-auto"
-                >
-                  <Image
-                    src={cat.img}
-                    alt={cat.name}
-                    fill
-                    loading="lazy"
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A]/85 via-[#0F172A]/15 to-transparent" />
-                  <div className="absolute inset-x-5 bottom-5">
-                    <h3 className="font-display text-2xl font-medium text-white md:text-3xl">{cat.name}</h3>
-                    <span className="mt-2 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.16em] text-white/70">
-                      {t("homepage.browseCategory.browse", "Browse")}
-                      <ArrowRight className="h-3.5 w-3.5" />
-                    </span>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </section>
-
         {recentPets.length > 0 && (
-          <section className="mx-auto w-full max-w-[1520px] px-5 pb-8 sm:px-8">
+          <section className="mx-auto w-full max-w-[1520px] px-4 pt-12 pb-6 sm:px-8 md:py-20">
             <SectionHeading
-              eyebrow={t("homepage.newlyListed.eyebrow", "Fresh arrivals")}
               title={t("homepage.newlyListed.title")}
-              subtitle={t("homepage.newlyListed.subtitle")}
               href="/website/pets"
               linkLabel={t("homepage.viewAll")}
             />
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="-mx-4 md:mx-0 md:hidden">
+              <Swiper
+                modules={[Pagination]}
+                slidesPerView={1.18}
+                spaceBetween={12}
+                centeredSlides
+                pagination={{ clickable: true }}
+                className="newly-swiper"
+              >
+                {recentPets.map((pet, i) => (
+                  <SwiperSlide key={pet._id || i} className="!h-auto">
+                    <HomePetCard pet={pet} />
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </div>
+            <div className="hidden grid-cols-2 gap-4 md:grid lg:grid-cols-4">
               {recentPets.map((pet, i) => (
                 <HomePetCard key={pet._id || i} pet={pet} />
               ))}
@@ -352,7 +296,7 @@ function HomeContent() {
           </section>
         )}
 
-        <section className="mt-16 bg-white dark:bg-dark-card md:mt-24">
+        <section className="mt-8 bg-white dark:bg-dark-card md:mt-24">
           <div className="grid lg:grid-cols-12">
             <div className="relative min-h-[380px] lg:col-span-6 lg:min-h-[680px]">
               <Image
@@ -365,28 +309,21 @@ function HomeContent() {
               />
             </div>
             <div className="flex items-center lg:col-span-6">
-              <div className="w-full px-6 py-14 sm:px-10 lg:px-16 xl:px-20">
-                <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#2563EB]">
-                  {t("homepage.whyAdopt.eyebrow", "Why Rafraf")}
-                </p>
-                <h2 className="font-display mt-4 max-w-xl text-[2.3rem] font-medium leading-[1.12] text-[#0F172A] dark:text-white md:text-[3.25rem]">
+              <div className="w-full px-5 py-10 sm:py-14 sm:px-10 lg:px-16 xl:px-20">
+                <h2 className="font-display max-w-xl text-[2.3rem] font-bold leading-[1.12] text-[#0F172A] dark:text-white md:text-[3.25rem]">
                   {t("homepage.whyAdopt.title")}
                 </h2>
-                <p className="mt-5 max-w-lg text-[17px] leading-relaxed text-[#64748B] dark:text-gray-400">
-                  {t(
-                    "homepage.whyAdopt.lead",
-                    "Adoption changes two lives at once — the pet you take home, and the one that takes its place at the shelter."
-                  )}
-                </p>
                 <div className="mt-10 divide-y divide-[#E2E8F0] dark:divide-dark-divider">
                   {whyItems.map((item) => (
-                    <article key={item.num} className="grid grid-cols-[56px_1fr] gap-5 py-6 first:pt-0 last:pb-0">
-                      <span className="font-display text-2xl text-[#2563EB]">{item.num}</span>
+                    <article key={item.num} className="grid grid-cols-[56px_1fr] items-start gap-5 py-6 first:pt-0 last:pb-0">
+                      <span className="font-display pt-0.5 text-2xl text-[#2563EB]">{item.num}</span>
                       <div>
-                        <h3 className="font-display text-[1.45rem] font-medium text-[#0F172A] dark:text-white">
+                        <h3 className="font-display text-[1.45rem] font-bold text-[#0F172A] dark:text-white">
                           {item.title}
                         </h3>
-                        <p className="mt-2 leading-relaxed text-[#64748B] dark:text-gray-400">{item.desc}</p>
+                        <p className="mt-2 max-w-md text-[15px] leading-relaxed text-[#64748B] dark:text-white/55">
+                          {item.desc}
+                        </p>
                       </div>
                     </article>
                   ))}
@@ -396,21 +333,18 @@ function HomeContent() {
           </div>
         </section>
 
-        <section id="how-it-works" className="mx-auto w-full max-w-[1520px] px-5 py-20 sm:px-8 md:py-28">
-          <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#2563EB]">
-            {t("homepage.howItWorks.eyebrow", "Three steps")}
-          </p>
-          <h2 className="font-display mt-3 text-[2.3rem] font-medium text-[#0F172A] dark:text-white md:text-[3.1rem]">
+        <section id="how-it-works" className="mx-auto w-full max-w-[1520px] px-4 py-16 sm:px-8 md:py-28">
+          <h2 className="font-display text-[2.3rem] font-bold text-[#0F172A] dark:text-white md:text-[3.1rem]">
             {t("homepage.howItWorks.title")}
           </h2>
           <div className="mt-12 grid grid-cols-1 divide-y divide-[#E2E8F0] border-y border-[#E2E8F0] dark:divide-dark-divider dark:border-dark-divider md:grid-cols-3 md:divide-x md:divide-y-0">
             {[1, 2, 3].map((step) => (
               <div key={step} className="px-0 py-8 md:px-10 md:py-12 first:md:pl-0 last:md:pr-0">
                 <span className="font-display text-5xl text-[#2563EB]/80">0{step}</span>
-                <h3 className="font-display mt-5 text-2xl font-medium text-[#0F172A] dark:text-white">
+                <h3 className="font-display mt-5 text-2xl font-bold text-[#0F172A] dark:text-white">
                   {t(`homepage.howItWorks.step${step}.title`)}
                 </h3>
-                <p className="mt-3 max-w-sm leading-relaxed text-[#64748B] dark:text-gray-400">
+                <p className="mt-3 max-w-sm text-[15px] leading-relaxed text-[#64748B] dark:text-white/55">
                   {t(`homepage.howItWorks.step${step}.desc`)}
                 </p>
               </div>
@@ -418,7 +352,7 @@ function HomeContent() {
           </div>
         </section>
 
-        <section className="mx-auto w-full max-w-[1520px] px-5 pb-8 sm:px-8">
+        <section className="mx-auto w-full max-w-[1520px] px-4 pb-8 sm:px-8">
           <div className="grid overflow-hidden bg-white dark:bg-dark-card lg:grid-cols-2">
             <div className="relative min-h-[300px] lg:min-h-[560px]">
               <Image
@@ -430,33 +364,24 @@ function HomeContent() {
                 className="object-cover"
               />
             </div>
-            <div className="flex flex-col justify-center px-6 py-12 sm:px-12 lg:px-16">
-              <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#2563EB]">
-                {t("homepage.petsNeedingFood.badge")}
-              </p>
-              <h2 className="font-display mt-4 text-[2.2rem] font-medium leading-[1.15] text-[#0F172A] dark:text-white md:text-[3rem]">
+            <div className="flex flex-col justify-center px-5 py-8 sm:py-12 sm:px-12 lg:px-16">
+              <h2 className="font-display text-[1.8rem] font-bold leading-[1.15] text-[#0F172A] dark:text-white md:text-[3rem]">
                 {t("homepage.feedPets.title")}
               </h2>
-              <p className="mt-5 text-lg leading-relaxed text-[#64748B] dark:text-gray-400">
+              <p className="mt-4 max-w-lg text-[16px] leading-relaxed text-[#64748B] dark:text-white/55">
                 {t("homepage.feedPets.subtitle")}
-              </p>
-              <p className="mt-4 leading-relaxed text-[#64748B] dark:text-gray-500">
-                  {t(
-                    "homepage.feedPets.description",
-                    "Przygotowujemy nowy dział wsparcia. Wkrótce będzie można pomóc konkretnym zwierzętom i finansować cele takie jak karma, leczenie lub niezbędny sprzęt."
-                  )}
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Link
                   href="/website/food-donations"
-                  className="inline-flex items-center justify-center gap-2 bg-[#2563EB] px-7 py-3.5 text-sm font-bold uppercase tracking-[0.12em] text-white transition hover:bg-[#1D4ED8]"
+                  className="inline-flex items-center justify-center gap-3 bg-[#2563EB] px-5 py-3.5 text-sm font-bold uppercase tracking-[0.12em] text-white transition hover:bg-[#1D4ED8]"
                 >
-                  <Heart className="h-4 w-4" />
+                  <Heart className="h-5 min-w-4 w-4" />
                   {t("homepage.feedPets.browseBtn")}
                 </Link>
                 <Link
                   href="/dashboard/food-pets/add"
-                  className="inline-flex items-center justify-center border border-[#0F172A] px-7 py-3.5 text-sm font-bold uppercase tracking-[0.12em] text-[#0F172A] transition hover:bg-[#0F172A] hover:text-white dark:border-white dark:text-white"
+                  className="inline-flex items-center justify-center border border-[#0F172A] px-5 py-3.5 text-sm font-bold uppercase tracking-[0.12em] text-[#0F172A] transition hover:bg-[#0F172A] hover:text-white dark:border-white dark:text-white"
                 >
                   {t("homepage.feedPets.listBtn")}
                 </Link>
@@ -482,7 +407,7 @@ function HomeContent() {
                       className="object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                     {pet.isUrgent && (
-                      <span className="absolute left-3 top-3 bg-red-600 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-white">
+                      <span className="absolute left-3 top-3 bg-red-600 px-4 py-1 text-[10px] font-bold uppercase tracking-wider text-white">
                         Urgent
                       </span>
                     )}
@@ -516,21 +441,18 @@ function HomeContent() {
             className="object-cover"
           />
           <div className="absolute inset-0 bg-[#0F172A]/70" />
-          <div className="relative z-10 mx-auto flex min-h-[520px] max-w-[1520px] items-center px-5 py-16 sm:px-8 md:min-h-[600px]">
+          <div className="relative z-10 mx-auto flex min-h-[520px] max-w-[1520px] items-center px-4 py-16 sm:px-8 md:min-h-[600px]">
             <div className="max-w-2xl">
-              <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#93C5FD]">
-                {t("homepage.lostFound.title")}
-              </p>
-              <h2 className="font-display mt-4 text-[2.4rem] font-medium leading-[1.1] text-white md:text-[3.4rem]">
+              <h2 className="font-display text-[2.4rem] font-bold leading-[1.1] text-white md:text-[3.4rem]">
                 {t("homepage.lostFound.heading", "Every hour counts when a pet goes missing")}
               </h2>
-              <p className="mt-5 max-w-xl text-lg leading-relaxed text-white/75">
+              <p className="mt-4 max-w-xl text-[16px] leading-relaxed text-white/70">
                 {t("homepage.lostFound.subtitle")}
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Link
                   href="/website/lost-found"
-                  className="inline-flex items-center justify-center gap-2 bg-white px-7 py-3.5 text-sm font-bold uppercase tracking-[0.12em] text-[#0F172A]"
+                  className="inline-flex items-center justify-center gap-2 !bg-white px-7 py-3.5 text-sm font-bold uppercase tracking-[0.12em] !text-[#0F172A]"
                 >
                   {t("homepage.lostFound.browseBtn", "Browse reports")}
                   <ArrowRight className="h-4 w-4" />
@@ -580,19 +502,11 @@ function HomeContent() {
         )}
 
         <section className="w-full bg-[#0F172A] text-white">
-          <div className="px-5 py-16 sm:px-8 md:px-12 md:py-24">
-            <div className="mb-12 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-              <div>
-                <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#93C5FD]">
-                  {t("homepage.testimonials.eyebrow", "Happy endings")}
-                </p>
-                <h2 className="font-display mt-3 text-[2.3rem] font-medium md:text-[3.4rem]">
-                  {t("homepage.testimonials.title", "Stories from our community")}
-                </h2>
-              </div>
-              <p className="max-w-md text-white/55">
-                {t("homepage.testimonials.subtitle", "Real people, real pets, real second chances.")}
-              </p>
+          <div className="px-4 py-16 sm:px-8 md:px-12 md:py-24">
+            <div className="mb-12">
+              <h2 className="font-display text-[2.3rem] font-bold md:text-[3.4rem]">
+                {t("homepage.testimonials.title", "Stories from our community")}
+              </h2>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3">
@@ -632,10 +546,12 @@ function HomeContent() {
           <div className="absolute inset-0 bg-[#0F172A]/65" />
           <div className="relative z-10 mx-auto flex min-h-[480px] max-w-[800px] flex-col items-center justify-center px-6 py-20 text-center text-white md:min-h-[560px]">
             <HeartHandshake className="mb-6 h-10 w-10 text-[#93C5FD]" />
-            <h2 className="font-display text-[2.4rem] font-medium leading-tight md:text-[4rem]">
+            <h2 className="font-display text-[2.4rem] font-bold leading-tight md:text-[4rem]">
               {t("homepage.cta.title")}
             </h2>
-            <p className="mx-auto mt-5 max-w-xl text-lg text-white/70">{t("homepage.cta.subtitle")}</p>
+            <p className="mt-4 max-w-lg text-[16px] leading-relaxed text-white/70">
+              {t("homepage.cta.subtitle")}
+            </p>
             <div className="mt-10 flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/website/pets"
@@ -656,6 +572,7 @@ function HomeContent() {
       </main>
 
       <Footer />
+      </div>
     </div>
   );
 }

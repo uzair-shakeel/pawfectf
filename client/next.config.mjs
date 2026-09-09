@@ -17,6 +17,29 @@ if (!API_URL || !API_BASE_URL) {
   );
 }
 
+const imageHosts = [
+  { protocol: "https", hostname: "res.cloudinary.com" },
+  { protocol: "https", hostname: "images.unsplash.com" },
+  { protocol: "https", hostname: "img.clerk.com" },
+  { protocol: "http", hostname: "localhost" },
+  { protocol: "http", hostname: "127.0.0.1" },
+  { protocol: "https", hostname: "rafraf.pl" },
+  { protocol: "https", hostname: "www.rafraf.pl" },
+];
+
+for (const raw of [API_BASE_URL, API_URL]) {
+  try {
+    const parsed = new URL(raw);
+    imageHosts.push({
+      protocol: parsed.protocol.replace(":", ""),
+      hostname: parsed.hostname,
+      ...(parsed.port ? { port: parsed.port } : {}),
+    });
+  } catch {
+    // ignore invalid URLs
+  }
+}
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false, // Disable to prevent double renders
@@ -35,19 +58,15 @@ const nextConfig = {
   },
 
   images: {
-    remotePatterns: [
-      { protocol: "https", hostname: "res.cloudinary.com" },
-      { protocol: "https", hostname: "images.unsplash.com" },
-      { protocol: "https", hostname: "img.clerk.com" },
-      { protocol: "http", hostname: "localhost" },
-      { protocol: "http", hostname: "127.0.0.1" },
-    ],
+    remotePatterns: imageHosts,
     domains: [
       "res.cloudinary.com",
       "images.unsplash.com",
       "img.clerk.com",
       "localhost",
       "127.0.0.1",
+      "rafraf.pl",
+      "www.rafraf.pl",
     ],
     formats: ['image/webp', 'image/avif'],
     minimumCacheTTL: 60,

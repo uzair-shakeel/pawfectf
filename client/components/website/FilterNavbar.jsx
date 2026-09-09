@@ -3,11 +3,10 @@ import { useState, useEffect, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import { useSpeciesBreeds } from "../../hooks/useSpeciesBreeds";
 import { createPortal } from "react-dom";
-import { MdKeyboardArrowDown } from "react-icons/md";
 import { useLanguage } from "../../lib/i18n/LanguageContext";
-
-const COLORS = ["Black", "White", "Brown", "Golden", "Gray", "Cream", "Orange", "Tabby", "Calico", "Spotted", "Mixed", "Other"];
-const HEALTH_OPTIONS = ["Vaccinated", "Neutered/Spayed", "Microchipped", "Dewormed", "Vet Checked", "Special Needs"];
+import CustomSelect from "./CustomSelect";
+import LocationSearch from "./LocationSearch";
+import { X } from "lucide-react";
 
 const EMPTY = {
   location: "", distance: "", species: "", breed: "", size: "",
@@ -15,21 +14,38 @@ const EMPTY = {
   adoptionStatus: "", feeFrom: "", feeTo: "",
 };
 
-export default function FilterNavbar({ onApplyFilters }) {
+export default function FilterNavbar({ onApplyFilters, variant = "default" }) {
   const { t } = useLanguage();
   const { getSpecies, getBreedsForSpecies, loading } = useSpeciesBreeds();
   const [filters, setFilters] = useState(EMPTY);
   const searchParams = useSearchParams();
   const [showMoreFilters, setShowMoreFilters] = useState(false);
-  const [isDesktopExpanded, setIsDesktopExpanded] = useState(false);
+  const [sheetClosing, setSheetClosing] = useState(false);
+  const sheetTimer = useRef(null);
   const [isSticky, setIsSticky] = useState(false);
   const [navbarHeight, setNavbarHeight] = useState(0);
   const [isMounted, setIsMounted] = useState(false);
   const filterRef = useRef(null);
+  const isHero = variant === "hero";
+  const tone = isHero ? "dark" : "light";
 
-  useEffect(() => { setIsMounted(true); }, []);
+  useEffect(() => { setIsMounted(true); return () => clearTimeout(sheetTimer.current); }, []);
 
-  // Sync from URL params
+  const openSheet = () => {
+    clearTimeout(sheetTimer.current);
+    setSheetClosing(false);
+    setShowMoreFilters(true);
+  };
+
+  const closeSheet = () => {
+    if (!showMoreFilters || sheetClosing) return;
+    setSheetClosing(true);
+    sheetTimer.current = setTimeout(() => {
+      setShowMoreFilters(false);
+      setSheetClosing(false);
+    }, 320);
+  };
+
   useEffect(() => {
     if (!searchParams) return;
     const g = (k) => searchParams.get(k) || "";
@@ -43,8 +59,7 @@ export default function FilterNavbar({ onApplyFilters }) {
     setFilters(prev => JSON.stringify(prev) !== JSON.stringify(next) ? { ...prev, ...next } : prev);
   }, [searchParams]);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
+  const setFilter = (name, value) => {
     const updated = { ...filters, [name]: value };
     if (name === "species") updated.breed = "";
     setFilters(updated);
@@ -53,8 +68,20 @@ export default function FilterNavbar({ onApplyFilters }) {
 
   const handleReset = () => { setFilters(EMPTY); onApplyFilters(EMPTY); };
 
-  // Sticky behavior (mobile only)
   useEffect(() => {
+    if (!showMoreFilters) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e) => { if (e.key === "Escape") closeSheet(); };
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = previous;
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [showMoreFilters]);
+
+  useEffect(() => {
+    if (isHero) return;
     let originalTop = 0, isInit = false, ticking = false, isStickyState = false;
     const update = () => {
       ticking = false;
@@ -69,106 +96,102 @@ export default function FilterNavbar({ onApplyFilters }) {
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
     return () => { window.removeEventListener("scroll", onScroll); window.removeEventListener("resize", onScroll); };
-  }, []);
+  }, [isHero]);
 
-  const sel = "min-w-0 max-w-full w-full truncate px-2 py-1.5 pr-6 text-md lg:px-4 lg:py-3 lg:pr-10 lg:text-base font-medium border border-gray-200 dark:border-dark-divider rounded-md lg:rounded-lg focus:outline-none bg-white dark:bg-dark-raised dark:text-dark-text-primary shadow-sm hover:shadow-md transition-all duration-200 appearance-none disabled:opacity-[0.32] disabled:cursor-not-allowed disabled:bg-[#EEF2FF] disabled:shadow-none disabled:hover:shadow-none";
-  const arrow = <div className="absolute inset-y-0 right-0 flex items-center pr-2 lg:pr-3 pointer-events-none"><MdKeyboardArrowDown className="w-5 h-5 text-gray-500" /></div>;
+  const speciesOptions = [
+    { value: "", label: t("dashboard.filters.species", "Species") },
+    ...getSpecies().map((s) => ({ value: s, label: s })),
+  ];
+  const breedOptions = [
+    { value: "", label: t("dashboard.filters.breed", "Breed") },
+    ...getBreedsForSpecies(filters.species).map((b) => ({ value: b, label: b })),
+  ];
+  const sizeOptions = [
+    { value: "", label: t("dashboard.filters.size", "Size") },
+    { value: "Small", label: t("dashboard.addPet.small", "Small") },
+    { value: "Medium", label: t("dashboard.addPet.medium", "Medium") },
+    { value: "Large", label: t("dashboard.addPet.large", "Large") },
+    { value: "Extra Large", label: t("dashboard.addPet.extraLarge", "Extra Large") },
+  ];
+  const ageOptions = [
+    { value: "", label: t("dashboard.filters.ageGroup", "Age Group") },
+    { value: "Baby", label: t("dashboard.filters.baby", "Baby (0–6m)") },
+    { value: "Young", label: t("dashboard.filters.young", "Young (6m–2y)") },
+    { value: "Adult", label: t("dashboard.filters.adult", "Adult (2–7y)") },
+    { value: "Senior", label: t("dashboard.filters.senior", "Senior (7y+)") },
+  ];
+  const genderOptions = [
+    { value: "", label: t("dashboard.filters.gender", "Gender") },
+    { value: "Male", label: t("dashboard.addPet.male", "Male") },
+    { value: "Female", label: t("dashboard.addPet.female", "Female") },
+  ];
+  const radiusOptions = [
+    { value: "", label: t("dashboard.filters.radius", "Radius") },
+    { value: "30", label: "30 km" },
+    { value: "50", label: "50 km" },
+    { value: "100", label: "100 km" },
+  ];
+
+  const field = (name, options, disabled = false, fieldTone = tone) => (
+    <CustomSelect
+      variant="filter"
+      tone={fieldTone}
+      value={filters[name]}
+      onChange={(value) => setFilter(name, value)}
+      options={options}
+      disabled={disabled}
+      ariaLabel={options[0]?.label}
+    />
+  );
 
   return (
     <>
       {isSticky && <div style={{ height: navbarHeight }} />}
       <div
         ref={filterRef}
-        className={`mx-auto w-full max-w-[1520px] px-5 sm:px-8 ${isSticky ? "fixed inset-x-0 top-20 z-30" : "relative z-10"}`}
+        className={isHero ? "relative w-full" : `mx-auto w-full max-w-[1520px] px-4 sm:px-8 ${isSticky ? "fixed inset-x-0 top-[60px] z-30 md:top-20" : "relative z-10"}`}
       >
-        <div className={`bg-white dark:bg-dark-panel ${isSticky ? "px-5 py-3 shadow-lg sm:px-8" : "px-5 py-6 sm:px-8"}`}>
+        <div className={isHero ? "" : `bg-white dark:bg-dark-panel ${isSticky ? "px-4 py-3 shadow-lg sm:px-8" : "px-4 py-6 sm:px-8"}`}>
           {!isSticky && (
             <div className="mb-5">
-              <h2 className="font-display text-2xl font-medium text-[#0F172A] dark:text-gray-200">{t("dashboard.filters.findPet", "Find a Pet")}</h2>
+              <h2 className={`font-display text-2xl font-bold md:text-3xl ${isHero ? "text-white" : "text-[#0F172A] dark:text-gray-200"}`}>{t("dashboard.filters.findPet", "Find a Pet")}</h2>
             </div>
           )}
 
           <div className="space-y-3">
             <div className="hidden md:block space-y-3">
               <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-                <div className="relative min-w-0 overflow-hidden">
-                  <select name="species" value={filters.species} onChange={handleInputChange} className={sel} disabled={loading}>
-                    <option value="">{t("dashboard.filters.species", "Species")}</option>
-                    {getSpecies().map((s) => <option key={s} value={s}>{s}</option>)}
-                  </select>{arrow}
-                </div>
-                <div className="relative min-w-0 overflow-hidden">
-                  <select name="breed" value={filters.breed} onChange={handleInputChange} className={sel} disabled={!filters.species}>
-                    <option value="">{t("dashboard.filters.breed", "Breed")}</option>
-                    {getBreedsForSpecies(filters.species).map((b) => <option key={b} value={b}>{b}</option>)}
-                  </select>{arrow}
-                </div>
-                <div className="relative min-w-0 overflow-hidden">
-                  <select name="size" value={filters.size} onChange={handleInputChange} className={sel}>
-                    <option value="">{t("dashboard.filters.size", "Size")}</option>
-                    <option value="Small">{t("dashboard.addPet.small", "Small")}</option>
-                    <option value="Medium">{t("dashboard.addPet.medium", "Medium")}</option>
-                    <option value="Large">{t("dashboard.addPet.large", "Large")}</option>
-                    <option value="Extra Large">{t("dashboard.addPet.extraLarge", "Extra Large")}</option>
-                  </select>{arrow}
-                </div>
-                <div className="relative min-w-0 overflow-hidden">
-                  <select name="ageGroup" value={filters.ageGroup} onChange={handleInputChange} className={sel}>
-                    <option value="">{t("dashboard.filters.ageGroup", "Age Group")}</option>
-                    <option value="Baby">{t("dashboard.filters.baby", "Baby (0–6m)")}</option>
-                    <option value="Young">{t("dashboard.filters.young", "Young (6m–2y)")}</option>
-                    <option value="Adult">{t("dashboard.filters.adult", "Adult (2–7y)")}</option>
-                    <option value="Senior">{t("dashboard.filters.senior", "Senior (7y+)")}</option>
-                  </select>{arrow}
-                </div>
+                {field("species", speciesOptions, loading)}
+                {field("breed", breedOptions, !filters.species)}
+                {field("size", sizeOptions)}
+                {field("ageGroup", ageOptions)}
               </div>
 
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-                <div className="relative min-w-0">
-                  <select name="gender" value={filters.gender} onChange={handleInputChange} className={sel}>
-                    <option value="">{t("dashboard.filters.gender", "Gender")}</option>
-                    <option value="Male">{t("dashboard.addPet.male", "Male")}</option>
-                    <option value="Female">{t("dashboard.addPet.female", "Female")}</option>
-                  </select>{arrow}
-                </div>
-                <div className="relative min-w-0">
-                  <input type="text" name="location" value={filters.location} onChange={handleInputChange} placeholder={t("dashboard.filters.searchByLocation", "Search by location...")} className={sel} />
-                </div>
-                <div className="relative min-w-0">
-                  <select name="distance" value={filters.distance} onChange={handleInputChange} className={sel}>
-                    <option value="">{t("dashboard.filters.radius", "Radius")}</option>
-                    <option value="30">30 km</option>
-                    <option value="50">50 km</option>
-                    <option value="100">100 km</option>
-                  </select>{arrow}
-                </div>
+                {field("gender", genderOptions)}
+                <LocationSearch
+                  variant="filter"
+                  tone={tone}
+                  value={filters.location}
+                  onChange={(value) => setFilter("location", value)}
+                  placeholder={t("dashboard.filters.searchByLocation", "Search by location...")}
+                />
+                {field("distance", radiusOptions)}
               </div>
             </div>
 
-            {/* Mobile Layout */}
             <div className="md:hidden">
               <div className="flex w-full items-center gap-2">
-                <div className="relative flex-1">
-                  <select name="species" value={filters.species} onChange={handleInputChange} className="px-3 h-10 pr-6 text-md font-medium border border-gray-200 dark:border-dark-divider rounded-lg focus:outline-none bg-white dark:bg-dark-raised dark:text-dark-text-primary shadow-sm appearance-none w-full" disabled={loading}>
-                    <option value="">{t("dashboard.filters.species", "Species")}</option>
-                    {getSpecies().map((s) => <option key={s} value={s}>{s}</option>)}
-                  </select>
-                  <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none"><MdKeyboardArrowDown className="w-5 h-5 text-gray-500" /></div>
-                </div>
-                <div className="relative flex-1">
-                  <select name="breed" value={filters.breed} onChange={handleInputChange} className="px-3 h-10 pr-6 text-md font-medium border border-gray-200 dark:border-dark-divider rounded-lg focus:outline-none bg-white dark:bg-dark-raised dark:text-dark-text-primary shadow-sm appearance-none w-full disabled:opacity-[0.32] disabled:cursor-not-allowed disabled:bg-[#EEF2FF]" disabled={!filters.species}>
-                    <option value="">{t("dashboard.filters.breed", "Breed")}</option>
-                    {getBreedsForSpecies(filters.species).map((b) => <option key={b} value={b}>{b}</option>)}
-                  </select>
-                  <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none"><MdKeyboardArrowDown className="w-5 h-5 text-gray-500" /></div>
-                </div>
+                <div className="relative min-w-0 flex-1">{field("species", speciesOptions, loading)}</div>
+                <div className="relative min-w-0 flex-1">{field("breed", breedOptions, !filters.species)}</div>
                 {!showMoreFilters && (
-                  <div className="relative flex-1">
-                    <button onClick={() => setShowMoreFilters(true)} className="w-full px-3 h-10 pr-6 text-md font-medium border border-blue-500 rounded-lg whitespace-nowrap shadow-sm flex items-center justify-start text-white bg-blue-500 leading-[17px] hover:bg-blue-600">
-                      <span>{t("dashboard.filters.title", "Filters")}</span>
-                    </button>
-                    <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none"><MdKeyboardArrowDown className="w-5 h-5 text-white" /></div>
-                  </div>
+                  <button
+                    type="button"
+                    onClick={openSheet}
+                    className="h-[50px] shrink-0 rounded-xl bg-[#2563EB] px-4 text-sm font-semibold text-white"
+                  >
+                    {t("dashboard.filters.title", "Filters")}
+                  </button>
                 )}
               </div>
             </div>
@@ -176,85 +199,101 @@ export default function FilterNavbar({ onApplyFilters }) {
         </div>
       </div>
 
-      {/* Mobile overlay */}
       {showMoreFilters && isMounted && createPortal(
-        <div className="md:hidden fixed inset-0 z-[2147483647]">
-          <div className="fixed inset-0 bg-black/40" onClick={() => setShowMoreFilters(false)} />
-          <div className="fixed inset-0 bg-white dark:bg-dark-card shadow-xl p-4 overflow-y-auto">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-200">{t("dashboard.filters.title", "Filters")}</h3>
-              <button onClick={() => setShowMoreFilters(false)} className="text-md text-gray-600 dark:text-dark-text-secondary border border-gray-200 dark:border-dark-divider rounded-md px-2 py-1">{t("dashboard.filters.close", "Close")}</button>
+        <div className="marketing-ui flt-sheet fixed inset-0 z-[220] flex flex-col md:hidden">
+          <button
+            type="button"
+            className={`flt-sheet-backdrop absolute inset-0 bg-[#0F172A]/50 ${sheetClosing ? "is-closing" : ""}`}
+            aria-label={t("dashboard.filters.close", "Close")}
+            onClick={closeSheet}
+          />
+          <div className={`flt-sheet-panel relative mt-auto flex max-h-[92svh] min-h-[78svh] w-full flex-col rounded-t-[24px] bg-[#F4F7FB] text-[#0F172A] dark:bg-dark-card dark:text-white ${sheetClosing ? "is-closing" : ""}`}>
+            <div className="flex h-[60px] shrink-0 items-center justify-between border-b border-[#E2E8F0] px-4 dark:border-dark-divider">
+              <h3 className="font-display text-[1.65rem] font-bold leading-none">
+                {t("dashboard.filters.title", "Filters")}
+              </h3>
+              <button
+                type="button"
+                onClick={closeSheet}
+                className="flex h-10 w-10 items-center justify-center text-[#0F172A] dark:text-white"
+                aria-label={t("dashboard.filters.close", "Close")}
+              >
+                <X className="h-5 w-5" />
+              </button>
             </div>
-            <div className="space-y-3">
-              {/* Species + Breed */}
-              <div className="flex gap-1">
-                <div className="relative flex-1">
-                  <select name="species" value={filters.species} onChange={handleInputChange} className="w-full px-3 h-10 pr-6 text-md font-medium border border-gray-200 dark:border-dark-divider rounded-lg focus:outline-none bg-white dark:bg-dark-raised dark:text-dark-text-primary shadow-sm appearance-none" disabled={loading}>
-                    <option value="">{t("dashboard.filters.species", "Species")}</option>
-                    {getSpecies().map((s) => <option key={s} value={s}>{s}</option>)}
-                  </select>
-                  <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none"><MdKeyboardArrowDown className="w-5 h-5 text-gray-500" /></div>
-                </div>
-                <div className="relative flex-1">
-                  <select name="breed" value={filters.breed} onChange={handleInputChange} className="w-full px-3 h-10 pr-6 text-md font-medium border border-gray-200 rounded-lg focus:outline-none bg-white shadow-sm appearance-none disabled:opacity-[0.32] disabled:cursor-not-allowed disabled:bg-[#EEF2FF]" disabled={!filters.species}>
-                    <option value="">{t("dashboard.filters.breed", "Breed")}</option>
-                    {getBreedsForSpecies(filters.species).map((b) => <option key={b} value={b}>{b}</option>)}
-                  </select>
-                  <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none"><MdKeyboardArrowDown className="w-5 h-5 text-gray-500" /></div>
-                </div>
-              </div>
-              {/* Age + Gender */}
-              <div className="flex gap-1">
-                <div className="relative flex-1">
-                  <select name="ageGroup" value={filters.ageGroup} onChange={handleInputChange} className="w-full px-3 h-10 pr-6 text-md font-medium border border-gray-200 dark:border-dark-divider rounded-lg focus:outline-none bg-white dark:bg-dark-raised dark:text-dark-text-primary shadow-sm appearance-none">
-                    <option value="">{t("dashboard.filters.age", "Age")}</option>
-                    <option value="Baby">{t("dashboard.filters.baby", "Baby")}</option>
-                    <option value="Young">{t("dashboard.filters.young", "Young")}</option>
-                    <option value="Adult">{t("dashboard.filters.adult", "Adult")}</option>
-                    <option value="Senior">{t("dashboard.filters.senior", "Senior")}</option>
-                  </select>
-                  <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none"><MdKeyboardArrowDown className="w-5 h-5 text-gray-500" /></div>
-                </div>
-                <div className="relative flex-1">
-                  <select name="gender" value={filters.gender} onChange={handleInputChange} className="w-full px-3 h-10 pr-6 text-md font-medium border border-gray-200 dark:border-dark-divider rounded-lg focus:outline-none bg-white dark:bg-dark-raised dark:text-dark-text-primary shadow-sm appearance-none">
-                    <option value="">{t("dashboard.filters.gender", "Gender")}</option>
-                    <option value="Male">{t("dashboard.addPet.male", "Male")}</option>
-                    <option value="Female">{t("dashboard.addPet.female", "Female")}</option>
-                  </select>
-                  <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none"><MdKeyboardArrowDown className="w-5 h-5 text-gray-500" /></div>
-                </div>
-              </div>
-              {/* Size + Coat */}
-              <div className="flex gap-1">
-                <div className="relative flex-1">
-                  <select name="size" value={filters.size} onChange={handleInputChange} className="w-full px-3 h-10 pr-6 text-md font-medium border border-gray-200 dark:border-dark-divider rounded-lg focus:outline-none bg-white dark:bg-dark-raised dark:text-dark-text-primary shadow-sm appearance-none">
-                    <option value="">{t("dashboard.filters.size", "Size")}</option>
-                    <option value="Small">{t("dashboard.addPet.small", "Small")}</option>
-                    <option value="Medium">{t("dashboard.addPet.medium", "Medium")}</option>
-                    <option value="Large">{t("dashboard.addPet.large", "Large")}</option>
-                    <option value="Extra Large">XL</option>
-                  </select>
-                  <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none"><MdKeyboardArrowDown className="w-5 h-5 text-gray-500" /></div>
-                </div>
+
+            <div className="flex-1 overflow-y-auto overscroll-contain px-4 py-4">
+              <div className="grid grid-cols-2 gap-3">
+                <label className="min-w-0">
+                  <span className="flt-field-label">
+                    {t("dashboard.filters.species", "Species")}
+                  </span>
+                  {field("species", [{ value: "", label: t("homepage.hero.allPets", "All") }, ...speciesOptions.slice(1)], loading, "light")}
+                </label>
+                <label className="min-w-0">
+                  <span className="flt-field-label">
+                    {t("dashboard.filters.breed", "Breed")}
+                  </span>
+                  {field("breed", [{ value: "", label: t("homepage.hero.allPets", "All") }, ...breedOptions.slice(1)], !filters.species, "light")}
+                </label>
+                <label className="min-w-0">
+                  <span className="flt-field-label">
+                    {t("dashboard.filters.ageGroup", "Age Group")}
+                  </span>
+                  {field("ageGroup", [{ value: "", label: t("homepage.hero.allPets", "All") }, ...ageOptions.slice(1)], false, "light")}
+                </label>
+                <label className="min-w-0">
+                  <span className="flt-field-label">
+                    {t("dashboard.filters.gender", "Gender")}
+                  </span>
+                  {field("gender", [{ value: "", label: t("homepage.hero.allPets", "All") }, ...genderOptions.slice(1)], false, "light")}
+                </label>
               </div>
 
-              {/* Location */}
-              <input type="text" name="location" value={filters.location} onChange={handleInputChange} placeholder={t("dashboard.filters.location", "Location")} className="w-full px-3 h-10 text-md font-medium border border-gray-200 dark:border-dark-divider rounded-lg focus:outline-none bg-white dark:bg-dark-raised dark:text-dark-text-primary shadow-sm" />
+              <label className="mt-3 block">
+                <span className="flt-field-label">
+                  {t("dashboard.filters.size", "Size")}
+                </span>
+                {field("size", [{ value: "", label: t("homepage.hero.allPets", "All") }, ...sizeOptions.slice(1)], false, "light")}
+              </label>
 
-              {/* Radius */}
-              <div className="relative">
-                <select name="distance" value={filters.distance} onChange={handleInputChange} className="w-full px-3 h-10 pr-6 text-md font-medium border border-gray-200 dark:border-dark-divider rounded-lg focus:outline-none bg-white dark:bg-dark-raised dark:text-dark-text-primary shadow-sm appearance-none">
-                  <option value="">{t("dashboard.filters.radius", "Radius")}</option>
-                  <option value="30">30 km</option>
-                  <option value="50">50 km</option>
-                  <option value="100">100 km</option>
-                </select>
-                <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none"><MdKeyboardArrowDown className="w-5 h-5 text-gray-500" /></div>
-              </div>
-              {/* Reset + Apply */}
-              <div className="flex gap-2 pt-2">
-                <button onClick={handleReset} className="flex-1 px-4 py-3 text-md font-medium border border-gray-200 rounded-lg text-gray-700">{t("dashboard.filters.reset", "Reset")}</button>
-                <button onClick={() => { onApplyFilters(filters); setShowMoreFilters(false); }} className="flex-1 px-4 py-3 text-md font-medium bg-blue-500 text-white rounded-lg">{t("dashboard.filters.apply", "Apply")}</button>
+              <label className="mt-3 block">
+                <span className="flt-field-label">
+                  {t("dashboard.filters.location", "Location")}
+                </span>
+                <LocationSearch
+                  variant="filter"
+                  tone="light"
+                  value={filters.location}
+                  onChange={(value) => setFilter("location", value)}
+                  placeholder={t("dashboard.filters.searchByLocation", "Search by location...")}
+                />
+              </label>
+
+              <label className="mt-3 block">
+                <span className="flt-field-label">
+                  {t("dashboard.filters.radius", "Radius")}
+                </span>
+                {field("distance", [{ value: "", label: t("homepage.hero.allPets", "All") }, ...radiusOptions.slice(1)], false, "light")}
+              </label>
+            </div>
+
+            <div className="shrink-0 border-t border-[#E2E8F0] bg-[#F4F7FB] px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] dark:border-dark-divider dark:bg-dark-card">
+              <div className="flex gap-3">
+                <button
+                  type="button"
+                  onClick={handleReset}
+                  className="flex h-12 flex-1 items-center justify-center rounded-xl border border-[#0F172A] text-sm font-bold uppercase tracking-[0.12em] text-[#0F172A] dark:border-white/40 dark:text-white"
+                >
+                  {t("dashboard.filters.reset", "Reset")}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => { onApplyFilters(filters); closeSheet(); }}
+                  className="flex h-12 flex-1 items-center justify-center rounded-xl bg-[#2563EB] text-sm font-bold uppercase tracking-[0.12em] text-white"
+                >
+                  {t("dashboard.filters.apply", "Apply")}
+                </button>
               </div>
             </div>
           </div>
