@@ -1,44 +1,101 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
+import MarketingHero from "../../../components/website/MarketingHero";
+import { useLanguage } from "../../../lib/i18n/LanguageContext";
+
+function objectValues(value) {
+  return value && typeof value === "object" && !Array.isArray(value) ? Object.values(value) : [];
+}
+
+function arrayValues(value) {
+  return Array.isArray(value) ? value : [];
+}
+
+function LegalBlock({ title, children }) {
+  return (
+    <section className="border-t border-[#E2E8F0] py-8 dark:border-dark-divider md:py-10">
+      <h2 className="font-display text-2xl font-bold text-[#0F172A] dark:text-white">{title}</h2>
+      <div className="mt-4 space-y-3 text-[16px] leading-relaxed text-[#64748B] dark:text-gray-400">{children}</div>
+    </section>
+  );
+}
 
 export default function PrivacyPage() {
+  const { t } = useLanguage();
+  const collectItems = objectValues(t("privacy.sections.informationWeCollect.items"));
+  const howCollect = arrayValues(t("privacy.sections.howWeCollect.items", { returnObjects: true }));
+  const howUse = arrayValues(t("privacy.sections.howWeUse.items", { returnObjects: true }));
+  const cookieTypes = objectValues(t("privacy.sections.cookies.types"));
+
   return (
-    <div className="flex flex-col min-h-screen bg-white dark:bg-dark-main">
-      <main className="flex-grow max-w-4xl mx-auto px-4 py-16 w-full">
-        <div className="mb-12">
-          <h1 className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white mb-4">Privacy Policy</h1>
-          <p className="text-gray-500">Last updated: June 2026</p>
-        </div>
+    <div className="marketing-ui min-h-screen bg-[#F4F7FB] text-[#0F172A] dark:bg-dark-main dark:text-gray-200">
+      <MarketingHero
+        compact
+        eyebrow="Polityka prywatności"
+        title={t("privacy.hero.title", "Twoje dane — zawsze bezpieczne, zawsze prywatne.")}
+        subtitle={`${t("terms.lastUpdated", "Ostatnia aktualizacja")}: wrzesień 2026`}
+      />
 
-        <div className="prose prose-blue max-w-none dark:prose-invert">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4">1. Introduction</h2>
-          <p className="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">
-            Welcome to Rafraf. We respect your privacy and are committed to protecting your personal data. This privacy policy will inform you as to how we look after your personal data when you visit our website (regardless of where you visit it from) and tell you about your privacy rights and how the law protects you.
-          </p>
+      <div className="mx-auto w-full max-w-[860px] px-4 py-10 sm:px-8 md:py-14">
+        <LegalBlock title={t("privacy.sections.introduction.title")}>
+          <p>{t("privacy.sections.introduction.content")}</p>
+        </LegalBlock>
 
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4">2. The Data We Collect</h2>
-          <p className="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">
-            We may collect, use, store and transfer different kinds of personal data about you which we have grouped together as follows:
-          </p>
-          <ul className="list-disc pl-6 text-gray-700 dark:text-gray-300 mb-6 space-y-2">
-            <li><strong>Identity Data</strong> includes first name, last name, username or similar identifier.</li>
-            <li><strong>Contact Data</strong> includes billing address, email address and telephone numbers.</li>
-            <li><strong>Technical Data</strong> includes internet protocol (IP) address, your login data, browser type and version, time zone setting and location.</li>
-            <li><strong>Profile Data</strong> includes your username and password, adoptions you have inquired about, your interests, preferences, and feedback.</li>
+        <LegalBlock title={t("privacy.sections.informationWeCollect.title")}>
+          <p>{t("privacy.sections.informationWeCollect.intro")}</p>
+          <ul className="list-disc space-y-2 pl-5">
+            {collectItems.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
           </ul>
+        </LegalBlock>
 
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4">3. How We Use Your Data</h2>
-          <p className="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">
-            We will only use your personal data when the law allows us to. Most commonly, we will use your personal data to facilitate connections between potential adopters and shelters/private owners, manage your account, and improve our services.
-          </p>
+        <LegalBlock title={t("privacy.sections.howWeCollect.title")}>
+          <p>{t("privacy.sections.howWeCollect.intro")}</p>
+          <ul className="list-disc space-y-2 pl-5">
+            {howCollect.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </LegalBlock>
 
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4">4. Data Security</h2>
-          <p className="text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">
-            We have put in place appropriate security measures to prevent your personal data from being accidentally lost, used or accessed in an unauthorized way, altered or disclosed. In addition, we limit access to your personal data to those employees, agents, contractors and other third parties who have a business need to know.
-          </p>
+        <LegalBlock title={t("privacy.sections.howWeUse.title")}>
+          <p>{t("privacy.sections.howWeUse.intro")}</p>
+          <ul className="list-disc space-y-2 pl-5">
+            {howUse.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </LegalBlock>
+
+        <LegalBlock title={t("privacy.sections.cookies.title")}>
+          <p>{t("privacy.sections.cookies.content")}</p>
+          <p>{t("privacy.sections.cookies.intro")}</p>
+          <ul className="list-disc space-y-2 pl-5">
+            {cookieTypes.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+          <p>{t("privacy.sections.cookies.control")}</p>
+        </LegalBlock>
+
+        <div className="flex flex-col gap-3 border-t border-[#E2E8F0] pt-8 dark:border-dark-divider sm:flex-row">
+          <Link
+            href="/website/terms"
+            className="inline-flex items-center justify-center bg-[#2563EB] px-7 py-3.5 text-sm font-bold uppercase tracking-[0.12em] text-white hover:bg-[#1D4ED8]"
+          >
+            {t("privacy.viewTerms", "Zobacz warunki korzystania")}
+          </Link>
+          <Link
+            href="/website/contact"
+            className="inline-flex items-center justify-center border border-[#0F172A] px-7 py-3.5 text-sm font-bold uppercase tracking-[0.12em] text-[#0F172A] dark:border-white dark:text-white"
+          >
+            {t("privacy.contactUs", "Skontaktuj się z nami")}
+          </Link>
         </div>
-      </main>
+      </div>
     </div>
   );
 }

@@ -1,251 +1,186 @@
-import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { FiClock, FiMail, FiShield, FiRefreshCw } from "react-icons/fi";
-import { useAuth } from "../../lib/auth/AuthContext";
+"use client";
+
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { Clock, Mail, RefreshCw } from "lucide-react";
+import { useAuth } from "../../lib/auth/AuthContext";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "/api";
 
 const PendingApprovalScreen = ({ user }) => {
   const { logout, updateUserState } = useAuth();
-  const [isRefreshing, setIsRefreshing] = useState(false);
   const router = useRouter();
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [notice, setNotice] = useState({ text: "", tone: "pending" });
 
-  // Auto-check approval status every 10 seconds
-  useEffect(() => {
-    const interval = setInterval(async () => {
-      await checkApprovalStatus();
-    }, 10000); // Check every 10 seconds
-
-    return () => clearInterval(interval);
-  }, []);
-
-  // Function to check approval status
   const checkApprovalStatus = async () => {
     try {
       const token = localStorage.getItem("token");
       if (!token) return;
-
-      const response = await fetch(
-        `${API_BASE}/users/${user.id || user._id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      if (response.ok) {
-        const userData = await response.json();
-
-        if (userData.approvalStatus === "approved") {
-          updateUserState(userData);
-          // Redirect immediately
-          router.push("/dashboard/home");
-        }
+      const response = await fetch(`${API_BASE}/users/${user.id || user._id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!response.ok) return;
+      const userData = await response.json();
+      if (userData.approvalStatus === "approved") {
+        updateUserState(userData);
+        router.push("/dashboard/home");
       }
     } catch (error) {
       console.error("Auto-check error:", error);
     }
   };
 
-  const handleLogout = () => {
-    logout();
-  };
+  useEffect(() => {
+    const interval = setInterval(checkApprovalStatus, 10000);
+    return () => clearInterval(interval);
+  }, []);
 
   const handleRefreshStatus = async () => {
     try {
       setIsRefreshing(true);
-
-      // Get the current token
+      setNotice({ text: "", tone: "pending" });
       const token = localStorage.getItem("token");
       if (!token) {
-        console.error("No token found");
-        alert("No authentication token found. Please login again.");
+        setNotice({ text: "Failed to refresh status. Please try again.", tone: "error" });
         return;
       }
 
-      // Fetch updated user data
-      const response = await fetch(
-        `${API_BASE}/users/${user.id || user._id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await fetch(`${API_BASE}/users/${user.id || user._id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
 
-      if (response.ok) {
-        const userData = await response.json();
+      if (!response.ok) {
+        setNotice({ text: "Failed to refresh status. Please try again.", tone: "error" });
+        return;
+      }
 
-        // Add a flag to show this is a fresh approval
-        const updatedUser = {
-          ...userData,
-          hasSeenApproval: false,
-        };
+      const userData = await response.json();
+      const updatedUser = { ...userData, hasSeenApproval: false };
+      updateUserState(updatedUser);
 
-        // Update the user state in AuthContext
-        updateUserState(updatedUser);
-
-        // Show success message and redirect if approved
-        if (updatedUser.approvalStatus === "approved") {
-          alert(
-            "🎉 Congratulations! Your account has been approved! Redirecting to dashboard..."
-          );
-          setTimeout(() => {
-            router.push("/dashboard/home");
-          }, 1500);
-        } else if (updatedUser.approvalStatus === "pending") {
-          alert(
-            "⏳ Your account is still pending approval. Please wait for admin review."
-          );
-        } else if (updatedUser.approvalStatus === "rejected") {
-          alert("❌ Your account has been rejected. Please contact support.");
-        } else {
-          alert(
-            `Status refreshed! Current status: ${updatedUser.approvalStatus || "Unknown"}`
-          );
-        }
+      if (updatedUser.approvalStatus === "approved") {
+        setNotice({
+          text: "Congratulations! Your account has been approved. Redirecting to dashboard...",
+          tone: "success",
+        });
+        setTimeout(() => router.push("/dashboard/home"), 1500);
+      } else if (updatedUser.approvalStatus === "pending") {
+        setNotice({
+          text: "Your account is still pending approval. Please wait for admin review.",
+          tone: "pending",
+        });
+      } else if (updatedUser.approvalStatus === "rejected") {
+        setNotice({
+          text: "Your account has been rejected. Please contact support.",
+          tone: "error",
+        });
       } else {
-        alert("Failed to refresh status. Please try again.");
+        setNotice({
+          text: `Status refreshed! Current status: ${updatedUser.approvalStatus || "Unknown"}`,
+          tone: "pending",
+        });
       }
     } catch (error) {
       console.error("Error refreshing status:", error);
-      alert("Error refreshing status. Please try again.");
+      setNotice({
+        text: "Error refreshing status. Please try again.",
+        tone: "error",
+      });
     } finally {
       setIsRefreshing(false);
     }
   };
 
+  const name = user?.firstName || "User";
+  const steps = [
+    { title: "Account Review", text: "Our admin team reviews your profile and information" },
+    { title: "Approval Decision", text: "You'll receive an email with the decision" },
+    { title: "Full Access", text: "Once approved, you'll have full access to all features" },
+  ];
+
+  const noticeClass = {
+    pending: "border-amber-300 bg-amber-50 text-amber-800 dark:border-amber-500/40 dark:bg-amber-500/15 dark:text-amber-200",
+    success: "border-emerald-300 bg-emerald-50 text-emerald-800 dark:border-emerald-500/40 dark:bg-emerald-500/15 dark:text-emerald-200",
+    error: "border-red-300 bg-red-50 text-red-800 dark:border-red-500/40 dark:bg-red-500/15 dark:text-red-200",
+  }[notice.tone];
+
   return (
-    <div className="min-h-screen bg-slate-950 dark:bg-dark-main flex items-center justify-center p-6">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="max-w-2xl w-full"
-      >
-        {/* Header */}
-        <div className="text-center mb-8">
-          <div className="w-20 h-20 bg-yellow-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
-            <FiClock className="w-10 h-10 text-yellow-400" />
-          </div>
-          <h1 className="text-3xl font-bold text-slate-200 mb-3">
-            Account Pending Approval
-          </h1>
-          <p className="text-slate-400 text-lg">
-            Welcome, {user?.firstName || "User"}! Your account is currently
-            under review.
-          </p>
-        </div>
+    <div className="marketing-ui flex min-h-screen items-center justify-center bg-[#F4F7FB] px-4 py-6 text-[#0F172A] dark:bg-dark-main dark:text-gray-200">
+      <div className="w-full max-w-[560px]">
+        <Link href="/" className="mb-5 flex justify-center">
+          <Image src="/logo.png" alt="Rafraf" width={180} height={48} className="h-12 w-auto dark:hidden" />
+          <Image src="/whitelogo.png" alt="Rafraf" width={180} height={48} className="hidden h-12 w-auto dark:block" />
+        </Link>
 
-        {/* Status Card */}
-        <div className="bg-slate-900/50 dark:bg-dark-elevation-4 backdrop-blur-xl border border-slate-700/50 rounded-xl p-8 mb-8">
-          <div className="flex items-center space-x-4 mb-6">
-            <div className="w-12 h-12 bg-yellow-500/20 rounded-lg flex items-center justify-center">
-              <FiShield className="w-6 h-6 text-yellow-400" />
-            </div>
-            <div>
-              <h2 className="text-xl font-semibold text-slate-200">
-                Review Status
-              </h2>
-              <p className="text-yellow-400 font-medium">
-                Pending Admin Approval
-              </p>
-            </div>
+        <div className="border border-[#E2E8F0] bg-white dark:border-dark-divider dark:bg-dark-card">
+          <div className="border-b border-[#E2E8F0] px-5 py-5 text-center dark:border-dark-divider">
+            <span className="inline-flex items-center gap-1.5 border border-amber-300 bg-amber-50 px-2.5 py-1 text-sm font-semibold leading-none text-amber-700 dark:border-amber-500/40 dark:bg-amber-500/15 dark:text-amber-300">
+              <Clock className="h-4 w-4 shrink-0" />
+              <span className="leading-none">Pending Admin Approval</span>
+            </span>
+            <h1 className="font-display mt-3 text-[1.65rem] font-bold leading-tight md:text-[2rem]">
+              Account Pending Approval
+            </h1>
+            <p className="mt-2 text-sm leading-relaxed text-[#64748B] dark:text-gray-400">
+              Welcome, {name}! Your account is currently under review.
+            </p>
           </div>
 
-          <p className="text-slate-300 leading-relaxed">
-            Our team is reviewing your account information to ensure everything
-            meets our standards. This process typically takes 24-48 hours.
-            You'll receive an email notification once your account is approved.
-          </p>
-        </div>
+          <div className="border-l-4 border-amber-400 bg-amber-50 px-5 py-3 text-sm leading-relaxed text-amber-900 dark:border-amber-400 dark:bg-amber-500/10 dark:text-amber-100">
+            Our team is reviewing your account information to ensure everything meets our standards. This process typically takes 24-48 hours. You'll receive an email notification once your account is approved.
+          </div>
 
-        {/* What Happens Next */}
-        <div className="bg-slate-900/50 dark:bg-dark-elevation-4 backdrop-blur-xl border border-slate-700/50 rounded-xl p-8 mb-8">
-          <h3 className="text-xl font-semibold text-slate-200 mb-4">
-            What Happens Next?
-          </h3>
-          <div className="space-y-4">
-            <div className="flex items-start space-x-3">
-              <div className="w-6 h-6 bg-blue-500/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                <span className="text-blue-400 text-md font-medium">1</span>
-              </div>
-              <div>
-                <p className="text-slate-200 font-medium">Account Review</p>
-                <p className="text-slate-400 text-md">
-                  Our admin team reviews your profile and information
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-start space-x-3">
-              <div className="w-6 h-6 bg-blue-500/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                <span className="text-blue-400 text-md font-medium">2</span>
-              </div>
-              <div>
-                <p className="text-slate-200 font-medium">Approval Decision</p>
-                <p className="text-slate-400 text-md">
-                  You'll receive an email with the decision
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-start space-x-3">
-              <div className="w-6 h-6 bg-blue-500/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                <span className="text-blue-400 text-md font-medium">3</span>
-              </div>
-              <div>
-                <p className="text-slate-200 font-medium">Full Access</p>
-                <p className="text-slate-400 text-md">
-                  Once approved, you'll have full access to all features
-                </p>
-              </div>
+          <div className="px-5 py-4">
+            <h2 className="text-[11px] font-bold uppercase tracking-[0.16em] text-[#64748B]">
+              What Happens Next?
+            </h2>
+            <div className="mt-3 space-y-3">
+              {steps.map((step, i) => (
+                <div key={step.title} className="flex items-start gap-3">
+                  <span className="flex h-6 w-6 shrink-0 items-center justify-center bg-amber-100 text-xs font-bold text-amber-700 dark:bg-amber-500/20 dark:text-amber-300">
+                    {i + 1}
+                  </span>
+                  <div>
+                    <p className="text-sm font-semibold">{step.title}</p>
+                    <p className="text-sm leading-snug text-[#64748B] dark:text-gray-400">{step.text}</p>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
-        </div>
 
-        {/* Contact Support */}
-        <div className="bg-slate-900/50 dark:bg-dark-elevation-4 backdrop-blur-xl border border-slate-700/50 rounded-xl p-6 text-center">
-          <div className="flex items-center justify-center space-x-2 mb-3">
-            <FiMail className="w-5 h-5 text-slate-400" />
-            <span className="text-slate-400">Need help?</span>
-          </div>
-          <p className="text-slate-300 mb-4">
-            If you have any questions about your account or need assistance,
-            please don't hesitate to contact our support team.
-          </p>
-          <button className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors font-medium">
-            Contact Support
-          </button>
-        </div>
-
-        {/* Action Buttons */}
-        <div className="text-center mt-8 space-y-4">
-          <button
-            onClick={handleRefreshStatus}
-            disabled={isRefreshing}
-            className={`flex items-center justify-center space-x-2 mx-auto px-6 py-3 rounded-lg transition-colors font-medium ${isRefreshing
-              ? "bg-blue-800 text-blue-200 cursor-not-allowed"
-              : "bg-blue-600 hover:bg-blue-700 text-white"
-              }`}
-          >
-            <FiRefreshCw
-              className={`w-5 h-5 ${isRefreshing ? "animate-spin" : ""}`}
-            />
-            <span>{isRefreshing ? "Refreshing..." : "Refresh Status"}</span>
-          </button>
-
-          <div>
+          <div className="flex items-center justify-between gap-3 border-t border-[#E2E8F0] px-5 py-3 dark:border-dark-divider">
+            <Link href="/website/contact" className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#2563EB]">
+              <Mail className="h-4 w-4" />
+              Contact Support
+            </Link>
             <button
-              onClick={handleLogout}
-              className="text-slate-400 hover:text-slate-300 transition-colors"
+              type="button"
+              onClick={logout}
+              className="text-sm font-semibold text-[#64748B] hover:text-[#0F172A] dark:hover:text-white"
             >
               Sign Out
             </button>
           </div>
         </div>
-      </motion.div>
+
+        {notice.text && (
+          <p className={`mt-3 border px-3 py-2 text-sm font-medium ${noticeClass}`}>{notice.text}</p>
+        )}
+
+        <button
+          type="button"
+          onClick={handleRefreshStatus}
+          disabled={isRefreshing}
+          className="mt-4 inline-flex h-11 w-full items-center justify-center gap-2 bg-[#2563EB] text-sm font-bold uppercase tracking-[0.12em] text-white hover:bg-[#1D4ED8] disabled:opacity-60"
+        >
+          <RefreshCw className={`h-4 w-4 ${isRefreshing ? "animate-spin" : ""}`} />
+          {isRefreshing ? "Refreshing..." : "Refresh Status"}
+        </button>
+      </div>
     </div>
   );
 };

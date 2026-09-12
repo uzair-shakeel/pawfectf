@@ -347,7 +347,16 @@
           "name": "Imię i Nazwisko",
           "email": "Adres Email",
           "subject": "Temat",
-          "message": "Wiadomość"
+          "message": "Wiadomość",
+          "namePlaceholder": "Jan Kowalski",
+          "emailPlaceholder": "jan@przyklad.pl",
+          "messagePlaceholder": "W czym możemy pomóc?"
+        },
+        "subjects": {
+          "general": "Ogólne zapytanie",
+          "adoption": "Pytanie o adopcję",
+          "partnership": "Współpraca ze schroniskiem",
+          "technical": "Pomoc techniczna"
         },
         "submit": "Wyślij Wiadomość",
         "success": {
@@ -361,6 +370,45 @@
         }
       }
     }
+  },
+  "lostFoundPage": {
+    "eyebrow": "Zaginione i znalezione",
+    "all": "Wszystkie",
+    "lost": "Zaginione",
+    "found": "Znalezione",
+    "results": "ogłoszeń",
+    "noEntries": "Nie znaleziono ogłoszeń",
+    "noEntriesDesc": "Obecnie nie ma raportów w tym widoku.",
+    "report": "Zgłoś zwierzaka",
+    "back": "Wróć do listy",
+    "description": "Opis",
+    "details": "Szczegóły",
+    "contact": "Osoba kontaktowa",
+    "viewProfile": "Zobacz profil",
+    "call": "Zadzwoń",
+    "email": "Napisz e-mail",
+    "date": "Data",
+    "species": "Gatunek",
+    "breed": "Rasa",
+    "gender": "Płeć",
+    "color": "Kolor",
+    "location": "Lokalizacja",
+    "unknownLocation": "Nieznana lokalizacja",
+    "notFound": "Nie znaleziono ogłoszenia",
+    "loadError": "Nie udało się wczytać szczegółów",
+    "user": "Użytkownik"
+  },
+  "wishlist": {
+    "eyebrow": "Zapisane",
+    "title": "Twoja lista życzeń",
+    "count": "{n} zapisanych",
+    "emptyTitle": "Lista jest pusta",
+    "emptyText": "Nie masz jeszcze zapisanych zwierzaków. Przeglądaj ogłoszenia i dodaj te, które Cię zainteresują.",
+    "browse": "Przeglądaj zwierzaki",
+    "ctaTitle": "Szukasz dalej?",
+    "ctaText": "Zobacz wszystkie zwierzaki czekające na nowy dom.",
+    "ctaBtn": "Zobacz ogłoszenia",
+    "remove": "Usuń z zapisanych"
   },
   "blog": {
     "hero": {
@@ -627,6 +675,32 @@
     }
   },
   "dashboard": {
+    "pendingAccount": {
+      "eyebrow": "Weryfikacja konta",
+      "title": "Konto oczekuje na zatwierdzenie",
+      "welcome": "Witaj, {name}! Twoje konto jest obecnie sprawdzane.",
+      "statusTitle": "Status weryfikacji",
+      "statusValue": "Oczekuje na decyzję administratora",
+      "statusText": "Nasz zespół sprawdza dane konta. Zwykle trwa to 24–48 godzin. Dostaniesz e-mail, gdy konto zostanie zatwierdzone.",
+      "nextTitle": "Co dalej?",
+      "step1Title": "Weryfikacja konta",
+      "step1Text": "Administrator sprawdza profil i podane informacje.",
+      "step2Title": "Decyzja",
+      "step2Text": "Wyślemy e-mail z informacją o wyniku.",
+      "step3Title": "Pełny dostęp",
+      "step3Text": "Po zatwierdzeniu odblokujesz wszystkie funkcje panelu.",
+      "helpTitle": "Potrzebujesz pomocy?",
+      "helpText": "Masz pytanie o konto? Napisz do nas — odpowiemy jak najszybciej.",
+      "contact": "Skontaktuj się",
+      "refresh": "Odśwież status",
+      "refreshing": "Sprawdzanie...",
+      "signOut": "Wyloguj się",
+      "approved": "Konto zostało zatwierdzone. Przekierowujemy do panelu...",
+      "stillPending": "Konto nadal oczekuje na zatwierdzenie.",
+      "rejected": "Konto zostało odrzucone. Skontaktuj się z pomocą.",
+      "refreshError": "Nie udało się odświeżyć statusu. Spróbuj ponownie.",
+      "unknown": "Status odświeżony: {status}"
+    },
     "sidebar": {
       "dashboard": "Panel",
       "listPet": "Wystaw zwierzę",

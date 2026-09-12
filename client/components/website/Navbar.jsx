@@ -402,9 +402,9 @@ const Navbar = () => {
 
   return (
 
-    <header className="marketing-ui sticky top-0 z-[100] w-full h-[60px] md:h-20 px-4 sm:px-8 bg-[#F4F7FB] dark:bg-dark-panel border-b border-[#E2E8F0] dark:border-dark-divider flex justify-between items-center text-[#0F172A] dark:text-dark-text-primary">
+    <header className="marketing-ui sticky top-0 z-[100] grid h-[60px] w-full grid-cols-[1fr_auto_1fr] items-center bg-[#F4F7FB] px-4 text-[#0F172A] dark:bg-dark-panel dark:text-dark-text-primary md:h-20 sm:px-8 border-b border-[#E2E8F0] dark:border-dark-divider">
 
-      <div className="flex items-center gap-2 shrink-0">
+      <div className="col-start-1 flex shrink-0 items-center justify-self-start gap-2">
 
         <Link href="/" className="flex items-center">
 
@@ -444,7 +444,7 @@ const Navbar = () => {
 
       </div>
 
-      <nav className="hidden lg:flex flex-1 items-center justify-center gap-8">
+      <nav className="col-start-2 hidden items-center justify-center gap-8 justify-self-center lg:flex">
 
         {websiteLinks.filter((link) => link.href !== "/").map((link) => (
 
@@ -474,9 +474,9 @@ const Navbar = () => {
 
       </nav>
 
-      <div className="flex items-center space-x-2 md:space-x-3">
+      <div className="col-start-3 flex items-center justify-self-end space-x-2 md:space-x-3">
 
-        <ThemeToggle size={22} />
+        <ThemeToggle size={isSignedIn ? "sm" : "md"} />
 
 
 
@@ -494,7 +494,7 @@ const Navbar = () => {
 
                 onClick={() => setOpenMsg((v) => !v)}
 
-                className="relative p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 transition-colors duration-300"
+                className="relative flex h-9 w-9 items-center justify-center text-[#0F172A] transition hover:text-[#2563EB] dark:text-white dark:hover:text-[#93C5FD]"
 
                 title="Messages"
 
@@ -518,13 +518,13 @@ const Navbar = () => {
 
               {openMsg && (
 
-                <div className="fixed md:absolute inset-x-4 md:inset-auto md:right-0 mt-2 md:w-80 bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-divider rounded-xl shadow-xl z-50 overflow-hidden transform md:translate-x-0">
+                <div className="fixed inset-x-4 z-50 mt-2 overflow-hidden border border-[#E2E8F0] bg-white shadow-[0_18px_40px_rgba(15,23,42,0.14)] dark:border-dark-divider dark:bg-[#202020] md:absolute md:inset-auto md:right-0 md:w-80">
 
-                  <div className="flex items-center justify-between px-3 py-2 border-b border-gray-100 dark:border-dark-divider">
+                  <div className="flex items-center justify-between border-b border-[#E2E8F0] px-4 py-3 dark:border-dark-divider">
 
-                    <div className="text-sm font-semibold text-gray-900 dark:text-white">Wiadomości</div>
+                    <div className="text-sm font-semibold text-[#0F172A] dark:text-white">Wiadomości</div>
 
-                    <Link href="/dashboard/messages" onClick={() => setOpenMsg(false)} className="text-xs text-blue-600 hover:underline">Otwórz czat</Link>
+                    <Link href="/dashboard/messages" onClick={() => setOpenMsg(false)} className="text-xs font-semibold text-[#2563EB] hover:text-[#1D4ED8]">Otwórz czat</Link>
 
                   </div>
 
@@ -532,15 +532,15 @@ const Navbar = () => {
 
                     {loadingMessages ? (
 
-                      <div className="px-3 py-4 text-sm text-gray-500">Ładowanie...</div>
+                      <div className="px-4 py-8 text-center text-sm text-[#64748B]">Ładowanie...</div>
 
                     ) : displayMessages.length === 0 ? (
 
-                      <div className="px-3 py-4 text-sm text-gray-500">Brak wiadomości</div>
+                      <div className="px-4 py-8 text-center text-sm text-[#64748B]">Brak wiadomości</div>
 
                     ) : (
 
-                      <ul className="divide-y divide-gray-100 dark:divide-dark-divider">
+                      <ul className="divide-y divide-[#E2E8F0] dark:divide-dark-divider">
 
                         {displayMessages.map((msg) => (
 
@@ -548,7 +548,7 @@ const Navbar = () => {
 
                             key={msg.chatId}
 
-                            className={`px-3 py-3 flex items-start gap-3 cursor-pointer hover:bg-gray-100 dark:hover:bg-dark-raised ${msg.unreadCount === 0 ? "opacity-60" : ""}`}
+                            className={`flex cursor-pointer items-start gap-3 px-4 py-3 transition hover:bg-[#EEF2FF] dark:hover:bg-white/5 ${msg.unreadCount === 0 ? "opacity-60" : ""}`}
 
                             onClick={async () => {
 
@@ -570,13 +570,13 @@ const Navbar = () => {
 
                             <div className="min-w-0 flex-1">
 
-                              <div className="text-sm font-bold text-gray-900 dark:text-white truncate">
+                              <div className="truncate text-sm font-semibold text-[#0F172A] dark:text-white">
 
                                 {msg.sender?.name || "Użytkownik"}
 
                               </div>
 
-                              <div className="text-xs text-gray-500 dark:text-dark-text-muted line-clamp-1">
+                              <div className="line-clamp-1 text-xs text-[#64748B]">
 
                                 {msg.attachments?.length > 0
 
@@ -586,13 +586,13 @@ const Navbar = () => {
 
                               </div>
 
-                              <div className="text-[10px] text-gray-400 mt-1">{new Date(msg.createdAt).toLocaleString()}</div>
+                              <div className="mt-1 text-[10px] text-[#94A3B8]">{new Date(msg.createdAt).toLocaleString()}</div>
 
                             </div>
 
                             {msg.unreadCount > 0 && (
 
-                              <div className="mt-2 min-w-[18px] h-[18px] px-1.5 rounded-full bg-blue-500 text-white text-[10px] font-bold flex items-center justify-center shrink-0">
+                              <div className="mt-2 flex h-[18px] min-w-[18px] shrink-0 items-center justify-center bg-[#2563EB] px-1.5 text-[10px] font-bold text-white">
 
                                 {msg.unreadCount > 9 ? '9+' : msg.unreadCount}
 
@@ -610,9 +610,9 @@ const Navbar = () => {
 
                   </div>
 
-                  <div className="px-3 py-2 border-t border-gray-100 dark:border-dark-divider text-center">
+                  <div className="border-t border-[#E2E8F0] px-4 py-3 text-center dark:border-dark-divider">
 
-                    <Link href="/dashboard/messages" onClick={() => setOpenMsg(false)} className="text-xs font-bold text-blue-600 hover:underline uppercase tracking-widest">
+                    <Link href="/dashboard/messages" onClick={() => setOpenMsg(false)} className="text-xs font-bold uppercase tracking-[0.14em] text-[#2563EB] hover:text-[#1D4ED8]">
 
                       Zobacz wszystkie wiadomości
 
@@ -636,7 +636,7 @@ const Navbar = () => {
 
                 onClick={() => setOpenNotif((v) => !v)}
 
-                className="relative p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 transition-colors duration-300"
+                className="relative flex h-9 w-9 items-center justify-center text-[#0F172A] transition hover:text-[#2563EB] dark:text-white dark:hover:text-[#93C5FD]"
 
               >
 
@@ -656,15 +656,15 @@ const Navbar = () => {
 
               {openNotif && (
 
-                <div className="fixed md:absolute inset-x-4 md:inset-auto md:right-0 mt-2 md:w-80 bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-divider rounded-xl shadow-xl z-50 overflow-hidden transform md:translate-x-0">
+                <div className="fixed inset-x-4 z-50 mt-2 overflow-hidden border border-[#E2E8F0] bg-white shadow-[0_18px_40px_rgba(15,23,42,0.14)] dark:border-dark-divider dark:bg-[#202020] md:absolute md:inset-auto md:right-0 md:w-80">
 
-                  <div className="flex items-center justify-between px-3 py-2 border-b border-gray-100 dark:border-gray-700">
+                  <div className="flex items-center justify-between border-b border-[#E2E8F0] px-4 py-3 dark:border-dark-divider">
 
-                    <div className="text-sm font-semibold text-gray-900 dark:text-gray-200 dark:text-white">Powiadomienia</div>
+                    <div className="text-sm font-semibold text-[#0F172A] dark:text-white">Powiadomienia</div>
 
                     {markAll && (
 
-                      <button onClick={markAll} className="text-xs text-blue-600 hover:underline">
+                      <button type="button" onClick={markAll} className="text-xs font-semibold text-[#2563EB] hover:text-[#1D4ED8]">
 
                         Oznacz wszystkie jako przeczytane
 
@@ -678,11 +678,11 @@ const Navbar = () => {
 
                     {notificationsList.length === 0 ? (
 
-                      <div className="px-3 py-4 text-sm text-gray-500 dark:text-gray-400">Brak powiadomień</div>
+                      <div className="px-4 py-8 text-center text-sm text-[#64748B]">Brak powiadomień</div>
 
                     ) : (
 
-                      <ul className="divide-y divide-gray-100 dark:divide-gray-700">
+                      <ul className="divide-y divide-[#E2E8F0] dark:divide-dark-divider">
 
                         {notificationsList.slice(0, 8).map((n) => (
 
@@ -692,7 +692,7 @@ const Navbar = () => {
 
                               href={getNotifTarget(n)}
 
-                              className={`px-3 py-2 flex items-start gap-3 hover:bg-gray-50 dark:hover:bg-gray-700/50 ${n.read ? "opacity-60" : ""}`}
+                              className={`flex items-start gap-3 px-4 py-3 transition hover:bg-[#EEF2FF] dark:hover:bg-white/5 ${n.read ? "opacity-60" : ""}`}
 
                               onClick={async () => {
 
@@ -704,15 +704,15 @@ const Navbar = () => {
 
                             >
 
-                              <div className={`mt-1 w-2 h-2 rounded-full ${n.read ? "bg-gray-300 dark:bg-gray-600" : "bg-blue-500"}`} />
+                              <div className={`mt-1.5 h-2 w-2 shrink-0 ${n.read ? "bg-[#CBD5E1] dark:bg-[#4B5563]" : "bg-[#2563EB]"}`} />
 
                               <div className="min-w-0 flex-1">
 
-                                <div className="text-sm font-medium text-gray-900 dark:text-gray-200 dark:text-white truncate">{n.title}</div>
+                                <div className="truncate text-sm font-semibold text-[#0F172A] dark:text-white">{n.title}</div>
 
-                                {n.body && <div className="text-xs text-gray-600 dark:text-gray-300 line-clamp-2">{n.body}</div>}
+                                {n.body && <div className="line-clamp-2 text-xs text-[#64748B]">{n.body}</div>}
 
-                                <div className="text-[10px] text-gray-400 dark:text-gray-500 mt-1">{new Date(n.createdAt).toLocaleString()}</div>
+                                <div className="mt-1 text-[10px] text-[#94A3B8]">{new Date(n.createdAt).toLocaleString()}</div>
 
                               </div>
 
@@ -728,9 +728,9 @@ const Navbar = () => {
 
                   </div>
 
-                  <div className="px-3 py-2 border-t border-gray-100 dark:border-gray-700 text-right">
+                  <div className="border-t border-[#E2E8F0] px-4 py-3 text-center dark:border-dark-divider">
 
-                    <Link href="/dashboard/notifications" onClick={() => setOpenNotif(false)} className="text-sm text-blue-600 hover:underline">
+                    <Link href="/dashboard/notifications" onClick={() => setOpenNotif(false)} className="text-xs font-bold uppercase tracking-[0.14em] text-[#2563EB] hover:text-[#1D4ED8]">
 
                       Zobacz wszystkie powiadomienia
 
@@ -764,7 +764,7 @@ const Navbar = () => {
 
               onClick={handleSignIn}
 
-              className="flex h-12 items-center gap-2 px-6 bg-[#2563EB] text-white text-[11px] font-bold uppercase tracking-[0.14em] hover:bg-[#1D4ED8] transition-colors"
+              className="flex h-10 items-center px-5 bg-[#2563EB] text-[13px] font-semibold text-white hover:bg-[#1D4ED8] transition-colors"
 
             >
 
@@ -882,7 +882,7 @@ const Navbar = () => {
                 <button
                   type="button"
                   onClick={handleSignIn}
-                  className="flex h-12 w-full items-center justify-center border border-white/25 text-[12px] font-bold uppercase tracking-[0.16em] text-white"
+                  className="flex h-12 w-full items-center justify-center border border-white/25 text-[15px] font-semibold text-white"
                 >
                   {t("navbar.login", "Login")}
                 </button>

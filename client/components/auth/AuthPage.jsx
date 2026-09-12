@@ -9,20 +9,17 @@ import { useLanguage } from "../../lib/i18n/LanguageContext";
 
 export default function AuthPage({ defaultTab = "login" }) {
   const [tab, setTab] = useState(defaultTab);
-  const [step, setStep] = useState("form"); // "form" | "otp"
+  const [step, setStep] = useState("form");
 
-  // Login
   const [loginData, setLoginData] = useState({ email: "", password: "" });
   const [loginLoading, setLoginLoading] = useState(false);
 
-  // Register
   const [regData, setRegData] = useState({
     firstName: "", lastName: "", email: "", password: "", confirmPassword: "",
   });
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [tempUserId, setTempUserId] = useState(null);
 
-  // OTP
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const otpRefs = useRef(Array(6).fill(null).map(() => React.createRef()));
 
@@ -78,14 +75,21 @@ export default function AuthPage({ defaultTab = "login" }) {
     } catch { toast.error("Verification failed"); }
   };
 
-  const input = "w-full px-4 py-3.5 bg-gray-50 dark:bg-dark-raised border border-gray-200 dark:border-dark-divider rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 dark:text-white placeholder-gray-400 transition-all text-md";
-  const label = "block text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest mb-1.5";
+  const input =
+    "mt-1.5 w-full rounded-xl border border-[#E2E8F0] bg-white px-4 py-3 text-base text-[#0F172A] outline-none placeholder:text-[#94A3B8] focus:border-[#2563EB] dark:border-dark-divider dark:bg-dark-raised dark:text-white";
+  const label = "text-sm font-semibold text-[#0F172A] dark:text-gray-200";
+  const submitBtn =
+    "flex h-12 w-full items-center justify-center rounded-xl bg-[#2563EB] text-sm font-semibold text-white transition hover:bg-[#1D4ED8] disabled:opacity-60";
+  const tabClass = (active) =>
+    `flex-1 py-2.5 text-sm font-semibold transition ${
+      active
+        ? "bg-[#2563EB] text-white"
+        : "text-[#64748B] hover:text-[#0F172A] dark:text-gray-400 dark:hover:text-white"
+    }`;
 
   return (
-    <div className="min-h-screen flex">
-
-      {/* ── LEFT: Image Panel ───────────────────────────────────── */}
-      <div className="hidden lg:flex lg:w-[45%] xl:w-1/2 relative flex-col overflow-hidden">
+    <div className="marketing-ui flex min-h-screen bg-[#F4F7FB] text-[#0F172A] dark:bg-dark-main dark:text-gray-200">
+      <div className="relative hidden overflow-hidden lg:flex lg:w-[45%] xl:w-1/2">
         <Image
           src="/auth-bg.png"
           alt="Rafraf"
@@ -93,60 +97,52 @@ export default function AuthPage({ defaultTab = "login" }) {
           className="object-cover object-center"
           priority
         />
-        {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-tr from-blue-900/90 via-blue-800/60 to-transparent" />
+        <div className="absolute inset-0 bg-[#0F172A]/70" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A] via-[#0F172A]/40 to-[#0F172A]/20" />
 
-        {/* Content on image */}
-        <div className="relative z-10 flex flex-col h-full p-10 justify-between">
-          {/* Top: Logo */}
+        <div className="relative z-10 flex h-full w-full flex-col justify-between px-10 py-10">
           <Link href="/" className="inline-flex items-center">
-            <Image src="/logo-white.png" alt="Rafraf" width={130} height={36} className="h-10 w-auto" />
+            <Image src="/logo-white.png" alt="Rafraf" width={150} height={40} className="h-10 w-auto" />
           </Link>
 
-          {/* Bottom: Tagline */}
-          <div className="pb-4">
-            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 mb-6">
-              <span className="text-lg">🐾</span>
-              <span className="text-white/80 text-md font-semibold">{t('auth.leftPanel.trustedBy')}</span>
-            </div>
-            <h2 className="text-4xl xl:text-5xl font-black text-white leading-tight mb-4">
-              {t('auth.leftPanel.findYour')}<br />
-              <span className="text-blue-300">Rafraf</span><br />
-              {t('auth.leftPanel.companion')}
+          <div className="max-w-lg pb-2">
+            <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.22em] text-[#93C5FD]">
+              {t("auth.leftPanel.trustedBy")}
+            </p>
+            <h2 className="font-display text-[2.6rem] font-bold leading-[1.1] text-white xl:text-[3.2rem]">
+              {t("auth.leftPanel.findYour")}
+              <br />
+              Rafraf
+              <br />
+              {t("auth.leftPanel.companion")}
             </h2>
-            <p className="text-white/70 text-base leading-relaxed max-w-sm">
-              {t('auth.leftPanel.description')}
+            <p className="mt-4 max-w-sm text-[16px] leading-relaxed text-white/70">
+              {t("auth.leftPanel.description")}
             </p>
           </div>
         </div>
       </div>
 
-      {/* ── RIGHT: Form Panel ───────────────────────────────────── */}
-      <div className="w-full lg:w-[55%] xl:w-1/2 flex items-center justify-center bg-white dark:bg-dark-main p-6 md:p-10 overflow-y-auto">
+      <div className="flex w-full items-center justify-center overflow-y-auto px-4 py-10 sm:px-8 lg:w-[55%] xl:w-1/2">
         <div className="w-full max-w-[420px]">
-
-          {/* Mobile logo */}
-          <div className="flex lg:hidden justify-center mb-8">
+          <div className="mb-8 flex justify-center lg:hidden">
             <Link href="/">
-              <Image src="/logo.png" alt="Rafraf" width={120} height={30} className="h-9 w-auto dark:hidden" />
-              <Image src="/logo-white.png" alt="Rafraf" width={120} height={30} className="h-9 w-auto hidden dark:block" />
+              <Image src="/logo.png" alt="Rafraf" width={140} height={36} className="h-9 w-auto dark:hidden" />
+              <Image src="/logo-white.png" alt="Rafraf" width={140} height={36} className="hidden h-9 w-auto dark:block" />
             </Link>
           </div>
 
           {step === "otp" ? (
-            /* ── OTP Step ──────────────────────────────── */
             <div>
-              <div className="mb-8">
-                <div className="w-14 h-14 bg-blue-50 dark:bg-blue-900/30 rounded-2xl flex items-center justify-center mb-4">
-                  <span className="text-2xl">📧</span>
-                </div>
-                <h1 className="text-3xl font-black text-gray-900 dark:text-white mb-2">{t('auth.otp.checkEmail')}</h1>
-                <p className="text-gray-500 dark:text-gray-400 text-md">
-                  {t('auth.otp.sentCode')} <span className="font-bold text-gray-700 dark:text-gray-300">{regData.email}</span>
-                </p>
-              </div>
-              <form onSubmit={handleOtpSubmit} className="space-y-6">
-                <div className="flex gap-2.5 justify-center">
+              <h1 className="font-display text-[1.85rem] font-bold leading-tight md:text-[2.2rem]">
+                {t("auth.otp.checkEmail")}
+              </h1>
+              <p className="mt-2 text-[15px] text-[#64748B] dark:text-gray-400">
+                {t("auth.otp.sentCode")}{" "}
+                <span className="font-semibold text-[#0F172A] dark:text-white">{regData.email}</span>
+              </p>
+              <form onSubmit={handleOtpSubmit} className="mt-8 space-y-6">
+                <div className="flex justify-center gap-2">
                   {otp.map((val, i) => (
                     <input
                       key={i}
@@ -157,150 +153,190 @@ export default function AuthPage({ defaultTab = "login" }) {
                       value={val}
                       onChange={(e) => handleOtpChange(i, e.target.value)}
                       onKeyDown={(e) => handleOtpKey(i, e)}
-                      className="w-12 h-14 text-center text-xl font-black border-2 border-gray-200 dark:border-dark-divider rounded-xl bg-gray-50 dark:bg-dark-raised text-gray-900 dark:text-white focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all"
+                      className="h-12 w-11 rounded-xl border border-[#E2E8F0] bg-white text-center text-lg font-bold text-[#0F172A] outline-none focus:border-[#2563EB] dark:border-dark-divider dark:bg-dark-raised dark:text-white sm:h-14 sm:w-12"
                     />
                   ))}
                 </div>
-                <button type="submit" disabled={loading} className="w-full py-4 rounded-xl bg-blue-600 text-white font-black text-base hover:bg-blue-700 transition-all disabled:opacity-60 shadow-lg shadow-blue-500/25">
-                  {loading ? t('auth.otp.verifying') : t('auth.otp.verifyButton')}
+                <button type="submit" disabled={loading} className={submitBtn}>
+                  {loading ? t("auth.otp.verifying") : t("auth.otp.verifyButton")}
                 </button>
-                <div className="text-center space-y-2">
-                  <button type="button" onClick={() => resendOTP(tempUserId).then(() => toast.success("Code resent!"))} className="text-blue-600 hover:text-blue-700 text-md font-semibold">
-                    {t('auth.otp.resendCode')}
+                <div className="space-y-2 text-center">
+                  <button
+                    type="button"
+                    onClick={() => resendOTP(tempUserId).then(() => toast.success("Code resent!"))}
+                    className="text-sm font-semibold text-[#2563EB]"
+                  >
+                    {t("auth.otp.resendCode")}
                   </button>
                   <div>
-                    <button type="button" onClick={() => setStep("form")} className="text-gray-400 hover:text-gray-600 text-sm">{t('auth.otp.backToSignup')}</button>
+                    <button type="button" onClick={() => setStep("form")} className="text-sm text-[#64748B]">
+                      {t("auth.otp.backToSignup")}
+                    </button>
                   </div>
                 </div>
               </form>
             </div>
           ) : (
-            /* ── Auth Forms ────────────────────────────── */
             <div>
-              <div className="mb-8">
-                <h1 className="text-3xl font-black text-gray-900 dark:text-white mb-1">
-                  {tab === "login" ? t('auth.login.title') : t('auth.register.title')}
-                </h1>
-                <p className="text-gray-500 dark:text-gray-400 text-md">
-                  {tab === "login"
-                    ? t('auth.login.subtitle')
-                    : t('auth.register.subtitle')}
-                </p>
-              </div>
+              <h1 className="font-display text-[1.85rem] font-bold leading-tight md:text-[2.2rem]">
+                {tab === "login" ? t("auth.login.title") : t("auth.register.title")}
+              </h1>
+              <p className="mt-2 text-[15px] text-[#64748B] dark:text-gray-400">
+                {tab === "login" ? t("auth.login.subtitle") : t("auth.register.subtitle")}
+              </p>
 
-              {/* Tab Switcher */}
-              <div className="flex bg-gray-100 dark:bg-dark-raised rounded-xl p-1 mb-7">
-                <button
-                  type="button"
-                  onClick={() => setTab("login")}
-                  className={`flex-1 py-2.5 rounded-lg text-md font-bold transition-all ${tab === "login"
-                    ? "bg-white dark:bg-dark-card text-blue-600 shadow-sm"
-                    : "text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
-                    }`}
-                >
-                  {t('auth.tabs.login')}
+              <div className="mt-7 mb-6 flex overflow-hidden rounded-xl border border-[#E2E8F0] dark:border-dark-divider">
+                <button type="button" onClick={() => setTab("login")} className={tabClass(tab === "login")}>
+                  {t("auth.tabs.login")}
                 </button>
-                <button
-                  type="button"
-                  onClick={() => setTab("register")}
-                  className={`flex-1 py-2.5 rounded-lg text-md font-bold transition-all ${tab === "register"
-                    ? "bg-white dark:bg-dark-card text-blue-600 shadow-sm"
-                    : "text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
-                    }`}
-                >
-                  {t('auth.tabs.signUp')}
+                <button type="button" onClick={() => setTab("register")} className={tabClass(tab === "register")}>
+                  {t("auth.tabs.signUp")}
                 </button>
               </div>
 
-              {/* LOGIN */}
               {tab === "login" && (
                 <form onSubmit={handleLogin} className="space-y-4">
                   <div>
-                    <label className={label}>{t('auth.login.email')}</label>
-                    <input type="email" required value={loginData.email}
-                      onChange={e => setLoginData({ ...loginData, email: e.target.value })}
-                      className={input} placeholder="you@example.com" />
+                    <label className={label}>{t("auth.login.email")}</label>
+                    <input
+                      type="email"
+                      required
+                      value={loginData.email}
+                      onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
+                      className={input}
+                      placeholder="you@example.com"
+                    />
                   </div>
                   <div>
-                    <div className="flex justify-between items-center mb-1.5">
-                      <label className={label} style={{ marginBottom: 0 }}>{t('auth.login.password')}</label>
-                      <Link href="/forgot-password" className="text-sm text-blue-600 hover:text-blue-700 font-semibold">
-                        {t('auth.login.forgotPassword')}
+                    <div className="mb-0 flex items-center justify-between">
+                      <label className={label}>{t("auth.login.password")}</label>
+                      <Link href="/forgot-password" className="text-sm font-semibold text-[#2563EB]">
+                        {t("auth.login.forgotPassword")}
                       </Link>
                     </div>
-                    <input type="password" required value={loginData.password}
-                      onChange={e => setLoginData({ ...loginData, password: e.target.value })}
-                      className={input} placeholder="••••••••" />
+                    <input
+                      type="password"
+                      required
+                      value={loginData.password}
+                      onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
+                      className={input}
+                      placeholder="••••••••"
+                    />
                   </div>
-                  <button type="submit" disabled={loginLoading}
-                    className="w-full py-4 mt-2 rounded-xl bg-blue-600 text-white font-black text-md hover:bg-blue-700 active:scale-[0.98] transition-all disabled:opacity-60 shadow-lg shadow-blue-500/25">
-                    {loginLoading ? t('auth.login.signingIn') : t('auth.login.signInButton')}
+                  <button type="submit" disabled={loginLoading} className={`${submitBtn} mt-2`}>
+                    {loginLoading ? t("auth.login.signingIn") : t("auth.login.signInButton")}
                   </button>
-                  <p className="text-center text-gray-500 text-md pt-1">
-                    {t('auth.login.newToRafraf')}{" "}
-                    <button type="button" onClick={() => setTab("register")} className="text-blue-600 font-bold hover:underline">
-                      {t('auth.login.createAccount')}
+                  <p className="pt-1 text-center text-sm text-[#64748B]">
+                    {t("auth.login.newToRafraf")}{" "}
+                    <button type="button" onClick={() => setTab("register")} className="font-semibold text-[#2563EB]">
+                      {t("auth.login.createAccount")}
                     </button>
                   </p>
                 </form>
               )}
 
-              {/* REGISTER */}
               {tab === "register" && (
                 <form onSubmit={handleRegister} className="space-y-4">
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className={label}>{t('auth.register.firstName')}</label>
-                      <input type="text" required value={regData.firstName}
-                        onChange={e => setRegData({ ...regData, firstName: e.target.value })}
-                        className={input} placeholder="Alex" />
+                      <label className={label}>{t("auth.register.firstName")}</label>
+                      <input
+                        type="text"
+                        required
+                        value={regData.firstName}
+                        onChange={(e) => setRegData({ ...regData, firstName: e.target.value })}
+                        className={input}
+                        placeholder="Alex"
+                      />
                     </div>
                     <div>
-                      <label className={label}>{t('auth.register.lastName')}</label>
-                      <input type="text" required value={regData.lastName}
-                        onChange={e => setRegData({ ...regData, lastName: e.target.value })}
-                        className={input} placeholder="Smith" />
+                      <label className={label}>{t("auth.register.lastName")}</label>
+                      <input
+                        type="text"
+                        required
+                        value={regData.lastName}
+                        onChange={(e) => setRegData({ ...regData, lastName: e.target.value })}
+                        className={input}
+                        placeholder="Smith"
+                      />
                     </div>
                   </div>
                   <div>
-                    <label className={label}>{t('auth.register.email')}</label>
-                    <input type="email" required value={regData.email}
-                      onChange={e => setRegData({ ...regData, email: e.target.value })}
-                      className={input} placeholder="you@example.com" />
+                    <label className={label}>{t("auth.register.email")}</label>
+                    <input
+                      type="email"
+                      required
+                      value={regData.email}
+                      onChange={(e) => setRegData({ ...regData, email: e.target.value })}
+                      className={input}
+                      placeholder="you@example.com"
+                    />
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className={label}>{t('auth.register.password')}</label>
-                      <input type="password" required minLength="6" value={regData.password}
-                        onChange={e => setRegData({ ...regData, password: e.target.value })}
-                        className={input} placeholder={t('auth.register.minChars')} />
+                      <label className={label}>{t("auth.register.password")}</label>
+                      <input
+                        type="password"
+                        required
+                        minLength="6"
+                        value={regData.password}
+                        onChange={(e) => setRegData({ ...regData, password: e.target.value })}
+                        className={input}
+                        placeholder={t("auth.register.minChars")}
+                      />
                     </div>
                     <div>
-                      <label className={label}>{t('auth.register.confirmPassword')}</label>
-                      <input type="password" required minLength="6" value={regData.confirmPassword}
-                        onChange={e => setRegData({ ...regData, confirmPassword: e.target.value })}
-                        className={input} placeholder={t('auth.register.repeat')} />
+                      <label className={label}>{t("auth.register.confirmPassword")}</label>
+                      <input
+                        type="password"
+                        required
+                        minLength="6"
+                        value={regData.confirmPassword}
+                        onChange={(e) => setRegData({ ...regData, confirmPassword: e.target.value })}
+                        className={input}
+                        placeholder={t("auth.register.repeat")}
+                      />
                     </div>
                   </div>
-                  <div className="flex items-start gap-3">
-                    <input id="terms" type="checkbox" checked={termsAccepted}
-                      onChange={e => setTermsAccepted(e.target.checked)}
-                      className="w-4 h-4 mt-0.5 rounded border-gray-300 accent-blue-600 flex-shrink-0" />
-                    <label htmlFor="terms" className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
-                      {t('auth.register.terms')}{" "}
-                      <Link href="/terms" className="text-blue-600 font-semibold hover:underline">{t('auth.register.termsLink')}</Link>
-                      {" "}{t('auth.register.and')}{" "}
-                      <Link href="/privacy" className="text-blue-600 font-semibold hover:underline">{t('auth.register.privacyLink')}</Link>
-                    </label>
-                  </div>
-                  <button type="submit" disabled={loading}
-                    className="w-full py-4 rounded-xl bg-blue-600 text-white font-black text-md hover:bg-blue-700 active:scale-[0.98] transition-all disabled:opacity-60 shadow-lg shadow-blue-500/25">
-                    {loading ? t('auth.register.creating') : t('auth.register.createButton')}
+                  <label htmlFor="terms" className="flex cursor-pointer items-start gap-2.5 select-none">
+                    <input
+                      id="terms"
+                      type="checkbox"
+                      checked={termsAccepted}
+                      onChange={(e) => setTermsAccepted(e.target.checked)}
+                      className="peer sr-only"
+                    />
+                    <span
+                      aria-hidden="true"
+                      className={`mt-[3px] flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-[5px] border-2 transition peer-focus-visible:ring-2 peer-focus-visible:ring-[#2563EB] peer-focus-visible:ring-offset-2 dark:peer-focus-visible:ring-offset-[#212121] ${
+                        termsAccepted
+                          ? "border-[#2563EB] !bg-[#2563EB]"
+                          : "border-[#CBD5E1] !bg-white dark:border-[#555555] dark:!bg-[#2a2a2a]"
+                      }`}
+                    >
+                      {termsAccepted && (
+                        <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
+                          <path d="M2.2 6.1L4.7 8.6L9.8 3.4" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      )}
+                    </span>
+                    <span className="text-sm leading-5 tracking-normal text-[#64748B] dark:text-gray-400">
+                      {t("auth.register.terms")}
+                      {" "}
+                      <Link href="/terms" className="font-semibold text-[#2563EB] hover:text-[#1D4ED8]">{t("auth.register.termsLink")}</Link>
+                      {" "}
+                      {t("auth.register.and")}
+                      {" "}
+                      <Link href="/privacy" className="font-semibold text-[#2563EB] hover:text-[#1D4ED8]">{t("auth.register.privacyLink")}</Link>
+                    </span>
+                  </label>
+                  <button type="submit" disabled={loading} className={submitBtn}>
+                    {loading ? t("auth.register.creating") : t("auth.register.createButton")}
                   </button>
-                  <p className="text-center text-gray-500 text-md pt-1">
-                    {t('auth.register.alreadyHaveAccount')}{" "}
-                    <button type="button" onClick={() => setTab("login")} className="text-blue-600 font-bold hover:underline">
-                      {t('auth.register.signIn')}
+                  <p className="pt-1 text-center text-sm text-[#64748B]">
+                    {t("auth.register.alreadyHaveAccount")}{" "}
+                    <button type="button" onClick={() => setTab("login")} className="font-semibold text-[#2563EB]">
+                      {t("auth.register.signIn")}
                     </button>
                   </p>
                 </form>

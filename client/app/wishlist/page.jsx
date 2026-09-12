@@ -1,155 +1,149 @@
 "use client";
-import React, { useState, useEffect } from 'react';
-import Navbar from '../../components/website/Navbar';
-import { Footer } from '../../components/website/Footer';
-import PetCard from '../../components/website/PetCard';
-import { getAllPets } from '../../services/petService';
-import { getWishlist, passPet } from '../../services/userService';
-import { useAuth } from '../../lib/auth/AuthContext';
-import { Shovel as Ghost, ArrowRight } from 'lucide-react';
-import Link from 'next/link';
-import { motion } from 'framer-motion';
+
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import { ArrowRight, Heart, X } from "lucide-react";
+import Navbar from "../../components/website/Navbar";
+import { Footer } from "../../components/website/Footer";
+import HomePetCard from "../../components/website/HomePetCard";
+import MarketingHero from "../../components/website/MarketingHero";
+import { getAllPets } from "../../services/petService";
+import { getWishlist, passPet } from "../../services/userService";
+import { useAuth } from "../../lib/auth/AuthContext";
+import { useLanguage } from "../../lib/i18n/LanguageContext";
 
 export default function WishlistPage() {
-    const [wishlist, setWishlist] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const { isSignedIn, getToken } = useAuth();
+  const { t } = useLanguage();
+  const [wishlist, setWishlist] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const { isSignedIn, getToken } = useAuth();
 
-    useEffect(() => {
-        const fetchWishlist = async () => {
-            setLoading(true);
-            try {
-                if (isSignedIn) {
-                    const dbWishlist = await getWishlist(getToken);
-                    setWishlist(dbWishlist);
-                    // Sync local storage
-                    const likedIds = dbWishlist.map(pet => pet._id);
-                    localStorage.setItem('rafraf_liked_pets', JSON.stringify(likedIds));
-                } else {
-                    const likedIds = JSON.parse(localStorage.getItem('rafraf_liked_pets') || '[]');
-                    if (likedIds.length === 0) {
-                        setWishlist([]);
-                        return;
-                    }
-                    const allPets = await getAllPets();
-                    const likedPets = allPets.filter(pet => likedIds.includes(pet._id));
-                    setWishlist(likedPets);
-                }
-            } catch (error) {
-                console.error("Error fetching wishlist:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchWishlist();
-    }, [isSignedIn]);
-
-    const removeFromWishlist = async (petId) => {
-        // Update Local Storage
-        const likedIds = JSON.parse(localStorage.getItem('rafraf_liked_pets') || '[]');
-        const updatedIds = likedIds.filter(id => id !== petId);
-        localStorage.setItem('rafraf_liked_pets', JSON.stringify(updatedIds));
-
-        // Update DB if signed in (passing a pet moves it from liked to passed)
+  useEffect(() => {
+    const fetchWishlist = async () => {
+      setLoading(true);
+      try {
         if (isSignedIn) {
-            try {
-                await passPet(petId, getToken);
-            } catch (err) {
-                console.error("Failed to remove from DB wishlist:", err);
-            }
+          const dbWishlist = await getWishlist(getToken);
+          setWishlist(dbWishlist);
+          const likedIds = dbWishlist.map((pet) => pet._id);
+          localStorage.setItem("rafraf_liked_pets", JSON.stringify(likedIds));
+        } else {
+          const likedIds = JSON.parse(localStorage.getItem("rafraf_liked_pets") || "[]");
+          if (likedIds.length === 0) {
+            setWishlist([]);
+            return;
+          }
+          const allPets = await getAllPets();
+          setWishlist(allPets.filter((pet) => likedIds.includes(pet._id)));
         }
-
-        setWishlist(prev => prev.filter(pet => pet._id !== petId));
+      } catch (error) {
+        console.error("Error fetching wishlist:", error);
+      } finally {
+        setLoading(false);
+      }
     };
 
-    return (
-        <div className="min-h-screen bg-gray-50 dark:bg-dark-main flex flex-col transition-colors duration-300">
-            <Navbar />
+    fetchWishlist();
+  }, [isSignedIn]);
 
-            <main className="flex-grow max-w-7xl mx-auto w-full px-6 py-20">
-                <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
-                    <div>
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-[10px] font-black uppercase tracking-widest mb-4">
-                            <img src="/logooo.png" alt="Rafraf" className="h-3 w-3" />
-                            Your Collection
-                        </div>
-                        <h1 className="text-4xl md:text-6xl font-black text-gray-900 dark:text-white tracking-tighter uppercase italic">
-                            My <span className="text-blue-600">Wishlist</span>
-                        </h1>
-                    </div>
+  const removeFromWishlist = async (petId) => {
+    const likedIds = JSON.parse(localStorage.getItem("rafraf_liked_pets") || "[]");
+    localStorage.setItem("rafraf_liked_pets", JSON.stringify(likedIds.filter((id) => id !== petId)));
 
-                    <div className="flex items-center gap-4">
-                        <p className="text-gray-500 font-bold uppercase text-sm tracking-widest">
-                            {wishlist.length} Items Saved
-                        </p>
-                    </div>
+    if (isSignedIn) {
+      try {
+        await passPet(petId, getToken);
+      } catch (err) {
+        console.error("Failed to remove from DB wishlist:", err);
+      }
+    }
+
+    setWishlist((prev) => prev.filter((pet) => pet._id !== petId));
+  };
+
+  return (
+    <div className="marketing-ui flex min-h-screen flex-col bg-[#F4F7FB] text-[#0F172A] dark:bg-dark-main dark:text-gray-200">
+      <Navbar />
+
+      <main className="flex-grow">
+        <MarketingHero
+          image="/home/pets-banner.jpg"
+          imageAlt={t("wishlist.title", "Twoja lista życzeń")}
+          compact
+          eyebrow={t("wishlist.eyebrow", "Zapisane")}
+          title={t("wishlist.title", "Twoja lista życzeń")}
+          subtitle={t("wishlist.count", "{n} zapisanych").replace("{n}", String(wishlist.length))}
+        />
+
+        <div className="mx-auto w-full max-w-[1520px] px-4 py-10 sm:px-8 md:py-14">
+          {loading ? (
+            <div className="grid grid-cols-1 gap-px bg-[#E2E8F0] dark:bg-dark-divider md:grid-cols-2 xl:grid-cols-4">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="animate-pulse bg-white dark:bg-dark-card">
+                  <div className="h-72 bg-[#EEF2FF] dark:bg-dark-raised" />
+                  <div className="space-y-2 px-4 py-4">
+                    <div className="h-6 w-2/3 bg-[#EEF2FF] dark:bg-dark-raised" />
+                    <div className="h-4 w-1/2 bg-[#EEF2FF] dark:bg-dark-raised" />
+                  </div>
                 </div>
-
-                {loading ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {[1, 2, 3].map(i => (
-                            <div key={i} className="h-[400px] bg-gray-200 dark:bg-gray-800 rounded-3xl animate-pulse" />
-                        ))}
-                    </div>
-                ) : wishlist.length === 0 ? (
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="flex flex-col items-center justify-center py-20 text-center bg-white dark:bg-gray-900 rounded-[3rem] border border-gray-100 dark:border-gray-800 shadow-xl"
-                    >
-                        <div className="w-24 h-24 bg-gray-50 dark:bg-gray-800 rounded-full flex items-center justify-center mb-8">
-                            <Ghost className="h-12 w-12 text-gray-300" />
-                        </div>
-                        <h2 className="text-3xl font-black text-gray-900 dark:text-white mb-4 uppercase italic">Your wishlist is empty</h2>
-                        <p className="text-gray-500 font-medium mb-10 max-w-sm">
-                            Looks like you haven't found your perfect match yet.
-                            Head over to Discovery to find something you love!
-                        </p>
-                        <Link
-                            href="/discovery"
-                            className="px-10 py-5 bg-gradient-to-r from-blue-600 to-sky-500 text-white rounded-2xl font-black text-lg shadow-xl shadow-blue-500/25 hover:scale-105 active:scale-95 transition-all flex items-center gap-3 group"
-                        >
-                            Start Discovery <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                        </Link>
-                    </motion.div>
-                ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {wishlist.map((pet) => (
-                            <div key={pet._id} className="relative group">
-                                <PetCard pet={pet} />
-                                <button
-                                    onClick={() => removeFromWishlist(pet._id)}
-                                    className="absolute top-4 right-6 z-30 p-3 bg-white/20 backdrop-blur-md rounded-full text-white hover:bg-red-500 transition-colors border border-white/20 opacity-0 group-hover:opacity-100"
-                                >
-                                    <X className="h-5 w-5" />
-                                </button>
-                            </div>
-                        ))}
-                    </div>
-                )}
-
-                {wishlist.length > 0 && (
-                    <div className="mt-20 p-12 bg-blue-600 rounded-[3rem] text-white flex flex-col md:flex-row items-center justify-between gap-8 overflow-hidden relative">
-                        <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl translate-x-1/2 -translate-y-1/2" />
-                        <div className="relative z-10">
-                            <h3 className="text-3xl font-black uppercase italic mb-2 tracking-tight">Need more options?</h3>
-                            <p className="text-blue-100 font-medium">Our Discovery algorithm is waiting for you.</p>
-                        </div>
-                        <Link
-                            href="/discovery"
-                            className="relative z-10 px-8 py-4 bg-white text-blue-600 rounded-2xl font-black shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center gap-2"
-                        >
-                            Back to Swiping <img src="/logooo.png" alt="Rafraf" className="h-4 w-4" />
-                        </Link>
-                    </div>
-                )}
-            </main>
-
-            <Footer />
+              ))}
+            </div>
+          ) : wishlist.length === 0 ? (
+            <div className="border border-[#E2E8F0] bg-white px-6 py-20 text-center dark:border-dark-divider dark:bg-dark-card">
+              <Heart className="mx-auto h-10 w-10 text-[#2563EB]" />
+              <h2 className="font-display mt-6 text-3xl font-bold text-[#0F172A] dark:text-white">
+                {t("wishlist.emptyTitle", "Lista jest pusta")}
+              </h2>
+              <p className="mx-auto mt-3 max-w-md text-[16px] leading-relaxed text-[#64748B] dark:text-gray-400">
+                {t("wishlist.emptyText")}
+              </p>
+              <Link
+                href="/website/pets"
+                className="mt-8 inline-flex items-center justify-center gap-2 bg-[#2563EB] px-7 py-3.5 text-sm font-bold uppercase tracking-[0.12em] text-white hover:bg-[#1D4ED8]"
+              >
+                {t("wishlist.browse", "Przeglądaj zwierzaki")}
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 gap-px bg-[#E2E8F0] dark:bg-dark-divider md:grid-cols-2 xl:grid-cols-4">
+              {wishlist.map((pet) => (
+                <div key={pet._id} className="group relative bg-white dark:bg-dark-card">
+                  <HomePetCard pet={pet} />
+                  <button
+                    type="button"
+                    onClick={() => removeFromWishlist(pet._id)}
+                    aria-label={t("wishlist.remove", "Usuń z zapisanych")}
+                    className="absolute right-3 top-3 z-20 flex h-9 w-9 items-center justify-center bg-[#0F172A]/70 text-white transition hover:bg-red-500 md:opacity-0 md:group-hover:opacity-100"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
-    );
-}
 
-const X = ({ className }) => <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" /></svg>
-const Check = ({ className }) => <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
+        {wishlist.length > 0 && (
+          <section className="bg-[#0F172A] text-white">
+            <div className="mx-auto flex max-w-[1520px] flex-col items-start justify-between gap-6 px-4 py-14 sm:px-8 md:flex-row md:items-center md:py-16">
+              <div>
+                <h2 className="font-display text-[2rem] font-bold md:text-[2.6rem]">{t("wishlist.ctaTitle", "Szukasz dalej?")}</h2>
+                <p className="mt-2 max-w-xl text-white/70">{t("wishlist.ctaText")}</p>
+              </div>
+              <Link
+                href="/website/pets"
+                className="inline-flex items-center justify-center gap-2 !bg-white px-7 py-3.5 text-sm font-bold uppercase tracking-[0.12em] !text-[#0F172A]"
+              >
+                {t("wishlist.ctaBtn", "Zobacz ogłoszenia")}
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </section>
+        )}
+      </main>
+
+      <Footer />
+    </div>
+  );
+}

@@ -1,217 +1,309 @@
 "use client";
-import React, { useState, useEffect } from "react";
+
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
+import { createPortal } from "react-dom";
+import { ChevronLeft, ChevronRight, Mail, MapPin, Phone, X } from "lucide-react";
 import { getLostFoundById } from "../../../../services/lostFoundService";
-import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope, FaCalendarAlt } from "react-icons/fa";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { getPublicUserInfo } from "../../../../services/userService";
 import { optimizeCloudinaryUrl } from "../../../../lib/imageUtils";
 import { toTelHref } from "../../../../lib/utils";
-import { getPublicUserInfo } from "../../../../services/userService";
-import Link from "next/link";
+import { useLanguage } from "../../../../lib/i18n/LanguageContext";
 
 const API_BASE = (process.env.NEXT_PUBLIC_API_BASE_URL || "").trim().replace(/\/$/, "");
 
 const formatImageUrl = (imagePath) => {
-    if (!imagePath) return "/images/hamer1.png";
-    if (typeof imagePath === "string" && /^(https?:)?\/\//i.test(imagePath)) return optimizeCloudinaryUrl(imagePath, 1200);
-    return optimizeCloudinaryUrl(`${API_BASE}/${imagePath.replace("\\", "/")}`, 1200);
+  if (!imagePath) return "/home/lost-found.jpg";
+  if (typeof imagePath === "string" && /^(https?:)?\/\//i.test(imagePath)) return optimizeCloudinaryUrl(imagePath, 1200);
+  return optimizeCloudinaryUrl(`${API_BASE}/${String(imagePath).replace("\\", "/")}`, 1200);
+};
+
+const translateSpecies = (species) => {
+  if (species === "Dog") return "Pies";
+  if (species === "Cat") return "Kot";
+  return species;
+};
+
+const translateGender = (gender) => {
+  if (gender === "Male") return "Samiec";
+  if (gender === "Female") return "Suczka";
+  return gender;
 };
 
 export default function LostFoundDetailPage() {
-    const { id } = useParams();
-    const router = useRouter();
-    const [entry, setEntry] = useState(null);
-    const [reporter, setReporter] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const [activeImg, setActiveImg] = useState(0);
-    const [fullscreen, setFullscreen] = useState(false);
-    const [city, setCity] = useState("");
+  const { id } = useParams();
+  const router = useRouter();
+  const { t } = useLanguage();
+  const [entry, setEntry] = useState(null);
+  const [reporter, setReporter] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [activeImg, setActiveImg] = useState(0);
+  const [fullscreen, setFullscreen] = useState(false);
+  const [city, setCity] = useState("");
 
-    useEffect(() => {
-        if (!id) return;
-        const fetchEntry = async () => {
-            try {
-                const data = await getLostFoundById(id);
-                setEntry(data);
-                if (data.reporterId) {
-                    try {
-                        const reporterData = await getPublicUserInfo(data.reporterId);
-                        setReporter(reporterData);
-                    } catch (e) {
-                        console.error("Failed to load reporter info", e);
-                    }
-                }
-                const coords = data?.location?.coordinates;
-                if (coords) {
-                    try {
-                        const r = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${coords[1]}&lon=${coords[0]}&format=json`);
-                        const d = await r.json();
-                        setCity(d.address?.city || d.address?.town || d.address?.village || "");
-                    } catch (e) { }
-                }
-            } catch (err) {
-                console.error(err);
-                setError("Failed to load details");
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchEntry();
-    }, [id]);
+  useEffect(() => {
+    if (!id) return;
+    const fetchEntry = async () => {
+      try {
+        const data = await getLostFoundById(id);
+        setEntry(data);
+        if (data.reporterId) {
+          try {
+            const reporterData = await getPublicUserInfo(data.reporterId);
+            setReporter(reporterData);
+          } catch (e) {
+            console.error("Failed to load reporter info", e);
+          }
+        }
+        const coords = data?.location?.coordinates;
+        if (coords) {
+          try {
+            const r = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${coords[1]}&lon=${coords[0]}&format=json`);
+            const d = await r.json();
+            setCity(d.address?.city || d.address?.town || d.address?.village || data.location?.city || "");
+          } catch {
+            setCity(data.location?.city || "");
+          }
+        } else {
+          setCity(data.location?.city || "");
+        }
+      } catch (err) {
+        console.error(err);
+        setError("Nie udało się wczytać szczegółów");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchEntry();
+  }, [id]);
 
-    useEffect(() => {
-        const handler = (e) => {
-            if (!fullscreen || !images.length) return;
-            if (e.key === "Escape") setFullscreen(false);
-            if (e.key === "ArrowRight") setActiveImg(i => (i + 1) % images.length);
-            if (e.key === "ArrowLeft") setActiveImg(i => (i - 1 + images.length) % images.length);
-        };
-        window.addEventListener("keydown", handler);
-        return () => window.removeEventListener("keydown", handler);
-    }, [fullscreen, entry]);
+  const images = (entry?.images || []).map(formatImageUrl);
+  if (entry && !images.length) images.push("/home/lost-found.jpg");
 
-    if (loading) return <div className="min-h-screen flex items-center justify-center"><div className="w-12 h-12 border-4 border-blue-600/20 border-t-blue-600 rounded-full animate-spin"></div></div>;
-    if (error || !entry) return <div className="min-h-screen flex items-center justify-center text-red-500 font-bold">{error || "Entry not found"}</div>;
+  useEffect(() => {
+    const handler = (e) => {
+      if (!fullscreen || !images.length) return;
+      if (e.key === "Escape") setFullscreen(false);
+      if (e.key === "ArrowRight") setActiveImg((i) => (i + 1) % images.length);
+      if (e.key === "ArrowLeft") setActiveImg((i) => (i - 1 + images.length) % images.length);
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [fullscreen, images.length]);
 
-    const images = (entry.images || []).map(formatImageUrl);
-    if (!images.length) images.push("/images/hamer1.png");
-
-    const reporterName = reporter?.companyName || `${reporter?.firstName || ""} ${reporter?.lastName || ""}`.trim() || "User";
-
+  if (loading) {
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-dark-main py-8 px-4 sm:px-6">
-            {fullscreen && (
-                <div className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center" onClick={() => setFullscreen(false)}>
-                    <button onClick={() => setFullscreen(false)} className="absolute top-4 right-4 text-white bg-black/50 rounded-full p-3 hover:bg-black/80 transition-colors">✕</button>
-                    {images.length > 1 && <button onClick={(e) => { e.stopPropagation(); setActiveImg(i => (i - 1 + images.length) % images.length); }} className="absolute left-4 text-white bg-black/50 hover:bg-black/80 transition-colors rounded-full p-3"><ChevronLeft className="w-6 h-6" /></button>}
-                    <div className="relative w-full max-w-4xl h-[80vh]" onClick={e => e.stopPropagation()}>
-                        <Image src={images[activeImg]} alt={entry.title} fill className="object-contain" sizes="100vw" priority unoptimized />
-                    </div>
-                    {images.length > 1 && <button onClick={(e) => { e.stopPropagation(); setActiveImg(i => (i + 1) % images.length); }} className="absolute right-4 text-white bg-black/50 hover:bg-black/80 transition-colors rounded-full p-3"><ChevronRight className="w-6 h-6" /></button>}
-                    <div className="absolute bottom-4 text-white text-md font-semibold">{activeImg + 1} / {images.length}</div>
-                </div>
+      <div className="marketing-ui flex min-h-screen items-center justify-center bg-[#F4F7FB] dark:bg-dark-main">
+        <div className="h-10 w-10 animate-spin rounded-full border-4 border-[#2563EB] border-r-transparent" />
+      </div>
+    );
+  }
+
+  if (error || !entry) {
+    return (
+      <div className="marketing-ui flex min-h-screen flex-col items-center justify-center bg-[#F4F7FB] px-4 text-center dark:bg-dark-main">
+        <p className="font-display text-2xl font-bold text-[#0F172A] dark:text-white">
+          {error || t("lostFoundPage.notFound", "Nie znaleziono ogłoszenia")}
+        </p>
+        <Link href="/website/lost-found" className="mt-6 text-sm font-semibold text-[#2563EB]">
+          {t("lostFoundPage.back", "Wróć do listy")}
+        </Link>
+      </div>
+    );
+  }
+
+  const reporterName =
+    reporter?.companyName || `${reporter?.firstName || ""} ${reporter?.lastName || ""}`.trim() || t("lostFoundPage.user", "Użytkownik");
+  const typeLabel = entry.type === "Lost" ? t("lostFoundPage.lost", "Zaginione") : t("lostFoundPage.found", "Znalezione");
+  const dateLabel = entry.dateLostOrFound
+    ? new Date(entry.dateLostOrFound).toLocaleDateString("pl-PL", { weekday: "long", year: "numeric", month: "long", day: "numeric" })
+    : "";
+
+  const specs = [
+    { label: t("lostFoundPage.species", "Gatunek"), value: translateSpecies(entry.species) },
+    { label: t("lostFoundPage.breed", "Rasa"), value: entry.breed },
+    { label: t("lostFoundPage.gender", "Płeć"), value: translateGender(entry.gender) },
+    { label: t("lostFoundPage.color", "Kolor"), value: entry.color },
+    { label: t("lostFoundPage.location", "Lokalizacja"), value: city || t("lostFoundPage.unknownLocation", "Nieznana lokalizacja") },
+    { label: t("lostFoundPage.date", "Data"), value: dateLabel },
+  ].filter((item) => item.value && item.value !== "Unknown");
+
+  return (
+    <div className="marketing-ui min-h-screen bg-[#F4F7FB] text-[#0F172A] dark:bg-dark-main dark:text-gray-200">
+      {fullscreen &&
+        typeof document !== "undefined" &&
+        createPortal(
+          <div className="fixed inset-0 z-[400] bg-[#0F172A]">
+            <button
+              type="button"
+              onClick={() => setFullscreen(false)}
+              className="fixed top-4 right-4 z-[410] flex h-12 w-12 items-center justify-center !bg-[#2563EB] !text-white shadow-lg transition hover:!bg-[#1D4ED8]"
+            >
+              <X className="h-5 w-5" />
+            </button>
+            {images.length > 1 && (
+              <button
+                type="button"
+                onClick={() => setActiveImg((i) => (i - 1 + images.length) % images.length)}
+                className="absolute left-4 top-1/2 z-[410] flex h-12 w-12 -translate-y-1/2 items-center justify-center bg-white/10 text-white"
+              >
+                <ChevronLeft className="h-6 w-6" />
+              </button>
+            )}
+            <div className="relative mx-auto h-full max-w-5xl">
+              <Image src={images[activeImg]} alt={entry.title} fill className="object-contain" sizes="100vw" priority unoptimized />
+            </div>
+            {images.length > 1 && (
+              <button
+                type="button"
+                onClick={() => setActiveImg((i) => (i + 1) % images.length)}
+                className="absolute right-4 top-1/2 z-[410] flex h-12 w-12 -translate-y-1/2 items-center justify-center bg-white/10 text-white"
+              >
+                <ChevronRight className="h-6 w-6" />
+              </button>
+            )}
+          </div>,
+          document.body
+        )}
+
+      <div className="mx-auto w-full max-w-[1520px] px-4 py-8 sm:px-8 md:py-12">
+        <button
+          type="button"
+          onClick={() => router.push("/website/lost-found")}
+          className="mb-6 inline-flex items-center gap-1.5 text-[15px] font-semibold text-[#64748B] transition hover:text-[#2563EB]"
+        >
+          <ChevronLeft className="h-4 w-4" />
+          {t("lostFoundPage.back", "Wróć do listy")}
+        </button>
+
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+          <div className="lg:col-span-2">
+            <div className="relative h-[300px] cursor-pointer overflow-hidden bg-[#EEF2FF] sm:h-[460px] dark:bg-dark-raised" onClick={() => setFullscreen(true)}>
+              <Image src={images[activeImg]} alt={entry.title} fill className="object-cover" priority sizes="(max-width: 1024px) 100vw, 66vw" />
+              <span className="absolute left-4 top-4 bg-[#2563EB] px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-white">
+                {typeLabel}
+              </span>
+              {images.length > 1 && (
+                <>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setActiveImg((i) => (i - 1 + images.length) % images.length);
+                    }}
+                    className="absolute left-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center bg-[#0F172A]/60 text-white"
+                  >
+                    <ChevronLeft className="h-5 w-5" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setActiveImg((i) => (i + 1) % images.length);
+                    }}
+                    className="absolute right-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center bg-[#0F172A]/60 text-white"
+                  >
+                    <ChevronRight className="h-5 w-5" />
+                  </button>
+                </>
+              )}
+            </div>
+
+            {images.length > 1 && (
+              <div className="mt-2 flex gap-2 overflow-x-auto">
+                {images.map((img, i) => (
+                  <button
+                    key={img + i}
+                    type="button"
+                    onClick={() => setActiveImg(i)}
+                    className={`relative h-20 w-28 shrink-0 overflow-hidden ${activeImg === i ? "ring-2 ring-[#2563EB]" : "opacity-70 hover:opacity-100"}`}
+                  >
+                    <Image src={img} alt="" fill className="object-cover" sizes="112px" />
+                  </button>
+                ))}
+              </div>
             )}
 
-            <div className="max-w-6xl mx-auto">
-                <button onClick={() => router.back()} className="flex items-center gap-2 text-md font-semibold text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 mb-8 transition-colors">
-                    <ChevronLeft className="w-4 h-4" /> Back to List
-                </button>
+            {entry.description && (
+              <div className="mt-10">
+                <h2 className="font-display text-2xl font-bold text-[#0F172A] dark:text-white">
+                  {t("lostFoundPage.description", "Opis")}
+                </h2>
+                <p className="mt-4 whitespace-pre-wrap text-[16px] leading-relaxed text-[#64748B] dark:text-gray-400">
+                  {entry.description}
+                </p>
+              </div>
+            )}
+          </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    {/* Left Column - Gallery & Info */}
-                    <div className="lg:col-span-2 space-y-6">
-                        <div className="bg-white dark:bg-dark-card rounded-3xl overflow-hidden shadow-sm border border-gray-100 dark:border-dark-divider p-2">
-                            <div className="relative h-[300px] sm:h-[450px] rounded-2xl overflow-hidden cursor-pointer group" onClick={() => setFullscreen(true)}>
-                                <Image src={images[activeImg]} alt={entry.title} fill className="object-cover transition-transform duration-500 group-hover:scale-[1.02]" priority />
-                                {images.length > 1 && (
-                                    <>
-                                        <button onClick={(e) => { e.stopPropagation(); setActiveImg(i => (i - 1 + images.length) % images.length); }} className="absolute left-3 top-1/2 -translate-y-1/2 bg-black/50 text-white rounded-full p-2 hover:bg-black/70 transition-colors shadow-lg backdrop-blur-sm"><ChevronLeft className="w-5 h-5" /></button>
-                                        <button onClick={(e) => { e.stopPropagation(); setActiveImg(i => (i + 1) % images.length); }} className="absolute right-3 top-1/2 -translate-y-1/2 bg-black/50 text-white rounded-full p-2 hover:bg-black/70 transition-colors shadow-lg backdrop-blur-sm"><ChevronRight className="w-5 h-5" /></button>
-                                    </>
-                                )}
-                                <div className="absolute top-4 left-4">
-                                    <span className={`px-4 py-1.5 rounded-full text-sm font-black uppercase tracking-wider text-white shadow-lg ${entry.type === 'Lost' ? 'bg-red-500' : 'bg-green-500'}`}>
-                                        {entry.type}
-                                    </span>
-                                </div>
-                                <div className="absolute bottom-4 right-4 bg-black/60 backdrop-blur-md text-white px-3 py-1.5 rounded-xl text-sm font-semibold shadow-lg">
-                                    {activeImg + 1} / {images.length}
-                                </div>
-                            </div>
+          <aside className="lg:sticky lg:top-28 lg:self-start">
+            <div className="border border-[#E2E8F0] bg-white p-6 dark:border-dark-divider dark:bg-dark-card sm:p-8">
+              <h1 className="font-display text-[1.85rem] font-bold leading-tight text-[#0F172A] dark:text-white md:text-[2.1rem]">
+                {entry.title}
+              </h1>
 
-                            {images.length > 1 && (
-                                <div className="flex gap-2 overflow-x-auto scrollbar-hide mt-2 p-2">
-                                    {images.map((img, i) => (
-                                        <button key={i} onClick={() => setActiveImg(i)} className={`relative h-20 w-28 flex-shrink-0 rounded-xl overflow-hidden border-2 transition-all ${activeImg === i ? "border-blue-500 shadow-md scale-[1.02]" : "border-transparent opacity-70 hover:opacity-100 hover:scale-[1.02]"}`}>
-                                            <Image src={img} alt="" fill className="object-cover" sizes="112px" />
-                                        </button>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
+              <div className="mt-6 grid grid-cols-2 gap-x-4 gap-y-5 border-y border-[#E2E8F0] py-6 dark:border-dark-divider">
+                {specs.map((spec) => (
+                  <div key={spec.label} className={spec.label === t("lostFoundPage.location", "Lokalizacja") ? "col-span-2" : ""}>
+                    <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-[#64748B]">{spec.label}</p>
+                    <p className="mt-1 flex items-center gap-1.5 font-semibold">
+                      {spec.label === t("lostFoundPage.location", "Lokalizacja") && <MapPin className="h-4 w-4 text-[#2563EB]" />}
+                      {spec.value}
+                    </p>
+                  </div>
+                ))}
+              </div>
 
-                        <div className="bg-white dark:bg-dark-card rounded-3xl p-8 border border-gray-100 dark:border-dark-divider shadow-sm">
-                            <h2 className="text-2xl font-black text-gray-900 dark:text-white mb-4">Description</h2>
-                            <p className="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap">{entry.description}</p>
-                        </div>
-                    </div>
+              <h3 className="mt-6 text-[11px] font-bold uppercase tracking-[0.16em] text-[#64748B]">
+                {t("lostFoundPage.contact", "Osoba kontaktowa")}
+              </h3>
 
-                    {/* Right Column - Details & Contact */}
-                    <div className="space-y-6">
-                        <div className="bg-white dark:bg-dark-card rounded-3xl p-8 border border-gray-100 dark:border-dark-divider shadow-sm sticky top-8">
-                            <h1 className="text-3xl font-black text-gray-900 dark:text-white mb-2">{entry.title}</h1>
-                            <div className="flex items-center gap-2 text-md text-gray-500 dark:text-gray-400 mb-6 font-medium bg-gray-50 dark:bg-dark-raised p-3 rounded-xl">
-                                <FaCalendarAlt className="text-blue-500" /> Date: {new Date(entry.dateLostOrFound).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
-                            </div>
+              {reporter && (
+                <Link
+                  href={`/website/profile?id=${entry.reporterId}`}
+                  className="mt-3 flex items-center gap-3 py-2 transition hover:text-[#2563EB]"
+                >
+                  <div className="relative h-12 w-12 overflow-hidden bg-[#EEF2FF] dark:bg-dark-raised">
+                    {reporter.image ? (
+                      <Image src={formatImageUrl(reporter.image)} alt={reporterName} fill className="object-cover" />
+                    ) : (
+                      <span className="flex h-full w-full items-center justify-center font-bold text-[#2563EB]">{reporterName[0]}</span>
+                    )}
+                  </div>
+                  <div>
+                    <p className="font-semibold">{reporterName}</p>
+                    <p className="text-sm text-[#64748B]">{t("lostFoundPage.viewProfile", "Zobacz profil")}</p>
+                  </div>
+                </Link>
+              )}
 
-                            <div className="space-y-4 mb-8 border-t border-b border-gray-100 dark:border-dark-divider py-6">
-                                <h3 className="text-sm uppercase tracking-widest font-black text-gray-400 mb-4">Details</h3>
-                                <div className="grid grid-cols-2 gap-y-4 gap-x-2">
-                                    <div>
-                                        <p className="text-sm text-gray-500 dark:text-gray-400 uppercase font-semibold">Species</p>
-                                        <p className="font-bold text-gray-900 dark:text-gray-200">{entry.species}</p>
-                                    </div>
-                                    {entry.breed && (
-                                        <div>
-                                            <p className="text-sm text-gray-500 dark:text-gray-400 uppercase font-semibold">Breed</p>
-                                            <p className="font-bold text-gray-900 dark:text-gray-200">{entry.breed}</p>
-                                        </div>
-                                    )}
-                                    {entry.gender && entry.gender !== "Unknown" && (
-                                        <div>
-                                            <p className="text-sm text-gray-500 dark:text-gray-400 uppercase font-semibold">Gender</p>
-                                            <p className="font-bold text-gray-900 dark:text-gray-200">{entry.gender}</p>
-                                        </div>
-                                    )}
-                                    {entry.color && (
-                                        <div>
-                                            <p className="text-sm text-gray-500 dark:text-gray-400 uppercase font-semibold">Color</p>
-                                            <p className="font-bold text-gray-900 dark:text-gray-200">{entry.color}</p>
-                                        </div>
-                                    )}
-                                    <div className="col-span-2">
-                                        <p className="text-sm text-gray-500 dark:text-gray-400 uppercase font-semibold">Location</p>
-                                        <p className="font-bold text-gray-900 dark:text-gray-200 flex items-center gap-1 mt-1">
-                                            <FaMapMarkerAlt className="text-red-500" /> {city || "Unknown Location"}
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="space-y-4">
-                                <h3 className="text-sm uppercase tracking-widest font-black text-gray-400">Contact Person</h3>
-
-                                {reporter && (
-                                    <Link href={`/website/profile?id=${entry.reporterId}`} className="flex items-center gap-3 p-3 rounded-2xl bg-gray-50 dark:bg-dark-raised hover:bg-gray-100 dark:hover:bg-dark-card transition-colors group cursor-pointer border border-transparent hover:border-gray-200 dark:hover:border-gray-700">
-                                        <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-200 relative group-hover:ring-2 ring-blue-500 transition-all">
-                                            {reporter.image ? <Image src={formatImageUrl(reporter.image)} alt={reporterName} fill className="object-cover" /> : <div className="w-full h-full flex items-center justify-center font-black text-gray-400">{reporterName[0]}</div>}
-                                        </div>
-                                        <div>
-                                            <p className="font-bold text-gray-900 dark:text-gray-100 group-hover:text-blue-600 transition-colors">{reporterName}</p>
-                                            <p className="text-sm text-gray-500 dark:text-gray-400">View Profile</p>
-                                        </div>
-                                    </Link>
-                                )}
-
-                                <div className="flex flex-col gap-3 mt-4">
-                                    {entry.contactPhone && (
-                                        <a href={toTelHref(entry.contactPhone)} className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl bg-green-600 hover:bg-green-700 text-white font-bold text-md transition-all shadow-lg shadow-green-600/25 active:scale-[0.98]">
-                                            <FaPhoneAlt /> Call {entry.contactPhone}
-                                        </a>
-                                    )}
-                                    {entry.contactEmail && (
-                                        <a href={`mailto:${entry.contactEmail}`} className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-dark-card text-gray-700 dark:text-gray-200 font-bold text-md transition-all active:scale-[0.98]">
-                                            <FaEnvelope /> Email Contact
-                                        </a>
-                                    )}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+              <div className="mt-5 flex flex-col gap-3">
+                {entry.contactPhone && (
+                  <a
+                    href={toTelHref(entry.contactPhone)}
+                    className="flex h-12 items-center justify-center gap-2 bg-[#2563EB] text-sm font-bold text-white transition hover:bg-[#1D4ED8]"
+                  >
+                    <Phone className="h-4 w-4" />
+                    {t("lostFoundPage.call", "Zadzwoń")} {entry.contactPhone}
+                  </a>
+                )}
+                {entry.contactEmail && (
+                  <a
+                    href={`mailto:${entry.contactEmail}`}
+                    className="flex h-12 items-center justify-center gap-2 border border-[#0F172A] text-sm font-bold text-[#0F172A] dark:border-white dark:text-white"
+                  >
+                    <Mail className="h-4 w-4" />
+                    {t("lostFoundPage.email", "Napisz e-mail")}
+                  </a>
+                )}
+              </div>
             </div>
+          </aside>
         </div>
-    );
+      </div>
+    </div>
+  );
 }

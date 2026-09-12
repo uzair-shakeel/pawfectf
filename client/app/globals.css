@@ -273,7 +273,7 @@
 }
 
 .marketing-ui select,
-.marketing-ui input {
+.marketing-ui input:not([type="checkbox"]):not([type="radio"]) {
   min-width: 0;
   max-width: 100%;
 }

@@ -55,8 +55,9 @@ function CardImage({ src, alt, sizes }) {
 }
 
 export default function HomePetCard({ pet, viewMode = "grid" }) {
-  const href = `/website/pets/${pet._id || pet.id}`;
+  const href = pet?.href || `/website/pets/${pet._id || pet.id}`;
   const name = pet?.name || pet?.breed || pet?.species || "Zwierzak";
+  const badge = pet?.customLabel || pet?.badge;
   const meta = [
     pet?.breed,
     ageLabel(pet?.ageMonths),
@@ -91,9 +92,9 @@ export default function HomePetCard({ pet, viewMode = "grid" }) {
     <Link href={href} className="group flex h-full flex-col bg-white dark:bg-dark-card">
       <div className="relative h-72 overflow-hidden">
         <CardImage src={photo} alt={name} sizes="(max-width: 768px) 100vw, 25vw" />
-        {pet?.isUrgent && (
+        {(badge || pet?.isUrgent) && (
           <span className="absolute left-3 top-3 bg-[#2563EB] px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-white">
-            Pilne
+            {badge || "Pilne"}
           </span>
         )}
       </div>

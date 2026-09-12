@@ -109,7 +109,7 @@ export default function DashboardNavbar({ isOpen, toggleSidebar }) {
 
       <div className="flex items-center space-x-1 md:space-x-3">
         {/* Theme Toggle */}
-        <ThemeToggle size={22} />
+        <ThemeToggle size="sm" />
 
         {/* Messages Icon & Dropdown */}
         <div className="relative" ref={msgRef}>
