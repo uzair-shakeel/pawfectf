@@ -2,7 +2,6 @@
 
 import React from "react";
 import Link from "next/link";
-import MarketingHero from "../../../components/website/MarketingHero";
 import { useLanguage } from "../../../lib/i18n/LanguageContext";
 
 function objectValues(value) {
@@ -31,14 +30,13 @@ export default function PrivacyPage() {
 
   return (
     <div className="marketing-ui min-h-screen bg-[#F4F7FB] text-[#0F172A] dark:bg-dark-main dark:text-gray-200">
-      <MarketingHero
-        compact
-        eyebrow="Polityka prywatności"
-        title={t("privacy.hero.title", "Twoje dane — zawsze bezpieczne, zawsze prywatne.")}
-        subtitle={`${t("terms.lastUpdated", "Ostatnia aktualizacja")}: wrzesień 2026`}
-      />
-
       <div className="mx-auto w-full max-w-[860px] px-4 py-10 sm:px-8 md:py-14">
+        <h1 className="font-display text-[2rem] font-bold leading-tight text-[#0F172A] dark:text-white md:text-[2.4rem]">
+          {t("privacy.hero.title", "Twoje dane — zawsze bezpieczne, zawsze prywatne.")}
+        </h1>
+        <p className="mt-3 text-sm text-[#64748B] dark:text-gray-400">
+          {t("terms.lastUpdated", "Ostatnia aktualizacja")}: wrzesień 2026
+        </p>
         <LegalBlock title={t("privacy.sections.introduction.title")}>
           <p>{t("privacy.sections.introduction.content")}</p>
         </LegalBlock>

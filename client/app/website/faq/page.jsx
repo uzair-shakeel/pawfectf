@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { ChevronDown } from "lucide-react";
-import MarketingHero from "../../../components/website/MarketingHero";
 import { useLanguage } from "../../../lib/i18n/LanguageContext";
 
 const FALLBACK_FAQS = [
@@ -25,14 +24,10 @@ export default function FAQPage() {
 
   return (
     <div className="marketing-ui min-h-screen bg-[#F4F7FB] text-[#0F172A] dark:bg-dark-main dark:text-gray-200">
-      <MarketingHero
-        compact
-        eyebrow="FAQ"
-        title={t("faq.hero.title", "Często zadawane pytania")}
-        subtitle={t("faq.hero.subtitle", "Znajdź odpowiedzi na popularne pytania dotyczące naszej platformy adopcyjnej.")}
-      />
-
       <div className="mx-auto w-full max-w-[920px] px-4 py-12 sm:px-8 md:py-16">
+        <h1 className="mb-10 font-display text-[2rem] font-bold leading-tight text-[#0F172A] dark:text-white md:mb-12 md:text-[2.4rem]">
+          {t("faq.hero.title", "Często zadawane pytania")}
+        </h1>
         <div className="border-y border-[#E2E8F0] dark:border-dark-divider">
           {faqs.map((faq, i) => {
             const isOpen = open === i;

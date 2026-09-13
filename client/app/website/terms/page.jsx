@@ -2,7 +2,6 @@
 
 import React from "react";
 import Link from "next/link";
-import MarketingHero from "../../../components/website/MarketingHero";
 import { useLanguage } from "../../../lib/i18n/LanguageContext";
 
 function objectValues(value) {
@@ -30,14 +29,13 @@ export default function TermsPage() {
 
   return (
     <div className="marketing-ui min-h-screen bg-[#F4F7FB] text-[#0F172A] dark:bg-dark-main dark:text-gray-200">
-      <MarketingHero
-        compact
-        eyebrow="Regulamin"
-        title={t("terms.hero.title", "Jasne warunki. Bezpieczne adopcje.")}
-        subtitle={`${t("terms.lastUpdated", "Ostatnia aktualizacja")}: wrzesień 2026`}
-      />
-
       <div className="mx-auto w-full max-w-[860px] px-4 py-10 sm:px-8 md:py-14">
+        <h1 className="font-display text-[2rem] font-bold leading-tight text-[#0F172A] dark:text-white md:text-[2.4rem]">
+          {t("terms.hero.title", "Jasne warunki. Bezpieczne adopcje.")}
+        </h1>
+        <p className="mt-3 text-sm text-[#64748B] dark:text-gray-400">
+          {t("terms.lastUpdated", "Ostatnia aktualizacja")}: wrzesień 2026
+        </p>
         <LegalBlock title={t("terms.sections.introduction.title")}>
           <p>{t("terms.sections.introduction.content")}</p>
         </LegalBlock>
