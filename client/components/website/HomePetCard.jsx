@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { MapPin } from "lucide-react";
 import { optimizeCloudinaryUrl } from "../../lib/imageUtils";
 
 const API_BASE = (process.env.NEXT_PUBLIC_API_BASE_URL || "").replace(/\/$/, "");
@@ -66,6 +67,9 @@ export default function HomePetCard({ pet, viewMode = "grid" }) {
     .filter(Boolean)
     .join(" · ");
   const photo = petPhoto(firstImage(pet));
+  const location = [pet?.location?.city, pet?.location?.state]
+    .filter(Boolean)
+    .join(", ");
 
   if (viewMode === "list") {
     return (
@@ -81,6 +85,12 @@ export default function HomePetCard({ pet, viewMode = "grid" }) {
           {pet?.description && (
             <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-[#64748B] dark:text-white/50">
               {pet.description}
+            </p>
+          )}
+          {location && (
+            <p className="mt-2 flex items-center gap-1 text-sm text-[#64748B] dark:text-gray-400">
+              <MapPin className="h-3.5 w-3.5 shrink-0" />
+              <span className="truncate">{location}</span>
             </p>
           )}
         </div>
@@ -106,6 +116,12 @@ export default function HomePetCard({ pet, viewMode = "grid" }) {
         {pet?.description && (
           <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-[#64748B] dark:text-white/50">
             {pet.description}
+          </p>
+        )}
+        {location && (
+          <p className="mt-2 flex items-center gap-1 text-sm text-[#64748B] dark:text-gray-400">
+            <MapPin className="h-3.5 w-3.5 shrink-0" />
+            <span className="truncate">{location}</span>
           </p>
         )}
       </div>

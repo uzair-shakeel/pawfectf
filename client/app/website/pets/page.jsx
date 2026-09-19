@@ -18,6 +18,41 @@ const CHIP_PARAMS = [
   "feeFrom", "feeTo", "maxDistance",
 ];
 
+const CITY_ALIASES = {
+  warsaw: "warszawa",
+  warszawa: "warszawa",
+  cracow: "krakow",
+  krakow: "krakow",
+  gdansk: "gdansk",
+  wroclaw: "wroclaw",
+  lodz: "lodz",
+  poznan: "poznan",
+};
+
+const normalizeCity = (value) =>
+  String(value || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim();
+
+const cityKey = (value) => {
+  const normalized = normalizeCity(value);
+  return CITY_ALIASES[normalized] || normalized;
+};
+
+const petMatchesLocation = (pet, locationFilter) => {
+  const needle = cityKey(locationFilter);
+  if (!needle) return true;
+  const city = cityKey(pet?.location?.city);
+  const state = cityKey(pet?.location?.state);
+  if (!city && !state) return false;
+  return (
+    (city && (city === needle || city.includes(needle) || needle.includes(city))) ||
+    (state && (state === needle || state.includes(needle) || needle.includes(state)))
+  );
+};
+
 function PetCardSkeleton() {
   return (
     <div className="animate-pulse bg-white dark:bg-dark-card">
@@ -113,12 +148,15 @@ const PetsContent = () => {
         if (filters.maxFee) fetched = fetched.filter(p => (p.adoptionFee || 0) <= filters.maxFee);
         if (filters.color) fetched = fetched.filter(p => p.color?.toLowerCase() === filters.color.toLowerCase());
         if (filters.gender) fetched = fetched.filter(p => p.gender === filters.gender);
+        if (filters.location) fetched = fetched.filter((p) => petMatchesLocation(p, filters.location));
 
         setAllPets(fetched);
         setTotalItems(fetched.length);
       } catch (err) {
         console.error("Fetch error:", err);
-        const demo = mergeWithDemoPets([]);
+        const filters = getFiltersFromUrl();
+        let demo = mergeWithDemoPets([]);
+        if (filters.location) demo = demo.filter((p) => petMatchesLocation(p, filters.location));
         setAllPets(demo);
         setPets(demo);
         setTotalItems(demo.length);

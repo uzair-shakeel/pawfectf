@@ -477,9 +477,21 @@ exports.getPetById = async (req, res) => {
     console.log("req.params:", req.params);
     const { petId } = req.params;
     const pet = await Pet.findById(petId);
-    if (!pet || pet.status !== "Approved") {
+    if (!pet) {
       return res.status(404).json({ message: "Pet not found" });
     }
+
+    const ownerId =
+      pet.createdBy?._id || pet.createdBy?.id || pet.createdBy;
+    const isOwner =
+      req.userId && ownerId && String(ownerId) === String(req.userId);
+    const isAdmin = req.user?.role === "admin";
+
+    // Public visitors only see approved listings; owner/admin can preview pending/rejected
+    if (pet.status !== "Approved" && !isOwner && !isAdmin) {
+      return res.status(404).json({ message: "Pet not found" });
+    }
+
     res.json(pet);
   } catch (error) {
     console.error("Get Pet By ID Error:", error);
@@ -535,6 +547,18 @@ exports.searchPets = async (req, res) => {
       longitude,
       latitude,
       maxDistance = 10,
+      location,
+      species,
+      breed,
+      size,
+      gender,
+      color,
+      coatLength,
+      healthStatus,
+      adoptionStatus,
+      ageGroup,
+      minFee,
+      maxFee,
       make,
       model,
       type,
@@ -572,9 +596,36 @@ exports.searchPets = async (req, res) => {
           $maxDistance: maxDistance * 1000,
         },
       };
+    } else if (location && typeof location === "string") {
+      // City/name filter when coordinates aren't provided
+      query["location.city"] = { $regex: location.trim(), $options: "i" };
     }
 
-    // Search filters
+    // Pet search filters
+    if (species) query.species = { $regex: `^${species}$`, $options: "i" };
+    if (breed) query.breed = { $regex: `^${breed}$`, $options: "i" };
+    if (size) query.size = { $regex: `^${size}$`, $options: "i" };
+    if (gender) query.gender = gender;
+    if (color) query.color = { $regex: `^${color}$`, $options: "i" };
+    if (coatLength) query.coatLength = { $regex: `^${coatLength}$`, $options: "i" };
+    if (healthStatus) query.healthStatus = { $regex: healthStatus, $options: "i" };
+    if (adoptionStatus) query.adoptionStatus = { $regex: `^${adoptionStatus}$`, $options: "i" };
+    if (minFee || maxFee) {
+      query.adoptionFee = {};
+      if (minFee) query.adoptionFee.$gte = Number(minFee);
+      if (maxFee) query.adoptionFee.$lte = Number(maxFee);
+    }
+    if (ageGroup) {
+      const ageRanges = {
+        Baby: { $lte: 6 },
+        Young: { $gt: 6, $lte: 24 },
+        Adult: { $gt: 24, $lte: 84 },
+        Senior: { $gt: 84 },
+      };
+      if (ageRanges[ageGroup]) query.ageMonths = ageRanges[ageGroup];
+    }
+
+    // Legacy car search filters (kept for compatibility)
     if (make) query.make = make;
     if (model) query.model = model;
     if (type) query.type = type;

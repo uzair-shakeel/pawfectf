@@ -123,9 +123,9 @@ export default function LostFoundPage() {
         )}
 
         {loading ? (
-          <div className="grid grid-cols-1 gap-px bg-[#E2E8F0] dark:bg-dark-divider md:grid-cols-2 xl:grid-cols-4">
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
             {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="animate-pulse bg-white dark:bg-dark-card">
+              <div key={i} className="animate-pulse border border-[#E2E8F0] bg-white dark:border-dark-divider dark:bg-dark-card">
                 <div className="h-72 bg-[#EEF2FF] dark:bg-dark-raised" />
                 <div className="space-y-2 px-4 py-4">
                   <div className="h-6 w-2/3 bg-[#EEF2FF] dark:bg-dark-raised" />
@@ -144,7 +144,7 @@ export default function LostFoundPage() {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-px bg-[#E2E8F0] dark:bg-dark-divider md:grid-cols-2 xl:grid-cols-4">
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
             {filteredEntries.map((entry) => (
               <HomePetCard
                 key={entry._id}

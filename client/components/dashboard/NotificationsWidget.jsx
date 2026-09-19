@@ -14,13 +14,15 @@ function fmt(d) {
 
 const TypeBadge = ({ type }) => {
   const map = {
-    message: "bg-blue-100 text-blue-700 border-blue-200 dark:bg-blue-900/30 dark:text-blue-400 dark:border-blue-800",
-    car: "bg-emerald-100 text-emerald-700 border-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-400 dark:border-emerald-800",
-    status: "bg-amber-100 text-amber-700 border-amber-200 dark:bg-amber-900/10 dark:text-amber-400 dark:border-amber-800",
-    system: "bg-gray-100 text-gray-700 border-gray-200 dark:bg-dark-card dark:text-gray-300 dark:border-gray-600",
+    message: "bg-[#EEF2FF] text-[#2563EB]",
+    car: "bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400",
+    status: "bg-amber-50 text-amber-700 dark:bg-amber-900/20 dark:text-amber-400",
+    system: "bg-[#F1F5F9] text-[#64748B] dark:bg-dark-raised dark:text-gray-300",
   };
   return (
-    <span className={`text-[10px] px-2 py-0.5 rounded-full border ${map[type] || map.system}`}>{type}</span>
+    <span className={`px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${map[type] || map.system}`}>
+      {type}
+    </span>
   );
 };
 
@@ -51,32 +53,50 @@ export default function NotificationsWidget() {
     } catch { }
   };
   return (
-    <div className="p-4 bg-white dark:bg-dark-panel shadow rounded-xl ring-1 ring-black/5 dark:ring-gray-700 border border-gray-200 dark:border-gray-700 transition-colors duration-300">
-      <div className="flex items-center justify-between mb-3">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-200 dark:text-white">Notifications</h3>
-        <Link href="/dashboard/notifications" className="text-md text-blue-600 hover:underline">See all</Link>
+    <div className="min-w-0 overflow-hidden border border-[#E2E8F0] bg-white p-5 dark:border-dark-divider dark:bg-dark-card">
+      <div className="mb-4 flex items-center justify-between gap-2">
+        <h3 className="font-display text-lg font-bold text-[#0F172A] dark:text-white">Notifications</h3>
+        <Link href="/dashboard/notifications" className="shrink-0 text-sm font-semibold text-[#2563EB] hover:underline">
+          See all
+        </Link>
       </div>
       {unreadCount > 0 && (
-        <div className="mb-2 text-sm text-gray-500">Unread: {unreadCount}</div>
+        <div className="mb-3 text-sm text-[#64748B]">Unread: {unreadCount}</div>
       )}
-      <div className="grid gap-3">
+      <div className="grid gap-2">
         {items.length === 0 && (
-          <div className="text-md text-dark-text-secondary">No notifications</div>
+          <div className="text-sm text-[#64748B]">No notifications</div>
         )}
         {items.map((n) => (
           <Link
             key={n.id}
             href={getTarget(n)}
-            className={`flex items-start gap-3 ${n.read ? "opacity-80" : ""} cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 rounded-md p-1`}
+            className={`flex min-w-0 items-start gap-3 overflow-hidden p-2 transition hover:bg-[#F8FAFC] dark:hover:bg-dark-raised ${
+              n.read ? "opacity-80" : ""
+            }`}
           >
-            <div className="pt-0.5"><TypeBadge type={n.type} /></div>
-            <div className="min-w-0 flex-1">
-              <div className="truncate font-medium text-gray-900 dark:text-gray-200 dark:text-white">{n.title}</div>
-              {n.body && <div className="text-sm text-gray-600 dark:text-gray-300 truncate">{n.body}</div>}
-              <div className="text-[10px] text-gray-400 mt-1">{fmt(n.createdAt)}</div>
+            <div className="shrink-0 pt-0.5">
+              <TypeBadge type={n.type} />
+            </div>
+            <div className="min-w-0 flex-1 overflow-hidden">
+              <div className="truncate font-semibold text-[#0F172A] dark:text-white">{n.title}</div>
+              {n.body && (
+                <div
+                  className="truncate text-sm text-[#64748B]"
+                  style={{ overflowWrap: "anywhere" }}
+                >
+                  {n.body}
+                </div>
+              )}
+              <div className="mt-1 text-[10px] text-[#94A3B8]">{fmt(n.createdAt)}</div>
             </div>
             {!n.read && (
-              <button onClick={(e) => handleMarkReadClick(e, n)} className="text-sm text-blue-600 hover:underline">Mark as read</button>
+              <button
+                onClick={(e) => handleMarkReadClick(e, n)}
+                className="shrink-0 text-xs font-semibold text-[#2563EB] hover:underline"
+              >
+                Mark as read
+              </button>
             )}
           </Link>
         ))}

@@ -27,6 +27,24 @@ const auth = async (req, res, next) => {
   }
 };
 
+/** Attach user if Bearer token is valid; continue as guest otherwise */
+const optionalAuth = async (req, res, next) => {
+  try {
+    const token = req.header("Authorization")?.replace("Bearer ", "");
+    if (!token) return next();
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await User.findById(decoded.userId);
+    if (user) {
+      req.user = user;
+      req.userId = user._id.toString();
+    }
+  } catch (error) {
+    // ignore invalid/expired token for public routes
+  }
+  next();
+};
+
 const getAuth = (req) => {
   return {
     userId: req.userId,
@@ -42,4 +60,4 @@ const isAdmin = (req, res, next) => {
   }
 };
 
-module.exports = { auth, getAuth, isAdmin, protect: auth, admin: isAdmin };
+module.exports = { auth, optionalAuth, getAuth, isAdmin, protect: auth, admin: isAdmin };

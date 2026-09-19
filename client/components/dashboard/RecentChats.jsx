@@ -14,62 +14,53 @@ export default function RecentChats({ chats = [] }) {
 
   const items = Array.isArray(chats)
     ? [...chats]
-      .sort((a, b) => {
-        const ta = new Date(a?.lastMessage?.timestamp || a?.updatedAt || 0).getTime();
-        const tb = new Date(b?.lastMessage?.timestamp || b?.updatedAt || 0).getTime();
-        return tb - ta;
-      })
-      .slice(0, 6)
+        .sort((a, b) => {
+          const ta = new Date(a?.lastMessage?.timestamp || a?.updatedAt || 0).getTime();
+          const tb = new Date(b?.lastMessage?.timestamp || b?.updatedAt || 0).getTime();
+          return tb - ta;
+        })
+        .slice(0, 6)
     : [];
 
   return (
-    <div className="p-4 bg-white dark:bg-dark-panel shadow rounded-xl ring-1 ring-black/5 dark:ring-gray-700 border border-gray-200 dark:border-gray-700 transition-colors duration-300">
-      <div className="flex items-center justify-between mb-3">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-200 dark:text-white transition-colors duration-300">
-          Ostatnie wiadomości
-
-        </h3>
-      </div>
+    <div className="min-w-0 overflow-hidden border border-[#E2E8F0] bg-white p-5 dark:border-dark-divider dark:bg-dark-card">
+      <h3 className="mb-4 font-display text-lg font-bold text-[#0F172A] dark:text-white">
+        Ostatnie wiadomości
+      </h3>
       <div className="grid gap-3">
         {items.length === 0 && (
-          <div className="text-md text-gray-500 dark:text-gray-400 transition-colors duration-300">
-            Brak Wiadomości
-          </div>
+          <div className="text-sm text-[#64748B]">Brak wiadomości</div>
         )}
         {items.map((chat) => {
           const other = Array.isArray(chat.participants)
             ? chat.participants.find((p) => p?.id && p?.email)
             : null;
           const name = other
-            ? `${other.firstName || ""} ${other.lastName || ""}`.trim() ||
-            other.email
+            ? `${other.firstName || ""} ${other.lastName || ""}`.trim() || other.email
             : "Unknown";
           const avatar = other?.image || other?.profilePicture || null;
           const preview =
             chat?.lastMessage?.text || chat?.lastMessage?.content || "No messages yet";
-          const time = fmt(
-            chat?.lastMessage?.timestamp || chat?.updatedAt || Date.now()
-          );
+          const time = fmt(chat?.lastMessage?.timestamp || chat?.updatedAt || Date.now());
           return (
             <div
               key={chat?._id || chat?.id || time}
-              className="flex items-center gap-3"
+              className="flex min-w-0 items-center gap-3 overflow-hidden"
             >
-              <Avatar
-                src={avatar}
-                alt={name}
-                size={40}
-                imgClassName="ring-1 ring-black/5"
-              />
-              <div className="min-w-0 flex-1">
-                <div className="truncate font-medium text-gray-900 dark:text-gray-200 dark:text-white transition-colors duration-300">
+              <Avatar src={avatar} alt={name} size={40} />
+              <div className="min-w-0 flex-1 overflow-hidden">
+                <div className="truncate font-semibold text-[#0F172A] dark:text-white">
                   {name}
                 </div>
-                <div className="text-sm text-gray-500 dark:text-gray-400 truncate transition-colors duration-300">
+                <div
+                  className="truncate text-sm text-[#64748B]"
+                  style={{ overflowWrap: "anywhere" }}
+                  title={typeof preview === "string" ? preview : undefined}
+                >
                   {preview}
                 </div>
               </div>
-              <div className="text-sm text-gray-400 dark:text-gray-500 whitespace-nowrap transition-colors duration-300">
+              <div className="shrink-0 whitespace-nowrap text-xs text-[#94A3B8]">
                 {time}
               </div>
             </div>

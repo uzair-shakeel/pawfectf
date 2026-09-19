@@ -29,15 +29,13 @@ import { useLanguage } from "../../lib/i18n/LanguageContext";
 
 import { useAuth } from "../../lib/auth/AuthContext";
 
+import { markChatAsSeen } from "../../services/chatService";
+
 
 
 // Only import notifications if user is signed in (moved to conditional)
 
 let useNotifications = null;
-
-let fetchRecentMessages = null;
-
-let markChatAsSeen = null;
 
 
 
@@ -215,7 +213,7 @@ const Navbar = () => {
 
       if (type === "pet" || type === "status") {
 
-        return "/dashboard/pets";
+        return "/dashboard/cars";
 
       }
 
@@ -287,7 +285,7 @@ const Navbar = () => {
 
       label: t("navbar.becomeSeller", "Wystaw zwierzę"),
 
-      href: "/dashboard/pets/add",
+      href: "/dashboard/cars/add",
 
       icon: <BiAddToQueue className="w-6 h-6" />,
 
@@ -297,7 +295,7 @@ const Navbar = () => {
 
       label: t("navbar.myListings", "Moje ogłoszenia"),
 
-      href: "/dashboard/pets",
+      href: "/dashboard/cars",
 
       icon: <FaPaw className="w-6 h-6" />,
 
@@ -355,7 +353,7 @@ const Navbar = () => {
 
     if (h === "/") return p === "/";
 
-    if (href === '/dashboard/pets' && pathname.startsWith('/dashboard/pets/add')) return false;
+    if (href === '/dashboard/cars' && pathname.startsWith('/dashboard/cars/add')) return false;
 
     return p === h || p.startsWith(h + '/');
 
@@ -551,17 +549,18 @@ const Navbar = () => {
                             className={`flex cursor-pointer items-start gap-3 px-4 py-3 transition hover:bg-[#EEF2FF] dark:hover:bg-white/5 ${msg.unreadCount === 0 ? "opacity-60" : ""}`}
 
                             onClick={async () => {
-
                               setOpenMsg(false);
-
-                              await markChatAsSeen(msg.chatId);
-
-                              // Refresh to update unread counts
-
+                              try {
+                                if (msg.chatId) {
+                                  await markChatAsSeen(msg.chatId);
+                                }
+                              } catch (e) {
+                                console.error("[Navbar] Failed to mark chat as seen:", e);
+                              }
                               loadRecentMessages();
-
-                              router.push(`/dashboard/messages?chatId=${encodeURIComponent(msg.chatId)}`);
-
+                              router.push(
+                                `/dashboard/messages?chatId=${encodeURIComponent(msg.chatId)}`
+                              );
                             }}
 
                           >

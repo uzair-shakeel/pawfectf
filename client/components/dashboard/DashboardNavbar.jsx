@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect, useRef, useMemo, useCallback } from "react";
-import { IoPersonCircleOutline } from "react-icons/io5";
 import { useAuth } from "../../lib/auth/AuthContext";
 import { FiMenu, FiX, FiBell } from "react-icons/fi";
 import { BsChatLeftDots } from "react-icons/bs";
@@ -57,9 +56,6 @@ export default function DashboardNavbar({ isOpen, toggleSidebar }) {
     router.push(getNotifTarget(n));
   };
 
-  // No dropdown anymore
-
-  // Close dropboxes when clicking outside
   useEffect(() => {
     const handler = (e) => {
       if (notifRef.current && !notifRef.current.contains(e.target)) setOpenNotif(false);
@@ -69,24 +65,21 @@ export default function DashboardNavbar({ isOpen, toggleSidebar }) {
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  // Fetch real messages from API when messages dropdown opens
   const loadRecentMessages = useCallback(async () => {
     if (!user) return;
     setLoadingMessages(true);
     try {
       const messages = await fetchRecentMessages();
-      // Filter out own messages
       const myId = String(user?.id || user?._id);
-      const filtered = messages.filter(msg => String(msg.sender?.id) !== myId);
+      const filtered = messages.filter((msg) => String(msg.sender?.id) !== myId);
       setRecentMessages(filtered);
     } catch (e) {
-      console.error('[DashboardNavbar] Failed to load recent messages:', e);
+      console.error("[DashboardNavbar] Failed to load recent messages:", e);
     } finally {
       setLoadingMessages(false);
     }
   }, [user]);
 
-  // Load messages when dropdown opens
   useEffect(() => {
     if (openMsg) {
       loadRecentMessages();
@@ -95,77 +88,93 @@ export default function DashboardNavbar({ isOpen, toggleSidebar }) {
 
   const displayMessages = useMemo(() => recentMessages, [recentMessages]);
 
-  // Logout moved to Sidebar
+  const iconBtn =
+    "relative flex h-10 w-10 items-center justify-center text-[#64748B] transition hover:bg-[#F1F5F9] hover:text-[#0F172A] dark:text-gray-400 dark:hover:bg-dark-raised dark:hover:text-white";
+
+  const dropdownShell =
+    "fixed inset-x-4 z-50 mt-2 overflow-hidden border border-[#E2E8F0] bg-white dark:border-dark-divider dark:bg-dark-card md:absolute md:inset-auto md:right-0 md:w-80";
 
   return (
-    <header className="w-full h-16 px-4 bg-white dark:bg-dark-panel shadow-md flex justify-between items-center z-30 sticky top-0 transition-colors duration-300">
-      {/* Logo Section - Left Side */}
-      <div className="flex items-center gap-3">
-        <Link href="/" className="flex items-center">
-          <img src="/logo.png" alt="Rafraf" className="h-10 md:h-12 w-auto object-contain dark:hidden" />
-          <img src="/whitelogo.png" alt="Rafraf" className="h-10 md:h-12 w-auto object-contain hidden dark:block" />
+    <header className="marketing-ui sticky top-0 z-30 box-border flex h-16 min-h-16 max-h-16 w-full items-center justify-between border-b border-[#E2E8F0] bg-white px-4 transition-colors duration-300 dark:border-dark-divider dark:bg-dark-card sm:px-6">
+      <div className="flex h-full items-center gap-3">
+        <Link href="/" className="flex h-full items-center md:hidden">
+          <img src="/logo.png" alt="Rafraf" className="h-8 w-auto object-contain dark:hidden" />
+          <img src="/whitelogo.png" alt="Rafraf" className="hidden h-8 w-auto object-contain dark:block" />
         </Link>
       </div>
 
-      <div className="flex items-center space-x-1 md:space-x-3">
-        {/* Theme Toggle */}
+      <div className="flex h-full items-center gap-1 sm:gap-1.5">
         <ThemeToggle size="sm" />
 
-        {/* Messages Icon & Dropdown */}
         <div className="relative" ref={msgRef}>
           <button
             onClick={() => setOpenMsg(!openMsg)}
-            className="relative p-2 rounded-full hover:bg-gray-100 dark:hover:bg-dark-raised text-gray-700 dark:text-dark-text-secondary transition-colors"
+            className={iconBtn}
             title="Messages"
           >
-            <BsChatLeftDots className="w-5 h-5" />
+            <BsChatLeftDots className="h-5 w-5" />
             {messageCount > 0 && (
-              <span className="absolute -top-0.5 -right-0.5 min-w-[16px] h-4 px-1 rounded-full bg-red-600 text-white text-[10px] flex items-center justify-center">
+              <span className="absolute right-1 top-1 flex h-4 min-w-[16px] items-center justify-center bg-red-600 px-1 text-[10px] font-bold text-white">
                 {messageCount > 9 ? "9+" : messageCount}
               </span>
             )}
           </button>
 
           {openMsg && (
-            <div className="fixed md:absolute inset-x-4 md:inset-auto md:right-0 mt-2 md:w-80 bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-divider rounded-xl shadow-xl z-50 overflow-hidden transform md:translate-x-0">
-              <div className="flex items-center justify-between px-3 py-2 border-b border-gray-100 dark:border-dark-divider">
-                <div className="text-md font-semibold text-gray-900 dark:text-white">{t("dashboard:navbar.messages", "Messages")}</div>
-                <Link href="/dashboard/messages" onClick={() => setOpenMsg(false)} className="text-sm text-blue-600 hover:underline">{t("dashboard:navbar.openChat", "Open chat")}</Link>
+            <div className={dropdownShell}>
+              <div className="flex items-center justify-between border-b border-[#E2E8F0] px-4 py-3 dark:border-dark-divider">
+                <div className="text-sm font-bold text-[#0F172A] dark:text-white">
+                  {t("dashboard:navbar.messages", "Messages")}
+                </div>
+                <Link
+                  href="/dashboard/messages"
+                  onClick={() => setOpenMsg(false)}
+                  className="text-sm font-semibold text-[#2563EB] hover:underline"
+                >
+                  {t("dashboard:navbar.openChat", "Open chat")}
+                </Link>
               </div>
               <div className="max-h-96 overflow-auto">
                 {loadingMessages ? (
-                  <div className="px-3 py-4 text-md text-gray-500">{t("dashboard:navbar.loading", "Loading...")}</div>
+                  <div className="px-4 py-5 text-sm text-[#64748B]">
+                    {t("dashboard:navbar.loading", "Loading...")}
+                  </div>
                 ) : displayMessages.length === 0 ? (
-                  <div className="px-3 py-4 text-md text-gray-500">{t("dashboard:navbar.noMessages", "No messages")}</div>
+                  <div className="px-4 py-5 text-sm text-[#64748B]">
+                    {t("dashboard:navbar.noMessages", "No messages")}
+                  </div>
                 ) : (
-                  <ul className="divide-y divide-gray-100 dark:divide-dark-divider">
+                  <ul className="divide-y divide-[#E2E8F0] dark:divide-dark-divider">
                     {displayMessages.map((msg) => (
                       <li
                         key={msg.chatId}
-                        className={`px-3 py-3 flex items-start gap-3 cursor-pointer hover:bg-gray-100 dark:hover:bg-dark-raised ${msg.unreadCount === 0 ? "opacity-60" : ""}`}
+                        className={`flex cursor-pointer items-start gap-3 px-4 py-3 hover:bg-[#F8FAFC] dark:hover:bg-dark-raised ${
+                          msg.unreadCount === 0 ? "opacity-60" : ""
+                        }`}
                         onClick={async () => {
                           setOpenMsg(false);
                           await markChatAsSeen(msg.chatId);
-                          // Refresh to update unread counts
                           loadRecentMessages();
                           router.push(`/dashboard/messages?chatId=${encodeURIComponent(msg.chatId)}`);
                         }}
                       >
                         <Avatar src={msg.sender?.image} alt={msg.sender?.name} size={36} />
                         <div className="min-w-0 flex-1">
-                          <div className="text-md font-bold text-gray-900 dark:text-white truncate">
+                          <div className="truncate text-sm font-bold text-[#0F172A] dark:text-white">
                             {msg.sender?.name || t("dashboard:navbar.user", "User")}
                           </div>
-                          <div className="text-sm text-gray-500 dark:text-dark-text-muted line-clamp-1">
+                          <div className="line-clamp-1 text-sm text-[#64748B] dark:text-gray-400">
                             {msg.attachments?.length > 0
                               ? `${msg.attachments.length} ${t("dashboard:navbar.attachment", "attachment(s)")}`
                               : msg.content || t("dashboard:navbar.newMessage", "New message")}
                           </div>
-                          <div className="text-[10px] text-gray-400 mt-1">{new Date(msg.createdAt).toLocaleString()}</div>
+                          <div className="mt-1 text-[10px] text-[#94A3B8]">
+                            {new Date(msg.createdAt).toLocaleString()}
+                          </div>
                         </div>
                         {msg.unreadCount > 0 && (
-                          <div className="mt-2 min-w-[18px] h-[18px] px-1.5 rounded-full bg-blue-500 text-white text-[10px] font-bold flex items-center justify-center shrink-0">
-                            {msg.unreadCount > 9 ? '9+' : msg.unreadCount}
+                          <div className="mt-1 flex h-[18px] min-w-[18px] shrink-0 items-center justify-center bg-[#2563EB] px-1.5 text-[10px] font-bold text-white">
+                            {msg.unreadCount > 9 ? "9+" : msg.unreadCount}
                           </div>
                         )}
                       </li>
@@ -173,8 +182,12 @@ export default function DashboardNavbar({ isOpen, toggleSidebar }) {
                   </ul>
                 )}
               </div>
-              <div className="px-3 py-2 border-t border-gray-100 dark:border-dark-divider text-center">
-                <Link href="/dashboard/messages" onClick={() => setOpenMsg(false)} className="text-sm font-bold text-blue-600 hover:underline uppercase tracking-widest">
+              <div className="border-t border-[#E2E8F0] px-4 py-3 text-center dark:border-dark-divider">
+                <Link
+                  href="/dashboard/messages"
+                  onClick={() => setOpenMsg(false)}
+                  className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#2563EB] hover:underline"
+                >
                   {t("dashboard:navbar.seeAllMessages", "See all messages")}
                 </Link>
               </div>
@@ -182,49 +195,66 @@ export default function DashboardNavbar({ isOpen, toggleSidebar }) {
           )}
         </div>
 
-        {/* Notifications */}
         <div className="relative" ref={notifRef}>
           <button
             onClick={() => setOpenNotif((v) => !v)}
-            className="relative p-2 rounded-full hover:bg-gray-100 dark:hover:bg-dark-raised text-gray-700 dark:text-dark-text-secondary"
+            className={iconBtn}
           >
-            <FiBell className="w-5 h-5" />
+            <FiBell className="h-5 w-5" />
             {unreadCount > 0 && (
-              <span className="absolute -top-0.5 -right-0.5 min-w-[16px] h-4 px-1 rounded-full bg-red-600 text-white text-[10px] flex items-center justify-center">
+              <span className="absolute right-1 top-1 flex h-4 min-w-[16px] items-center justify-center bg-red-600 px-1 text-[10px] font-bold text-white">
                 {unreadCount > 9 ? "9+" : unreadCount}
               </span>
             )}
           </button>
           {openNotif && (
-            <div className="fixed md:absolute inset-x-4 md:inset-auto md:right-0 mt-2 md:w-80 bg-white dark:bg-dark-card border border-gray-200 dark:border-dark-divider rounded-xl shadow-xl z-50 overflow-hidden transform md:translate-x-0">
-              <div className="flex items-center justify-between px-3 py-2 border-b border-gray-100 dark:border-dark-divider">
-                <div className="text-md font-semibold text-gray-900 dark:text-gray-200 dark:text-white">{t("dashboard:navbar.notifications", "Notifications")}</div>
-                <button onClick={markAll} className="text-sm text-blue-600 hover:underline">{t("dashboard:navbar.markAllRead", "Mark all as read")}</button>
+            <div className={dropdownShell}>
+              <div className="flex items-center justify-between border-b border-[#E2E8F0] px-4 py-3 dark:border-dark-divider">
+                <div className="text-sm font-bold text-[#0F172A] dark:text-white">
+                  {t("dashboard:navbar.notifications", "Notifications")}
+                </div>
+                <button onClick={markAll} className="text-sm font-semibold text-[#2563EB] hover:underline">
+                  {t("dashboard:navbar.markAllRead", "Mark all as read")}
+                </button>
               </div>
               <div className="max-h-96 overflow-auto">
                 {(notifications || []).length === 0 ? (
-                  <div className="px-3 py-4 text-md text-gray-500">{t("dashboard:navbar.noNotifications", "No notifications")}</div>
+                  <div className="px-4 py-5 text-sm text-[#64748B]">
+                    {t("dashboard:navbar.noNotifications", "No notifications")}
+                  </div>
                 ) : (
-                  <ul className="divide-y divide-gray-100 dark:divide-dark-divider">
+                  <ul className="divide-y divide-[#E2E8F0] dark:divide-dark-divider">
                     {(notifications || []).slice(0, 8).map((n) => (
                       <li
                         key={n.id}
-                        className={`px-3 py-2 flex items-start gap-3 ${n.read ? "opacity-80" : ""} cursor-pointer hover:bg-gray-100 dark:hover:bg-dark-raised`}
+                        className={`flex cursor-pointer items-start gap-3 px-4 py-3 hover:bg-[#F8FAFC] dark:hover:bg-dark-raised ${
+                          n.read ? "opacity-80" : ""
+                        }`}
                         onClick={() => handleNotifClick(n)}
                       >
-                        <div className={`mt-1 w-2 h-2 rounded-full ${n.read ? "bg-gray-300" : "bg-blue-500"}`} />
+                        <div className={`mt-1.5 h-2 w-2 shrink-0 ${n.read ? "bg-gray-300" : "bg-[#2563EB]"}`} />
                         <div className="min-w-0 flex-1">
-                          <div className="text-md font-medium text-gray-900 dark:text-gray-200 dark:text-dark-text-primary truncate">{n.title}</div>
-                          {n.body && <div className="text-sm text-gray-600 dark:text-dark-text-muted truncate">{n.body}</div>}
-                          <div className="text-[10px] text-gray-400 mt-1">{new Date(n.createdAt).toLocaleString()}</div>
+                          <div className="truncate text-sm font-semibold text-[#0F172A] dark:text-white">
+                            {n.title}
+                          </div>
+                          {n.body && (
+                            <div className="truncate text-sm text-[#64748B] dark:text-gray-400">{n.body}</div>
+                          )}
+                          <div className="mt-1 text-[10px] text-[#94A3B8]">
+                            {new Date(n.createdAt).toLocaleString()}
+                          </div>
                         </div>
                       </li>
                     ))}
                   </ul>
                 )}
               </div>
-              <div className="px-3 py-2 border-t border-gray-100 dark:border-dark-divider text-right">
-                <Link href="/dashboard/notifications" onClick={() => setOpenNotif(false)} className="text-md text-blue-600 hover:underline">
+              <div className="border-t border-[#E2E8F0] px-4 py-3 text-right dark:border-dark-divider">
+                <Link
+                  href="/dashboard/notifications"
+                  onClick={() => setOpenNotif(false)}
+                  className="text-sm font-semibold text-[#2563EB] hover:underline"
+                >
                   {t("dashboard:navbar.seeAll", "See all")}
                 </Link>
               </div>
@@ -232,15 +262,13 @@ export default function DashboardNavbar({ isOpen, toggleSidebar }) {
           )}
         </div>
 
-        {/* User Dropdown (Unified) - Desktop Only */}
         <div className="hidden md:block">
           <UserAccountDropdown />
         </div>
 
-        {/* Mobile Sidebar Toggle - Merged with User Profile info */}
         <button
           onClick={toggleSidebar}
-          className="md:hidden flex items-center gap-2 p-1.5 pl-2 pr-3 bg-gray-50 dark:bg-dark-raised border border-gray-200 dark:border-dark-divider rounded-full transition-all active:scale-95"
+          className="flex items-center gap-2 border border-[#E2E8F0] bg-[#F4F7FB] py-1.5 pl-1.5 pr-2.5 transition active:scale-95 dark:border-dark-divider dark:bg-dark-raised md:hidden"
           aria-label="Toggle Navigation"
         >
           {user && (
@@ -248,12 +276,11 @@ export default function DashboardNavbar({ isOpen, toggleSidebar }) {
               src={user?.image || user?.profilePicture}
               alt={user?.firstName || "User"}
               size={24}
-              className="ring-1 ring-blue-500/20"
             />
           )}
-          <div className="text-gray-700 dark:text-gray-300">
-            {isOpen ? <FiX className="w-6 h-6" /> : <FiMenu className="w-6 h-6" />}
-          </div>
+          <span className="text-[#0F172A] dark:text-gray-200">
+            {isOpen ? <FiX className="h-5 w-5" /> : <FiMenu className="h-5 w-5" />}
+          </span>
         </button>
       </div>
     </header>

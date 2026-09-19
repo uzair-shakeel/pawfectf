@@ -51,21 +51,22 @@ export default function DashboardLayout({ children }) {
   }
 
   return (
-    <div className="absolute w-full h-auto min-h-screen top-0">
-      <div className="flex justify-center items-center min-h-screen h-auto bg-white dark:bg-gray-950 transition-all duration-300">
+    <div className="absolute top-0 h-auto min-h-screen w-full overflow-x-hidden">
+      <div className="marketing-ui flex min-h-screen h-auto bg-[#F4F7FB] transition-all duration-300 dark:bg-dark-main">
         <Sidebar
           isOpen={isSidebarOpen}
           toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
         />
         <main
-          className={`flex-1 flex flex-col transition-all duration-300 ${isSidebarOpen ? "ml-0 md:ml-64" : " md:ml-64"
-            }`}
+          className={`flex min-w-0 flex-1 flex-col overflow-x-hidden transition-all duration-300 ${
+            isSidebarOpen ? "ml-0 md:ml-64" : "md:ml-64"
+          }`}
         >
           <DashboardNavbar
             isOpen={isSidebarOpen}
             toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
           />
-          <div className=" min-h-[calc(100vh-75px)]">{children}</div>
+          <div className="min-h-[calc(100vh-64px)] min-w-0 overflow-x-hidden">{children}</div>
         </main>
       </div>
     </div>

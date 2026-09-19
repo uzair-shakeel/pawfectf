@@ -170,9 +170,20 @@ export const getAllPets = async (): Promise<PetData[]> => {
   return tryFetch();
 };
 
-export const getPetById = async (petId: string): Promise<PetData> => {
+export const getPetById = async (
+  petId: string,
+  getToken?: () => string | null | Promise<string | null>
+): Promise<PetData> => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/pets/${petId}`);
+    const headers: Record<string, string> = {};
+    if (getToken) {
+      const token = await getToken();
+      if (token) headers.Authorization = `Bearer ${token}`;
+    }
+
+    const response = await axios.get(`${API_BASE_URL}/pets/${petId}`, {
+      headers,
+    });
     return response.data;
   } catch (error: any) {
     throw new Error(error?.response?.data?.message || "Failed to fetch pet");

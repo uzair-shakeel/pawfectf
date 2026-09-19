@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState, useCallback, useMemo } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 
@@ -365,26 +365,30 @@ export const AuthProvider = ({ children }) => {
     setUser(normalized);
   };
 
-  const value = {
-    user,
-    token,
-    loading,
-    signIn,
-    signUp,
-    verifyOTP,
-    resendOTP,
-    requestPasswordReset,
-    resetPassword,
-    changePassword,
-    signInWithGoogle,
-    logout,
-    updateProfile,
-    updateUserState,
-    getToken: () => token,
-    userId: user?.id || user?._id,
-    // Expose a simple boolean for UI checks
-    isSignedIn: !!user,
-  };
+  const getToken = useCallback(() => token, [token]);
+
+  const value = useMemo(
+    () => ({
+      user,
+      token,
+      loading,
+      signIn,
+      signUp,
+      verifyOTP,
+      resendOTP,
+      requestPasswordReset,
+      resetPassword,
+      changePassword,
+      signInWithGoogle,
+      logout,
+      updateProfile,
+      updateUserState,
+      getToken,
+      userId: user?.id || user?._id,
+      isSignedIn: !!user,
+    }),
+    [user, token, loading, getToken]
+  );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

@@ -2,7 +2,7 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import { useSearchParams } from "next/navigation";
-import { FaSearch, FaPaperPlane, FaBars, FaEnvelope, FaPaperclip, FaTimes, FaFileAlt, FaFileImage } from "react-icons/fa";
+import { FaPaperPlane, FaBars, FaEnvelope, FaPaperclip, FaTimes, FaFileAlt, FaFileImage } from "react-icons/fa";
 import { useAuth } from "../../../lib/auth/AuthContext";
 import io from "socket.io-client";
 import Avatar from "../../../components/both/Avatar";
@@ -738,360 +738,476 @@ const MessagesPage = () => {
 
   if (error) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <p className="text-xl text-red-500">{error}</p>
+      <div className="marketing-ui flex min-h-[50vh] items-center justify-center p-8">
+        <p className="text-sm font-semibold text-red-500">{error}</p>
       </div>
     );
   }
 
   if (!user) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <p className="text-xl">Please log in to view messages.</p>
+      <div className="marketing-ui flex min-h-[50vh] items-center justify-center p-8">
+        <p className="text-sm font-medium text-[#64748B]">
+          Please log in to view messages.
+        </p>
       </div>
     );
   }
 
-
-  // Calculate the chat count
-  const chatCount = chats.length;
-
   return (
-    <div className="flex h-[calc(100vh-64px)] bg-white dark:bg-dark-main font-sans overflow-hidden relative transition-colors duration-300">
-      {/* Sidebar - Full Page Style */}
+    <div className="marketing-ui relative flex h-[calc(100vh-64px)] overflow-hidden bg-[#F4F7FB] dark:bg-dark-main">
+      {/* Sidebar — absolute on mobile so title stays below dashboard navbar */}
       <div
-        className={`fixed md:relative inset-y-0 left-0 z-20 h-full w-full sm:w-[320px] md:w-[350px] flex flex-col transform transition-transform duration-300 ${showSidebar ? "translate-x-0" : "-translate-x-full"
-          } md:translate-x-0 border-r border-gray-100 dark:border-gray-800 bg-white dark:bg-dark-panel`}
+        className={`absolute inset-0 z-20 flex flex-col border-r border-[#E2E8F0] bg-white transition-transform duration-300 dark:border-dark-divider dark:bg-dark-panel md:static md:inset-auto md:z-auto md:w-[340px] ${
+          showSidebar ? "translate-x-0" : "-translate-x-full"
+        } md:translate-x-0`}
       >
-        <div className="h-full flex flex-col overflow-hidden transition-colors duration-300">
-          {/* Sidebar Header */}
-          <div className="p-6 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center shrink-0">
-            <div>
-              <h2 className="font-extrabold text-2xl text-gray-900 dark:text-gray-200 dark:text-white tracking-tight">Wiadomości</h2>
-              <p className="text-sm text-dark-text-secondary font-bold uppercase tracking-widest mt-1">Twoje konwersacje</p>
-            </div>
-            {totalUnread > 0 && (
-              <div className="bg-red-500 text-white rounded-xl px-3 py-1 text-sm font-bold shadow-red-200 shadow-md">
-                {totalUnread} nowych
-              </div>
-            )}
+        <div className="flex shrink-0 items-start justify-between gap-3 border-b border-[#E2E8F0] px-5 py-5 dark:border-dark-divider">
+          <div className="min-w-0">
+            <h2 className="font-display text-2xl font-bold tracking-tight text-[#0F172A] dark:text-white">
+              Wiadomości
+            </h2>
+            <p className="mt-1 text-sm text-[#64748B] dark:text-gray-400">
+              Twoje konwersacje
+            </p>
           </div>
+          {totalUnread > 0 && (
+            <span className="shrink-0 bg-[#2563EB] px-2.5 py-1 text-xs font-bold text-white">
+              {totalUnread} nowych
+            </span>
+          )}
+        </div>
 
-          {/* Chat List - Scrollable */}
-          <div className="flex-1 overflow-y-auto px-4 space-y-3 py-4 custom-scrollbar">
-            {chats.length > 0 ? (
-              chats.map((chat) => (
-                <div
+        <div className="flex-1 space-y-1 overflow-y-auto p-3">
+          {chats.length > 0 ? (
+            chats.map((chat) => {
+              const active = selectedChat && selectedChat._id === chat._id;
+              return (
+                <button
+                  type="button"
                   key={chat._id}
-                  className={`flex items-center gap-4 p-5 cursor-pointer transition-all border-b border-gray-100 dark:border-gray-700/50 ${selectedChat && selectedChat._id === chat._id
-                    ? "bg-blue-50/50 dark:bg-blue-900/10 border-l-4 border-l-blue-500"
-                    : "bg-white dark:bg-dark-main hover:bg-gray-50 dark:hover:bg-dark-card"
-                    }`}
+                  className={`flex w-full items-center gap-3 border px-3 py-3 text-left transition ${
+                    active
+                      ? "border-[#2563EB]/40 bg-[#EEF2FF] dark:border-[#2563EB]/50 dark:bg-[#2563EB]/15"
+                      : "border-transparent hover:border-[#E2E8F0] hover:bg-[#F8FAFC] dark:hover:border-dark-divider dark:hover:bg-dark-raised"
+                  }`}
                   onClick={() => handleSelectChat(chat)}
                 >
-                  <div className="relative">
+                  <div className="relative shrink-0">
                     <Avatar
                       src={getParticipantImage(chat)}
                       alt={getParticipantName(chat)}
-                      size={50}
-                      imgClassName="rounded-xl"
+                      size={44}
                     />
-                    {chat.unreadCount > 0 && <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-red-500 rounded-full border-2 border-white dark:border-gray-800"></span>}
+                    {chat.unreadCount > 0 && (
+                      <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 border-2 border-white bg-[#2563EB] dark:border-dark-panel" />
+                    )}
                   </div>
 
-                  <div className="flex-grow min-w-0">
-                    <div className="flex justify-between items-center mb-0.5">
-                      <div className={`text-md truncate ${chat.unreadCount > 0 ? "font-black text-gray-900 dark:text-white" : "font-bold text-gray-700 dark:text-gray-300"}`}>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center justify-between gap-2">
+                      <span
+                        className={`truncate text-sm ${
+                          chat.unreadCount > 0
+                            ? "font-bold text-[#0F172A] dark:text-white"
+                            : "font-semibold text-[#334155] dark:text-gray-200"
+                        }`}
+                      >
                         {getParticipantName(chat)}
-                      </div>
+                      </span>
                       {chat.lastMessage && (
-                        <span className="text-[10px] font-bold text-gray-400 dark:text-gray-500">
+                        <span className="shrink-0 text-[11px] font-medium text-[#94A3B8]">
                           {fmtTime(chat.lastMessage.timestamp)}
                         </span>
                       )}
                     </div>
-                    <div className={`truncate w-full text-sm ${chat.unreadCount > 0 ? "text-gray-900 dark:text-white font-bold" : "text-gray-500 dark:text-gray-400 font-medium"}`}>
+                    <p
+                      className={`mt-0.5 truncate text-xs ${
+                        chat.unreadCount > 0
+                          ? "font-semibold text-[#0F172A] dark:text-white"
+                          : "text-[#64748B] dark:text-gray-400"
+                      }`}
+                    >
                       {chat.lastMessage ? (
                         <>
-                          <span className="mr-1 text-gray-400 dark:text-gray-600">
-                            {String(chat.lastMessage.sender) === String(myUserId) ? "Ty:" : ""}
-                          </span>
+                          {String(chat.lastMessage.sender) === String(myUserId) ? (
+                            <span className="text-[#94A3B8]">Ty: </span>
+                          ) : null}
                           {chat.lastMessage.content || "Empty message"}
                         </>
                       ) : (
-                        <span className="italic text-gray-400">Rozpocznij konwersację</span>
+                        <span className="italic text-[#94A3B8]">
+                          Rozpocznij konwersację
+                        </span>
                       )}
-                    </div>
+                    </p>
                   </div>
-                </div>
-              ))
-            ) : (
-              <div className="text-center py-12">
-                <div className="w-16 h-16 bg-gray-100 dark:bg-dark-card rounded-full flex items-center justify-center mx-auto mb-4 text-gray-400 dark:text-gray-500">
-                  <FaEnvelope size={24} />
-                </div>
-                <p className="text-gray-500 dark:text-gray-400 font-medium text-md">Brak wiadomości</p>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col h-full min-h-0 overflow-hidden relative transition-colors duration-300">
-        <div className="h-full flex flex-col overflow-hidden relative transition-colors duration-300">
-          {/* Chat Header */}
-          <div className="p-4 md:p-6 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between shrink-0 bg-white dark:bg-dark-panel z-10 transition-colors">
-            <div className="flex items-center gap-4">
-              {/* Mobile: sidebar toggle */}
-              <button
-                type="button"
-                className="md:hidden inline-flex items-center justify-center h-10 w-10 rounded-xl bg-gray-100 dark:bg-dark-card text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
-                onClick={() => setShowSidebar((prev) => !prev)}
-              >
-                <FaBars className="h-4 w-4" />
-              </button>
-              {selectedChat ? (
-                <div className="flex items-center gap-4">
-                  <Avatar
-                    src={getParticipantImage(selectedChat)}
-                    alt={getParticipantName(selectedChat)}
-                    size={48}
-                    imgClassName="rounded-xl shadow-sm border border-gray-100 dark:border-gray-700"
-                  />
-                  <div>
-                    <div className="font-bold text-lg text-gray-900 dark:text-gray-200 dark:text-white transition-colors">
-                      {getParticipantName(selectedChat)}
-                    </div>
-                    {selectedChat.carId && (
-                      <div className="text-sm font-bold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 px-2 py-0.5 rounded-lg inline-block mt-1">
-                        AUTO: {selectedChat.carId.title || "Nieznane"}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              ) : (
-                <div className="font-bold text-lg text-gray-400">Wybierz konwersację</div>
-              )}
-            </div>
-          </div>
-
-          {/* Messages Container */}
-          <div className="flex-1 overflow-y-auto px-4 py-4 space-y-1 bg-gray-50/30 dark:bg-dark-card/10 custom-scrollbar transition-colors">
-            {selectedChat ? (
-              messages.length > 0 ? (
-                <>
-                  {messages.map((message, index) => {
-                    // Show date separator if this is the first message or if the date changed
-                    const showDateSeparator = index === 0 || !isSameDay(message.createdAt, messages[index - 1].createdAt);
-                    const messageSenderId = (typeof message.sender === 'object' && message.sender?._id)
-                      ? message.sender._id
-                      : (message.sender || message.senderId);
-                    const isMe = String(messageSenderId) === String(myUserId);
-                    const isLast = index === messages.length - 1;
-
-                    return (
-                      <React.Fragment key={message._id || message.tempId}>
-                        {showDateSeparator && (
-                          <div className="flex justify-center my-4">
-                            <span className="px-4 py-1.5 bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 text-sm font-medium rounded-full">
-                              {fmtDateSeparator(message.createdAt)}
-                            </span>
-                          </div>
-                        )}
-                        <div
-                          className={`flex ${isMe ? "justify-end" : "justify-start"} group`}
-                        >
-                          <div className={`max-w-[75%] md:max-w-[60%] flex gap-3 ${isMe ? "flex-row-reverse" : "flex-row"}`}>
-                            {/* Optional small avatar next to message bubbles */}
-                            {/* <Avatar src={isMe ? user?.image : getParticipantImage(selectedChat)} size={32} imgClassName="rounded-lg self-end" /> */}
-
-                            <div
-                              className={`px-6 py-4 rounded-2xl shadow-sm text-md whitespace-pre-line relative transition-all duration-200 ${isMe
-                                ? "bg-blue-600 text-white rounded-br-none shadow-blue-900/20"
-                                : "bg-white dark:bg-dark-card text-gray-800 dark:text-gray-100 rounded-bl-none shadow-black/5"
-                                } ${message.pending ? "opacity-80" : "opacity-100"}`}
-                            >
-                              {String(messageSenderId) !== String(myUserId) && (
-                                <div className="font-bold text-[10px] uppercase tracking-wider text-gray-400 dark:text-gray-500 mb-2">
-                                  {message.senderName || "Użytkownik"}
-                                </div>
-                              )}
-                              {/* Attachment preview */}
-                              <div className="mb-3 space-y-2">
-                                {message.attachments.map((att, attIdx) => {
-                                  const url = typeof att === 'string' ? att : att.url;
-                                  const name = att.name || (typeof att === 'string' ? url.split('/').pop() : 'Attachment');
-                                  const type = att.type || '';
-                                  const isImage = type.startsWith('image/') || /\.(jpg|jpeg|png|webp|gif|svg)(\?.*)?$/i.test(url);
-
-                                  if (!url) {
-                                    return (
-                                      <div key={attIdx} className="flex items-center gap-2 p-2 bg-white/20 rounded-lg opacity-60">
-                                        {type.startsWith('image/') ? <FaFileImage className="text-lg" /> : <FaFileAlt className="text-lg" />}
-                                        <span className="text-sm truncate max-w-[150px]">{name}</span>
-                                        {message.pending && <span className="animate-pulse ml-1">●</span>}
-                                      </div>
-                                    );
-                                  }
-
-                                  return (
-                                    <div key={attIdx}>
-                                      {isImage ? (
-                                        <a href={url} target="_blank" rel="noopener noreferrer" className="block">
-                                          <img
-                                            src={url}
-                                            alt={name}
-                                            className="max-w-[200px] max-h-[200px] rounded-lg object-cover hover:opacity-90 transition-opacity border border-white/20"
-                                            loading="lazy"
-                                            onError={(e) => {
-                                              // Fallback for broken images
-                                              e.target.style.display = 'none';
-                                              e.target.nextSibling.style.display = 'flex';
-                                            }}
-                                          />
-                                          <div style={{ display: 'none' }} className="flex items-center gap-2 p-2 bg-white/20 rounded-lg">
-                                            <FaFileAlt className="text-lg" />
-                                            <span className="text-sm underline">{name}</span>
-                                          </div>
-                                        </a>
-                                      ) : (
-                                        <button
-                                          onClick={(e) => {
-                                            e.preventDefault();
-                                            handleDownload(url, name);
-                                          }}
-                                          className="flex items-center gap-2 p-2 bg-white/20 rounded-lg hover:bg-white/30 transition-colors w-full text-left"
-                                        >
-                                          <FaFileAlt className="text-lg" />
-                                          <span className="text-sm truncate max-w-[150px] underline">{name}</span>
-                                        </button>
-                                      )}
-                                    </div>
-                                  );
-                                })}
-                              </div>
-                              {message.text || message.content}
-
-                              <div className={`text-right text-[10px] font-bold mt-2 ${isMe ? 'text-blue-200' : 'text-gray-300 dark:text-gray-500'}`}>
-                                {fmtTime(message.createdAt)}
-                                {isMe && (
-                                  <span className="ml-2 inline-block">
-                                    {message.pending ? (
-                                      <span className="animate-pulse">●</span>
-                                    ) : message.seenBy && message.seenBy.length > 1 ? (
-                                      "✓✓"
-                                    ) : (
-                                      "✓"
-                                    )}
-                                  </span>
-                                )}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </React.Fragment>
-                    )
-                  })}
-                  {typing && (
-                    <div className="flex justify-start">
-                      <div className="bg-white dark:bg-dark-card border border-gray-100 dark:border-gray-600 px-6 py-4 rounded-2xl rounded-bl-none shadow-sm flex items-center gap-2">
-                        <div className="w-2 h-2 bg-gray-400 dark:bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '0s' }}></div>
-                        <div className="w-2 h-2 bg-gray-400 dark:bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                        <div className="w-2 h-2 bg-gray-400 dark:bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                      </div>
-                    </div>
-                  )}
-                  <div ref={messagesEndRef} className="h-0" />
-                </>
-              ) : (
-                <div className="flex flex-col items-center justify-center h-full text-gray-400 dark:text-gray-600 opacity-60">
-                  <FaEnvelope size={48} className="mb-4" />
-                  <p className="font-bold">To początek Waszej rozmowy</p>
-                </div>
-              )
-            ) : (
-              <div className="flex flex-col items-center justify-center h-full text-gray-300 dark:text-gray-600">
-                <div className="w-24 h-24 bg-gray-100 dark:bg-dark-card rounded-full flex items-center justify-center mb-6">
-                  <FaPaperPlane size={32} className="ml-2" />
-                </div>
-                <p className="font-bold text-lg text-gray-400 dark:text-gray-500">Wybierz czat aby rozpocząć rozmowę</p>
-              </div>
-            )}
-          </div>
-
-          {/* Message Input - Integrated */}
-          {selectedChat && (
-            <div className="p-4 bg-white dark:bg-dark-panel border-t border-gray-100 dark:border-gray-700 z-10 transition-colors">
-              {/* Attachment preview area */}
-              {attachments.length > 0 && (
-                <div className="flex flex-wrap gap-2 mb-3 px-1">
-                  {attachments.map((file, idx) => (
-                    <div key={idx} className="flex items-center gap-2 px-3 py-1.5 bg-gray-100 dark:bg-gray-700 rounded-lg text-sm">
-                      {file.type.startsWith('image/') ? <FaFileImage /> : <FaFileAlt />}
-                      <span className="truncate max-w-[100px]">{file.name}</span>
-                      <button
-                        onClick={() => setAttachments(prev => prev.filter((_, i) => i !== idx))}
-                        className="ml-1 text-gray-500 hover:text-red-500"
-                      >
-                        <FaTimes size={10} />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              )}
-              <div className="flex items-center gap-3 bg-gray-50/50 dark:bg-dark-card/50 border border-gray-100 dark:border-gray-700/50 rounded-xl p-1.5 focus-within:border-blue-500/50 transition-all">
-                {/* Attachment button */}
-                <input
-                  type="file"
-                  ref={fileInputRef}
-                  onChange={(e) => {
-                    const files = Array.from(e.target.files || []);
-                    const MAX_SIZE = 10 * 1024 * 1024; // 10MB (Cloudinary free tier limit)
-                    const oversized = files.filter(f => f.size > MAX_SIZE);
-                    if (oversized.length > 0) {
-                      alert(`File too large: ${oversized[0].name}\nMax size: 10MB (Cloudinary limit)\nYour file: ${(oversized[0].size / 1024 / 1024).toFixed(2)}MB\n\nTo upload larger files, upgrade your Cloudinary plan.`);
-                      e.target.value = '';
-                      return;
-                    }
-                    setAttachments(prev => [...prev, ...files]);
-                    e.target.value = ''; // Reset input
-                  }}
-                  multiple
-                  accept="image/*,.pdf,.doc,.docx,.txt"
-                  className="hidden"
-                />
-                <button
-                  onClick={() => fileInputRef.current?.click()}
-                  className="p-3 text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-all"
-                  title="Add attachment"
-                >
-                  <FaPaperclip size={18} />
                 </button>
-                <input
-                  type="text"
-                  value={newMessage}
-                  onChange={handleTyping}
-                  className="flex-1 bg-transparent outline-none border-none focus:ring-0 p-2.5 pl-2 text-md font-bold text-gray-800 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500"
-                  placeholder="Napisz wiadomość..."
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" && !e.shiftKey) {
-                      e.preventDefault();
-                      handleSendMessage();
-                    }
-                  }}
-                />
-                <button
-                  onClick={handleSendMessage}
-                  disabled={!newMessage.trim() && attachments.length === 0}
-                  className="p-3.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-200 dark:disabled:bg-gray-700 disabled:text-gray-400 dark:disabled:text-gray-600 transition-all shadow-lg shadow-blue-500/20 active:scale-95 flex items-center justify-center shrink-0"
-                >
-                  <FaPaperPlane size={14} />
-                </button>
+              );
+            })
+          ) : (
+            <div className="px-4 py-16 text-center">
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center bg-[#EEF2FF] text-[#2563EB] dark:bg-[#2563EB]/15">
+                <FaEnvelope size={20} />
               </div>
+              <p className="text-sm font-medium text-[#64748B] dark:text-gray-400">
+                Brak wiadomości
+              </p>
             </div>
           )}
         </div>
+      </div>
+
+      {/* Main chat */}
+      <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden bg-white dark:bg-dark-panel">
+        <div className="flex shrink-0 items-center justify-between border-b border-[#E2E8F0] px-4 py-3.5 dark:border-dark-divider md:px-5">
+          <div className="flex min-w-0 items-center gap-3">
+            <button
+              type="button"
+              className="inline-flex h-10 w-10 shrink-0 items-center justify-center border border-[#E2E8F0] text-[#64748B] transition hover:border-[#2563EB] hover:text-[#2563EB] dark:border-dark-divider md:hidden"
+              onClick={() => setShowSidebar((prev) => !prev)}
+            >
+              <FaBars className="h-4 w-4" />
+            </button>
+            {selectedChat ? (
+              <div className="flex min-w-0 items-center gap-3">
+                <Avatar
+                  src={getParticipantImage(selectedChat)}
+                  alt={getParticipantName(selectedChat)}
+                  size={42}
+                />
+                <div className="min-w-0">
+                  <div className="truncate font-display text-base font-bold text-[#0F172A] dark:text-white">
+                    {getParticipantName(selectedChat)}
+                  </div>
+                  {selectedChat.carId && (
+                    <div className="mt-0.5 inline-block bg-[#EEF2FF] px-2 py-0.5 text-[11px] font-semibold text-[#2563EB] dark:bg-[#2563EB]/15">
+                      AUTO: {selectedChat.carId.title || "Nieznane"}
+                    </div>
+                  )}
+                </div>
+              </div>
+            ) : (
+              <div className="text-sm font-semibold text-[#94A3B8]">
+                Wybierz konwersację
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="flex-1 space-y-2.5 overflow-y-auto bg-[#F8FAFC] px-3 py-4 dark:bg-dark-main sm:px-5 md:px-6">
+          {selectedChat ? (
+            messages.length > 0 ? (
+              <>
+                {messages.map((message, index) => {
+                  const showDateSeparator =
+                    index === 0 ||
+                    !isSameDay(message.createdAt, messages[index - 1].createdAt);
+                  const messageSenderId =
+                    typeof message.sender === "object" && message.sender?._id
+                      ? message.sender._id
+                      : message.sender || message.senderId;
+                  const isMe = String(messageSenderId) === String(myUserId);
+                  const prevSenderId =
+                    index > 0
+                      ? typeof messages[index - 1].sender === "object" &&
+                        messages[index - 1].sender?._id
+                        ? messages[index - 1].sender._id
+                        : messages[index - 1].sender ||
+                          messages[index - 1].senderId
+                      : null;
+                  const showSenderName =
+                    !isMe &&
+                    (index === 0 ||
+                      showDateSeparator ||
+                      String(prevSenderId) !== String(messageSenderId));
+                  const isFirstInGroup =
+                    index === 0 ||
+                    showDateSeparator ||
+                    String(prevSenderId) !== String(messageSenderId);
+
+                  return (
+                    <React.Fragment key={message._id || message.tempId}>
+                      {showDateSeparator && (
+                        <div className="my-3 flex justify-center">
+                          <span className="rounded-full border border-[#E2E8F0] bg-white px-3 py-1 text-[11px] font-semibold text-[#64748B] dark:border-dark-divider dark:bg-dark-card dark:text-gray-400">
+                            {fmtDateSeparator(message.createdAt)}
+                          </span>
+                        </div>
+                      )}
+                      <div
+                        className={`flex ${isMe ? "justify-end" : "justify-start"} ${
+                          isFirstInGroup ? "mt-1" : ""
+                        }`}
+                      >
+                        <div
+                          className={`w-fit max-w-[85%] break-words px-3.5 py-2.5 text-[14px] leading-relaxed sm:max-w-[75%] md:max-w-[65%] ${
+                            isMe
+                              ? `bg-[#2563EB] text-white ${
+                                  isFirstInGroup
+                                    ? "rounded-2xl rounded-br-md"
+                                    : "rounded-2xl rounded-br-md"
+                                }`
+                              : `border border-[#E2E8F0] bg-white text-[#0F172A] dark:border-[#494952] dark:bg-[#303030] dark:text-[#e2e7e3] ${
+                                  isFirstInGroup
+                                    ? "rounded-2xl rounded-bl-md"
+                                    : "rounded-2xl rounded-bl-md"
+                                }`
+                          } ${message.pending ? "opacity-70" : ""}`}
+                          style={{ overflowWrap: "anywhere", wordBreak: "break-word" }}
+                        >
+                          {showSenderName && (
+                            <div className="mb-1.5 text-[10px] font-bold uppercase tracking-wider text-[#94A3B8]">
+                              {message.senderName || "Użytkownik"}
+                            </div>
+                          )}
+
+                          {message.attachments?.length > 0 && (
+                            <div className="mb-2 space-y-2">
+                              {message.attachments.map((att, attIdx) => {
+                                const url =
+                                  typeof att === "string" ? att : att.url;
+                                const name =
+                                  att.name ||
+                                  (typeof att === "string"
+                                    ? url.split("/").pop()
+                                    : "Attachment");
+                                const type = att.type || "";
+                                const isImage =
+                                  type.startsWith("image/") ||
+                                  /\.(jpg|jpeg|png|webp|gif|svg)(\?.*)?$/i.test(
+                                    url
+                                  );
+
+                                if (!url) {
+                                  return (
+                                    <div
+                                      key={attIdx}
+                                      className={`flex items-center gap-2 rounded-xl border px-2.5 py-2 text-sm opacity-60 ${
+                                        isMe
+                                          ? "border-white/20 bg-white/10"
+                                          : "border-[#E2E8F0] bg-[#F8FAFC] dark:border-dark-divider dark:bg-dark-raised"
+                                      }`}
+                                    >
+                                      {type.startsWith("image/") ? (
+                                        <FaFileImage />
+                                      ) : (
+                                        <FaFileAlt />
+                                      )}
+                                      <span className="max-w-[150px] truncate">
+                                        {name}
+                                      </span>
+                                    </div>
+                                  );
+                                }
+
+                                return (
+                                  <div key={attIdx} className="overflow-hidden rounded-xl">
+                                    {isImage ? (
+                                      <a
+                                        href={url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="block"
+                                      >
+                                        <img
+                                          src={url}
+                                          alt={name}
+                                          className="max-h-[240px] w-full max-w-[240px] rounded-xl object-cover transition hover:opacity-90"
+                                          loading="lazy"
+                                          onError={(e) => {
+                                            e.target.style.display = "none";
+                                            e.target.nextSibling.style.display =
+                                              "flex";
+                                          }}
+                                        />
+                                        <div
+                                          style={{ display: "none" }}
+                                          className="flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-2.5 py-2"
+                                        >
+                                          <FaFileAlt />
+                                          <span className="text-sm underline">
+                                            {name}
+                                          </span>
+                                        </div>
+                                      </a>
+                                    ) : (
+                                      <button
+                                        type="button"
+                                        onClick={(e) => {
+                                          e.preventDefault();
+                                          handleDownload(url, name);
+                                        }}
+                                        className={`flex w-full items-center gap-2 rounded-xl border px-2.5 py-2 text-left text-sm transition ${
+                                          isMe
+                                            ? "border-white/20 bg-white/10 hover:bg-white/20"
+                                            : "border-[#E2E8F0] bg-[#F8FAFC] hover:bg-[#EEF2FF] dark:border-dark-divider dark:bg-dark-raised"
+                                        }`}
+                                      >
+                                        <FaFileAlt />
+                                        <span className="max-w-[150px] truncate underline">
+                                          {name}
+                                        </span>
+                                      </button>
+                                    )}
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          )}
+
+                          {(message.text || message.content) && (
+                            <p className="whitespace-pre-wrap">
+                              {message.text || message.content}
+                            </p>
+                          )}
+
+                          <div
+                            className={`mt-1 flex items-center justify-end gap-1 text-[10px] font-medium ${
+                              isMe
+                                ? "text-blue-100/80"
+                                : "text-[#94A3B8] dark:text-gray-500"
+                            }`}
+                          >
+                            <span>{fmtTime(message.createdAt)}</span>
+                            {isMe && (
+                              <span>
+                                {message.pending ? (
+                                  <span className="animate-pulse">●</span>
+                                ) : message.seenBy &&
+                                  message.seenBy.length > 1 ? (
+                                  "✓✓"
+                                ) : (
+                                  "✓"
+                                )}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </React.Fragment>
+                  );
+                })}
+                {typing && (
+                  <div className="flex justify-start">
+                    <div className="flex items-center gap-1.5 rounded-2xl rounded-bl-md border border-[#E2E8F0] bg-white px-4 py-3 dark:border-[#494952] dark:bg-[#303030]">
+                      <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-[#94A3B8] [animation-delay:0s]" />
+                      <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-[#94A3B8] [animation-delay:0.1s]" />
+                      <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-[#94A3B8] [animation-delay:0.2s]" />
+                    </div>
+                  </div>
+                )}
+                <div ref={messagesEndRef} className="h-0" />
+              </>
+            ) : (
+              <div className="flex h-full flex-col items-center justify-center text-[#94A3B8]">
+                <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-xl bg-[#EEF2FF] text-[#2563EB] dark:bg-[#2563EB]/15">
+                  <FaEnvelope size={22} />
+                </div>
+                <p className="text-sm font-semibold">
+                  To początek Waszej rozmowy
+                </p>
+              </div>
+            )
+          ) : (
+            <div className="flex h-full flex-col items-center justify-center">
+              <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-xl bg-[#EEF2FF] text-[#2563EB] dark:bg-[#2563EB]/15">
+                <FaPaperPlane size={24} className="ml-0.5" />
+              </div>
+              <p className="font-display text-lg font-bold text-[#0F172A] dark:text-white">
+                Wybierz czat
+              </p>
+              <p className="mt-1 text-sm text-[#64748B] dark:text-gray-400">
+                Wybierz konwersację aby rozpocząć rozmowę
+              </p>
+            </div>
+          )}
+        </div>
+
+        {selectedChat && (
+          <div className="shrink-0 border-t border-[#E2E8F0] bg-white px-3 py-3 dark:border-dark-divider dark:bg-dark-panel sm:px-5">
+            {attachments.length > 0 && (
+              <div className="mb-3 flex flex-wrap gap-2">
+                {attachments.map((file, idx) => (
+                  <div
+                    key={idx}
+                    className="flex items-center gap-2 rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] px-2.5 py-1.5 text-xs font-medium text-[#0F172A] dark:border-dark-divider dark:bg-dark-raised dark:text-gray-200"
+                  >
+                    {file.type.startsWith("image/") ? (
+                      <FaFileImage className="text-[#2563EB]" />
+                    ) : (
+                      <FaFileAlt className="text-[#2563EB]" />
+                    )}
+                    <span className="max-w-[100px] truncate">{file.name}</span>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setAttachments((prev) =>
+                          prev.filter((_, i) => i !== idx)
+                        )
+                      }
+                      className="text-[#94A3B8] transition hover:text-red-500"
+                    >
+                      <FaTimes size={10} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+            <div className="flex items-center gap-2 rounded-xl border border-[#E2E8F0] bg-[#F8FAFC] p-1.5 transition focus-within:border-[#2563EB] dark:border-[#494952] dark:bg-[#303030]">
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={(e) => {
+                  const files = Array.from(e.target.files || []);
+                  const MAX_SIZE = 10 * 1024 * 1024;
+                  const oversized = files.filter((f) => f.size > MAX_SIZE);
+                  if (oversized.length > 0) {
+                    alert(
+                      `File too large: ${oversized[0].name}\nMax size: 10MB (Cloudinary limit)\nYour file: ${(oversized[0].size / 1024 / 1024).toFixed(2)}MB\n\nTo upload larger files, upgrade your Cloudinary plan.`
+                    );
+                    e.target.value = "";
+                    return;
+                  }
+                  setAttachments((prev) => [...prev, ...files]);
+                  e.target.value = "";
+                }}
+                multiple
+                accept="image/*,.pdf,.doc,.docx,.txt"
+                className="hidden"
+              />
+              <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-[#64748B] transition hover:bg-white hover:text-[#2563EB] dark:text-gray-400 dark:hover:bg-white/5"
+                title="Add attachment"
+              >
+                <FaPaperclip size={16} />
+              </button>
+              <input
+                type="text"
+                value={newMessage}
+                onChange={handleTyping}
+                className="min-w-0 flex-1 bg-transparent px-1 py-2.5 text-[15px] font-medium text-[#0F172A] outline-none placeholder:text-[#94A3B8] dark:text-[#e2e7e3] dark:placeholder:text-white/40"
+                placeholder="Napisz wiadomość..."
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    handleSendMessage();
+                  }
+                }}
+              />
+              <button
+                type="button"
+                onClick={handleSendMessage}
+                disabled={!newMessage.trim() && attachments.length === 0}
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#2563EB] text-white transition hover:bg-[#1D4ED8] disabled:cursor-not-allowed disabled:bg-[#CBD5E1] disabled:text-white dark:disabled:bg-[#494952] dark:disabled:text-white/40"
+              >
+                <FaPaperPlane size={13} />
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

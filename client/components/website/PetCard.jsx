@@ -154,7 +154,7 @@ export default function PetCard({ pet, viewMode = "grid" }) {
               </div>
             )}
 
-            {pet?.healthStatus?.length > 0 && (
+            {Array.isArray(pet?.healthStatus) && pet.healthStatus.length > 0 && (
               <div className="absolute top-3 left-3 z-20 flex gap-1 flex-wrap max-w-[60%]">
                 {pet.healthStatus.slice(0, 2).map((s) => (
                   <span key={s} className="text-[10px] font-bold bg-green-500/90 text-white px-2 py-0.5 rounded-full flex items-center gap-1">
@@ -201,7 +201,7 @@ export default function PetCard({ pet, viewMode = "grid" }) {
             </h3>
             <p className="text-[10px] xs:text-sm md:text-[17px] text-gray-600 dark:text-dark-text-secondary line-clamp-2 leading-snug">
               {subtitle || "Looking for a loving home"}
-              {pet?.healthStatus?.length > 0 && ` · ${pet.healthStatus.slice(0, 2).join(", ")}`}
+              {Array.isArray(pet?.healthStatus) && pet.healthStatus.length > 0 && ` · ${pet.healthStatus.slice(0, 2).join(", ")}`}
             </p>
             <div className="flex flex-row justify-between items-center mt-1 md:mt-4">
               <div className="text-[10px] md:text-[16px] text-gray-400 dark:text-dark-text-muted font-bold uppercase tracking-tight flex items-center gap-1">

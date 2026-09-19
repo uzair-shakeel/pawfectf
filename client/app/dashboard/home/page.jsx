@@ -4,10 +4,10 @@ import DashboardCharts from "../../../components/dashboard/DashboardCharts";
 import RecentCars from "../../../components/dashboard/RecentCars";
 import RecentChats from "../../../components/dashboard/RecentChats";
 import NotificationsWidget from "../../../components/dashboard/NotificationsWidget";
-import QuickActions from "../../../components/dashboard/QuickActions";
 import { useState, useEffect, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import axios from "axios";
+import { FaPaw } from "react-icons/fa";
+import Link from "next/link";
 import { useAuth } from "../../../lib/auth/AuthContext";
 import { useLanguage } from "../../../lib/i18n/LanguageContext";
 
@@ -26,7 +26,6 @@ const page = () => {
   const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
-    // Use startTransition to make this non-blocking
     startTransition(() => {
       loadCharts();
     });
@@ -37,19 +36,16 @@ const page = () => {
       const token = await getToken();
       const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
-      // Fetch both in parallel for speed
       const [carsRes, chatsRes] = await Promise.all([
         fetch(`${API_BASE}/cars/my-cars/all`, { headers }).catch(() => ({ ok: false })),
-        fetch(`${API_BASE}/chat/my-chats`, { headers }).catch(() => ({ ok: false }))
+        fetch(`${API_BASE}/chat/my-chats`, { headers }).catch(() => ({ ok: false })),
       ]);
 
-      // Process cars
       if (carsRes.ok) {
         const cars = await carsRes.json();
         setRecentCars(Array.isArray(cars) ? cars.slice(-7) : []);
       }
 
-      // Process chats
       if (chatsRes.ok) {
         const chatsJson = await chatsRes.json();
         const chats = Array.isArray(chatsJson) ? chatsJson : chatsJson?.chats || [];
@@ -80,40 +76,55 @@ const page = () => {
   };
 
   return (
-    <div className="space-y-6 p-4 dark:bg-dark-main">
-      <div className="flex items-center justify-between">
+    <div className="marketing-ui min-w-0 space-y-6 overflow-x-hidden p-4 sm:p-6 lg:p-8">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white transition-colors duration-300">
-            {t("dashboard:home.welcome", "Welcome Back")}{user?.firstName ? ", " + user.firstName : ""}!
+          <p className="mb-2 text-[11px] font-bold uppercase tracking-[0.22em] text-[#2563EB]">
+            {t("dashboard:home.overviewLabel", "Overview")}
+          </p>
+          <h1 className="font-display text-[1.85rem] font-bold leading-tight text-[#0F172A] dark:text-white md:text-[2.2rem]">
+            {t("dashboard.dashboardStats.welcome", "Welcome back")}
+            {user?.firstName ? `, ${user.firstName}` : ""}
           </h1>
-          <p className="text-md text-gray-500 dark:text-gray-400 transition-colors duration-300 mt-1">
-            {t("dashboard:home.overview", "Here's a quick overview of your activity.")}
+          <p className="mt-2 max-w-xl text-[15px] text-[#64748B] dark:text-gray-400">
+            {t(
+              "dashboard.dashboardStats.summary",
+              "Here is a summary of your Rafraf account activity."
+            )}
           </p>
         </div>
+        <Link
+          href="/dashboard/cars/add"
+          className="inline-flex h-12 shrink-0 items-center justify-center gap-2 bg-[#2563EB] px-6 text-sm font-semibold text-white transition hover:bg-[#1D4ED8]"
+        >
+          <FaPaw className="h-4 w-4" />
+          {t("dashboard.dashboardStats.listPet", "List a Pet")}
+        </Link>
       </div>
-      {error && <p className="text-red-500">{error}</p>}
+
+      {error && (
+        <div className="border-l-2 border-red-500 bg-red-50 px-4 py-3 text-sm text-red-700 dark:bg-red-950/40 dark:text-red-300">
+          {error}
+        </div>
+      )}
 
       <DashboardStats user={user} />
 
       {loading ? (
-        <div className="flex items-center justify-center py-12">
-          <div className="w-8 h-8 border-4 border-blue-600/20 border-t-blue-600 rounded-full animate-spin" />
+        <div className="flex items-center justify-center py-16">
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-[#2563EB]/20 border-t-[#2563EB]" />
         </div>
       ) : (
         <>
-          <DashboardCharts
-            recentCars={recentCars}
-            chatsCountByDay={chatsCountByDay}
-          />
+          <DashboardCharts recentCars={recentCars} chatsCountByDay={chatsCountByDay} />
 
-          <div className="grid lg:grid-cols-3 gap-4">
-            <div className="lg:col-span-2 space-y-4">
+          <div className="grid min-w-0 items-stretch gap-4 lg:grid-cols-3 lg:gap-5">
+            <div className="flex min-w-0 lg:col-span-2">
               <RecentCars cars={recentCars} />
             </div>
-            <div className="space-y-4">
+            <div className="flex min-w-0 flex-col gap-4">
               <RecentChats chats={recentChats} />
               <NotificationsWidget />
-              <QuickActions />
             </div>
           </div>
         </>

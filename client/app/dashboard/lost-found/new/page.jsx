@@ -1,177 +1,362 @@
 "use client";
-import React, { useState } from "react";
+
+import React, { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { FaPaw, FaMapMarkerAlt, FaCalendarAlt, FaCamera, FaInfoCircle, FaPhoneAlt, FaEnvelope } from "react-icons/fa";
+import Link from "next/link";
+import Image from "next/image";
+import { UploadCloud, X, MapPin, Calendar, Phone, Mail } from "lucide-react";
 import { createLostFound } from "../../../../services/lostFoundService";
 import { useAuth } from "../../../../lib/auth/AuthContext";
 import { useLanguage } from "../../../../lib/i18n/LanguageContext";
-import Image from "next/image";
+import CustomSelect from "../../../../components/website/CustomSelect";
+
+const labelClass =
+  "mb-1.5 block text-sm font-semibold text-[#0F172A] dark:text-gray-200";
+const inputClass =
+  "h-[50px] w-full rounded-xl border border-[#E2E8F0] bg-white px-3.5 text-[15px] font-medium text-[#0F172A] outline-none transition placeholder:text-[#94A3B8] focus:border-[#2563EB] dark:border-[#494952] dark:bg-[#303030] dark:text-[#e2e7e3] dark:placeholder:text-white/40";
+const primaryBtn =
+  "inline-flex h-11 items-center justify-center gap-2 bg-[#2563EB] px-6 text-sm font-bold text-white transition hover:bg-[#1D4ED8] disabled:opacity-60";
+const ghostBtn =
+  "inline-flex h-11 items-center justify-center px-4 text-sm font-semibold text-[#64748B] transition hover:text-[#0F172A] dark:hover:text-white";
 
 export default function NewLostFoundPage() {
-    const { t } = useLanguage();
-    const router = useRouter();
-    const { getToken } = useAuth();
-    const [loading, setLoading] = useState(false);
-    const [images, setImages] = useState([]);
-    const [imagePreviews, setImagePreviews] = useState([]);
+  const { t } = useLanguage();
+  const router = useRouter();
+  const { getToken } = useAuth();
+  const getTokenRef = useRef(getToken);
+  getTokenRef.current = getToken;
 
-    const [formData, setFormData] = useState({
-        type: "Lost",
-        title: "",
-        description: "",
-        species: "Pies",
-        breed: "",
-        gender: "Unknown",
-        color: "",
-        location: "", // String to be converted
-        dateLostOrFound: new Date().toISOString().split('T')[0],
-        contactPhone: "",
-        contactEmail: "",
-    });
+  const [loading, setLoading] = useState(false);
+  const [images, setImages] = useState([]);
+  const [imagePreviews, setImagePreviews] = useState([]);
 
-    const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+  const [formData, setFormData] = useState({
+    type: "Lost",
+    title: "",
+    description: "",
+    species: "Dog",
+    breed: "",
+    gender: "Unknown",
+    color: "",
+    location: "",
+    dateLostOrFound: new Date().toISOString().split("T")[0],
+    contactPhone: "",
+    contactEmail: "",
+  });
 
-    const handleImageChange = (e) => {
-        const files = Array.from(e.target.files);
-        setImages((prev) => [...prev, ...files]);
+  const speciesOptions = [
+    { value: "Dog", label: t("dashboard:reportPet.dog", "Dog") },
+    { value: "Cat", label: t("dashboard:reportPet.cat", "Cat") },
+    { value: "Bird", label: t("dashboard:reportPet.bird", "Bird") },
+    { value: "Other", label: t("dashboard:reportPet.other", "Other") },
+  ];
 
-        const previews = files.map(file => URL.createObjectURL(file));
-        setImagePreviews((prev) => [...prev, ...previews]);
-    };
+  const genderOptions = [
+    { value: "Male", label: t("dashboard:reportPet.male", "Male") },
+    { value: "Female", label: t("dashboard:reportPet.female", "Female") },
+    { value: "Unknown", label: t("dashboard:reportPet.unknown", "Unknown") },
+  ];
 
-    const removeImage = (index) => {
-        setImages(images.filter((_, i) => i !== index));
-        setImagePreviews(imagePreviews.filter((_, i) => i !== index));
-    };
+  const handleChange = (e) =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setLoading(true);
-        try {
-            const data = new FormData();
-            Object.keys(formData).forEach(key => {
-                if (key === 'location') {
-                    // For simplicity, just use a dummy point, or geocode if possible.
-                    data.append('location', JSON.stringify({ type: "Point", coordinates: [21.01178, 52.22977], city: formData.location }));
-                } else {
-                    data.append(key, formData[key]);
-                }
-            });
-            images.forEach(img => data.append('images', img));
+  const handleImageChange = (e) => {
+    const files = Array.from(e.target.files || []);
+    setImages((prev) => [...prev, ...files]);
+    const previews = files.map((file) => URL.createObjectURL(file));
+    setImagePreviews((prev) => [...prev, ...previews]);
+  };
 
-            await createLostFound(data, getToken);
-            router.push('/dashboard/lost-found');
-        } catch (error) {
-            console.error("Error creating report:", error);
-            alert("Failed to create report. Please try again.");
-        } finally {
-            setLoading(false);
+  const removeImage = (index) => {
+    setImages(images.filter((_, i) => i !== index));
+    setImagePreviews(imagePreviews.filter((_, i) => i !== index));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const data = new FormData();
+      Object.keys(formData).forEach((key) => {
+        if (key === "location") {
+          data.append(
+            "location",
+            JSON.stringify({
+              type: "Point",
+              coordinates: [21.01178, 52.22977],
+              city: formData.location,
+            })
+          );
+        } else {
+          data.append(key, formData[key]);
         }
-    };
+      });
+      images.forEach((img) => data.append("images", img));
 
-    return (
-        <div className="max-w-4xl mx-auto p-4 sm:p-6 py-8">
-            <h1 className="text-3xl font-black text-gray-900 dark:text-white mb-8">{t("dashboard:reportPet.title", "Report a Pet")}</h1>
+      await createLostFound(data, getTokenRef.current);
+      router.push("/dashboard/lost-found");
+    } catch (error) {
+      console.error("Error creating report:", error);
+      alert("Failed to create report. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-            <form onSubmit={handleSubmit} className="bg-white dark:bg-dark-card rounded-2xl shadow-sm border border-gray-100 dark:border-dark-divider p-6 sm:p-8 space-y-8">
+  return (
+    <div className="marketing-ui mx-auto max-w-3xl p-4 sm:p-6 lg:p-8">
+      <div className="mb-6">
+        <h1 className="font-display text-2xl font-bold tracking-tight text-[#0F172A] dark:text-white md:text-[1.75rem]">
+          {t("dashboard:reportPet.title", "Report a Pet")}
+        </h1>
+        <p className="mt-1.5 text-sm text-[#64748B] dark:text-gray-400">
+          {t(
+            "dashboard:reportPet.subtitle",
+            "Share details so the community can help reunite pets faster."
+          )}
+        </p>
+      </div>
 
-                {/* Type Selection */}
-                <div>
-                    <label className="block text-md font-semibold text-gray-700 dark:text-gray-300 mb-3">{t("dashboard:reportPet.whatReporting", "What are you reporting?")}</label>
-                    <div className="flex gap-4">
-                        <label className={`flex-1 cursor-pointer rounded-xl border-2 p-4 flex items-center gap-3 transition-all ${formData.type === 'Lost' ? 'border-red-500 bg-red-50 dark:bg-red-900/10' : 'border-gray-200 dark:border-dark-divider'}`}>
-                            <input type="radio" name="type" value="Lost" checked={formData.type === 'Lost'} onChange={handleChange} className="hidden" />
-                            <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${formData.type === 'Lost' ? 'border-red-500' : 'border-gray-300'}`}>
-                                {formData.type === 'Lost' && <div className="w-2.5 h-2.5 bg-red-500 rounded-full" />}
-                            </div>
-                            <span className={`font-bold ${formData.type === 'Lost' ? 'text-red-700 dark:text-red-400' : 'text-gray-600 dark:text-gray-400'}`}>{t("dashboard:reportPet.lostPet", "I lost a pet")}</span>
-                        </label>
-                        <label className={`flex-1 cursor-pointer rounded-xl border-2 p-4 flex items-center gap-3 transition-all ${formData.type === 'Found' ? 'border-green-500 bg-green-50 dark:bg-green-900/10' : 'border-gray-200 dark:border-dark-divider'}`}>
-                            <input type="radio" name="type" value="Found" checked={formData.type === 'Found'} onChange={handleChange} className="hidden" />
-                            <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${formData.type === 'Found' ? 'border-green-500' : 'border-gray-300'}`}>
-                                {formData.type === 'Found' && <div className="w-2.5 h-2.5 bg-green-500 rounded-full" />}
-                            </div>
-                            <span className={`font-bold ${formData.type === 'Found' ? 'text-green-700 dark:text-green-400' : 'text-gray-600 dark:text-gray-400'}`}>{t("dashboard:reportPet.foundPet", "I found a pet")}</span>
-                        </label>
-                    </div>
+      <form
+        onSubmit={handleSubmit}
+        className="border border-[#E2E8F0] bg-white dark:border-dark-divider dark:bg-dark-card"
+      >
+        <div className="space-y-6 px-5 py-6 sm:px-8 sm:py-7">
+          <div>
+            <p className={labelClass}>
+              {t("dashboard:reportPet.whatReporting", "What are you reporting?")}
+            </p>
+            <div className="mt-1.5 grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <button
+                type="button"
+                onClick={() => setFormData({ ...formData, type: "Lost" })}
+                className={`border px-4 py-4 text-left transition ${
+                  formData.type === "Lost"
+                    ? "border-red-500 bg-red-50 dark:bg-red-950/30"
+                    : "border-[#E2E8F0] hover:border-[#CBD5E1] dark:border-dark-divider"
+                }`}
+              >
+                <span
+                  className={`text-sm font-bold ${
+                    formData.type === "Lost"
+                      ? "text-red-700 dark:text-red-300"
+                      : "text-[#64748B]"
+                  }`}
+                >
+                  {t("dashboard:reportPet.lostPet", "I lost a pet")}
+                </span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setFormData({ ...formData, type: "Found" })}
+                className={`border px-4 py-4 text-left transition ${
+                  formData.type === "Found"
+                    ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/30"
+                    : "border-[#E2E8F0] hover:border-[#CBD5E1] dark:border-dark-divider"
+                }`}
+              >
+                <span
+                  className={`text-sm font-bold ${
+                    formData.type === "Found"
+                      ? "text-emerald-700 dark:text-emerald-300"
+                      : "text-[#64748B]"
+                  }`}
+                >
+                  {t("dashboard:reportPet.foundPet", "I found a pet")}
+                </span>
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <label className={labelClass}>
+              {t("dashboard:reportPet.titleLabel", "Title")}
+            </label>
+            <input
+              required
+              type="text"
+              name="title"
+              value={formData.title}
+              onChange={handleChange}
+              placeholder={t(
+                "dashboard:reportPet.titlePlaceholder",
+                "e.g. Small white poodle found near City Center"
+              )}
+              className={inputClass}
+            />
+          </div>
+
+          <div>
+            <label className={labelClass}>
+              {t("dashboard:reportPet.descriptionLabel", "Description")}
+            </label>
+            <textarea
+              required
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              rows={4}
+              placeholder={t(
+                "dashboard:reportPet.descriptionPlaceholder",
+                "Provide details about the pet, collar, behaviors, exact location..."
+              )}
+              className={`${inputClass} !h-auto min-h-[110px] py-3`}
+            />
+          </div>
+
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div>
+              <label className={labelClass}>
+                {t("dashboard:reportPet.species", "Species")}
+              </label>
+              <div className="mt-0">
+                <CustomSelect
+                  variant="filter"
+                  tone="light"
+                  value={formData.species}
+                  onChange={(v) => setFormData({ ...formData, species: v })}
+                  options={speciesOptions}
+                  ariaLabel={t("dashboard:reportPet.species", "Species")}
+                />
+              </div>
+            </div>
+            <div>
+              <label className={labelClass}>
+                {t("dashboard:reportPet.gender", "Gender")}
+              </label>
+              <div className="mt-0">
+                <CustomSelect
+                  variant="filter"
+                  tone="light"
+                  value={formData.gender}
+                  onChange={(v) => setFormData({ ...formData, gender: v })}
+                  options={genderOptions}
+                  ariaLabel={t("dashboard:reportPet.gender", "Gender")}
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div>
+              <label className={labelClass}>
+                <span className="inline-flex items-center gap-1.5">
+                  <MapPin className="h-3.5 w-3.5 text-[#2563EB]" />
+                  {t("dashboard:reportPet.location", "Location (City/Area)")}
+                </span>
+              </label>
+              <input
+                required
+                type="text"
+                name="location"
+                value={formData.location}
+                onChange={handleChange}
+                placeholder={t(
+                  "dashboard:reportPet.locationPlaceholder",
+                  "e.g. Warsaw, Mokotów"
+                )}
+                className={inputClass}
+              />
+            </div>
+            <div>
+              <label className={labelClass}>
+                <span className="inline-flex items-center gap-1.5">
+                  <Calendar className="h-3.5 w-3.5 text-[#2563EB]" />
+                  {t("dashboard:reportPet.date", "Date")}
+                </span>
+              </label>
+              <input
+                required
+                type="date"
+                name="dateLostOrFound"
+                value={formData.dateLostOrFound}
+                onChange={handleChange}
+                className={inputClass}
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 gap-4 border-t border-[#E2E8F0] pt-6 dark:border-dark-divider sm:grid-cols-2">
+            <div>
+              <label className={labelClass}>
+                <span className="inline-flex items-center gap-1.5">
+                  <Phone className="h-3.5 w-3.5 text-[#2563EB]" />
+                  {t("dashboard:reportPet.contactPhone", "Contact Phone")}
+                </span>
+              </label>
+              <input
+                type="tel"
+                name="contactPhone"
+                value={formData.contactPhone}
+                onChange={handleChange}
+                placeholder="e.g. +48 123 456 789"
+                className={inputClass}
+              />
+            </div>
+            <div>
+              <label className={labelClass}>
+                <span className="inline-flex items-center gap-1.5">
+                  <Mail className="h-3.5 w-3.5 text-[#2563EB]" />
+                  {t("dashboard:reportPet.contactEmail", "Contact Email")}
+                </span>
+              </label>
+              <input
+                type="email"
+                name="contactEmail"
+                value={formData.contactEmail}
+                onChange={handleChange}
+                placeholder="your@email.com"
+                className={inputClass}
+              />
+            </div>
+          </div>
+
+          <div className="border-t border-[#E2E8F0] pt-6 dark:border-dark-divider">
+            <p className={labelClass}>{t("dashboard:reportPet.photos", "Photos")}</p>
+            <div className="mt-1.5 grid grid-cols-2 gap-3 sm:grid-cols-4">
+              <label className="flex aspect-square cursor-pointer flex-col items-center justify-center border-2 border-dashed border-[#2563EB]/40 bg-[#EEF2FF] text-[#2563EB] transition hover:border-[#2563EB] hover:bg-[#DBEAFE] dark:bg-[#2563EB]/10">
+                <UploadCloud className="mb-2 h-7 w-7" />
+                <span className="px-2 text-center text-xs font-semibold">
+                  {t("dashboard:reportPet.addPhoto", "Add Photo")}
+                </span>
+                <input
+                  type="file"
+                  multiple
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  className="hidden"
+                />
+              </label>
+              {imagePreviews.map((src, i) => (
+                <div
+                  key={i}
+                  className="group relative aspect-square overflow-hidden border border-[#E2E8F0] dark:border-dark-divider"
+                >
+                  <Image src={src} alt={`Preview ${i + 1}`} fill className="object-cover" />
+                  <button
+                    type="button"
+                    onClick={() => removeImage(i)}
+                    className="absolute right-2 top-2 bg-[#0F172A]/70 p-1.5 text-white transition"
+                  >
+                    <X className="h-3.5 w-3.5" />
+                  </button>
                 </div>
-
-                <div className="space-y-4">
-                    <div>
-                        <label className="block text-md font-semibold text-gray-700 dark:text-gray-300 mb-2">{t("dashboard:reportPet.titleLabel", "Title")}</label>
-                        <input required type="text" name="title" value={formData.title} onChange={handleChange} placeholder={t("dashboard:reportPet.titlePlaceholder", "e.g. Small white poodle found near City Center")} className="w-full bg-gray-50 dark:bg-dark-main border border-gray-200 dark:border-dark-divider rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white" />
-                    </div>
-                    <div>
-                        <label className="block text-md font-semibold text-gray-700 dark:text-gray-300 mb-2">{t("dashboard:reportPet.descriptionLabel", "Description")}</label>
-                        <textarea required name="description" value={formData.description} onChange={handleChange} rows={4} placeholder={t("dashboard:reportPet.descriptionPlaceholder", "Provide details about the pet, collar, behaviors, exact location...")} className="w-full bg-gray-50 dark:bg-dark-main border border-gray-200 dark:border-dark-divider rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white" />
-                    </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <label className="block text-md font-semibold text-gray-700 dark:text-gray-300 mb-2">{t("dashboard:reportPet.species", "Species")}</label>
-                        <select name="species" value={formData.species} onChange={handleChange} className="w-full bg-gray-50 dark:bg-dark-main border border-gray-200 dark:border-dark-divider rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white">
-                            <option value="Dog">{t("dashboard:reportPet.dog", "Dog")}</option>
-                            <option value="Cat">{t("dashboard:reportPet.cat", "Cat")}</option>
-                            <option value="Bird">{t("dashboard:reportPet.bird", "Bird")}</option>
-                            <option value="Other">{t("dashboard:reportPet.other", "Other")}</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label className="block text-md font-semibold text-gray-700 dark:text-gray-300 mb-2">{t("dashboard:reportPet.gender", "Gender")}</label>
-                        <select name="gender" value={formData.gender} onChange={handleChange} className="w-full bg-gray-50 dark:bg-dark-main border border-gray-200 dark:border-dark-divider rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white">
-                            <option value="Male">{t("dashboard:reportPet.male", "Male")}</option>
-                            <option value="Female">{t("dashboard:reportPet.female", "Female")}</option>
-                            <option value="Unknown">{t("dashboard:reportPet.unknown", "Unknown")}</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <label className="block text-md font-semibold text-gray-700 dark:text-gray-300 mb-2"><FaMapMarkerAlt className="inline mr-2" />{t("dashboard:reportPet.location", "Location (City/Area)")}</label>
-                        <input required type="text" name="location" value={formData.location} onChange={handleChange} placeholder={t("dashboard:reportPet.locationPlaceholder", "e.g. Warsaw, Mokotów")} className="w-full bg-gray-50 dark:bg-dark-main border border-gray-200 dark:border-dark-divider rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white" />
-                    </div>
-                    <div>
-                        <label className="block text-md font-semibold text-gray-700 dark:text-gray-300 mb-2"><FaCalendarAlt className="inline mr-2" />{t("dashboard:reportPet.date", "Date")}</label>
-                        <input required type="date" name="dateLostOrFound" value={formData.dateLostOrFound} onChange={handleChange} className="w-full bg-gray-50 dark:bg-dark-main border border-gray-200 dark:border-dark-divider rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white" />
-                    </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-gray-100 dark:border-dark-divider pt-6">
-                    <div>
-                        <label className="block text-md font-semibold text-gray-700 dark:text-gray-300 mb-2"><FaPhoneAlt className="inline mr-2" />{t("dashboard:reportPet.contactPhone", "Contact Phone")}</label>
-                        <input type="tel" name="contactPhone" value={formData.contactPhone} onChange={handleChange} placeholder="e.g. +48 123 456 789" className="w-full bg-gray-50 dark:bg-dark-main border border-gray-200 dark:border-dark-divider rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white" />
-                    </div>
-                    <div>
-                        <label className="block text-md font-semibold text-gray-700 dark:text-gray-300 mb-2"><FaEnvelope className="inline mr-2" />{t("dashboard:reportPet.contactEmail", "Contact Email")}</label>
-                        <input type="email" name="contactEmail" value={formData.contactEmail} onChange={handleChange} placeholder="your@email.com" className="w-full bg-gray-50 dark:bg-dark-main border border-gray-200 dark:border-dark-divider rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-white" />
-                    </div>
-                </div>
-
-                <div className="border-t border-gray-100 dark:border-dark-divider pt-6">
-                    <label className="block text-md font-semibold text-gray-700 dark:text-gray-300 mb-2"><FaCamera className="inline mr-2" />{t("dashboard:reportPet.photos", "Photos")}</label>
-                    <div className="flex flex-wrap gap-4 mb-4">
-                        {imagePreviews.map((src, i) => (
-                            <div key={i} className="relative w-24 h-24 rounded-xl overflow-hidden border border-gray-200 dark:border-dark-divider">
-                                <Image src={src} alt="Preview" fill className="object-cover" />
-                                <button type="button" onClick={() => removeImage(i)} className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm">x</button>
-                            </div>
-                        ))}
-                        <label className="w-24 h-24 rounded-xl border-2 border-dashed border-gray-300 dark:border-dark-divider flex flex-col items-center justify-center text-gray-500 hover:bg-gray-50 dark:hover:bg-dark-card cursor-pointer transition-colors">
-                            <span className="text-2xl">+</span>
-                            <span className="text-sm">{t("dashboard:reportPet.addPhoto", "Add Photo")}</span>
-                            <input type="file" multiple accept="image/*" onChange={handleImageChange} className="hidden" />
-                        </label>
-                    </div>
-                </div>
-
-                <div className="flex justify-end pt-4">
-                    <button type="submit" disabled={loading} className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-xl transition-all shadow-lg shadow-blue-500/30 flex items-center gap-2">
-                        {loading ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div> : t("dashboard:reportPet.submit", "Submit Report")}
-                    </button>
-                </div>
-            </form>
+              ))}
+            </div>
+          </div>
         </div>
-    );
+
+        <div className="flex items-center justify-between border-t border-[#E2E8F0] px-5 py-4 dark:border-dark-divider sm:px-8">
+          <Link href="/dashboard/lost-found" className={ghostBtn}>
+            {t("dashboard:addPet.cancel", "Cancel")}
+          </Link>
+          <button type="submit" disabled={loading} className={primaryBtn}>
+            {loading
+              ? t("dashboard:reportPet.submitting", "Submitting...")
+              : t("dashboard:reportPet.submit", "Submit Report")}
+          </button>
+        </div>
+      </form>
+    </div>
+  );
 }

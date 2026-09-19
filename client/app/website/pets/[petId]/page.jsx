@@ -78,7 +78,7 @@ export default function PetDetailPage() {
     (async () => {
       try {
         const demo = getDemoPetById(petId);
-        const data = demo || await getPetById(petId);
+        const data = demo || await getPetById(petId, getAuthToken);
         const len = Array.isArray(data?.images) ? data.images.length : 0;
         const pending = peekImageIndex(petId);
         const startIdx =

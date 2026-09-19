@@ -1,7 +1,7 @@
 // backend/routes/pet.js
 const express = require("express");
 const { Pet } = require("../models");
-const { auth, getAuth } = require("../middlewares/auth");
+const { auth, getAuth, optionalAuth } = require("../middlewares/auth");
 const router = express.Router();
 const petController = require("../controllers/pet");
 const {
@@ -19,7 +19,7 @@ router.use((req, res, next) => {
 router.get("/search", petController.searchPets);
 router.get("/recommended/:petId", petController.getRecommendedPets);
 router.get("/", petController.getAllPets);
-router.get("/:petId", petController.getPetById);
+router.get("/:petId", optionalAuth, petController.getPetById);
 
 // @Admin Routes - NO AUTH REQUIRED FOR ADMIN PANEL
 // Get pet statistics for admin dashboard

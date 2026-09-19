@@ -18,12 +18,20 @@ export default function CustomSelect({
   tone = "light",
 }) {
   const { open, mounted, closing, hide, toggle } = useAnimatedOpen(200);
-  const [menuPos, setMenuPos] = useState({ top: 0, left: 0, width: 0, maxHeight: 280 });
+  const [menuPos, setMenuPos] = useState({
+    top: 0,
+    bottom: null,
+    left: 0,
+    width: 0,
+    maxHeight: 280,
+    openUp: false,
+  });
   const wrapRef = useRef(null);
   const menuRef = useRef(null);
   const isFilter = variant === "filter";
   const isDark = isFilter && tone === "dark";
-  const selected = options.find((opt) => opt.value === value) || options[0];
+  const list = Array.isArray(options) ? options : [];
+  const selected = list.find((opt) => opt.value === value) || list[0];
 
   const updatePos = () => {
     const el = wrapRef.current;
@@ -31,28 +39,51 @@ export default function CustomSelect({
     const rect = el.getBoundingClientRect();
     const width = Math.max(rect.width, 160);
     const maxH = 280;
+    const estimatedH = Math.min(maxH, Math.max(48, list.length * 44 + 8));
     const spaceBelow = window.innerHeight - rect.bottom - 12;
     const spaceAbove = rect.top - 12;
-    const openUp = spaceBelow < 160 && spaceAbove > spaceBelow;
+    const openUp = spaceBelow < estimatedH && spaceAbove > spaceBelow;
     const height = Math.min(maxH, openUp ? spaceAbove : spaceBelow);
+
     setMenuPos({
-      top: openUp ? Math.max(8, rect.top - height - 6) : rect.bottom + 6,
-      left: Math.min(rect.left, window.innerWidth - width - 8),
+      top: openUp ? null : rect.bottom + 6,
+      bottom: openUp ? window.innerHeight - rect.top + 6 : null,
+      left: Math.min(Math.max(8, rect.left), window.innerWidth - width - 8),
       width,
       maxHeight: Math.max(120, height),
+      openUp,
     });
   };
 
   useLayoutEffect(() => {
     if (!mounted) return;
     updatePos();
+    const t = requestAnimationFrame(() => {
+      const menuEl = menuRef.current;
+      const trigger = wrapRef.current;
+      if (!menuEl || !trigger) return;
+      const triggerRect = trigger.getBoundingClientRect();
+      const spaceBelow = window.innerHeight - triggerRect.bottom - 12;
+      const estimatedH = Math.min(280, Math.max(48, list.length * 44 + 8));
+      const shouldOpenUp = spaceBelow < estimatedH && triggerRect.top - 12 > spaceBelow;
+      if (!shouldOpenUp) return;
+      const maxH = Math.min(280, triggerRect.top - 12);
+      setMenuPos((prev) => ({
+        ...prev,
+        openUp: true,
+        top: null,
+        bottom: window.innerHeight - triggerRect.top + 6,
+        maxHeight: Math.min(Math.max(menuEl.scrollHeight, 48), maxH),
+      }));
+    });
     window.addEventListener("scroll", updatePos, true);
     window.addEventListener("resize", updatePos);
     return () => {
+      cancelAnimationFrame(t);
       window.removeEventListener("scroll", updatePos, true);
       window.removeEventListener("resize", updatePos);
     };
-  }, [mounted]);
+  }, [mounted, list.length]);
 
   useEffect(() => {
     if (disabled) hide();
@@ -82,7 +113,8 @@ export default function CustomSelect({
       role="listbox"
       style={{
         position: "fixed",
-        top: menuPos.top,
+        top: menuPos.openUp ? "auto" : menuPos.top,
+        bottom: menuPos.openUp ? menuPos.bottom : "auto",
         left: menuPos.left,
         width: menuPos.width,
         maxHeight: menuPos.maxHeight,
@@ -91,7 +123,7 @@ export default function CustomSelect({
       }}
       onPointerDown={(event) => event.stopPropagation()}
     >
-      {options.map((opt) => (
+      {list.map((opt) => (
         <button
           key={opt.value || "empty"}
           type="button"
