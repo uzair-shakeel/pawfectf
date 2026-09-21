@@ -10,6 +10,11 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useLanguage } from "../../../lib/i18n/LanguageContext";
 import { mergeWithDemoPets } from "../../../lib/demoPets";
 import { LayoutGrid, List, X, PawPrint, Search } from "lucide-react";
+import {
+  petsListCacheKey,
+  readPetsListCache,
+  writePetsListCache,
+} from "../../../lib/petImageTransition/petsListCache";
 
 // URL params that are surfaced as removable chips above the results grid.
 const CHIP_PARAMS = [
@@ -114,15 +119,29 @@ const PetsContent = () => {
   // Fetch pets
   useEffect(() => {
     const fetchData = async () => {
-      setIsLoading(true);
+      const filters = getFiltersFromUrl();
+      filters.limit = 1000;
+      filters.page = 1;
+      const payload = Object.fromEntries(
+        Object.entries(filters).filter(
+          ([, v]) => v !== undefined && v !== "" && !Number.isNaN(v)
+        )
+      );
+      const cacheKey = petsListCacheKey(payload);
+      const cached = readPetsListCache(cacheKey);
+      if (cached) {
+        setAllPets(cached.pets);
+        setTotalItems(cached.totalItems);
+        setIsLoading(false);
+      } else {
+        setIsLoading(true);
+      }
       setError(null);
       try {
-        const filters = getFiltersFromUrl();
-        filters.limit = 1000;
-        filters.page = 1;
-        const payload = Object.fromEntries(Object.entries(filters).filter(([, v]) => v !== undefined && v !== "" && !Number.isNaN(v)));
         const response = await searchPets(payload);
-        let fetched = Array.isArray(response) ? response : (response?.pets ?? response?.cars ?? []);
+        let fetched = Array.isArray(response)
+          ? response
+          : (response?.pets ?? response?.cars ?? []);
         fetched = mergeWithDemoPets(fetched);
 
         // Client-side filtering (fallback in case backend doesn't filter properly)
@@ -150,6 +169,7 @@ const PetsContent = () => {
         if (filters.gender) fetched = fetched.filter(p => p.gender === filters.gender);
         if (filters.location) fetched = fetched.filter((p) => petMatchesLocation(p, filters.location));
 
+        writePetsListCache(cacheKey, fetched, fetched.length);
         setAllPets(fetched);
         setTotalItems(fetched.length);
       } catch (err) {
@@ -157,6 +177,7 @@ const PetsContent = () => {
         const filters = getFiltersFromUrl();
         let demo = mergeWithDemoPets([]);
         if (filters.location) demo = demo.filter((p) => petMatchesLocation(p, filters.location));
+        writePetsListCache(cacheKey, demo, demo.length);
         setAllPets(demo);
         setPets(demo);
         setTotalItems(demo.length);

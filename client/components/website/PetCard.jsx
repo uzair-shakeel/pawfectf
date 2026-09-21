@@ -100,7 +100,7 @@ export default function PetCard({ pet, viewMode = "grid" }) {
       });
 
       if (started && event?.preventDefault) event.preventDefault();
-      router.push(href);
+      router.push(href, { scroll: true });
     },
     [firstImage, href, pet?._id, router, startTransition]
   );
@@ -119,6 +119,7 @@ export default function PetCard({ pet, viewMode = "grid" }) {
           <div
             ref={imageWrapRef}
             className="relative h-[280px] md:h-52 lg:h-[240px] overflow-hidden rounded-2xl [&_[data-pet-morph-source]]:opacity-0"
+            data-pet-card-id={pet?._id || undefined}
           >
             {pet?.isFeatured && (pet?.images?.length ?? 0) >= 3 ? (
               <div className="grid grid-cols-2 grid-rows-2 h-full gap-0.5">

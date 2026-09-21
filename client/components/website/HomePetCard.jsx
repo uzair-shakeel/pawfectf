@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ChevronLeft, ChevronRight, MapPin } from "lucide-react";
 import { optimizeCloudinaryUrl } from "../../lib/imageUtils";
+import { usePetImageTransition } from "../../lib/petImageTransition/PetImageTransitionContext";
 
 const API_BASE = (process.env.NEXT_PUBLIC_API_BASE_URL || "").replace(/\/$/, "");
 const FALLBACK = "/home/hero-dog.jpg";
@@ -33,7 +34,7 @@ const ageLabel = (ageMonths) => {
   return "Starszy";
 };
 
-function CardImage({ src, alt, sizes }) {
+function CardImage({ src, alt, sizes, priority = false }) {
   const [imgSrc, setImgSrc] = useState(src);
 
   useEffect(() => {
@@ -45,9 +46,10 @@ function CardImage({ src, alt, sizes }) {
       src={imgSrc}
       alt={alt}
       fill
-      loading="lazy"
+      priority={priority}
+      loading={priority ? "eager" : "lazy"}
       sizes={sizes}
-      className="object-cover transition-transform duration-500 group-hover:scale-105"
+      className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
       onError={() => {
         if (imgSrc !== FALLBACK) setImgSrc(FALLBACK);
       }}
@@ -55,20 +57,38 @@ function CardImage({ src, alt, sizes }) {
   );
 }
 
-function CardImageSlider({ photos, name, badge, sizes = "(max-width: 768px) 100vw, 25vw", className = "h-72" }) {
-  const [index, setIndex] = useState(0);
+function CardImageSlider({
+  photos,
+  name,
+  badge,
+  sizes = "(max-width: 768px) 100vw, 25vw",
+  className = "h-72",
+  imageIndex,
+  onIndexChange,
+}) {
   const count = photos.length;
   const hasSlider = count > 1;
+  const index = Math.min(Math.max(0, imageIndex || 0), Math.max(0, count - 1));
 
   const go = (dir, e) => {
     e.preventDefault();
     e.stopPropagation();
-    setIndex((i) => (i + dir + count) % count);
+    if (!onIndexChange || !count) return;
+    onIndexChange((index + dir + count) % count);
   };
 
   return (
-    <div className={`relative overflow-hidden ${className}`}>
-      <CardImage src={photos[index] || photos[0]} alt={`${name} ${index + 1}`} sizes={sizes} />
+    <div
+      data-pet-tile
+      data-pet-tile-index={String(index)}
+      className={`relative overflow-hidden [&_[data-pet-morph-source]]:opacity-0 ${className}`}
+    >
+      <CardImage
+        src={photos[index] || photos[0]}
+        alt={`${name} ${index + 1}`}
+        sizes={sizes}
+        priority
+      />
 
       {badge && (
         <span className="absolute left-3 top-3 z-10 bg-[#2563EB] px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-white">
@@ -82,7 +102,7 @@ function CardImageSlider({ photos, name, badge, sizes = "(max-width: 768px) 100v
             type="button"
             aria-label="Previous photo"
             onClick={(e) => go(-1, e)}
-            className="absolute left-2 top-1/2 z-10 flex h-8 w-8 -translate-y-1/2 items-center justify-center bg-[#0F172A]/65 text-white opacity-0 transition group-hover:opacity-100"
+            className="absolute left-2 top-1/2 z-20 flex h-8 w-8 -translate-y-1/2 items-center justify-center bg-black/45 text-white opacity-0 transition group-hover:opacity-100"
           >
             <ChevronLeft className="h-4 w-4" />
           </button>
@@ -90,32 +110,13 @@ function CardImageSlider({ photos, name, badge, sizes = "(max-width: 768px) 100v
             type="button"
             aria-label="Next photo"
             onClick={(e) => go(1, e)}
-            className="absolute right-2 top-1/2 z-10 flex h-8 w-8 -translate-y-1/2 items-center justify-center bg-[#0F172A]/65 text-white opacity-0 transition group-hover:opacity-100"
+            className="absolute right-2 top-1/2 z-20 flex h-8 w-8 -translate-y-1/2 items-center justify-center bg-black/45 text-white opacity-0 transition group-hover:opacity-100"
           >
             <ChevronRight className="h-4 w-4" />
           </button>
-
-          <div className="absolute bottom-2.5 left-1/2 z-10 flex -translate-x-1/2 items-center gap-1.5">
-            {photos.map((_, i) => (
-              <button
-                key={i}
-                type="button"
-                aria-label={`Photo ${i + 1}`}
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  setIndex(i);
-                }}
-                className={`h-1.5 rounded-full transition ${
-                  i === index ? "w-4 bg-white" : "w-1.5 bg-white/55"
-                }`}
-              />
-            ))}
-          </div>
-
-          <div className="absolute bottom-2.5 right-2.5 z-10 bg-[#0F172A]/65 px-1.5 py-0.5 text-[10px] font-semibold text-white">
-            {index + 1}/{count}
-          </div>
+          <span className="absolute bottom-2 right-2 z-20 bg-black/55 px-2 py-0.5 text-[10px] font-bold text-white">
+            {index + 1} / {count}
+          </span>
         </>
       )}
     </div>
@@ -123,7 +124,13 @@ function CardImageSlider({ photos, name, badge, sizes = "(max-width: 768px) 100v
 }
 
 export default function HomePetCard({ pet, viewMode = "grid" }) {
-  const href = pet?.href || `/website/pets/${pet._id || pet.id}`;
+  const router = useRouter();
+  const { startTransition } = usePetImageTransition();
+  const imageWrapRef = useRef(null);
+  const [slideIndex, setSlideIndex] = useState(0);
+
+  const petId = pet?._id || pet?.id;
+  const href = pet?.href || `/website/pets/${petId}`;
   const name = pet?.name || pet?.breed || pet?.species || "Zwierzak";
   const badge = pet?.customLabel || pet?.badge || (pet?.isUrgent ? "Pilne" : null);
   const meta = [
@@ -152,73 +159,109 @@ export default function HomePetCard({ pet, viewMode = "grid" }) {
     .filter(Boolean)
     .join(", ");
 
+  const handleNavigate = useCallback(
+    (event) => {
+      if (event?.defaultPrevented) return;
+      if (event && "button" in event && event.button !== 0) return;
+      if (event?.metaKey || event?.ctrlKey || event?.shiftKey || event?.altKey) {
+        return;
+      }
+      if (!petId || !href) return;
+
+      event?.preventDefault?.();
+
+      const canMorph = href.includes("/website/pets/");
+      if (canMorph && imageWrapRef.current) {
+        startTransition({
+          petId: String(petId),
+          href,
+          imageSrc: photos[slideIndex] || photos[0] || FALLBACK,
+          sourceEl: imageWrapRef.current,
+          clientX: event?.clientX,
+          clientY: event?.clientY,
+        });
+      }
+
+      router.push(href, { scroll: true });
+    },
+    [href, petId, photos, router, slideIndex, startTransition]
+  );
+
+  const cardBody = (
+    <>
+      <h3
+        className={`font-display font-bold leading-tight text-[#0F172A] dark:text-white ${
+          viewMode === "list" ? "text-2xl" : "text-[1.65rem]"
+        }`}
+      >
+        {name}
+      </h3>
+      {meta && (
+        <p className="mt-1.5 text-sm text-[#64748B] dark:text-gray-400">{meta}</p>
+      )}
+      {pet?.description && (
+        <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-[#64748B] dark:text-white/50">
+          {pet.description}
+        </p>
+      )}
+      {location && (
+        <p className="mt-2 flex items-center gap-1 text-sm text-[#64748B] dark:text-gray-400">
+          <MapPin className="h-3.5 w-3.5 shrink-0" />
+          <span className="truncate">{location}</span>
+        </p>
+      )}
+    </>
+  );
+
   if (viewMode === "list") {
     return (
-      <Link
-        href={href}
-        className="group flex overflow-hidden bg-white dark:bg-dark-card"
+      <div
+        role="button"
+        tabIndex={0}
+        onClick={handleNavigate}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") handleNavigate(e);
+        }}
+        className="group flex cursor-pointer overflow-hidden bg-white dark:bg-dark-card"
       >
-        <div className="relative h-36 w-36 shrink-0 overflow-hidden sm:h-44 sm:w-56">
+      <div ref={imageWrapRef} data-pet-card-id={petId || undefined} className="relative h-36 w-36 shrink-0 overflow-hidden sm:h-44 sm:w-56">
           <CardImageSlider
             photos={photos}
             name={name}
             badge={badge}
             sizes="224px"
             className="h-full w-full"
+            imageIndex={slideIndex}
+            onIndexChange={setSlideIndex}
           />
         </div>
         <div className="flex min-w-0 flex-1 flex-col justify-center px-5 py-4">
-          <h3 className="font-display text-2xl font-bold leading-tight text-[#0F172A] dark:text-white">
-            {name}
-          </h3>
-          {meta && (
-            <p className="mt-1.5 text-sm text-[#64748B] dark:text-gray-400">
-              {meta}
-            </p>
-          )}
-          {pet?.description && (
-            <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-[#64748B] dark:text-white/50">
-              {pet.description}
-            </p>
-          )}
-          {location && (
-            <p className="mt-2 flex items-center gap-1 text-sm text-[#64748B] dark:text-gray-400">
-              <MapPin className="h-3.5 w-3.5 shrink-0" />
-              <span className="truncate">{location}</span>
-            </p>
-          )}
+          {cardBody}
         </div>
-      </Link>
+      </div>
     );
   }
 
   return (
-    <Link
-      href={href}
-      className="group flex h-full flex-col bg-white dark:bg-dark-card"
+    <div
+      role="button"
+      tabIndex={0}
+      onClick={handleNavigate}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") handleNavigate(e);
+      }}
+      className="group flex h-full cursor-pointer flex-col bg-white dark:bg-dark-card"
     >
-      <CardImageSlider photos={photos} name={name} badge={badge} />
-      <div className="px-4 py-4">
-        <h3 className="font-display text-[1.65rem] font-bold leading-tight text-[#0F172A] dark:text-white">
-          {name}
-        </h3>
-        {meta && (
-          <p className="mt-1.5 text-sm text-[#64748B] dark:text-gray-400">
-            {meta}
-          </p>
-        )}
-        {pet?.description && (
-          <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-[#64748B] dark:text-white/50">
-            {pet.description}
-          </p>
-        )}
-        {location && (
-          <p className="mt-2 flex items-center gap-1 text-sm text-[#64748B] dark:text-gray-400">
-            <MapPin className="h-3.5 w-3.5 shrink-0" />
-            <span className="truncate">{location}</span>
-          </p>
-        )}
+      <div ref={imageWrapRef} data-pet-card-id={petId || undefined}>
+        <CardImageSlider
+          photos={photos}
+          name={name}
+          badge={badge}
+          imageIndex={slideIndex}
+          onIndexChange={setSlideIndex}
+        />
       </div>
-    </Link>
+      <div className="px-4 py-4">{cardBody}</div>
+    </div>
   );
 }

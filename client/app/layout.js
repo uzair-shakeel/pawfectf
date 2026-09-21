@@ -2,7 +2,7 @@ import { Nunito, Figtree } from "next/font/google";
 import "./globals.css";
 import Providers from "../components/Providers";
 import ErrorBoundary from "../components/ErrorBoundary";
-import ScrollToTop from "../components/ScrollToTop";
+import ScrollRestorer from "../components/ScrollRestorer";
 
 const nunito = Nunito({
   subsets: ["latin", "latin-ext"],
@@ -38,7 +38,7 @@ export default function RootLayout({ children }) {
       <body className={figtree.className}>
         <ErrorBoundary>
           <Providers>
-            <ScrollToTop />
+            <ScrollRestorer />
             {children}
           </Providers>
         </ErrorBoundary>

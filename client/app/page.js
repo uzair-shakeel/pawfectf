@@ -11,6 +11,14 @@ import LocationSearch from "../components/website/LocationSearch.jsx";
 import HomePetCard from "../components/website/HomePetCard.jsx";
 import { useLanguage } from "../lib/i18n/LanguageContext";
 import { mergeWithDemoPets, DEMO_PETS } from "../lib/demoPets";
+import {
+  readPetsListCache,
+  writePetsListCache,
+} from "../lib/petImageTransition/petsListCache";
+
+const HOME_PETS_KEY = "home:recentPets";
+const HOME_LOST_KEY = "home:recentLost";
+const HOME_FOOD_KEY = "home:foodDonation";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import {
@@ -72,9 +80,15 @@ function HomeContent() {
   const { t } = useLanguage();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [recentPets, setRecentPets] = useState([]);
-  const [recentLost, setRecentLost] = useState([]);
-  const [foodDonationPets, setFoodDonationPets] = useState([]);
+  const [recentPets, setRecentPets] = useState(
+    () => readPetsListCache(HOME_PETS_KEY)?.pets || []
+  );
+  const [recentLost, setRecentLost] = useState(
+    () => readPetsListCache(HOME_LOST_KEY)?.pets || []
+  );
+  const [foodDonationPets, setFoodDonationPets] = useState(
+    () => readPetsListCache(HOME_FOOD_KEY)?.pets || []
+  );
   const [searchSpecies, setSearchSpecies] = useState("");
   const [searchLocation, setSearchLocation] = useState("");
 
@@ -92,14 +106,22 @@ function HomeContent() {
             .then((pets) => {
               const adoptionPets = pets.filter((p) => p.type !== "food_donation");
               const foodPets = pets.filter((p) => p.type === "food_donation" && p.status === "Approved");
-              setRecentPets(mergeWithDemoPets(adoptionPets, 8));
-              setFoodDonationPets(foodPets.slice(0, 4));
+              const merged = mergeWithDemoPets(adoptionPets, 8);
+              const food = foodPets.slice(0, 4);
+              writePetsListCache(HOME_PETS_KEY, merged, merged.length);
+              writePetsListCache(HOME_FOOD_KEY, food, food.length);
+              setRecentPets(merged);
+              setFoodDonationPets(food);
             })
             .catch(() => setRecentPets(DEMO_PETS.slice(0, 8)))
         ),
         import("../services/lostFoundService").then(({ getAllLostFound }) =>
           getAllLostFound()
-            .then((entries) => setRecentLost(entries.slice(0, 3)))
+            .then((entries) => {
+              const lost = entries.slice(0, 3);
+              writePetsListCache(HOME_LOST_KEY, lost, lost.length);
+              setRecentLost(lost);
+            })
             .catch(() => {})
         ),
       ]);

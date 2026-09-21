@@ -53,6 +53,7 @@ export default function PetDetailPage() {
     isTransitioningFor,
     peekImageIndex,
     confirmHandoff,
+    startReturnTransition,
     phase: imageTransitionPhase,
   } = usePetImageTransition();
   const [pet, setPet] = useState(null);
@@ -165,14 +166,14 @@ export default function PetDetailPage() {
     };
 
     tryHandoff();
-    const t = setTimeout(tryHandoff, 80);
-    const t2 = setTimeout(tryHandoff, 250);
+    const t = setTimeout(tryHandoff, 40);
+    const t2 = setTimeout(tryHandoff, 120);
     const t3 = setTimeout(() => {
       if (!handoffDoneRef.current) {
         handoffDoneRef.current = true;
         confirmHandoff();
       }
-    }, 1200);
+    }, 600);
     return () => {
       clearTimeout(t);
       clearTimeout(t2);
@@ -471,7 +472,28 @@ export default function PetDetailPage() {
 
       <div className="mx-auto w-full max-w-[1520px] px-4 py-6 sm:px-8 lg:py-10">
         <button
-          onClick={() => router.back()}
+          type="button"
+          onClick={(e) => {
+            const isDesktop = window.matchMedia("(min-width: 768px)").matches;
+            const sourceEl = isDesktop
+              ? desktopMainImageRef.current
+              : mobileMainImageRef.current;
+            const img = sourceEl?.querySelector?.("img");
+            const imageSrc = img?.currentSrc || img?.src || images[activeImg];
+            const returnHref = startReturnTransition({
+              petId,
+              imageSrc,
+              sourceEl: sourceEl || img,
+            });
+            if (returnHref) {
+              e.preventDefault();
+              // Always push the known list path with scroll:false so reverse
+              // morph lands on the expected page (router.back can mismatch).
+              router.push(returnHref, { scroll: false });
+              return;
+            }
+            router.back();
+          }}
           className="mb-6 inline-flex items-center gap-1.5 text-[15px] font-semibold text-[#64748B] transition hover:text-[#2563EB]"
         >
           <ChevronLeft className="h-4 w-4" /> {t("petDetail.backToListings")}

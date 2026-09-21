@@ -5,6 +5,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -22,19 +23,31 @@ export const PetImageTransitionFlag = {
 
 function rectFromElement(el) {
   if (!el) return null;
-  const r = el.getBoundingClientRect();
-  if (r.width < 8 || r.height < 8) return null;
-  return {
-    top: r.top,
-    left: r.left,
-    width: r.width,
-    height: r.height,
-  };
+  try {
+    const r =
+      typeof el.getBoundingClientRect === "function"
+        ? el.getBoundingClientRect()
+        : el;
+    if (!r || r.width < 8 || r.height < 8) return null;
+    return {
+      top: r.top,
+      left: r.left,
+      width: r.width,
+      height: r.height,
+    };
+  } catch {
+    return null;
+  }
 }
 
 function readBorderRadius(el) {
   if (!el || typeof window === "undefined") return "1rem";
-  return window.getComputedStyle(el).borderRadius || "1rem";
+  try {
+    if (typeof el.getBoundingClientRect !== "function") return "0px";
+    return window.getComputedStyle(el).borderRadius || "1rem";
+  } catch {
+    return "0px";
+  }
 }
 
 function parseRadiusPx(value) {
@@ -44,30 +57,9 @@ function parseRadiusPx(value) {
   return parseFloat(first) || 0;
 }
 
-/**
- * Snapshot one already-painted <img> (Next/Image currentSrc / canvas).
- */
+/** Prefer live URL — canvas dataURLs stall the main thread and hitch the morph. */
 function snapshotReadyImg(img) {
-  if (!img || !(img.complete && img.naturalWidth > 0)) return null;
-
-  try {
-    const canvas = document.createElement("canvas");
-    const maxEdge = 1600;
-    const scale = Math.min(
-      1,
-      maxEdge / Math.max(img.naturalWidth, img.naturalHeight)
-    );
-    canvas.width = Math.max(1, Math.round(img.naturalWidth * scale));
-    canvas.height = Math.max(1, Math.round(img.naturalHeight * scale));
-    const ctx = canvas.getContext("2d");
-    if (ctx) {
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-      return canvas.toDataURL("image/jpeg", 0.88);
-    }
-  } catch {
-    // Cross-origin without CORS — fall through to URL
-  }
-
+  if (!img) return null;
   return img.currentSrc || img.src || null;
 }
 
@@ -85,10 +77,14 @@ function isPetPhotoImg(img) {
  * Returns { tileEl, img, imageIndex } so morph starts from that exact photo.
  */
 export function resolveTransitionSource(wrapperEl, clientX, clientY) {
-  if (!wrapperEl || typeof window === "undefined") return null;
+  if (!wrapperEl || typeof window === "undefined") {
+    return { tileEl: wrapperEl, img: null, imageIndex: 0 };
+  }
 
   const imgs = [...wrapperEl.querySelectorAll("img")].filter(isPetPhotoImg);
-  if (!imgs.length) return null;
+  if (!imgs.length) {
+    return { tileEl: wrapperEl, img: null, imageIndex: 0 };
+  }
 
   let hitImg = null;
   if (typeof clientX === "number" && typeof clientY === "number") {
@@ -106,7 +102,7 @@ export function resolveTransitionSource(wrapperEl, clientX, clientY) {
 
   const img = hitImg || imgs[0];
   const tileEl =
-    img.closest("[data-pet-tile]") || img.parentElement || img;
+    img.closest("[data-pet-tile]") || img.parentElement || wrapperEl;
 
   const rawIndex = tileEl.getAttribute?.("data-pet-tile-index");
   let imageIndex = rawIndex != null ? parseInt(rawIndex, 10) : NaN;
@@ -119,7 +115,7 @@ export function resolveTransitionSource(wrapperEl, clientX, clientY) {
 }
 
 function getReadyImageSrc(sourceEl, fallbackSrc, preferredImg) {
-  if (typeof window === "undefined") return null;
+  if (typeof window === "undefined") return fallbackSrc || null;
 
   if (preferredImg) {
     const snapped = snapshotReadyImg(preferredImg);
@@ -134,13 +130,47 @@ function getReadyImageSrc(sourceEl, fallbackSrc, preferredImg) {
     }
   }
 
-  if (fallbackSrc) {
-    const probe = new window.Image();
-    probe.src = fallbackSrc;
-    if (probe.complete && probe.naturalWidth > 0) return fallbackSrc;
-  }
+  // Always allow URL fallback so lazy Next/Image never blocks the morph
+  return fallbackSrc || null;
+}
 
-  return null;
+function clearMorphSources() {
+  document.querySelectorAll("[data-pet-morph-source]").forEach((el) => {
+    el.removeAttribute("data-pet-morph-source");
+    if (el instanceof HTMLElement) el.style.opacity = "";
+  });
+}
+
+function markMorphSource(el) {
+  clearMorphSources();
+  if (!el) return;
+  el.setAttribute("data-pet-morph-source", "1");
+  if (el instanceof HTMLElement) el.style.opacity = "0";
+}
+
+function findCardEl(petId) {
+  if (typeof document === "undefined" || !petId) return null;
+  const id = String(petId).replace(/\\/g, "\\\\").replace(/"/g, '\\"');
+  return document.querySelector(`[data-pet-card-id="${id}"]`);
+}
+
+function makeFakeEl(rect) {
+  return {
+    getBoundingClientRect: () => ({
+      top: rect.top,
+      left: rect.left,
+      width: rect.width,
+      height: rect.height,
+      right: rect.left + rect.width,
+      bottom: rect.top + rect.height,
+      x: rect.left,
+      y: rect.top,
+    }),
+  };
+}
+
+function isPetDetailPath(path) {
+  return /^\/website\/pets\/[^/?#]+/.test(String(path || ""));
 }
 
 export function PetImageTransitionProvider({ children }) {
@@ -158,6 +188,7 @@ export function PetImageTransitionProvider({ children }) {
   const safetyTimerRef = useRef(null);
   const morphStartedRef = useRef(false);
   const morphRetryCountRef = useRef(0);
+  const lastForwardRef = useRef(null);
 
   phaseRef.current = phase;
   payloadRef.current = payload;
@@ -179,9 +210,7 @@ export function PetImageTransitionProvider({ children }) {
       animControlsRef.current.stop();
       animControlsRef.current = null;
     }
-    document
-      .querySelectorAll("[data-pet-morph-source]")
-      .forEach((el) => el.removeAttribute("data-pet-morph-source"));
+    clearMorphSources();
     PetImageTransitionFlag.active = false;
     morphStartedRef.current = false;
     morphRetryCountRef.current = 0;
@@ -191,10 +220,13 @@ export function PetImageTransitionProvider({ children }) {
     setVeilOpacity(0.35);
   }, [clearSafety]);
 
-  const armSafety = useCallback(() => {
-    clearSafety();
-    safetyTimerRef.current = setTimeout(() => finish(), 4500);
-  }, [clearSafety, finish]);
+  const armSafety = useCallback(
+    (ms = 4500) => {
+      clearSafety();
+      safetyTimerRef.current = setTimeout(() => finish(), ms);
+    },
+    [clearSafety, finish]
+  );
 
   const runMorph = useCallback(() => {
     const current = payloadRef.current;
@@ -206,13 +238,33 @@ export function PetImageTransitionProvider({ children }) {
     if (currentPhase !== "waiting" && currentPhase !== "departing") return;
     if (morphStartedRef.current) return;
 
-    const to = rectFromElement(target.el);
+    let to = rectFromElement(target.el);
+    let toRadiusStr = readBorderRadius(target.el) || "0px";
+
+    if (current.direction === "reverse") {
+      const live = findCardEl(current.petId);
+      if (live) {
+        const liveRect = rectFromElement(live);
+        if (liveRect) {
+          to = liveRect;
+          toRadiusStr = readBorderRadius(live) || current.toRadius || "0px";
+          targetRef.current = { petId: current.petId, el: live };
+        }
+      } else if (current.to) {
+        to = current.to;
+        toRadiusStr = current.toRadius || "0px";
+      }
+    }
+
     if (!to) {
       if (morphRetryCountRef.current < 60) {
         morphRetryCountRef.current += 1;
         requestAnimationFrame(() => {
           if (!morphStartedRef.current) runMorph();
         });
+      } else if (current.direction === "reverse") {
+        // Never leave the flying image stuck on the list
+        finish();
       }
       return;
     }
@@ -223,7 +275,7 @@ export function PetImageTransitionProvider({ children }) {
 
     const from = current.from;
     const fromR = parseRadiusPx(current.borderRadius);
-    const toR = parseRadiusPx(readBorderRadius(target.el) || "0px");
+    const toR = parseRadiusPx(toRadiusStr);
 
     const proxy = {
       top: from.top,
@@ -269,6 +321,25 @@ export function PetImageTransitionProvider({ children }) {
           });
         },
         onComplete: () => {
+          if (current.direction === "reverse") {
+            const fade = { cover: 1, veil: 0.28 };
+            animControlsRef.current = animate(
+              fade,
+              { cover: 0, veil: 0 },
+              {
+                duration: 0.14,
+                ease: "easeOut",
+                onUpdate: () => {
+                  setVeilOpacity(fade.veil);
+                  setVisual((prev) =>
+                    prev ? { ...prev, opacity: fade.cover } : prev
+                  );
+                },
+                onComplete: () => finish(),
+              }
+            );
+            return;
+          }
           // Stay in "done" with the floating image covering the hero until
           // the detail page confirms the matching main image has painted.
           setPhase("done");
@@ -281,6 +352,7 @@ export function PetImageTransitionProvider({ children }) {
   useEffect(() => {
     if (!payload?.href) return;
     if (phase !== "morphing" && phase !== "done") return;
+    if (payload.direction === "reverse") return;
     try {
       const expected = new URL(payload.href, window.location.origin).pathname;
       if (pathname !== expected) finish();
@@ -292,6 +364,8 @@ export function PetImageTransitionProvider({ children }) {
   // Retry morph when phase/payload change or after resize/layout
   useEffect(() => {
     if (phase !== "waiting" && phase !== "departing") return;
+    // Reverse waits for scroll restore effect to flip into waiting
+    if (payload?.direction === "reverse" && phase === "departing") return;
     const id = requestAnimationFrame(() => {
       requestAnimationFrame(() => runMorph());
     });
@@ -307,7 +381,7 @@ export function PetImageTransitionProvider({ children }) {
       const tileEl = resolved?.tileEl || sourceEl;
       const photoImg = resolved?.img || null;
 
-      const from = rectFromElement(tileEl);
+      const from = rectFromElement(tileEl) || rectFromElement(sourceEl);
       if (!from) return false;
 
       const readySrc = getReadyImageSrc(tileEl, imageSrc, photoImg);
@@ -325,12 +399,29 @@ export function PetImageTransitionProvider({ children }) {
       const borderRadius =
         parseRadiusPx(tileRadius) > 0 ? tileRadius : wrapRadius;
 
-      document
-        .querySelectorAll("[data-pet-morph-source]")
-        .forEach((el) => el.removeAttribute("data-pet-morph-source"));
-      tileEl.setAttribute("data-pet-morph-source", "1");
+      markMorphSource(tileEl);
 
       PetImageTransitionFlag.active = true;
+
+      const listPath =
+        typeof window !== "undefined"
+          ? `${window.location.pathname}${window.location.search}`
+          : "/website/pets";
+
+      const scrollX = window.scrollX || 0;
+      const scrollY = window.scrollY || 0;
+
+      lastForwardRef.current = {
+        petId: String(petId),
+        imageSrc: readySrc,
+        from: { ...from },
+        borderRadius,
+        listPath,
+        scrollX,
+        scrollY,
+        imageIndex:
+          typeof resolved?.imageIndex === "number" ? resolved.imageIndex : 0,
+      };
 
       const next = {
         petId: String(petId),
@@ -338,6 +429,7 @@ export function PetImageTransitionProvider({ children }) {
         imageSrc: readySrc,
         from,
         borderRadius,
+        direction: "forward",
         imageIndex:
           typeof resolved?.imageIndex === "number" ? resolved.imageIndex : 0,
       };
@@ -348,19 +440,128 @@ export function PetImageTransitionProvider({ children }) {
         borderRadius,
         opacity: 1,
       });
-      setVeilOpacity(0.2);
-      setPhase("departing");
+      setVeilOpacity(0.35);
+      setPhase("waiting");
       armSafety();
-
-      requestAnimationFrame(() => {
-        setVeilOpacity(0.35);
-        setPhase("waiting");
-      });
 
       return true;
     },
     [armSafety]
   );
+
+  /** Product → card (same morph engine as forward) */
+  const startReturnTransition = useCallback(
+    ({ petId, imageSrc, sourceEl, listHref }) => {
+      const last = lastForwardRef.current;
+      const id = String(petId || last?.petId || "");
+      if (!id || !sourceEl) return false;
+      if (!last || String(last.petId) !== id) return false;
+
+      const from = rectFromElement(sourceEl);
+      if (!from) return false;
+
+      const readySrc =
+        getReadyImageSrc(sourceEl, imageSrc || last.imageSrc) || last.imageSrc;
+      if (!readySrc) return false;
+
+      const href = listHref || last.listPath || "/website/pets";
+
+      if (animControlsRef.current) {
+        animControlsRef.current.stop();
+        animControlsRef.current = null;
+      }
+      morphStartedRef.current = false;
+      morphRetryCountRef.current = 0;
+
+      markMorphSource(sourceEl);
+      PetImageTransitionFlag.active = true;
+
+      setPayload({
+        petId: id,
+        href,
+        imageSrc: readySrc,
+        from,
+        to: { ...last.from },
+        toRadius: last.borderRadius || "0px",
+        borderRadius: readBorderRadius(sourceEl) || "0px",
+        direction: "reverse",
+        imageIndex: last.imageIndex ?? 0,
+        scrollX: last.scrollX ?? 0,
+        scrollY: last.scrollY ?? 0,
+      });
+      setVisual({
+        ...from,
+        borderRadius: readBorderRadius(sourceEl) || "0px",
+        opacity: 1,
+      });
+      setVeilOpacity(0.28);
+      setPhase("departing");
+      armSafety(2200);
+
+      return href;
+    },
+    [armSafety]
+  );
+
+  // Reverse: once we leave the detail route, wait for ScrollRestorer to put the
+  // list back in place, then morph toward the live card.
+  useLayoutEffect(() => {
+    if (!payload || payload.direction !== "reverse") return;
+    if (phase !== "departing") return;
+    if (isPetDetailPath(pathname)) return;
+
+    const petId = payload.petId;
+    let cancelled = false;
+    let tries = 0;
+    let rafId = 0;
+
+    const beginMorph = () => {
+      if (cancelled) return;
+
+      const card = findCardEl(petId);
+      let to = payload.to;
+      let toRadius = payload.toRadius || "0px";
+
+      if (card) {
+        const live = rectFromElement(card);
+        if (live) {
+          to = live;
+          toRadius = readBorderRadius(card) || toRadius;
+        }
+        markMorphSource(card);
+        targetRef.current = { petId, el: card };
+      } else if (to) {
+        targetRef.current = { petId, el: makeFakeEl(to) };
+      } else {
+        // Nowhere to land — fade out instead of leaving a stuck overlay
+        finish();
+        return;
+      }
+
+      // Avoid setPayload here, it would retrigger this effect
+      payloadRef.current = { ...payloadRef.current, to, toRadius };
+      setVeilOpacity(0.28);
+      setPhase("waiting");
+    };
+
+    const go = () => {
+      if (cancelled) return;
+      const card = findCardEl(petId);
+      // Give the list a few frames to render and settle at the restored offset
+      if (!card && tries < 12) {
+        tries += 1;
+        rafId = requestAnimationFrame(go);
+        return;
+      }
+      beginMorph();
+    };
+
+    rafId = requestAnimationFrame(go);
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(rafId);
+    };
+  }, [pathname, phase, payload, finish]);
 
   const registerTarget = useCallback(
     (petId, targetEl) => {
@@ -450,6 +651,7 @@ export function PetImageTransitionProvider({ children }) {
   const value = useMemo(
     () => ({
       startTransition,
+      startReturnTransition,
       registerTarget,
       isTransitioningFor,
       peekImageIndex,
@@ -460,6 +662,7 @@ export function PetImageTransitionProvider({ children }) {
     }),
     [
       startTransition,
+      startReturnTransition,
       registerTarget,
       isTransitioningFor,
       peekImageIndex,
@@ -533,6 +736,7 @@ export function usePetImageTransition() {
   if (!ctx) {
     return {
       startTransition: () => false,
+      startReturnTransition: () => false,
       registerTarget: () => () => {},
       isTransitioningFor: () => false,
       peekImageIndex: () => null,
