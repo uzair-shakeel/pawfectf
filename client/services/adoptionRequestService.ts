@@ -198,3 +198,62 @@ export const deleteAdoptionRequest = async (
     throw error;
   }
 };
+
+/** Shelter responses / offers for an adoption request */
+export const getOffersForRequest = async (
+  requestId: string,
+  getToken: () => Promise<string | null>
+): Promise<{ offers: any[] }> => {
+  try {
+    const token = await getToken();
+    if (!token) {
+      throw new Error("No authentication token found");
+    }
+
+    const response = await axios.get(
+      `${API_URL}/seller-offers/request/${requestId}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    const data = response.data;
+    if (Array.isArray(data)) return { offers: data };
+    if (Array.isArray(data?.offers)) return data;
+    return { offers: data?.sellerOffers || data?.data || [] };
+  } catch (error) {
+    console.error(`Error fetching offers for request ${requestId}:`, error);
+    return { offers: [] };
+  }
+};
+
+export const acceptOffer = async (
+  offerId: string,
+  getToken: () => Promise<string | null>
+): Promise<any> => {
+  const token = await getToken();
+  if (!token) {
+    throw new Error("No authentication token found");
+  }
+  const response = await axios.post(
+    `${API_URL}/seller-offers/${offerId}/accept`,
+    {},
+    { headers: { Authorization: `Bearer ${token}` } }
+  );
+  return response.data;
+};
+
+export const rejectOffer = async (
+  offerId: string,
+  getToken: () => Promise<string | null>
+): Promise<any> => {
+  const token = await getToken();
+  if (!token) {
+    throw new Error("No authentication token found");
+  }
+  const response = await axios.post(
+    `${API_URL}/seller-offers/${offerId}/reject`,
+    {},
+    { headers: { Authorization: `Bearer ${token}` } }
+  );
+  return response.data;
+};

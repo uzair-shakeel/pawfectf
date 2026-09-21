@@ -469,6 +469,9 @@ export const likeCar = async (
   }
 };
 
+/** Alias — pets use the same like endpoint as cars/listings */
+export const likePet = likeCar;
+
 export const passCar = async (
   carId: string,
   getToken: () => Promise<string | null>,
@@ -535,6 +538,18 @@ export const getInteractedCars = async (
       error?.response?.data?.message || "Failed to fetch interacted cars",
     );
   }
+};
+
+/** Alias with pet-oriented field names for discovery UI */
+export const getInteractedPets = async (
+  getToken: () => Promise<string | null>,
+) => {
+  const data = await getInteractedCars(getToken);
+  return {
+    ...data,
+    likedPets: data?.likedPets || data?.likedCars || data?.liked || [],
+    passedPets: data?.passedPets || data?.passedCars || data?.passed || [],
+  };
 };
 
 export const resetDiscoveryInteractions = async (

@@ -21,14 +21,26 @@
       {
         "name": "next"
       }
-    ]
+    ],
+    "strictNullChecks": true
   },
   "include": [
     "next-env.d.ts",
     ".next/types/**/*.ts",
     "**/*.ts",
-    "**/*.tsx"
-, "components/website/browse-locations.jsx", "components/website/browse-categories.jsx", "components/website/browse-by-make.jsx", "components/website/blog-section.jsx", "components/website/car-image-swiper.jsx", "components/website/cars-near-me.jsx", "components/website/featured-categories.jsx", "components/website/filter-search.jsx", "components/dashboard/createsteps/StepFive.jsx", "components/website/Footer.jsx", "app/website/[profile]/page.jsx"  ],
+    "**/*.tsx",
+    "components/website/browse-locations.jsx",
+    "components/website/browse-categories.jsx",
+    "components/website/browse-by-make.jsx",
+    "components/website/blog-section.jsx",
+    "components/website/car-image-swiper.jsx",
+    "components/website/cars-near-me.jsx",
+    "components/website/featured-categories.jsx",
+    "components/website/filter-search.jsx",
+    "components/dashboard/createsteps/StepFive.jsx",
+    "components/website/Footer.jsx",
+    "app/website/[profile]/page.jsx"
+  ],
   "exclude": [
     "node_modules"
   ]
