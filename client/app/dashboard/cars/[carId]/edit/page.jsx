@@ -198,7 +198,7 @@ export default function EditCarPage() {
           </div>
         </div>
 
-        <div className="flex justify-between">
+        <div className="flex justify-end gap-3">
           <button
             type="button"
             onClick={() => router.push("/dashboard/cars")}

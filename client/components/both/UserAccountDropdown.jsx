@@ -3,10 +3,22 @@
 import React, { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { FiChevronDown, FiHeart, FiHome, FiLayout, FiLogOut, FiPhone, FiSearch, FiUser } from "react-icons/fi";
+import {
+  ChevronDown,
+  Home,
+  LayoutDashboard,
+  UserCog,
+  Utensils,
+  History,
+  SearchX,
+  Phone,
+  LogOut,
+} from "lucide-react";
 import { useAuth } from "../../lib/auth/AuthContext";
 import { useLanguage } from "../../lib/i18n/LanguageContext";
 import Avatar from "./Avatar";
+
+const iconProps = { className: "h-4 w-4 shrink-0 text-[#2563EB]", strokeWidth: 1.75 };
 
 export default function UserAccountDropdown() {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,8 +29,16 @@ export default function UserAccountDropdown() {
   const dropdownRef = useRef(null);
   const isInDashboard = pathname?.startsWith("/dashboard");
   const firstLink = isInDashboard
-    ? { label: t("dashboard.userDropdown.home", "Strona główna"), href: "/", icon: <FiHome /> }
-    : { label: t("dashboard.userDropdown.panel", "Panel"), href: "/dashboard/home", icon: <FiLayout /> };
+    ? {
+        label: t("dashboard.userDropdown.home", "Strona główna"),
+        href: "/",
+        icon: <Home {...iconProps} />,
+      }
+    : {
+        label: t("dashboard.userDropdown.panel", "Panel"),
+        href: "/dashboard/home",
+        icon: <LayoutDashboard {...iconProps} />,
+      };
 
   useEffect(() => {
     const handler = (e) => {
@@ -59,7 +79,10 @@ export default function UserAccountDropdown() {
             {t("dashboard.userDropdown.account", "Konto")}
           </span>
         </div>
-        <FiChevronDown className={`h-4 w-4 text-[#64748B] transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} />
+        <ChevronDown
+          className={`h-4 w-4 text-[#64748B] transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+          strokeWidth={2}
+        />
       </button>
 
       <AnimatePresence>
@@ -89,27 +112,27 @@ export default function UserAccountDropdown() {
             <div className="py-1">
               <DropdownItem icon={firstLink.icon} label={firstLink.label} onClick={() => navigateTo(firstLink.href)} />
               <DropdownItem
-                icon={<FiUser />}
+                icon={<UserCog {...iconProps} />}
                 label={t("dashboard.userDropdown.profileSettings", "Ustawienia profilu")}
                 onClick={() => navigateTo("/dashboard/profile")}
               />
               <DropdownItem
-                icon={<FiHeart />}
+                icon={<Utensils {...iconProps} />}
                 label={t("dashboard.userDropdown.foodDonations", "Darowizny żywności")}
                 onClick={() => navigateTo("/website/food-donations")}
               />
               <DropdownItem
-                icon={<FiHeart />}
+                icon={<History {...iconProps} />}
                 label={t("dashboard.userDropdown.donationHistory", "Historia darowizn")}
                 onClick={() => navigateTo("/dashboard/donation-history")}
               />
               <DropdownItem
-                icon={<FiSearch />}
+                icon={<SearchX {...iconProps} />}
                 label={t("dashboard.userDropdown.lostFound", "Zaginione i znalezione")}
                 onClick={() => navigateTo("/website/lost-found")}
               />
               <DropdownItem
-                icon={<FiPhone />}
+                icon={<Phone {...iconProps} />}
                 label={t("dashboard.userDropdown.contactUs", "Kontakt")}
                 onClick={() => navigateTo("/website/contact")}
               />
@@ -121,7 +144,7 @@ export default function UserAccountDropdown() {
                 onClick={handleLogout}
                 className="flex w-full items-center gap-3 px-4 py-3 text-sm font-semibold text-red-600 transition hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-950/30"
               >
-                <FiLogOut className="h-4 w-4" />
+                <LogOut className="h-4 w-4 shrink-0" strokeWidth={1.75} />
                 {t("dashboard.userDropdown.logoutAccount", "Wyloguj konto")}
               </button>
             </div>
@@ -139,7 +162,7 @@ function DropdownItem({ icon, label, onClick }) {
       onClick={onClick}
       className="flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm font-medium text-[#0F172A] transition hover:bg-[#EEF2FF] hover:text-[#2563EB] dark:text-gray-200 dark:hover:bg-white/5 dark:hover:text-[#93C5FD]"
     >
-      {React.cloneElement(icon, { className: "h-4 w-4 shrink-0 text-[#2563EB]" })}
+      {icon}
       <span>{label}</span>
     </button>
   );

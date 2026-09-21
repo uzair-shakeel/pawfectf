@@ -2,7 +2,7 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import { useSearchParams } from "next/navigation";
-import { FaPaperPlane, FaBars, FaEnvelope, FaPaperclip, FaTimes, FaFileAlt, FaFileImage } from "react-icons/fa";
+import { FaPaperPlane, FaEnvelope, FaPaperclip, FaTimes, FaFileAlt, FaFileImage, FaArrowLeft } from "react-icons/fa";
 import { useAuth } from "../../../lib/auth/AuthContext";
 import io from "socket.io-client";
 import Avatar from "../../../components/both/Avatar";
@@ -865,9 +865,10 @@ const MessagesPage = () => {
             <button
               type="button"
               className="inline-flex h-10 w-10 shrink-0 items-center justify-center border border-[#E2E8F0] text-[#64748B] transition hover:border-[#2563EB] hover:text-[#2563EB] dark:border-dark-divider md:hidden"
-              onClick={() => setShowSidebar((prev) => !prev)}
+              onClick={() => setShowSidebar(true)}
+              aria-label="Back to conversations"
             >
-              <FaBars className="h-4 w-4" />
+              <FaArrowLeft className="h-4 w-4" />
             </button>
             {selectedChat ? (
               <div className="flex min-w-0 items-center gap-3">

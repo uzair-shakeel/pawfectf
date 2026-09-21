@@ -1,10 +1,23 @@
 "use client";
 
-import { FaPaw } from "react-icons/fa";
-import { BiAddToQueue } from "react-icons/bi";
-import { BsChatLeftDots, BsPersonGear } from "react-icons/bs";
-import { RiDashboardHorizontalLine } from "react-icons/ri";
-import { FiX, FiShoppingBag, FiLogOut, FiHome, FiSearch, FiHeart, FiPhone, FiLifeBuoy, FiChevronRight } from "react-icons/fi";
+import {
+  LayoutDashboard,
+  CirclePlus,
+  PawPrint,
+  SearchX,
+  Utensils,
+  History,
+  MessageSquare,
+  UserCog,
+  X,
+  LogOut,
+  Home,
+  Heart,
+  Phone,
+  LifeBuoy,
+  ChevronRight,
+  Shield,
+} from "lucide-react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
@@ -16,6 +29,7 @@ import { useLanguage } from "../../lib/i18n/LanguageContext";
 
 const RAW_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "";
 const API_BASE = RAW_BASE ? RAW_BASE.replace(/\/$/, "") : "";
+const iconCls = "h-5 w-5 shrink-0";
 
 export default function Sidebar({ isOpen, toggleSidebar }) {
   const { t } = useLanguage();
@@ -55,79 +69,71 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
     {
       label: t("dashboard:sidebar.dashboard", "Dashboard"),
       href: "/dashboard/home",
-      icon: <RiDashboardHorizontalLine className="h-5 w-5" />,
+      icon: <LayoutDashboard className={iconCls} strokeWidth={1.75} />,
     },
     {
       label: t("dashboard:sidebar.listPet", "List a Pet"),
       href: "/dashboard/cars/add",
-      icon: <BiAddToQueue className="h-5 w-5" />,
+      icon: <CirclePlus className={iconCls} strokeWidth={1.75} />,
     },
     {
       label: t("dashboard:sidebar.myListings", "My Listings"),
       href: "/dashboard/cars",
-      icon: <FaPaw className="h-5 w-5" />,
+      icon: <PawPrint className={iconCls} strokeWidth={1.75} />,
     },
-    ...(sellerType === "private" || sellerType === "company"
-      ? [
-          {
-            label: t("dashboard:sidebar.adoptionRequests", "Adoption Requests"),
-            href: "/dashboard/adoption-requests",
-            icon: <FiShoppingBag className="h-5 w-5" />,
-          },
-        ]
-      : []),
+    // Adoption requests temporarily hidden from sidebar
     {
       label: t("dashboard:sidebar.lostFound", "Lost & Found"),
       href: "/dashboard/lost-found",
-      icon: <FaPaw className="h-5 w-5" />,
+      icon: <SearchX className={iconCls} strokeWidth={1.75} />,
     },
     {
       label: t("dashboard:sidebar.foodDonations", "Food Donations"),
       href: "/dashboard/food-pets",
-      icon: <FiHeart className="h-5 w-5" />,
+      icon: <Utensils className={iconCls} strokeWidth={1.75} />,
     },
     {
       label: t("dashboard:sidebar.donationHistory", "Donation History"),
       href: "/dashboard/donation-history",
-      icon: <FiHeart className="h-5 w-5" />,
+      icon: <History className={iconCls} strokeWidth={1.75} />,
     },
     {
       label: t("dashboard:sidebar.messages", "Messages"),
       href: "/dashboard/messages",
-      icon: <BsChatLeftDots className="h-5 w-5" />,
+      icon: <MessageSquare className={iconCls} strokeWidth={1.75} />,
     },
     {
       label: t("dashboard:sidebar.profile", "Profile"),
       href: "/dashboard/profile",
-      icon: <BsPersonGear className="h-5 w-5" />,
+      icon: <UserCog className={iconCls} strokeWidth={1.75} />,
     },
     ...(user?.role === "admin"
       ? [
           {
             label: t("dashboard:sidebar.adminPets", "Admin: Pets"),
             href: "/dashboard/admin/cars",
-            icon: <FaPaw className="h-5 w-5" />,
+            icon: <Shield className={iconCls} strokeWidth={1.75} />,
           },
           {
             label: t("dashboard:sidebar.adminLostFound", "Admin: Lost & Found"),
             href: "/dashboard/admin/lost-found",
-            icon: <RiDashboardHorizontalLine className="h-5 w-5" />,
+            icon: <SearchX className={iconCls} strokeWidth={1.75} />,
           },
         ]
       : []),
   ];
 
   const websiteLinks = [
-    { label: t("navbar:links.home", "Home"), href: "/", icon: <FiHome className="h-5 w-5" /> },
-    { label: t("navbar:links.adopt", "Adopt"), href: "/website/pets", icon: <FiSearch className="h-5 w-5" /> },
-    { label: t("navbar:links.savedPets", "Saved Pets"), href: "/wishlist", icon: <FiHeart className="h-5 w-5" /> },
-    { label: t("navbar:links.faq", "FAQ"), href: "/website/faq", icon: <FiLifeBuoy className="h-5 w-5" /> },
-    { label: t("navbar:links.contact", "Contact"), href: "/website/contact", icon: <FiPhone className="h-5 w-5" /> },
+    { label: t("navbar:links.home", "Home"), href: "/", icon: <Home className={iconCls} strokeWidth={1.75} /> },
+    { label: t("navbar:links.adopt", "Adopt"), href: "/website/pets", icon: <PawPrint className={iconCls} strokeWidth={1.75} /> },
+    { label: t("navbar:links.savedPets", "Saved Pets"), href: "/wishlist", icon: <Heart className={iconCls} strokeWidth={1.75} /> },
+    { label: t("navbar:links.faq", "FAQ"), href: "/website/faq", icon: <LifeBuoy className={iconCls} strokeWidth={1.75} /> },
+    { label: t("navbar:links.contact", "Contact"), href: "/website/contact", icon: <Phone className={iconCls} strokeWidth={1.75} /> },
   ];
 
   const logoutItem = {
     label: t("dashboard:sidebar.logout", "Logout"),
-    icon: <FiLogOut className="h-5 w-5" />,
+    icon: <LogOut className={iconCls} strokeWidth={1.75} />,
     action: async () => {
       try {
         await logout();
@@ -168,14 +174,14 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
           >
             <div className="sticky top-0 z-10 flex h-16 items-center justify-between border-b border-[#E2E8F0] bg-white/90 px-4 backdrop-blur-md dark:border-dark-divider dark:bg-dark-card/90">
               <Link href="/" onClick={toggleSidebar} className="flex items-center">
-                <img src="/logo.png" alt="Rafraf" className="h-9 w-auto object-contain dark:hidden" />
-                <img src="/whitelogo.png" alt="Rafraf" className="hidden h-9 w-auto object-contain dark:block" />
+                <img src="/logo.png" alt="Rafraf" className="h-10 w-auto object-contain dark:hidden" />
+                <img src="/whitelogo.png" alt="Rafraf" className="hidden h-10 w-auto object-contain dark:block" />
               </Link>
               <button
                 onClick={toggleSidebar}
                 className="p-2 text-[#0F172A] transition hover:bg-[#F1F5F9] dark:text-gray-200 dark:hover:bg-dark-raised"
               >
-                <FiX size={22} />
+                <X size={22} />
               </button>
             </div>
 
@@ -241,7 +247,7 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
                 }}
                 className="flex w-full items-center gap-3 border border-red-200 bg-red-50 px-4 py-3.5 text-sm font-semibold text-red-600 dark:border-red-900/40 dark:bg-red-950/30 dark:text-red-400"
               >
-                <FiLogOut className="h-5 w-5" />
+                <LogOut className="h-5 w-5" />
                 <span>{t("dashboard:sidebar.logout", "Logout")}</span>
               </button>
 
@@ -257,8 +263,8 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
       <motion.div className="marketing-ui fixed inset-y-0 left-0 z-40 hidden w-64 translate-x-0 flex-col border-r border-[#E2E8F0] bg-white transition-all duration-300 ease-in-out dark:border-dark-divider dark:bg-dark-card md:flex">
         <div className="box-border flex h-16 min-h-16 max-h-16 shrink-0 items-center border-b border-[#E2E8F0] px-5 dark:border-dark-divider">
           <Link href="/" className="flex h-full items-center">
-            <img src="/logo.png" alt="Rafraf" className="h-8 w-auto object-contain dark:hidden" />
-            <img src="/whitelogo.png" alt="Rafraf" className="hidden h-8 w-auto object-contain dark:block" />
+            <img src="/logo.png" alt="Rafraf" className="h-10 w-auto object-contain dark:hidden" />
+            <img src="/whitelogo.png" alt="Rafraf" className="hidden h-10 w-auto object-contain dark:block" />
           </Link>
         </div>
 
@@ -368,7 +374,7 @@ function MobileNavLink({ item, onClick, active, badge, showDivider }) {
           {badge}
         </span>
       )}
-      <FiChevronRight className={`h-4 w-4 shrink-0 ${active ? "text-[#2563EB]" : "text-[#94A3B8]"}`} />
+      <ChevronRight className={`h-4 w-4 shrink-0 ${active ? "text-[#2563EB]" : "text-[#94A3B8]"}`} />
     </Link>
   );
 }

@@ -4,7 +4,7 @@ import React, { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { UploadCloud, X, MapPin, Calendar, Phone, Mail } from "lucide-react";
+import { UploadCloud, X, MapPin, Calendar, Phone, Mail, SearchX, SearchCheck } from "lucide-react";
 import { createLostFound } from "../../../../services/lostFoundService";
 import { useAuth } from "../../../../lib/auth/AuthContext";
 import { useLanguage } from "../../../../lib/i18n/LanguageContext";
@@ -130,17 +130,26 @@ export default function NewLostFoundPage() {
               <button
                 type="button"
                 onClick={() => setFormData({ ...formData, type: "Lost" })}
-                className={`border px-4 py-4 text-left transition ${
+                className={`flex items-center gap-3 border px-4 py-4 text-left transition ${
                   formData.type === "Lost"
                     ? "border-red-500 bg-red-50 dark:bg-red-950/30"
-                    : "border-[#E2E8F0] hover:border-[#CBD5E1] dark:border-dark-divider"
+                    : "border-[#E2E8F0] hover:border-[#CBD5E1] dark:border-dark-divider dark:hover:border-[#494952]"
                 }`}
               >
+                <span
+                  className={`flex h-10 w-10 shrink-0 items-center justify-center ${
+                    formData.type === "Lost"
+                      ? "bg-red-500/15 text-red-600 dark:bg-red-500/20 dark:text-red-300"
+                      : "bg-[#F1F5F9] text-[#64748B] dark:bg-[#3A3A3C] dark:text-gray-200"
+                  }`}
+                >
+                  <SearchX className="h-5 w-5" strokeWidth={2} />
+                </span>
                 <span
                   className={`text-sm font-bold ${
                     formData.type === "Lost"
                       ? "text-red-700 dark:text-red-300"
-                      : "text-[#64748B]"
+                      : "text-[#64748B] dark:text-gray-300"
                   }`}
                 >
                   {t("dashboard:reportPet.lostPet", "I lost a pet")}
@@ -149,17 +158,26 @@ export default function NewLostFoundPage() {
               <button
                 type="button"
                 onClick={() => setFormData({ ...formData, type: "Found" })}
-                className={`border px-4 py-4 text-left transition ${
+                className={`flex items-center gap-3 border px-4 py-4 text-left transition ${
                   formData.type === "Found"
                     ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/30"
-                    : "border-[#E2E8F0] hover:border-[#CBD5E1] dark:border-dark-divider"
+                    : "border-[#E2E8F0] hover:border-[#CBD5E1] dark:border-dark-divider dark:hover:border-[#494952]"
                 }`}
               >
+                <span
+                  className={`flex h-10 w-10 shrink-0 items-center justify-center ${
+                    formData.type === "Found"
+                      ? "bg-emerald-500/15 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-300"
+                      : "bg-[#F1F5F9] text-[#64748B] dark:bg-[#3A3A3C] dark:text-gray-200"
+                  }`}
+                >
+                  <SearchCheck className="h-5 w-5" strokeWidth={2} />
+                </span>
                 <span
                   className={`text-sm font-bold ${
                     formData.type === "Found"
                       ? "text-emerald-700 dark:text-emerald-300"
-                      : "text-[#64748B]"
+                      : "text-[#64748B] dark:text-gray-300"
                   }`}
                 >
                   {t("dashboard:reportPet.foundPet", "I found a pet")}
@@ -346,7 +364,7 @@ export default function NewLostFoundPage() {
           </div>
         </div>
 
-        <div className="flex items-center justify-between border-t border-[#E2E8F0] px-5 py-4 dark:border-dark-divider sm:px-8">
+        <div className="flex items-center justify-end gap-3 border-t border-[#E2E8F0] px-5 py-4 dark:border-dark-divider sm:px-8">
           <Link href="/dashboard/lost-found" className={ghostBtn}>
             {t("dashboard:addPet.cancel", "Cancel")}
           </Link>

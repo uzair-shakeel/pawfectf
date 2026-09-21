@@ -666,7 +666,7 @@ export default function AddFoodPetPage() {
           )}
         </section>
 
-        <div className={`${sectionCard} flex items-center justify-between !py-4`}>
+        <div className={`${sectionCard} flex items-center justify-end gap-3 !py-4`}>
           <button type="button" onClick={() => router.back()} className={ghostBtn}>
             {t("dashboard:foodPets.cancel", "Cancel")}
           </button>

@@ -15,10 +15,8 @@ import { FaGlobe, FaFacebook, FaInstagram } from "react-icons/fa";
 import Link from "next/link";
 import { createPortal } from "react-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, A11y } from "swiper/modules";
+import { A11y } from "swiper/modules";
 import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
 import io from "socket.io-client";
 
 const API_BASE = (process.env.NEXT_PUBLIC_API_BASE_URL || "").trim().replace(/\/$/, "");
@@ -67,11 +65,12 @@ export default function PetDetailPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [applicationText, setApplicationText] = useState("Hi, I'm very interested in adopting this pet. Please let me know what the next steps are!");
   const swiperRef = useRef(null);
-  const fullscreenSwiperRef = useRef(null);
   const desktopMainImageRef = useRef(null);
   const mobileMainImageRef = useRef(null);
+  const desktopDragRef = useRef({ active: false, startX: 0, moved: false });
   const handoffDoneRef = useRef(false);
   const isMorphActive = isTransitioningFor(petId);
+
 
   useEffect(() => {
     if (!petId) return;
@@ -372,15 +371,15 @@ export default function PetDetailPage() {
     <div className="marketing-ui min-h-screen bg-[#F4F7FB] text-[#0F172A] dark:bg-dark-main dark:text-gray-200">
       {/* Fullscreen viewer */}
       {fullscreen && typeof document !== "undefined" && createPortal(
-        <div className="fixed inset-0 z-[400] bg-[#0F172A]">
+        <div className="fixed inset-0 z-[400] flex flex-col bg-[#0B1220]">
           <button
             type="button"
             onClick={() => setFullscreen(false)}
-            className="fixed top-4 right-4 z-[410] flex h-12 w-12 items-center justify-center !bg-[#2563EB] !text-white shadow-lg transition hover:!bg-[#1D4ED8]"
+            className="absolute right-4 top-4 z-[410] flex h-10 w-10 items-center justify-center bg-[#2563EB] text-white transition hover:bg-[#1D4ED8]"
             title="Zamknij"
             aria-label="Zamknij"
           >
-            <X className="h-6 w-6" strokeWidth={2.4} />
+            <X className="h-5 w-5" strokeWidth={2.4} />
           </button>
 
           {images.length > 1 && (
@@ -388,68 +387,84 @@ export default function PetDetailPage() {
               <button
                 type="button"
                 onClick={() => swiperRef.current?.swiper.slidePrev()}
-                className="fixed top-1/2 left-4 z-[410] hidden h-12 w-12 -translate-y-1/2 items-center justify-center bg-white/90 text-[#0F172A] md:flex"
+                className="absolute left-4 top-1/2 z-[410] hidden h-10 w-10 -translate-y-1/2 items-center justify-center !bg-[#2563EB] !text-white shadow-lg transition hover:!bg-[#1D4ED8] md:flex"
+                style={{ backgroundColor: "#2563EB", color: "#fff" }}
                 aria-label="Poprzednie zdjęcie"
               >
-                <ChevronLeft className="h-6 w-6" />
+                <ChevronLeft className="h-5 w-5" strokeWidth={2.5} />
               </button>
               <button
                 type="button"
                 onClick={() => swiperRef.current?.swiper.slideNext()}
-                className="fixed top-1/2 right-4 z-[410] hidden h-12 w-12 -translate-y-1/2 items-center justify-center bg-white/90 text-[#0F172A] md:flex"
+                className="absolute right-4 top-1/2 z-[410] hidden h-10 w-10 -translate-y-1/2 items-center justify-center !bg-[#2563EB] !text-white shadow-lg transition hover:!bg-[#1D4ED8] md:flex"
+                style={{ backgroundColor: "#2563EB", color: "#fff" }}
                 aria-label="Następne zdjęcie"
               >
-                <ChevronRight className="h-6 w-6" />
+                <ChevronRight className="h-5 w-5" strokeWidth={2.5} />
               </button>
             </>
           )}
 
-          <div className="flex h-full w-full items-center justify-center px-4 py-16">
+          <div className="flex min-h-0 flex-1 items-center justify-center px-3 pb-20 pt-16 sm:px-6">
             <Swiper
               ref={swiperRef}
-              modules={[Navigation, A11y]}
+              modules={[A11y]}
               spaceBetween={0}
               slidesPerView={1}
               initialSlide={activeImg}
               onSlideChange={(swiper) => setActiveImg(swiper.realIndex)}
-              grabCursor={true}
+              grabCursor
               loop={images.length > 1}
-              className="h-full w-full max-w-[1400px]"
+              className="h-full w-full max-w-[1400px] !overflow-visible"
             >
               {images.map((img, index) => (
-                <SwiperSlide key={index} className="!flex !items-center !justify-center">
-                  <div className="relative h-[80vh] w-full">
-                    <Image src={img} alt={`${name} - ${index + 1}`} fill className="object-contain" sizes="100vw" priority unoptimized />
+                <SwiperSlide key={index} className="!flex !h-full !items-center !justify-center">
+                  <div className="relative h-full w-full max-h-[75vh] min-h-[240px]">
+                    <Image
+                      src={img}
+                      alt={`${name} - ${index + 1}`}
+                      fill
+                      className="object-contain"
+                      sizes="100vw"
+                      priority
+                      unoptimized
+                    />
                   </div>
                 </SwiperSlide>
               ))}
             </Swiper>
           </div>
 
-          <div className="fixed bottom-4 right-4 z-[410] bg-black/70 px-3 py-2 text-sm text-white">
-            {activeImg + 1} / {images.length}
-          </div>
-
-          {images.length > 1 && (
-            <div className="fixed bottom-4 left-1/2 z-[410] flex -translate-x-1/2 gap-3 md:hidden">
-              <button
-                type="button"
-                onClick={() => swiperRef.current?.swiper.slidePrev()}
-                className="flex h-11 w-11 items-center justify-center bg-white text-[#0F172A]"
-                aria-label="Poprzednie zdjęcie"
-              >
-                <ChevronLeft className="h-6 w-6" />
-              </button>
-              <button
-                type="button"
-                onClick={() => swiperRef.current?.swiper.slideNext()}
-                className="flex h-11 w-11 items-center justify-center bg-white text-[#0F172A]"
-                aria-label="Następne zdjęcie"
-              >
-                <ChevronRight className="h-6 w-6" />
-              </button>
+          <div className="absolute bottom-0 left-0 right-0 z-[410] flex items-center justify-center gap-3 px-4 pb-5 pt-3">
+            {images.length > 1 && (
+              <>
+                <button
+                  type="button"
+                  onClick={() => swiperRef.current?.swiper.slidePrev()}
+                  className="flex h-10 w-10 shrink-0 items-center justify-center !bg-[#2563EB] !text-white shadow-lg transition hover:!bg-[#1D4ED8]"
+                  style={{ backgroundColor: "#2563EB", color: "#fff" }}
+                  aria-label="Poprzednie zdjęcie"
+                >
+                  <ChevronLeft className="h-5 w-5" strokeWidth={2.5} />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => swiperRef.current?.swiper.slideNext()}
+                  className="flex h-10 w-10 shrink-0 items-center justify-center !bg-[#2563EB] !text-white shadow-lg transition hover:!bg-[#1D4ED8]"
+                  style={{ backgroundColor: "#2563EB", color: "#fff" }}
+                  aria-label="Następne zdjęcie"
+                >
+                  <ChevronRight className="h-5 w-5" strokeWidth={2.5} />
+                </button>
+              </>
+            )}
+            <div
+              className="flex h-10 min-w-10 items-center justify-center px-3 text-sm font-semibold !text-white"
+              style={{ backgroundColor: "rgba(255,255,255,0.2)", color: "#fff" }}
+            >
+              {activeImg + 1} / {images.length}
             </div>
-          )}
+          </div>
         </div>,
         document.body
       )}
@@ -466,17 +481,55 @@ export default function PetDetailPage() {
   {/* Desktop / tablet gallery: Dynamic layout based on image count */}
             <div className="hidden md:flex md:flex-row gap-2 bg-white dark:bg-dark-card overflow-hidden h-[380px] sm:h-[430px] md:h-[461px] lg:h-[520px] xl:h-[560px] 2xl:h-[600px]">
               {/* Main Image - Left Side */}
-              <div className={`relative group h-full ${galleryMode === "single" ? "w-full" : "w-full md:w-[calc(100%-320px)]"}`}>
+              <div className={`relative group h-full select-none ${galleryMode === "single" ? "w-full" : "w-full md:w-[calc(100%-320px)]"}`}>
                 <div
                   ref={desktopMainImageRef}
-                  className="relative w-full h-full cursor-pointer"
-                  onClick={() => setFullscreen(true)}
+                  className={`relative h-full w-full ${images.length > 1 ? "cursor-grab active:cursor-grabbing" : "cursor-pointer"}`}
+                  onPointerDown={(e) => {
+                    if (images.length <= 1) return;
+                    desktopDragRef.current = {
+                      active: true,
+                      startX: e.clientX,
+                      moved: false,
+                    };
+                    e.currentTarget.setPointerCapture?.(e.pointerId);
+                  }}
+                  onPointerMove={(e) => {
+                    const drag = desktopDragRef.current;
+                    if (!drag.active) return;
+                    if (Math.abs(e.clientX - drag.startX) > 8) drag.moved = true;
+                  }}
+                  onPointerUp={(e) => {
+                    const drag = desktopDragRef.current;
+                    if (!drag.active) {
+                      setFullscreen(true);
+                      return;
+                    }
+                    const dx = e.clientX - drag.startX;
+                    desktopDragRef.current = { active: false, startX: 0, moved: false };
+                    try {
+                      e.currentTarget.releasePointerCapture?.(e.pointerId);
+                    } catch (_) {}
+
+                    if (Math.abs(dx) > 50) {
+                      if (dx < 0) {
+                        setActiveImg((i) => (i + 1) % images.length);
+                      } else {
+                        setActiveImg((i) => (i - 1 + images.length) % images.length);
+                      }
+                      return;
+                    }
+                    if (!drag.moved) setFullscreen(true);
+                  }}
+                  onPointerCancel={() => {
+                    desktopDragRef.current = { active: false, startX: 0, moved: false };
+                  }}
                 >
                   <Image
                     src={images[activeImg] || images[0]}
                     alt={`${name} - Image ${activeImg + 1}`}
                     fill
-                    className="object-cover"
+                    className="pointer-events-none object-cover"
                     priority
                     sizes="(max-width: 768px) 100vw, 70vw"
                     unoptimized={true}
@@ -484,25 +537,32 @@ export default function PetDetailPage() {
                     onError={(e) => {
                       e.target.src = "/images/hamer1.png";
                     }}
+                    draggable={false}
                   />
                 </div>
-
-                
 
                 {/* Navigation Arrows */}
                 {images.length > 1 && (
                   <>
                     <button
-                      onClick={() => setActiveImg(i => (i - 1 + images.length) % images.length)}
-                      className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-60 text-white p-3 rounded-full hover:bg-opacity-80 transition-all opacity-0 group-hover:opacity-100 z-10"
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setActiveImg((i) => (i - 1 + images.length) % images.length);
+                      }}
+                      className="absolute left-4 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-black/60 text-white opacity-0 transition-all hover:bg-black/80 group-hover:opacity-100"
                     >
-                      <ChevronLeft className="w-5 h-5" />
+                      <ChevronLeft className="h-5 w-5" />
                     </button>
                     <button
-                      onClick={() => setActiveImg(i => (i + 1) % images.length)}
-                      className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-60 text-white p-3 rounded-full hover:bg-opacity-80 transition-all opacity-0 group-hover:opacity-100 z-10"
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setActiveImg((i) => (i + 1) % images.length);
+                      }}
+                      className="absolute right-4 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-black/60 text-white opacity-0 transition-all hover:bg-black/80 group-hover:opacity-100"
                     >
-                      <ChevronRight className="w-5 h-5" />
+                      <ChevronRight className="h-5 w-5" />
                     </button>
                   </>
                 )}
@@ -574,117 +634,77 @@ export default function PetDetailPage() {
               )}
             </div>
 
-            {/* Mobile gallery: horizontally scrollable carousel with PEEK effect */}
-            <div
-              className={`flex md:hidden overflow-x-auto snap-x snap-mandatory scrollbar-hide scroll-x-touch min-h-[250px] w-full ${images.length > 1 ? "gap-[3px]" : ""}`}
-              style={{ touchAction: 'pan-x pan-y', WebkitOverflowScrolling: 'touch' }}
-              onTouchStart={(e) => e.stopPropagation()}
-              onTouchMove={(e) => e.stopPropagation()}
-            >
-              {/* Slide 1: Main Image */}
+            {/* Mobile gallery: full-width swipe slider */}
+            <div className="relative md:hidden">
               <div
-                ref={mobileMainImageRef}
-                className={`snap-start shrink-0 ${images.length === 1 ? "w-full" : "w-[88vw]"} aspect-[4/3] relative overflow-hidden bg-white dark:bg-dark-card cursor-pointer`}
-                onClick={() => setFullscreen(true)}
+                className="flex w-full snap-x snap-mandatory overflow-x-auto scroll-x-touch scrollbar-hide"
+                style={{ touchAction: "pan-x pan-y", WebkitOverflowScrolling: "touch" }}
+                onScroll={(e) => {
+                  if (images.length <= 1) return;
+                  const el = e.currentTarget;
+                  const slide = Math.round(el.scrollLeft / Math.max(el.clientWidth, 1));
+                  const next = Math.min(Math.max(slide, 0), images.length - 1);
+                  if (next !== activeImg) setActiveImg(next);
+                }}
               >
-                <Image
-                  src={images[activeImg] || images[0]}
-                  alt={`${name} - Image 1`}
-                  fill
-                  className="object-cover"
-                  priority
-                  sizes="88vw"
-                  unoptimized={true}
-                  onLoadingComplete={handleMainImageReady}
-                  onError={(e) => {
-                    e.target.src = "/images/hamer1.png";
-                  }}
-                />
-
-                
-
-                {/* Health badges */}
-                {pet.healthStatus?.length > 0 && (
-                  <div className="absolute top-3 left-3 flex gap-2 flex-wrap z-10">
-                    {pet.healthStatus.slice(0, 3).map((h) => (
-                      <span key={h} className="inline-flex items-center gap-1 bg-[#2563EB] px-2.5 py-1 text-[11px] font-semibold text-white">
-                        <ShieldCheck className="h-3 w-3" />{translateHealth(h)}
-                      </span>
-                    ))}
+                {images.map((img, index) => (
+                  <div
+                    key={index}
+                    ref={index === 0 ? mobileMainImageRef : undefined}
+                    className="relative aspect-[4/3] w-full shrink-0 snap-start overflow-hidden bg-[#EEF2FF] dark:bg-dark-raised"
+                    onClick={() => {
+                      setActiveImg(index);
+                      setFullscreen(true);
+                    }}
+                  >
+                    <Image
+                      src={img}
+                      alt={`${name} - ${index + 1}`}
+                      fill
+                      className="object-cover"
+                      priority={index === 0}
+                      sizes="100vw"
+                      unoptimized
+                      onLoadingComplete={index === 0 ? handleMainImageReady : undefined}
+                      onError={(e) => {
+                        e.target.src = "/images/hamer1.png";
+                      }}
+                    />
                   </div>
-                )}
-
-                {images.length > 1 && (
-                  <div className="absolute bottom-3 right-3 bg-black/60 text-white text-sm px-2 py-1 rounded-lg z-10">
-                    {activeImg + 1} / {images.length}
-                  </div>
-                )}
+                ))}
               </div>
 
-              {/* Slide 2 & 3: Thumbnail Grids (2x2) */}
-              {[0, 1].map((gridIdx) => {
-                const startIndex = gridIdx * 4;
-                const gridThumbs = thumbnailImages.slice(startIndex, startIndex + 4);
-                if (gridThumbs.length === 0) return null;
+              {pet.healthStatus?.length > 0 && (
+                <div className="pointer-events-none absolute left-3 top-3 z-10 flex flex-wrap gap-2">
+                  {pet.healthStatus.slice(0, 3).map((h) => (
+                    <span
+                      key={h}
+                      className="inline-flex items-center gap-1 bg-[#2563EB] px-2.5 py-1 text-[11px] font-semibold text-white"
+                    >
+                      <ShieldCheck className="h-3 w-3" />
+                      {translateHealth(h)}
+                    </span>
+                  ))}
+                </div>
+              )}
 
-                const hasMoreImages = images.length > (useThumbnailOffset ? thumbnailImages.length + 1 : thumbnailImages.length);
-
-                return (
-                  <div
-                    key={gridIdx}
-                    className="snap-start shrink-0 w-[88vw] aspect-[4/3] grid grid-cols-2 grid-rows-2 gap-[2px] bg-white dark:bg-dark-card"
-                  >
-                    {gridThumbs.map((img, i) => {
-                      const thumbIndexInThumbnailImages = startIndex + i;
-                      const realIndex = useThumbnailOffset ? thumbIndexInThumbnailImages + 1 : thumbIndexInThumbnailImages;
-
-                      const isLastVisibleThumb = thumbIndexInThumbnailImages === thumbnailImages.length - 1;
-                      const isAllPhotosTile = isLastVisibleThumb && hasMoreImages;
-
-                      return (
-                        <div
-                          key={i}
-                          className="relative overflow-hidden cursor-pointer"
-                          onClick={() => {
-                            if (isAllPhotosTile) {
-                              setActiveImg(0);
-                            } else {
-                              setActiveImg(realIndex);
-                            }
-                          }}
-                        >
-                          <Image
-                            src={img}
-                            alt={`Thumbnail ${realIndex + 1}`}
-                            fill
-                            className={`object-cover ${activeImg === realIndex ? "opacity-100" : "opacity-70 hover:opacity-100"}`}
-                            loading="lazy"
-                            sizes="44vw"
-                            unoptimized={true}
-                            onError={(e) => {
-                              e.target.style.display = 'none';
-                            }}
-                          />
-
-                          {isAllPhotosTile && (
-                            <div
-                              className="absolute inset-0 bg-black bg-opacity-60 flex flex-col items-center justify-center cursor-pointer hover:bg-opacity-70 transition-all"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setActiveImg(0);
-                              }}
-                            >
-                              <span className="text-white text-base md:text-lg font-semibold">
-                                {`All Photos (${images.length})`}
-                              </span>
-                            </div>
-                          )}
-                        </div>
-                      );
-                    })}
+              {images.length > 1 && (
+                <>
+                  <div className="absolute bottom-3 right-3 z-10 bg-[#0F172A]/70 px-2 py-1 text-xs font-semibold text-white">
+                    {activeImg + 1} / {images.length}
                   </div>
-                );
-              })}
+                  <div className="absolute bottom-3 left-1/2 z-10 flex -translate-x-1/2 gap-1.5">
+                    {images.map((_, i) => (
+                      <span
+                        key={i}
+                        className={`h-1.5 rounded-full transition ${
+                          i === activeImg ? "w-4 bg-white" : "w-1.5 bg-white/50"
+                        }`}
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
             </div>
 
   </div>  
