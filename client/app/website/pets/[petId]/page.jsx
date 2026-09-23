@@ -55,6 +55,7 @@ export default function PetDetailPage() {
     confirmHandoff,
     startReturnTransition,
     phase: imageTransitionPhase,
+    shellImageCount,
   } = usePetImageTransition();
   const [pet, setPet] = useState(null);
   const [owner, setOwner] = useState(null);
@@ -150,7 +151,7 @@ export default function PetDetailPage() {
   // When morph finishes, wait until real pet content + hero image painted, then drop cover
   useEffect(() => {
     if (imageTransitionPhase !== "done" || !isMorphActive || !pet) return;
-    handoffDoneRef.current = false;
+    if (handoffDoneRef.current) return;
 
     const tryHandoff = () => {
       if (handoffDoneRef.current) return;
@@ -180,6 +181,13 @@ export default function PetDetailPage() {
       clearTimeout(t3);
     };
   }, [imageTransitionPhase, isMorphActive, confirmHandoff, activeImg, pet]);
+
+  // Reset handoff latch when opening a different pet / new forward morph
+  useEffect(() => {
+    if (imageTransitionPhase === "waiting" || imageTransitionPhase === "morphing") {
+      handoffDoneRef.current = false;
+    }
+  }, [imageTransitionPhase, petId]);
 
   const handleMainImageReady = () => {
     if (imageTransitionPhase === "done" && isMorphActive && pet) {
@@ -257,17 +265,28 @@ export default function PetDetailPage() {
 
   if (error) return <div className="flex items-center justify-center min-h-screen"><p className="text-red-500 text-xl">{error}</p></div>;
 
-  // Morph open: blank page + hero target only — no spinner
+  // Morph open: hero box must match the real gallery on the first frame
+  // so the flight has one destination and never corrects mid-way.
   if (!pet && isMorphActive) {
+    const shellSingle = !shellImageCount || shellImageCount < 5;
     return (
       <div className="min-h-screen bg-white dark:bg-dark-main">
-        <div className="max-w-7xl mx-auto py-8 lg:py-12">
-          <div className="h-6 mb-6" />
-          <div className="hidden md:block h-[380px] sm:h-[430px] md:h-[461px] lg:h-[520px] xl:h-[560px] 2xl:h-[600px]">
-            <div ref={desktopMainImageRef} className="relative w-full h-full" />
+        <div className="mx-auto w-full max-w-[1520px] px-4 py-6 sm:px-8 lg:py-10">
+          <div className="mb-6 h-6" />
+          <div className="hidden md:flex md:flex-row gap-2 h-[380px] sm:h-[430px] md:h-[461px] lg:h-[520px] xl:h-[560px] 2xl:h-[600px]">
+            <div
+              className={`relative h-full ${
+                shellSingle ? "w-full" : "w-full md:w-[calc(100%-320px)]"
+              }`}
+            >
+              <div ref={desktopMainImageRef} className="relative h-full w-full" />
+            </div>
           </div>
-          <div className="md:hidden w-full aspect-[4/3]">
-            <div ref={mobileMainImageRef} className="relative w-full h-full" />
+          <div className="relative md:hidden">
+            <div
+              ref={mobileMainImageRef}
+              className="relative aspect-[4/3] w-full overflow-hidden bg-[#EEF2FF] dark:bg-dark-raised"
+            />
           </div>
         </div>
       </div>
@@ -487,9 +506,10 @@ export default function PetDetailPage() {
             });
             if (returnHref) {
               e.preventDefault();
-              // Always push the known list path with scroll:false so reverse
-              // morph lands on the expected page (router.back can mismatch).
-              router.push(returnHref, { scroll: false });
+              // Pop back onto the list that is already in history so it isn't
+              // mounted again from scratch (that remount is what felt like a reload).
+              if (window.history.length > 1) router.back();
+              else router.push(returnHref, { scroll: false });
               return;
             }
             router.back();

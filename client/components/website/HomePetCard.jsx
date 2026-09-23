@@ -179,10 +179,11 @@ export default function HomePetCard({ pet, viewMode = "grid" }) {
           sourceEl: imageWrapRef.current,
           clientX: event?.clientX,
           clientY: event?.clientY,
+          imageCount: photos.length,
         });
       }
 
-      router.push(href, { scroll: true });
+      router.push(href, { scroll: false });
     },
     [href, petId, photos, router, slideIndex, startTransition]
   );

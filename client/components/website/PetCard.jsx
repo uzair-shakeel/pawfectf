@@ -97,10 +97,11 @@ export default function PetCard({ pet, viewMode = "grid" }) {
         sourceEl: imageWrapRef.current,
         clientX: event?.clientX,
         clientY: event?.clientY,
+        imageCount: Array.isArray(pet?.images) ? pet.images.length : 1,
       });
 
       if (started && event?.preventDefault) event.preventDefault();
-      router.push(href, { scroll: true });
+      router.push(href, { scroll: false });
     },
     [firstImage, href, pet?._id, router, startTransition]
   );
@@ -183,6 +184,7 @@ export default function PetCard({ pet, viewMode = "grid" }) {
         <div
           ref={imageWrapRef}
           className="relative w-[120px] xs:w-[150px] sm:w-[200px] md:w-[400px] h-full flex-shrink-0 overflow-hidden rounded-2xl [&_[data-pet-morph-source]]:opacity-0"
+          data-pet-card-id={pet?._id || undefined}
         >
           <div data-pet-tile data-pet-tile-index="0" className="absolute inset-0">
             <Image src={firstImage} alt={displayName} fill className="object-cover transition-transform duration-700" loading="lazy" sizes="(max-width: 768px) 40vw, 30vw" />

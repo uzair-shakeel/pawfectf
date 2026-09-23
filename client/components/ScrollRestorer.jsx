@@ -12,6 +12,7 @@ import {
   restoreScrollTo,
   setReturnTarget,
 } from "../lib/scrollMemory";
+import { PetImageTransitionFlag } from "../lib/petImageTransition/PetImageTransitionContext";
 
 /**
  * Remembers the scroll position of every URL and puts it back when the user
@@ -64,6 +65,8 @@ export default function ScrollRestorer() {
     stopRestoreRef.current = null;
 
     // Heading into a pet page: come back to wherever we are standing now.
+    // During shared-image morph the veil covers the jump — still scroll under it
+    // so the hero mounts at the correct viewport position for registerTarget.
     if (isPetDetailPath(key)) {
       if (prevKey && !isPetDetailPath(prevKey)) setReturnTarget(prevKey);
       window.scrollTo(0, 0);
@@ -72,6 +75,9 @@ export default function ScrollRestorer() {
 
     if (getReturnTarget() === key) {
       clearReturnTarget();
+      // Shared-image return owns scroll. A second restorer moves the card
+      // while the photo is flying and the landing misses.
+      if (PetImageTransitionFlag.active) return undefined;
       const y = getRememberedScroll(key);
       if (y != null && y > 0) {
         stopRestoreRef.current = restoreScrollTo(y);
@@ -83,7 +89,10 @@ export default function ScrollRestorer() {
     }
 
     // Normal navigation (not the first paint of a fresh load) starts at the top.
-    if (prevKey && prevKey !== key) window.scrollTo(0, 0);
+    // Skip while a reverse morph is in flight so the card stays put.
+    if (prevKey && prevKey !== key && !PetImageTransitionFlag.active) {
+      window.scrollTo(0, 0);
+    }
     return undefined;
   }, [pathname]);
 

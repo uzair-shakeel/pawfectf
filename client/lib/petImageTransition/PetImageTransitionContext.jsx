@@ -11,7 +11,6 @@ import {
   useState,
 } from "react";
 import { createPortal } from "react-dom";
-import { animate } from "framer-motion";
 import { usePathname } from "next/navigation";
 
 const PetImageTransitionContext = createContext(null);
@@ -154,6 +153,19 @@ function findCardEl(petId) {
   return document.querySelector(`[data-pet-card-id="${id}"]`);
 }
 
+/** Prefer the same photo tile the forward morph left from */
+function findCardLandingEl(petId, imageIndex = 0) {
+  const card = findCardEl(petId);
+  if (!card) return null;
+  const tiles = [...card.querySelectorAll("[data-pet-tile]")];
+  if (!tiles.length) return card;
+  const idx = Math.min(
+    Math.max(0, Number(imageIndex) || 0),
+    tiles.length - 1
+  );
+  return tiles[idx] || card;
+}
+
 function makeFakeEl(rect) {
   return {
     getBoundingClientRect: () => ({
@@ -173,25 +185,159 @@ function isPetDetailPath(path) {
   return /^\/website\/pets\/[^/?#]+/.test(String(path || ""));
 }
 
+/**
+ * Predict where the detail hero will land so the morph can start expanding
+ * immediately — waiting for the next route to mount is what felt like a reload.
+ */
+function estimateDetailHeroRect() {
+  if (typeof window === "undefined") return null;
+  const vw = window.innerWidth;
+  const isDesktop = window.matchMedia("(min-width: 768px)").matches;
+  const padX = vw >= 640 ? 32 : 16;
+  const maxContent = Math.min(vw, 1520);
+  const sideGutter = Math.max(0, (vw - maxContent) / 2);
+  const left = sideGutter + padX;
+  const width = Math.max(120, maxContent - padX * 2);
+  // Navbar (~64) + page py + back button row
+  const top = 64 + (vw >= 1024 ? 40 : 24) + 40;
+  if (isDesktop) {
+    let height = 380;
+    if (vw >= 1536) height = 600;
+    else if (vw >= 1280) height = 560;
+    else if (vw >= 1024) height = 520;
+    else if (vw >= 768) height = 461;
+    else if (vw >= 640) height = 430;
+    return { top, left, width, height };
+  }
+  return { top, left, width, height: Math.round(width * 0.75) };
+}
+
+const MORPH_DURATION = 0.68;
+const VEIL_ACTIVE = 1;
+
+function easeOutCubic(t) {
+  const x = Math.min(1, Math.max(0, t));
+  return 1 - (1 - x) * (1 - x) * (1 - x);
+}
+
+/** Where object-fit:cover would draw the bitmap inside a box. */
+function coverImageRect(box, aspect) {
+  const a = aspect > 0.05 ? aspect : box.width / Math.max(box.height, 1);
+  const boxAspect = box.width / Math.max(box.height, 1);
+  if (boxAspect > a) {
+    const width = box.width;
+    const height = width / a;
+    return {
+      left: box.left,
+      top: box.top + (box.height - height) / 2,
+      width,
+      height,
+    };
+  }
+  const height = box.height;
+  const width = height * a;
+  return {
+    left: box.left + (box.width - width) / 2,
+    top: box.top,
+    width,
+    height,
+  };
+}
+
+function tweenMorph({ from, to, fromImage, toImage, duration, onUpdate, onComplete }) {
+  const start = performance.now();
+  let raf = 0;
+  let stopped = false;
+
+  const mix = (a, b, e) => a + (b - a) * e;
+
+  const tick = (now) => {
+    if (stopped) return;
+    const t = Math.min(1, (now - start) / (duration * 1000));
+    const e = easeOutCubic(t);
+    onUpdate(
+      {
+        top: mix(from.top, to.top, e),
+        left: mix(from.left, to.left, e),
+        width: mix(from.width, to.width, e),
+        height: mix(from.height, to.height, e),
+        borderRadius: mix(from.borderRadius, to.borderRadius, e),
+      },
+      {
+        left: mix(fromImage.left, toImage.left, e),
+        top: mix(fromImage.top, toImage.top, e),
+        width: mix(fromImage.width, toImage.width, e),
+        height: mix(fromImage.height, toImage.height, e),
+      },
+      t
+    );
+    if (t < 1) {
+      raf = requestAnimationFrame(tick);
+    } else {
+      onComplete?.();
+    }
+  };
+
+  raf = requestAnimationFrame(tick);
+  return {
+    stop() {
+      stopped = true;
+      cancelAnimationFrame(raf);
+    },
+  };
+}
+
+function tweenFade({ from, to, duration, onUpdate, onComplete }) {
+  const start = performance.now();
+  let raf = 0;
+  let stopped = false;
+  const tick = (now) => {
+    if (stopped) return;
+    const t = Math.min(1, (now - start) / (duration * 1000));
+    const e = 1 - (1 - t) * (1 - t);
+    onUpdate({
+      cover: from.cover + (to.cover - from.cover) * e,
+      veil: from.veil + (to.veil - from.veil) * e,
+    });
+    if (t < 1) raf = requestAnimationFrame(tick);
+    else onComplete?.();
+  };
+  raf = requestAnimationFrame(tick);
+  return {
+    stop() {
+      stopped = true;
+      cancelAnimationFrame(raf);
+    },
+  };
+}
+
 export function PetImageTransitionProvider({ children }) {
   const pathname = usePathname();
   const [phase, setPhase] = useState("idle"); // idle | departing | waiting | morphing | done | releasing
   const [payload, setPayload] = useState(null);
   const [visual, setVisual] = useState(null);
   const [mounted, setMounted] = useState(false);
-  const [veilOpacity, setVeilOpacity] = useState(0.35);
+  const [veilOpacity, setVeilOpacity] = useState(VEIL_ACTIVE);
 
   const phaseRef = useRef(phase);
   const payloadRef = useRef(payload);
+  const visualRef = useRef(null);
   const targetRef = useRef(null); // { petId, el }
   const animControlsRef = useRef(null);
+  const clipRef = useRef(null);
+  const flyImgRef = useRef(null);
+  const veilRef = useRef(null);
+  const parkedRef = useRef(null);
   const safetyTimerRef = useRef(null);
   const morphStartedRef = useRef(false);
   const morphRetryCountRef = useRef(0);
   const lastForwardRef = useRef(null);
+  const lastTargetRectRef = useRef(null);
+  const reachedDetailRef = useRef(false);
 
   phaseRef.current = phase;
   payloadRef.current = payload;
+  visualRef.current = visual;
 
   useEffect(() => {
     setMounted(true);
@@ -214,10 +360,12 @@ export function PetImageTransitionProvider({ children }) {
     PetImageTransitionFlag.active = false;
     morphStartedRef.current = false;
     morphRetryCountRef.current = 0;
+    lastTargetRectRef.current = null;
+    reachedDetailRef.current = false;
     setPhase("idle");
     setPayload(null);
     setVisual(null);
-    setVeilOpacity(0.35);
+    setVeilOpacity(VEIL_ACTIVE);
   }, [clearSafety]);
 
   const armSafety = useCallback(
@@ -228,134 +376,204 @@ export function PetImageTransitionProvider({ children }) {
     [clearSafety, finish]
   );
 
-  const runMorph = useCallback(() => {
-    const current = payloadRef.current;
-    const target = targetRef.current;
-    const currentPhase = phaseRef.current;
-
-    if (!current || !target) return;
-    if (String(current.petId) !== String(target.petId)) return;
-    if (currentPhase !== "waiting" && currentPhase !== "departing") return;
-    if (morphStartedRef.current) return;
-
-    let to = rectFromElement(target.el);
-    let toRadiusStr = readBorderRadius(target.el) || "0px";
-
-    if (current.direction === "reverse") {
-      const live = findCardEl(current.petId);
-      if (live) {
-        const liveRect = rectFromElement(live);
-        if (liveRect) {
-          to = liveRect;
-          toRadiusStr = readBorderRadius(live) || current.toRadius || "0px";
-          targetRef.current = { petId: current.petId, el: live };
-        }
-      } else if (current.to) {
-        to = current.to;
-        toRadiusStr = current.toRadius || "0px";
-      }
-    }
-
-    if (!to) {
-      if (morphRetryCountRef.current < 60) {
-        morphRetryCountRef.current += 1;
-        requestAnimationFrame(() => {
-          if (!morphStartedRef.current) runMorph();
-        });
-      } else if (current.direction === "reverse") {
-        // Never leave the flying image stuck on the list
-        finish();
-      }
-      return;
-    }
-    morphRetryCountRef.current = 0;
-
-    morphStartedRef.current = true;
-    setPhase("morphing");
-
-    const from = current.from;
-    const fromR = parseRadiusPx(current.borderRadius);
-    const toR = parseRadiusPx(toRadiusStr);
-
-    const proxy = {
-      top: from.top,
-      left: from.left,
-      width: from.width,
-      height: from.height,
-      borderRadius: fromR,
-    };
-
+  const applyVisual = useCallback((proxy, opacity = 1) => {
     setVisual({
-      top: from.top,
-      left: from.left,
-      width: from.width,
-      height: from.height,
-      borderRadius: `${fromR}px`,
-      opacity: 1,
+      top: proxy.top,
+      left: proxy.left,
+      width: proxy.width,
+      height: proxy.height,
+      borderRadius: `${proxy.borderRadius}px`,
+      opacity,
     });
+  }, []);
 
-    if (animControlsRef.current) {
-      animControlsRef.current.stop();
-    }
+  /** Direct DOM writes — React setState every frame is what made the flight stutter. */
+  const paintFly = useCallback((clip, image, radiusPx, opacity, veil) => {
+    parkedRef.current = { clip, image, radius: radiusPx };
+    const v = veilRef.current;
+    if (v) v.style.opacity = String(veil);
+    const c = clipRef.current;
+    if (!c || !clip) return;
+    c.style.width = `${clip.width}px`;
+    c.style.height = `${clip.height}px`;
+    c.style.transform = `translate3d(${clip.left}px, ${clip.top}px, 0)`;
+    c.style.borderRadius = `${radiusPx}px`;
+    c.style.opacity = String(opacity);
+    const im = flyImgRef.current;
+    if (!im || !image) return;
+    im.style.width = `${image.width}px`;
+    im.style.height = `${image.height}px`;
+    im.style.transform = `translate3d(${image.left - clip.left}px, ${image.top - clip.top}px, 0)`;
+  }, []);
 
-    animControlsRef.current = animate(
-      proxy,
-      {
-        top: to.top,
+  const runMorph = useCallback(
+    (opts = {}) => {
+      const current = payloadRef.current;
+      const target = targetRef.current;
+      const currentPhase = phaseRef.current;
+      const forceRetarget = !!opts.retarget;
+
+      if (!current || !target) return;
+      if (String(current.petId) !== String(target.petId)) return;
+      // Reverse: never fly while still on the detail route (departing)
+      if (current.direction === "reverse" && currentPhase === "departing") {
+        return;
+      }
+      if (
+        !forceRetarget &&
+        currentPhase !== "waiting" &&
+        currentPhase !== "departing"
+      ) {
+        return;
+      }
+      if (!forceRetarget && morphStartedRef.current) return;
+
+      let to = rectFromElement(target.el);
+      let toRadiusStr = readBorderRadius(target.el) || "0px";
+
+      if (current.direction === "reverse") {
+        const liveEl = findCardLandingEl(
+          current.petId,
+          current.imageIndex ?? 0
+        );
+        if (liveEl) {
+          const liveRect = rectFromElement(liveEl);
+          if (liveRect) {
+            to = liveRect;
+            toRadiusStr =
+              readBorderRadius(liveEl) || current.toRadius || "0px";
+            targetRef.current = { petId: current.petId, el: liveEl };
+          }
+        } else if (current.to) {
+          to = current.to;
+          toRadiusStr = current.toRadius || "0px";
+        }
+      }
+
+      if (!to) {
+        if (morphRetryCountRef.current < 60) {
+          morphRetryCountRef.current += 1;
+          requestAnimationFrame(() => {
+            if (!morphStartedRef.current || forceRetarget) runMorph(opts);
+          });
+        } else if (current.direction === "reverse") {
+          finish();
+        }
+        return;
+      }
+      morphRetryCountRef.current = 0;
+
+      const fromVisual = visualRef.current;
+      const from =
+        forceRetarget && fromVisual
+          ? {
+              top: fromVisual.top,
+              left: fromVisual.left,
+              width: fromVisual.width,
+              height: fromVisual.height,
+            }
+          : current.from;
+      const fromRadiusStr =
+        forceRetarget && fromVisual?.borderRadius
+          ? fromVisual.borderRadius
+          : current.borderRadius;
+
+      // Skip tiny retargets that only cause a visible snap
+      if (forceRetarget && lastTargetRectRef.current && to) {
+        const prev = lastTargetRectRef.current;
+        const drift =
+          Math.abs(prev.top - to.top) +
+          Math.abs(prev.left - to.left) +
+          Math.abs(prev.width - to.width) +
+          Math.abs(prev.height - to.height);
+        if (drift < 24) return;
+      }
+      lastTargetRectRef.current = to ? { ...to } : null;
+
+      morphStartedRef.current = true;
+      phaseRef.current = "morphing";
+      setPhase("morphing");
+
+      const fromR = parseRadiusPx(fromRadiusStr);
+      const toR = parseRadiusPx(toRadiusStr);
+      const aspect =
+        current.imageAspect > 0
+          ? current.imageAspect
+          : from.width / Math.max(from.height, 1);
+      const fromBox = {
+        left: from.left,
+        top: from.top,
+        width: from.width,
+        height: from.height,
+      };
+      const toBox = {
         left: to.left,
+        top: to.top,
         width: to.width,
         height: to.height,
-        borderRadius: toR,
-      },
-      {
-        duration: 0.55,
-        ease: [0.32, 0.72, 0, 1],
-        onUpdate: () => {
-          setVisual({
-            top: proxy.top,
-            left: proxy.left,
-            width: proxy.width,
-            height: proxy.height,
-            borderRadius: `${proxy.borderRadius}px`,
-            opacity: 1,
-          });
+      };
+      const fromImage = coverImageRect(fromBox, aspect);
+      const toImage = coverImageRect(toBox, aspect);
+
+      if (animControlsRef.current) {
+        animControlsRef.current.stop();
+      }
+
+      const duration = MORPH_DURATION;
+      setVeilOpacity(VEIL_ACTIVE);
+      paintFly(fromBox, fromImage, fromR, 1, VEIL_ACTIVE);
+
+      animControlsRef.current = tweenMorph({
+        from: { ...fromBox, borderRadius: fromR },
+        to: { ...toBox, borderRadius: toR },
+        fromImage,
+        toImage,
+        duration,
+        onUpdate: (clip, image) => {
+          paintFly(clip, image, clip.borderRadius, 1, VEIL_ACTIVE);
         },
         onComplete: () => {
+          paintFly(toBox, toImage, toR, 1, VEIL_ACTIVE);
           if (current.direction === "reverse") {
-            const fade = { cover: 1, veil: 0.28 };
-            animControlsRef.current = animate(
-              fade,
-              { cover: 0, veil: 0 },
-              {
-                duration: 0.14,
-                ease: "easeOut",
-                onUpdate: () => {
-                  setVeilOpacity(fade.veil);
-                  setVisual((prev) =>
-                    prev ? { ...prev, opacity: fade.cover } : prev
-                  );
-                },
-                onComplete: () => finish(),
-              }
-            );
+            clearMorphSources();
+            const endClip = toBox;
+            const endImage = toImage;
+            animControlsRef.current = tweenFade({
+              from: { cover: 1, veil: VEIL_ACTIVE },
+              to: { cover: 0, veil: 0 },
+              duration: 0.18,
+              onUpdate: ({ cover, veil }) => {
+                paintFly(endClip, endImage, toR, cover, veil);
+              },
+              onComplete: () => finish(),
+            });
             return;
           }
-          // Stay in "done" with the floating image covering the hero until
-          // the detail page confirms the matching main image has painted.
+          phaseRef.current = "done";
           setPhase("done");
         },
-      }
-    );
-  }, [finish]);
+      });
+    },
+    [finish, paintFly]
+  );
 
-  // Abort only if we already reached the detail route, then left it
+  // Abort only after we actually landed on the detail route, then left it.
+  // (Do NOT abort while still on the list — morph starts before navigation.)
   useEffect(() => {
     if (!payload?.href) return;
-    if (phase !== "morphing" && phase !== "done") return;
+    if (phase !== "morphing" && phase !== "done" && phase !== "releasing") {
+      return;
+    }
     if (payload.direction === "reverse") return;
     try {
       const expected = new URL(payload.href, window.location.origin).pathname;
-      if (pathname !== expected) finish();
+      if (pathname === expected) {
+        reachedDetailRef.current = true;
+        return;
+      }
+      if (reachedDetailRef.current && pathname !== expected) {
+        finish();
+      }
     } catch {
       /* ignore */
     }
@@ -366,14 +584,23 @@ export function PetImageTransitionProvider({ children }) {
     if (phase !== "waiting" && phase !== "departing") return;
     // Reverse waits for scroll restore effect to flip into waiting
     if (payload?.direction === "reverse" && phase === "departing") return;
+    let cancelled = false;
     const id = requestAnimationFrame(() => {
-      requestAnimationFrame(() => runMorph());
+      requestAnimationFrame(() => {
+        if (!cancelled) runMorph();
+      });
     });
-    return () => cancelAnimationFrame(id);
-  }, [phase, payload, runMorph]);
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(id);
+    };
+    // Intentionally omit runMorph — identity churn was cancelling the rAF
+    // before the morph could start (frozen overlay / blink).
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phase, payload?.petId, payload?.direction, payload?.href]);
 
   const startTransition = useCallback(
-    ({ petId, href, imageSrc, sourceEl, clientX, clientY }) => {
+    ({ petId, href, imageSrc, sourceEl, clientX, clientY, imageCount: imageCountArg }) => {
       if (!href || !petId || !sourceEl) return false;
 
       // Collage cards: morph from the exact tile under the click, not the whole card frame
@@ -393,6 +620,7 @@ export function PetImageTransitionProvider({ children }) {
       }
       morphStartedRef.current = false;
       morphRetryCountRef.current = 0;
+      reachedDetailRef.current = false;
 
       const tileRadius = readBorderRadius(tileEl);
       const wrapRadius = readBorderRadius(sourceEl);
@@ -411,6 +639,15 @@ export function PetImageTransitionProvider({ children }) {
       const scrollX = window.scrollX || 0;
       const scrollY = window.scrollY || 0;
 
+      const imageAspect =
+        photoImg && photoImg.naturalWidth > 0 && photoImg.naturalHeight > 0
+          ? photoImg.naturalWidth / photoImg.naturalHeight
+          : from.width / Math.max(from.height, 1);
+      const imageCount = Math.max(
+        1,
+        Number.isFinite(imageCountArg) ? imageCountArg : 1
+      );
+
       lastForwardRef.current = {
         petId: String(petId),
         imageSrc: readySrc,
@@ -419,6 +656,8 @@ export function PetImageTransitionProvider({ children }) {
         listPath,
         scrollX,
         scrollY,
+        imageAspect,
+        imageCount,
         imageIndex:
           typeof resolved?.imageIndex === "number" ? resolved.imageIndex : 0,
       };
@@ -430,17 +669,25 @@ export function PetImageTransitionProvider({ children }) {
         from,
         borderRadius,
         direction: "forward",
+        imageAspect,
+        imageCount,
         imageIndex:
           typeof resolved?.imageIndex === "number" ? resolved.imageIndex : 0,
       };
 
+      // No guessed hero rect. The flyer stays on the card until the real
+      // hero has a stable box, then one tween — no mid-flight correction.
+      targetRef.current = null;
+
       setPayload(next);
+      payloadRef.current = next;
       setVisual({
         ...from,
         borderRadius,
         opacity: 1,
       });
-      setVeilOpacity(0.35);
+      setVeilOpacity(VEIL_ACTIVE);
+      phaseRef.current = "waiting";
       setPhase("waiting");
       armSafety();
 
@@ -486,70 +733,114 @@ export function PetImageTransitionProvider({ children }) {
         borderRadius: readBorderRadius(sourceEl) || "0px",
         direction: "reverse",
         imageIndex: last.imageIndex ?? 0,
+        imageAspect: last.imageAspect,
+        imageCount: last.imageCount,
         scrollX: last.scrollX ?? 0,
         scrollY: last.scrollY ?? 0,
       });
+      payloadRef.current = {
+        petId: id,
+        href,
+        imageSrc: readySrc,
+        from,
+        to: { ...last.from },
+        toRadius: last.borderRadius || "0px",
+        borderRadius: readBorderRadius(sourceEl) || "0px",
+        direction: "reverse",
+        imageIndex: last.imageIndex ?? 0,
+        imageAspect: last.imageAspect,
+        imageCount: last.imageCount,
+        scrollX: last.scrollX ?? 0,
+        scrollY: last.scrollY ?? 0,
+      };
       setVisual({
         ...from,
         borderRadius: readBorderRadius(sourceEl) || "0px",
         opacity: 1,
       });
-      setVeilOpacity(0.28);
+      setVeilOpacity(VEIL_ACTIVE);
+      phaseRef.current = "departing";
       setPhase("departing");
-      armSafety(2200);
+      armSafety(2800);
 
       return href;
     },
     [armSafety]
   );
 
-  // Reverse: once we leave the detail route, wait for ScrollRestorer to put the
-  // list back in place, then morph toward the live card.
+  // Reverse: hide the route swap, put the list back where it was, then shrink
+  // into that card. Scroll must not move once the flight starts.
   useLayoutEffect(() => {
     if (!payload || payload.direction !== "reverse") return;
     if (phase !== "departing") return;
     if (isPetDetailPath(pathname)) return;
 
     const petId = payload.petId;
+    const imageIndex = payload.imageIndex ?? 0;
+    const scrollX = payload.scrollX ?? 0;
+    const scrollY = payload.scrollY ?? 0;
     let cancelled = false;
-    let tries = 0;
     let rafId = 0;
+    let tries = 0;
+    let prevTop = null;
+    let stable = 0;
+
+    const placeList = () => {
+      try {
+        window.scrollTo(scrollX, scrollY);
+      } catch {
+        /* ignore */
+      }
+    };
 
     const beginMorph = () => {
       if (cancelled) return;
+      placeList();
 
-      const card = findCardEl(petId);
-      let to = payload.to;
-      let toRadius = payload.toRadius || "0px";
-
-      if (card) {
-        const live = rectFromElement(card);
-        if (live) {
-          to = live;
-          toRadius = readBorderRadius(card) || toRadius;
-        }
-        markMorphSource(card);
-        targetRef.current = { petId, el: card };
-      } else if (to) {
-        targetRef.current = { petId, el: makeFakeEl(to) };
-      } else {
-        // Nowhere to land — fade out instead of leaving a stuck overlay
+      const land = findCardLandingEl(petId, imageIndex);
+      let to = land ? rectFromElement(land) : null;
+      let toRadius = land
+        ? readBorderRadius(land) || payload.toRadius || "0px"
+        : payload.toRadius || "0px";
+      if (!to && payload.to) to = payload.to;
+      if (!to) {
         finish();
         return;
       }
 
-      // Avoid setPayload here, it would retrigger this effect
+      // Leave the real card visible. The flyer lands on top of it, then fades.
+      targetRef.current = {
+        petId,
+        el: land || makeFakeEl(to),
+      };
       payloadRef.current = { ...payloadRef.current, to, toRadius };
-      setVeilOpacity(0.28);
+      morphStartedRef.current = false;
+      morphRetryCountRef.current = 0;
+      setVeilOpacity(VEIL_ACTIVE);
+      phaseRef.current = "waiting";
       setPhase("waiting");
+      runMorph();
     };
 
     const go = () => {
       if (cancelled) return;
-      const card = findCardEl(petId);
-      // Give the list a few frames to render and settle at the restored offset
-      if (!card && tries < 12) {
-        tries += 1;
+      placeList();
+      const land = findCardLandingEl(petId, imageIndex);
+      const rect = land ? rectFromElement(land) : null;
+      const scrolled =
+        scrollY <= 1 || Math.abs(window.scrollY - scrollY) < 3;
+      if (rect && scrolled && prevTop != null && Math.abs(rect.top - prevTop) < 2) {
+        stable += 1;
+      } else {
+        stable = 0;
+      }
+      prevTop = rect ? rect.top : null;
+      tries += 1;
+      if (rect && scrolled && stable >= 1) {
+        beginMorph();
+        return;
+      }
+      if (tries < 16) {
         rafId = requestAnimationFrame(go);
         return;
       }
@@ -561,7 +852,7 @@ export function PetImageTransitionProvider({ children }) {
       cancelled = true;
       cancelAnimationFrame(rafId);
     };
-  }, [pathname, phase, payload, finish]);
+  }, [pathname, phase, payload, finish, runMorph]);
 
   const registerTarget = useCallback(
     (petId, targetEl) => {
@@ -570,7 +861,11 @@ export function PetImageTransitionProvider({ children }) {
       targetRef.current = { petId: String(petId), el: targetEl };
 
       requestAnimationFrame(() => {
-        requestAnimationFrame(() => runMorph());
+        const p = phaseRef.current;
+        const dir = payloadRef.current?.direction;
+        // One flight only. A second correction is the stutter.
+        if (dir === "reverse") return;
+        if (p === "waiting" && !morphStartedRef.current) runMorph();
       });
 
       return () => {
@@ -579,7 +874,10 @@ export function PetImageTransitionProvider({ children }) {
           String(targetRef.current.petId) === String(petId) &&
           targetRef.current.el === targetEl
         ) {
-          targetRef.current = null;
+          const p = phaseRef.current;
+          if (p === "idle" || p === "releasing") {
+            targetRef.current = null;
+          }
         }
       };
     },
@@ -610,43 +908,44 @@ export function PetImageTransitionProvider({ children }) {
     phaseRef.current = "releasing";
     setPhase("releasing");
 
-    const target = targetRef.current;
-    const to = target?.el ? rectFromElement(target.el) : null;
-    if (to) {
-      setVisual((prev) =>
-        prev
-          ? {
-              ...prev,
-              top: to.top,
-              left: to.left,
-              width: to.width,
-              height: to.height,
-              borderRadius: readBorderRadius(target.el) || prev.borderRadius,
-              opacity: 1,
-            }
-          : prev
-      );
-    }
-
-    // Soft dissolve of the cover over the already-painted hero (kills the hard blink)
-    const proxy = { cover: 1, veil: 0.35 };
+    const parked = parkedRef.current;
     if (animControlsRef.current) animControlsRef.current.stop();
-    animControlsRef.current = animate(
-      proxy,
-      { cover: 0, veil: 0 },
-      {
-        duration: 0.16,
-        ease: "easeOut",
-        onUpdate: () => {
-          setVeilOpacity(proxy.veil);
-          setVisual((prev) =>
-            prev ? { ...prev, opacity: proxy.cover } : prev
-          );
-        },
-        onComplete: () => finish(),
-      }
+    animControlsRef.current = tweenFade({
+      from: { cover: 1, veil: VEIL_ACTIVE },
+      to: { cover: 0, veil: 0 },
+      duration: 0.2,
+      onUpdate: ({ cover, veil }) => {
+        if (!parked) return;
+        paintFly(parked.clip, parked.image, parked.radius, cover, veil);
+      },
+      onComplete: () => finish(),
+    });
+  }, [finish, paintFly]);
+
+  useLayoutEffect(() => {
+    if (!visual) return;
+    if (phase !== "waiting" && phase !== "departing") return;
+    const aspect =
+      payloadRef.current?.imageAspect ||
+      visual.width / Math.max(visual.height, 1);
+    const clip = {
+      left: visual.left,
+      top: visual.top,
+      width: visual.width,
+      height: visual.height,
+    };
+    paintFly(
+      clip,
+      coverImageRect(clip, aspect),
+      parseRadiusPx(
+        typeof visual.borderRadius === "number"
+          ? `${visual.borderRadius}px`
+          : visual.borderRadius
+      ),
+      visual.opacity ?? 1,
+      veilOpacity
     );
-  }, [finish]);
+  }, [visual, phase, veilOpacity, paintFly]);
 
   const value = useMemo(
     () => ({
@@ -658,6 +957,7 @@ export function PetImageTransitionProvider({ children }) {
       confirmHandoff,
       phase,
       activePetId: payload?.petId ?? null,
+      shellImageCount: payload?.imageCount ?? 0,
       finish,
     }),
     [
@@ -694,34 +994,34 @@ export function PetImageTransitionProvider({ children }) {
             style={{ contain: "layout paint" }}
           >
             <div
+              ref={veilRef}
               className="absolute inset-0 bg-white dark:bg-black"
               style={{ opacity: veilOpacity }}
             />
             <div
-              className="absolute overflow-hidden bg-transparent"
+              ref={clipRef}
+              className="absolute left-0 top-0 overflow-hidden bg-transparent"
               style={{
-                top: visual.top,
-                left: visual.left,
                 width: visual.width,
                 height: visual.height,
+                transform: `translate3d(${visual.left}px, ${visual.top}px, 0)`,
                 borderRadius: visual.borderRadius,
                 opacity: visual.opacity ?? 1,
-                boxShadow:
-                  phase === "done" ||
-                  phase === "morphing" ||
-                  phase === "releasing"
-                    ? "none"
-                    : "0 25px 50px -12px rgb(0 0 0 / 0.35)",
-                willChange: "top, left, width, height, border-radius, opacity",
+                willChange: "transform, width, height, opacity",
               }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
+                ref={flyImgRef}
                 src={payload.imageSrc}
                 alt=""
-                className="h-full w-full object-cover"
                 draggable={false}
                 decoding="sync"
+                className="absolute left-0 top-0 max-w-none"
+                style={{
+                  width: visual.width,
+                  height: visual.height,
+                }}
               />
             </div>
           </div>,
@@ -743,6 +1043,7 @@ export function usePetImageTransition() {
       confirmHandoff: () => {},
       phase: "idle",
       activePetId: null,
+      shellImageCount: 0,
       finish: () => {},
     };
   }
