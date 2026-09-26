@@ -136,7 +136,7 @@ export default function LostFoundDetailPage() {
       {fullscreen &&
         typeof document !== "undefined" &&
         createPortal(
-          <div className="fixed inset-0 z-[400] bg-[#0F172A]">
+          <div className="fixed inset-0 z-[400] overflow-hidden bg-[#0F172A]">
             <button
               type="button"
               onClick={() => setFullscreen(false)}
@@ -153,8 +153,9 @@ export default function LostFoundDetailPage() {
                 <ChevronLeft className="h-6 w-6" />
               </button>
             )}
-            <div className="relative mx-auto h-full max-w-5xl">
-              <Image src={images[activeImg]} alt={entry.title} fill className="object-contain" sizes="100vw" priority unoptimized />
+            <div className="relative mx-auto flex h-full max-w-5xl items-center justify-center overflow-hidden px-4">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={images[activeImg]} alt={entry.title} className="max-h-full max-w-full object-contain" />
             </div>
             {images.length > 1 && (
               <button

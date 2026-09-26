@@ -10,12 +10,12 @@ import { useLanguage } from "../../../../lib/i18n/LanguageContext";
 import { optimizeCloudinaryUrl } from "../../../../lib/imageUtils";
 import { toTelHref } from "../../../../lib/utils";
 import { usePetImageTransition } from "../../../../lib/petImageTransition/PetImageTransitionContext";
-import { ShieldCheck, MapPin, Heart, MessageCircle, Phone, ChevronLeft, ChevronRight, X } from "lucide-react";
+import { ShieldCheck, MapPin, Heart, MessageCircle, Phone, ChevronLeft, ChevronRight, X, Maximize, Minimize, ZoomIn } from "lucide-react";
 import { FaGlobe, FaFacebook, FaInstagram } from "react-icons/fa";
 import Link from "next/link";
 import { createPortal } from "react-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { A11y } from "swiper/modules";
+import { A11y, Keyboard } from "swiper/modules";
 import "swiper/css";
 import io from "socket.io-client";
 
@@ -43,6 +43,21 @@ const fmtUrl = (path, w = 1200) => {
   return optimizeCloudinaryUrl(url, w);
 };
 
+function clampFsPan(pan, imgEl, viewportEl, zoom) {
+  if (zoom <= 1 || !imgEl || !viewportEl) return { x: 0, y: 0 };
+  const vw = viewportEl.clientWidth;
+  const vh = viewportEl.clientHeight;
+  const bw = imgEl.offsetWidth;
+  const bh = imgEl.offsetHeight;
+  if (!bw || !bh) return { x: 0, y: 0 };
+  const maxX = Math.max(0, (bw * zoom - vw) / 2);
+  const maxY = Math.max(0, (bh * zoom - vh) / 2);
+  return {
+    x: Math.min(maxX, Math.max(-maxX, pan.x)),
+    y: Math.min(maxY, Math.max(-maxY, pan.y)),
+  };
+}
+
 export default function PetDetailPage() {
   const { petId } = useParams();
   const router = useRouter();
@@ -62,11 +77,17 @@ export default function PetDetailPage() {
   const [city, setCity] = useState("");
   const [activeImg, setActiveImg] = useState(0);
   const [fullscreen, setFullscreen] = useState(false);
+  const [fsZoom, setFsZoom] = useState(1);
+  const [fsPan, setFsPan] = useState({ x: 0, y: 0 });
+  const fsPanDragRef = useRef(null);
   const [error, setError] = useState(null);
   const [showPhone, setShowPhone] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [applicationText, setApplicationText] = useState("Hi, I'm very interested in adopting this pet. Please let me know what the next steps are!");
-  const swiperRef = useRef(null);
+  const fsSwiperRef = useRef(null);
+  const fsRootRef = useRef(null);
+  const fsViewportRef = useRef(null);
+  const fsActiveImgRef = useRef(null);
   const desktopMainImageRef = useRef(null);
   const mobileMainImageRef = useRef(null);
   const desktopDragRef = useRef({ active: false, startX: 0, moved: false });
@@ -203,20 +224,140 @@ export default function PetDetailPage() {
 
   useEffect(() => {
     if (!fullscreen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const id = requestAnimationFrame(() => {
+      fsSwiperRef.current?.slideTo(activeImg, 0);
+    });
+    setFsZoom(1);
+    setFsPan({ x: 0, y: 0 });
+    return () => {
+      document.body.style.overflow = prev;
+      cancelAnimationFrame(id);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- only sync slide when modal opens
+  }, [fullscreen]);
+
+  useEffect(() => {
+    const swiper = fsSwiperRef.current;
+    if (!swiper) return;
+    swiper.allowTouchMove = fsZoom <= 1;
+  }, [fsZoom, fullscreen]);
+
+  useEffect(() => {
+    if (!fullscreen) return;
     const handleKeyDown = (e) => {
       if (e.key === "Escape") {
+        if (document.fullscreenElement) {
+          document.exitFullscreen?.();
+          return;
+        }
         setFullscreen(false);
       } else if (e.key === "ArrowLeft") {
         e.preventDefault();
-        if (swiperRef.current) swiperRef.current.swiper.slidePrev();
+        if (fsZoom > 1) {
+          setFsPan((p) =>
+            clampFsPan(
+              { x: p.x + 48, y: p.y },
+              fsActiveImgRef.current,
+              fsViewportRef.current,
+              fsZoom
+            )
+          );
+        } else fsSwiperRef.current?.slidePrev();
       } else if (e.key === "ArrowRight") {
         e.preventDefault();
-        if (swiperRef.current) swiperRef.current.swiper.slideNext();
+        if (fsZoom > 1) {
+          setFsPan((p) =>
+            clampFsPan(
+              { x: p.x - 48, y: p.y },
+              fsActiveImgRef.current,
+              fsViewportRef.current,
+              fsZoom
+            )
+          );
+        } else fsSwiperRef.current?.slideNext();
       }
     };
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [fullscreen]);
+  }, [fullscreen, fsZoom]);
+
+  const resetFsView = () => {
+    setFsZoom(1);
+    setFsPan({ x: 0, y: 0 });
+  };
+
+  const applyFsPan = (nextPan) => {
+    setFsPan(
+      clampFsPan(
+        nextPan,
+        fsActiveImgRef.current,
+        fsViewportRef.current,
+        fsZoom
+      )
+    );
+  };
+
+  const toggleFsZoom = () => {
+    if (fsZoom > 1) resetFsView();
+    else {
+      setFsZoom(2);
+      setFsPan({ x: 0, y: 0 });
+    }
+  };
+
+  const onFsImgPointerDown = (e) => {
+    if (fsZoom <= 1) return;
+    fsPanDragRef.current = {
+      startX: e.clientX,
+      startY: e.clientY,
+      panX: fsPan.x,
+      panY: fsPan.y,
+    };
+    e.currentTarget.setPointerCapture?.(e.pointerId);
+  };
+
+  const onFsImgPointerMove = (e) => {
+    const drag = fsPanDragRef.current;
+    if (!drag || fsZoom <= 1) return;
+    applyFsPan({
+      x: drag.panX + e.clientX - drag.startX,
+      y: drag.panY + e.clientY - drag.startY,
+    });
+  };
+
+  const endFsPan = () => {
+    fsPanDragRef.current = null;
+    setFsPan((prev) =>
+      clampFsPan(
+        prev,
+        fsActiveImgRef.current,
+        fsViewportRef.current,
+        fsZoom
+      )
+    );
+  };
+
+  const onFsViewportWheel = (e) => {
+    if (fsZoom <= 1) return;
+    e.preventDefault();
+    setFsPan((prev) =>
+      clampFsPan(
+        { x: prev.x - e.deltaX, y: prev.y - e.deltaY },
+        fsActiveImgRef.current,
+        fsViewportRef.current,
+        fsZoom
+      )
+    );
+  };
+
+  const toggleBrowserFullscreen = () => {
+    const el = fsRootRef.current;
+    if (!el) return;
+    if (document.fullscreenElement) document.exitFullscreen?.();
+    else el.requestFullscreen?.().catch(() => {});
+  };
 
   const startChat = async () => {
     if (!user) { router.push("/sign-in"); return; }
@@ -268,7 +409,7 @@ export default function PetDetailPage() {
   // Morph open: hero box must match the real gallery on the first frame
   // so the flight has one destination and never corrects mid-way.
   if (!pet && isMorphActive) {
-    const shellSingle = !shellImageCount || shellImageCount < 5;
+    const shellSingle = !shellImageCount || shellImageCount < 2;
     return (
       <div className="min-h-screen bg-white dark:bg-dark-main">
         <div className="mx-auto w-full max-w-[1520px] px-4 py-6 sm:px-8 lg:py-10">
@@ -305,34 +446,19 @@ export default function PetDetailPage() {
   const images = (pet.images || []).map(img => fmtUrl(img, 1200));
   if (!images.length) images.push("/images/hamer1.png");
 
-  // Gallery mode logic from ojest
-  let galleryMode = "full"; // default 1 main + 8 thumbs (for 9+ images)
-  if (images.length < 5) {
-    galleryMode = "single"; // just 1 main image
-  } else if (images.length < 9) {
-    galleryMode = "mini"; // 1 main + 4 thumbs
-  }
+  // Gallery: 1 photo = hero only; 2+ = hero + 2 real thumbs on the right (Cars & Bids style)
+  const galleryMode = images.length < 2 ? "single" : "side";
 
-  const maxThumbnailsToShow = galleryMode === "full" ? 8 : (galleryMode === "mini" ? 4 : 0);
-
-  // Main gallery uses thumbnails on the right.
-  const useThumbnailOffset = images.length > 1;
-  const thumbnailSource = useThumbnailOffset ? images.slice(1) : images.slice(0);
-  const thumbnailImages = [];
-
-  if (thumbnailSource.length > 0 && maxThumbnailsToShow > 0) {
-    // Fill thumbnails up to the allowed limit
-    for (let i = 0; i < Math.min(maxThumbnailsToShow, thumbnailSource.length); i++) {
-      thumbnailImages.push(thumbnailSource[i]);
-    }
-
-    // Fill remaining slots if needed to maintain grid shape
-    let i = 0;
-    while (thumbnailImages.length < maxThumbnailsToShow && thumbnailSource.length > 0) {
-      thumbnailImages.push(thumbnailSource[i % thumbnailSource.length]);
-      i++;
+  const sideThumbIndices = [];
+  if (galleryMode === "side") {
+    for (let k = 1; k <= 2; k += 1) {
+      const idx = (activeImg + k) % images.length;
+      if (sideThumbIndices.includes(idx)) break;
+      sideThumbIndices.push(idx);
     }
   }
+  const visibleInGallery = new Set([activeImg, ...sideThumbIndices]);
+  const hiddenPhotoCount = Math.max(0, images.length - visibleInGallery.size);
 
   const name = pet.name || pet.breed || pet.species || "Pet";
   // Fee display removed per user request
@@ -389,101 +515,147 @@ export default function PetDetailPage() {
 
   return (
     <div className="marketing-ui min-h-screen bg-[#F4F7FB] text-[#0F172A] dark:bg-dark-main dark:text-gray-200">
-      {/* Fullscreen viewer */}
       {fullscreen && typeof document !== "undefined" && createPortal(
-        <div className="fixed inset-0 z-[400] flex flex-col bg-[#0B1220]">
-          <button
-            type="button"
-            onClick={() => setFullscreen(false)}
-            className="absolute right-4 top-4 z-[410] flex h-10 w-10 items-center justify-center bg-[#2563EB] text-white transition hover:bg-[#1D4ED8]"
-            title="Zamknij"
-            aria-label="Zamknij"
-          >
-            <X className="h-5 w-5" strokeWidth={2.4} />
-          </button>
+        <div
+          ref={fsRootRef}
+          className="fixed inset-0 z-[10050] flex flex-col overflow-hidden bg-black"
+        >
+          <div className="z-[410] flex shrink-0 items-center justify-between gap-3 border-b border-white/10 px-4 py-3 text-white">
+            <span className="text-sm font-medium tabular-nums">
+              {activeImg + 1} of {images.length}
+            </span>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={toggleFsZoom}
+                className="flex h-9 w-9 items-center justify-center bg-white/10 transition hover:bg-white/20"
+                aria-label="Zoom"
+              >
+                <ZoomIn className="h-4 w-4" />
+              </button>
+              <button
+                type="button"
+                onClick={toggleBrowserFullscreen}
+                className="flex h-9 w-9 items-center justify-center bg-white/10 transition hover:bg-white/20"
+                aria-label="Pełny ekran"
+              >
+                {typeof document !== "undefined" && document.fullscreenElement ? (
+                  <Minimize className="h-4 w-4" />
+                ) : (
+                  <Maximize className="h-4 w-4" />
+                )}
+              </button>
+              <button
+                type="button"
+                onClick={() => setFullscreen(false)}
+                className="flex h-9 w-9 items-center justify-center bg-[#2563EB] transition hover:bg-[#1D4ED8]"
+                aria-label="Zamknij"
+              >
+                <X className="h-4 w-4" strokeWidth={2.4} />
+              </button>
+            </div>
+          </div>
 
           {images.length > 1 && (
             <>
               <button
                 type="button"
-                onClick={() => swiperRef.current?.swiper.slidePrev()}
-                className="absolute left-4 top-1/2 z-[410] hidden h-10 w-10 -translate-y-1/2 items-center justify-center !bg-[#2563EB] !text-white shadow-lg transition hover:!bg-[#1D4ED8] md:flex"
-                style={{ backgroundColor: "#2563EB", color: "#fff" }}
+                onClick={() => {
+                  if (fsZoom > 1) return;
+                  fsSwiperRef.current?.slidePrev();
+                }}
+                className="absolute left-3 top-1/2 z-[410] flex h-11 w-11 -translate-y-1/2 items-center justify-center bg-white/10 text-white transition hover:bg-white/20 md:left-5"
                 aria-label="Poprzednie zdjęcie"
               >
-                <ChevronLeft className="h-5 w-5" strokeWidth={2.5} />
+                <ChevronLeft className="h-6 w-6" strokeWidth={2.5} />
               </button>
               <button
                 type="button"
-                onClick={() => swiperRef.current?.swiper.slideNext()}
-                className="absolute right-4 top-1/2 z-[410] hidden h-10 w-10 -translate-y-1/2 items-center justify-center !bg-[#2563EB] !text-white shadow-lg transition hover:!bg-[#1D4ED8] md:flex"
-                style={{ backgroundColor: "#2563EB", color: "#fff" }}
+                onClick={() => {
+                  if (fsZoom > 1) return;
+                  fsSwiperRef.current?.slideNext();
+                }}
+                className="absolute right-3 top-1/2 z-[410] flex h-11 w-11 -translate-y-1/2 items-center justify-center bg-white/10 text-white transition hover:bg-white/20 md:right-5"
                 aria-label="Następne zdjęcie"
               >
-                <ChevronRight className="h-5 w-5" strokeWidth={2.5} />
+                <ChevronRight className="h-6 w-6" strokeWidth={2.5} />
               </button>
             </>
           )}
 
-          <div className="flex min-h-0 flex-1 items-center justify-center px-3 pb-20 pt-16 sm:px-6">
+          <div
+            ref={fsViewportRef}
+            className="relative w-full overflow-hidden"
+            style={{ height: "calc(100dvh - 3.5rem)" }}
+            onWheel={onFsViewportWheel}
+          >
             <Swiper
-              ref={swiperRef}
-              modules={[A11y]}
+              modules={[Keyboard, A11y]}
+              keyboard={{ enabled: fsZoom <= 1 }}
               spaceBetween={0}
               slidesPerView={1}
               initialSlide={activeImg}
-              onSlideChange={(swiper) => setActiveImg(swiper.realIndex)}
-              grabCursor
-              loop={images.length > 1}
-              className="h-full w-full max-w-[1400px] !overflow-visible"
+              onSwiper={(swiper) => {
+                fsSwiperRef.current = swiper;
+                swiper.allowTouchMove = fsZoom <= 1;
+              }}
+              onSlideChange={(swiper) => {
+                setActiveImg(swiper.activeIndex);
+                resetFsView();
+              }}
+              grabCursor={fsZoom <= 1}
+              className="pet-fs-swiper !h-full !w-full"
             >
               {images.map((img, index) => (
-                <SwiperSlide key={index} className="!flex !h-full !items-center !justify-center">
-                  <div className="relative h-full w-full max-h-[75vh] min-h-[240px]">
-                    <Image
+                <SwiperSlide key={`${img}-${index}`} className="!flex !h-full !items-center !justify-center">
+                  <div
+                    className="flex max-h-full max-w-full items-center justify-center"
+                    style={
+                      index === activeImg && fsZoom > 1
+                        ? {
+                            transform: `translate(${fsPan.x}px, ${fsPan.y}px)`,
+                          }
+                        : undefined
+                    }
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      ref={index === activeImg ? fsActiveImgRef : undefined}
                       src={img}
                       alt={`${name} - ${index + 1}`}
-                      fill
-                      className="object-contain"
-                      sizes="100vw"
-                      priority
-                      unoptimized
+                      draggable={false}
+                      className={`pet-fs-slide-img ${fsZoom > 1 && index === activeImg ? "pet-fs-slide-img--pan" : ""}`}
+                      style={
+                        index === activeImg && fsZoom > 1
+                          ? {
+                              transform: `scale(${fsZoom})`,
+                              transformOrigin: "center center",
+                            }
+                          : undefined
+                      }
+                      onLoad={() => {
+                        if (index !== activeImg || fsZoom <= 1) return;
+                        setFsPan((prev) =>
+                          clampFsPan(
+                            prev,
+                            fsActiveImgRef.current,
+                            fsViewportRef.current,
+                            fsZoom
+                          )
+                        );
+                      }}
+                      onPointerDown={onFsImgPointerDown}
+                      onPointerMove={onFsImgPointerMove}
+                      onPointerUp={endFsPan}
+                      onPointerCancel={endFsPan}
+                      onError={(e) => {
+                        e.currentTarget.src = "/images/hamer1.png";
+                      }}
                     />
                   </div>
                 </SwiperSlide>
               ))}
             </Swiper>
-          </div>
-
-          <div className="absolute bottom-0 left-0 right-0 z-[410] flex items-center justify-center gap-3 px-4 pb-5 pt-3">
-            {images.length > 1 && (
-              <>
-                <button
-                  type="button"
-                  onClick={() => swiperRef.current?.swiper.slidePrev()}
-                  className="flex h-10 w-10 shrink-0 items-center justify-center !bg-[#2563EB] !text-white shadow-lg transition hover:!bg-[#1D4ED8]"
-                  style={{ backgroundColor: "#2563EB", color: "#fff" }}
-                  aria-label="Poprzednie zdjęcie"
-                >
-                  <ChevronLeft className="h-5 w-5" strokeWidth={2.5} />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => swiperRef.current?.swiper.slideNext()}
-                  className="flex h-10 w-10 shrink-0 items-center justify-center !bg-[#2563EB] !text-white shadow-lg transition hover:!bg-[#1D4ED8]"
-                  style={{ backgroundColor: "#2563EB", color: "#fff" }}
-                  aria-label="Następne zdjęcie"
-                >
-                  <ChevronRight className="h-5 w-5" strokeWidth={2.5} />
-                </button>
-              </>
-            )}
-            <div
-              className="flex h-10 min-w-10 items-center justify-center px-3 text-sm font-semibold !text-white"
-              style={{ backgroundColor: "rgba(255,255,255,0.2)", color: "#fff" }}
-            >
-              {activeImg + 1} / {images.length}
-            </div>
           </div>
         </div>,
         document.body
@@ -567,11 +739,12 @@ export default function PetDetailPage() {
                     desktopDragRef.current = { active: false, startX: 0, moved: false };
                   }}
                 >
+                  <div className="relative h-full w-full bg-[#EEF2FF] dark:bg-dark-raised">
                   <Image
                     src={images[activeImg] || images[0]}
                     alt={`${name} - Image ${activeImg + 1}`}
                     fill
-                    className="pointer-events-none object-cover"
+                    className="pointer-events-none object-contain"
                     priority
                     sizes="(max-width: 768px) 100vw, 70vw"
                     unoptimized={true}
@@ -581,6 +754,7 @@ export default function PetDetailPage() {
                     }}
                     draggable={false}
                   />
+                  </div>
                 </div>
 
                 {/* Navigation Arrows */}
@@ -629,42 +803,52 @@ export default function PetDetailPage() {
               </div>
 
               {/* Thumbnail Grid - Right Side - Show conditionally based on count */}
-              {galleryMode !== "single" && (
+              {galleryMode === "side" && (
                 <div className="w-full md:w-[320px] flex-shrink-0 h-full overflow-hidden">
-                  <div className={`grid gap-2 h-full ${galleryMode === "mini" ? "grid-cols-1 grid-rows-4" : "grid-cols-2 grid-rows-4"}`}>
-                    {thumbnailImages.map((img, index) => {
-                      const realIndex = useThumbnailOffset ? index + 1 : index;
-                      const isAllPhotosTile = index === (maxThumbnailsToShow - 1) && images.length > (useThumbnailOffset ? (maxThumbnailsToShow + 1) : maxThumbnailsToShow);
+                  <div
+                    className={`grid h-full gap-2 ${
+                      sideThumbIndices.length > 1 ? "grid-cols-1 grid-rows-2" : "grid-cols-1 grid-rows-1"
+                    }`}
+                  >
+                    {sideThumbIndices.map((realIndex, index) => {
+                      const isLast = index === sideThumbIndices.length - 1;
+                      const showAllPhotosOverlay =
+                        isLast && hiddenPhotoCount > 0;
 
                       return (
                         <div
-                          key={index}
-                          className="relative overflow-hidden cursor-pointer transition-all duration-200 h-full w-full"
-                          onClick={() => setActiveImg(realIndex)}
+                          key={`side-thumb-${realIndex}`}
+                          className="relative h-full w-full cursor-pointer overflow-hidden transition-all duration-200"
+                          onClick={() => {
+                            if (showAllPhotosOverlay) {
+                              setActiveImg(realIndex);
+                              setFullscreen(true);
+                              return;
+                            }
+                            setActiveImg(realIndex);
+                          }}
                         >
                           <Image
-                            src={img}
-                            alt={`Thumbnail ${realIndex + 1}`}
+                            src={images[realIndex]}
+                            alt={`${name} - ${realIndex + 1}`}
                             fill
-                            className={`object-cover ${activeImg === realIndex ? "opacity-100" : "opacity-70 hover:opacity-100"}`}
+                            className={`object-cover ${
+                              activeImg === realIndex
+                                ? "opacity-100"
+                                : "opacity-70 hover:opacity-100"
+                            }`}
                             loading="lazy"
-                            sizes="(max-width: 768px) 25vw, 20vw"
-                            unoptimized={true}
+                            sizes="320px"
+                            unoptimized
                             onError={(e) => {
-                              e.target.style.display = 'none';
+                              e.target.src = "/images/hamer1.png";
                             }}
                           />
 
-                          {isAllPhotosTile && (
-                            <div
-                              className="absolute inset-0 bg-black bg-opacity-60 flex flex-col items-center justify-center cursor-pointer hover:bg-opacity-70 transition-all"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setActiveImg(0);
-                              }}
-                            >
-                              <span className="text-white text-base md:text-lg font-semibold">
-                                {`All Photos (${images.length})`}
+                          {showAllPhotosOverlay && (
+                            <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/60 transition hover:bg-black/70">
+                              <span className="text-base font-semibold text-white md:text-lg">
+                                All Photos ({images.length})
                               </span>
                             </div>
                           )}
@@ -677,7 +861,7 @@ export default function PetDetailPage() {
             </div>
 
             {/* Mobile gallery: full-width swipe slider */}
-            <div className="relative md:hidden">
+            <div className="relative overflow-hidden md:hidden">
               <div
                 className="flex w-full snap-x snap-mandatory overflow-x-auto scroll-x-touch scrollbar-hide"
                 style={{ touchAction: "pan-x pan-y", WebkitOverflowScrolling: "touch" }}
@@ -693,7 +877,7 @@ export default function PetDetailPage() {
                   <div
                     key={index}
                     ref={index === 0 ? mobileMainImageRef : undefined}
-                    className="relative aspect-[4/3] w-full shrink-0 snap-start overflow-hidden bg-[#EEF2FF] dark:bg-dark-raised"
+                    className="relative aspect-[4/3] w-full min-w-full shrink-0 snap-start overflow-hidden bg-[#EEF2FF] dark:bg-dark-raised"
                     onClick={() => {
                       setActiveImg(index);
                       setFullscreen(true);
@@ -703,7 +887,7 @@ export default function PetDetailPage() {
                       src={img}
                       alt={`${name} - ${index + 1}`}
                       fill
-                      className="object-cover"
+                      className="object-contain"
                       priority={index === 0}
                       sizes="100vw"
                       unoptimized
